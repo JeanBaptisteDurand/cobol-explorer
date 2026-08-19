@@ -1,0 +1,48 @@
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ─── Node / web ───────────────────────────────────────────
+node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+web/.vite/
+.playwright-mcp/
+
+# ─── Vendored third-party (huge, not our code) ────────────
+ingestion/vendor/
+
+# ─── Runtime state (regenerated at run time, not source) ──
+versions/
+audit.log.jsonl
+audit.log.jsonl.head
+*.log
+
+# ─── Secrets / local config ───────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+secrets.*
+.bob/mcp.local.json
+
+# ─── OS / editor ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
