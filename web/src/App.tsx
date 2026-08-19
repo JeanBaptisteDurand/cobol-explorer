@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { createChangeSet, editCsFile, getCsDiff, getCsFile, getFileFull, getGraph, getSystems, listChangeSets, setSystem, type SystemInfo } from "./api";
+import { createChangeSet, editCsFile, getAuthConfig, getCsDiff, getCsFile, getFileFull, getGraph, getSystems, listChangeSets, setSystem, type SystemInfo } from "./api";
 import AuditPanel from "./components/AuditPanel";
 import ChangesPanel from "./components/ChangesPanel";
 import ChatPanel from "./components/ChatPanel";
@@ -10,9 +10,10 @@ import { Icon } from "./components/Icons";
 import Inspector from "./components/Inspector";
 import Navigator from "./components/Navigator";
 import NewVersionModal from "./components/NewVersionModal";
+import Login from "./components/Login";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
-import { getIdentity, type Identity } from "./identity";
+import { getIdentity, getToken, type Identity } from "./identity";
 import { VISIBLE_DEFAULT } from "./layout";
 import { kindCount, nodeIndex } from "./model";
 import type { ChangeSet, GNode, Graph } from "./types";
@@ -62,6 +63,9 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [identity, setIdent] = useState<Identity | null>(getIdentity());
   const [showOnb, setShowOnb] = useState(false);
+  const [authRequired, setAuthRequired] = useState<boolean | null>(null);
+  const [token, setToken] = useState<string | null>(getToken());
+  const needsLogin = authRequired === true && !token;
   const [newVer, setNewVer] = useState<{ defaultTitle: string } | null>(null);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [systems, setSystems] = useState<SystemInfo[]>([]);
@@ -69,7 +73,13 @@ export default function App() {
   const [sysMenu, setSysMenu] = useState(false);
   const [switching, setSwitching] = useState(false);
 
-  useEffect(() => { getGraph().then(setGraph); reloadVersions(); getSystems().then((d) => { setSystems(d.systems); setActiveSys(d.active); }); }, []);
+  // Ask the server whether it runs open (demo) or with real authentication, before
+  // touching any gated endpoint — otherwise the first paint is a wall of 401s.
+  useEffect(() => { getAuthConfig().then((c) => setAuthRequired(c.required)).catch(() => setAuthRequired(false)); }, []);
+  useEffect(() => {
+    if (authRequired === null || needsLogin) return;
+    getGraph().then(setGraph); reloadVersions(); getSystems().then((d) => { setSystems(d.systems); setActiveSys(d.active); });
+  }, [authRequired, needsLogin]);
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "p") { e.preventDefault(); setPaletteOpen((v) => !v); }
@@ -409,6 +419,16 @@ export default function App() {
     if (hit) { setSearchMiss(false); openNode(hit.id); }
     else { setSearchMiss(true); setTimeout(() => setSearchMiss(false), 2200); }
   }
+
+  // Real-auth mode: nothing of the estate is fetched — let alone painted — before sign-in.
+  if (needsLogin)
+    return (
+      <div className="app">
+        <div className="titlebar"><div className="brand"><span className="sq" /><span className="nm">COBOL Explorer</span></div></div>
+        <div className="emptypane" />
+        <Login onDone={(id) => { setIdent(id); setToken(getToken()); }} />
+      </div>
+    );
 
   if (!graph)
     return <div className="app"><div className="titlebar"><div className="brand"><span className="sq" /><span className="nm">COBOL Explorer</span></div></div><div className="emptypane">Loading estate…</div></div>;

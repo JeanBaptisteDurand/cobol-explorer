@@ -1,12 +1,18 @@
-import { getIdentity } from "./identity";
+import { getIdentity, getToken, type Identity } from "./identity";
 import type { ChangeSet, Graph } from "./types";
 
 const j = (r: Response) => r.json();
 // Attach the caller identity so the server can audit (who) and enforce RBAC (role).
+// A signed token, when we have one, is what the server actually trusts; the
+// X-Cobol-* headers stay for the open demo mode (they prove nothing on their own).
 const authHeaders = (): Record<string, string> => {
   const id = getIdentity();
-  // HTTP header values are latin-1; URL-encode so accented names/roles survive (decoded server-side).
-  return id ? { "X-Cobol-User": encodeURIComponent(id.name), "X-Cobol-Role": encodeURIComponent(id.role) } : {};
+  const token = getToken();
+  return {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    // HTTP header values are latin-1; URL-encode so accented names/roles survive (decoded server-side).
+    ...(id ? { "X-Cobol-User": encodeURIComponent(id.name), "X-Cobol-Role": encodeURIComponent(id.role) } : {}),
+  };
 };
 const post = (url: string, body: any) =>
   fetch(url, {
@@ -23,7 +29,13 @@ export interface SystemInfo { id: string; label: string; detail: string; nodes: 
 export const getSystems = (): Promise<{ active: string; systems: SystemInfo[] }> => fetch("/api/systems").then(j);
 export const setSystem = (id: string) => post("/api/system", { id });
 
-export const getGraph = (): Promise<Graph> => fetch("/api/graph").then(j);
+export const getGraph = (): Promise<Graph> => fetch("/api/graph", { headers: authHeaders() }).then(j);
+
+export interface AuthConfig { mode: string; required: boolean; roles: string[]; }
+/** Does this server require a real login, or is it the open demo? Asked before anything else. */
+export const getAuthConfig = (): Promise<AuthConfig> => fetch("/api/auth/config").then(j);
+export const login = (username: string, password: string): Promise<Identity & { token: string }> =>
+  post("/api/login", { username, password });
 export const getImpact = (node: string) =>
   fetch(`/api/impact?node=${encodeURIComponent(node)}`, { headers: authHeaders() }).then(j);
 export const getAudit = (n = 100) =>
@@ -36,7 +48,7 @@ export const getSearch = (q: string) =>
 export const getFileFull = (path: string) =>
   fetch(`/api/file?path=${encodeURIComponent(path)}`, { headers: authHeaders() }).then(j);
 
-export const listChangeSets = (): Promise<ChangeSet[]> => fetch("/api/changesets").then(j);
+export const listChangeSets = (): Promise<ChangeSet[]> => fetch("/api/changesets", { headers: authHeaders() }).then(j);
 export const createChangeSet = (title: string, author: string): Promise<ChangeSet> =>
   post("/api/changesets", { title, author });
 export const getCsFile = (id: string, path: string) =>
