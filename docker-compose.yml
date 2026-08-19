@@ -1,0 +1,41 @@
+# Scale path for the vector RAG: PostgreSQL + pgvector.
+# Bring up:  docker compose up -d
+# Load:      make pgvector-load        (loads the built index.json into pgvector)
+# Use:       COBOL_EXPLORER_VECTOR=pgvector make serve
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: cobol-pgvector
+    environment:
+      POSTGRES_USER: cobol
+      POSTGRES_PASSWORD: cobol
+      POSTGRES_DB: cobol
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cobol"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: cobol-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/cobolcobol
+    ports:
+      - "7474:7474"   # browser
+      - "7687:7687"   # bolt
+    volumes:
+      - neo4jdata:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 >/dev/null || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:
+  neo4jdata:

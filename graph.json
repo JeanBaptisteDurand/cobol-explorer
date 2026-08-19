@@ -1,0 +1,6086 @@
+{
+  "nodes": [
+    {
+      "id": "pgm:LGBATCH",
+      "kind": "PGM",
+      "label": "LGBATCH",
+      "attrs": {
+        "file": "LGBATCH.cbl",
+        "path": "batch/LGBATCH.cbl"
+      }
+    },
+    {
+      "id": "copy:LGPOLICY",
+      "kind": "COPYBOOK",
+      "label": "LGPOLICY",
+      "attrs": {
+        "path": "genapp-src/base/src/lgpolicy.cpy",
+        "file": "lgpolicy.cpy"
+      }
+    },
+    {
+      "id": "para:LGBATCH.MAIN-PARA",
+      "kind": "PARAGRAPH",
+      "label": "MAIN-PARA",
+      "attrs": {
+        "program": "LGBATCH"
+      }
+    },
+    {
+      "id": "para:LGBATCH.READ-POLICY",
+      "kind": "PARAGRAPH",
+      "label": "READ-POLICY",
+      "attrs": {
+        "program": "LGBATCH"
+      }
+    },
+    {
+      "id": "pgm:LGACDB01",
+      "kind": "PGM",
+      "label": "LGACDB01",
+      "attrs": {
+        "file": "lgacdb01.cbl",
+        "path": "genapp-src/base/src/lgacdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGACDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGACDB01"
+      }
+    },
+    {
+      "id": "para:LGACDB01.INSERT-CUSTOMER",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-CUSTOMER",
+      "attrs": {
+        "program": "LGACDB01"
+      }
+    },
+    {
+      "id": "para:LGACDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGACDB01"
+      }
+    },
+    {
+      "id": "copy:LGCMAREA",
+      "kind": "COPYBOOK",
+      "label": "LGCMAREA",
+      "attrs": {
+        "path": "genapp-src/base/src/lgcmarea.cpy",
+        "file": "lgcmarea.cpy"
+      }
+    },
+    {
+      "id": "pgm:LGACVS01",
+      "kind": "PGM",
+      "label": "LGACVS01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgacvs01.cbl",
+        "file": "lgacvs01.cbl"
+      }
+    },
+    {
+      "id": "pgm:LGACDB02",
+      "kind": "PGM",
+      "label": "LGACDB02",
+      "attrs": {
+        "path": "genapp-src/base/src/lgacdb02.cbl",
+        "file": "lgacdb02.cbl"
+      }
+    },
+    {
+      "id": "table:CUSTOMER",
+      "kind": "DB2_TABLE",
+      "label": "CUSTOMER",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:LGSTSQ",
+      "kind": "PGM",
+      "label": "LGSTSQ",
+      "attrs": {
+        "path": "genapp-src/base/src/lgstsq.cbl",
+        "file": "lgstsq.cbl"
+      }
+    },
+    {
+      "id": "para:LGACDB02.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGACDB02"
+      }
+    },
+    {
+      "id": "para:LGACDB02.INSERT-CUSTOMER-PASSWORD",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-CUSTOMER-PASSWORD",
+      "attrs": {
+        "program": "LGACDB02"
+      }
+    },
+    {
+      "id": "para:LGACDB02.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGACDB02"
+      }
+    },
+    {
+      "id": "table:CUSTOMER_SECURE",
+      "kind": "DB2_TABLE",
+      "label": "CUSTOMER_SECURE",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:LGACUS01",
+      "kind": "PGM",
+      "label": "LGACUS01",
+      "attrs": {
+        "file": "lgacus01.cbl",
+        "path": "genapp-src/base/src/lgacus01.cbl"
+      }
+    },
+    {
+      "id": "para:LGACUS01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGACUS01"
+      }
+    },
+    {
+      "id": "para:LGACUS01.INSERT-CUSTOMER",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-CUSTOMER",
+      "attrs": {
+        "program": "LGACUS01"
+      }
+    },
+    {
+      "id": "para:LGACUS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGACUS01"
+      }
+    },
+    {
+      "id": "para:LGACVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGACVS01"
+      }
+    },
+    {
+      "id": "para:LGACVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGACVS01"
+      }
+    },
+    {
+      "id": "file:KSDSCUST",
+      "kind": "CICS_FILE",
+      "label": "KSDSCUST",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:LGAPDB01",
+      "kind": "PGM",
+      "label": "LGAPDB01",
+      "attrs": {
+        "file": "lgapdb01.cbl",
+        "path": "genapp-src/base/src/lgapdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.INSERT-POLICY",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-POLICY",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.INSERT-ENDOW",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-ENDOW",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.INSERT-HOUSE",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-HOUSE",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.INSERT-MOTOR",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-MOTOR",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.INSERT-COMMERCIAL",
+      "kind": "PARAGRAPH",
+      "label": "INSERT-COMMERCIAL",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "para:LGAPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGAPDB01"
+      }
+    },
+    {
+      "id": "pgm:LGAPVS01",
+      "kind": "PGM",
+      "label": "LGAPVS01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgapvs01.cbl",
+        "file": "lgapvs01.cbl"
+      }
+    },
+    {
+      "id": "table:POLICY",
+      "kind": "DB2_TABLE",
+      "label": "POLICY",
+      "attrs": {}
+    },
+    {
+      "id": "table:ENDOWMENT",
+      "kind": "DB2_TABLE",
+      "label": "ENDOWMENT",
+      "attrs": {}
+    },
+    {
+      "id": "table:HOUSE",
+      "kind": "DB2_TABLE",
+      "label": "HOUSE",
+      "attrs": {}
+    },
+    {
+      "id": "table:MOTOR",
+      "kind": "DB2_TABLE",
+      "label": "MOTOR",
+      "attrs": {}
+    },
+    {
+      "id": "table:COMMERCIAL",
+      "kind": "DB2_TABLE",
+      "label": "COMMERCIAL",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:LGAPOL01",
+      "kind": "PGM",
+      "label": "LGAPOL01",
+      "attrs": {
+        "file": "lgapol01.cbl",
+        "path": "genapp-src/base/src/lgapol01.cbl"
+      }
+    },
+    {
+      "id": "para:LGAPOL01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGAPOL01"
+      }
+    },
+    {
+      "id": "para:LGAPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGAPOL01"
+      }
+    },
+    {
+      "id": "para:LGAPVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGAPVS01"
+      }
+    },
+    {
+      "id": "para:LGAPVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGAPVS01"
+      }
+    },
+    {
+      "id": "file:KSDSPOLY",
+      "kind": "CICS_FILE",
+      "label": "KSDSPOLY",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:LGASTAT1",
+      "kind": "PGM",
+      "label": "LGASTAT1",
+      "attrs": {
+        "file": "lgastat1.cbl",
+        "path": "genapp-src/base/src/lgastat1.cbl"
+      }
+    },
+    {
+      "id": "para:LGASTAT1.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGASTAT1"
+      }
+    },
+    {
+      "id": "pgm:LGDPDB01",
+      "kind": "PGM",
+      "label": "LGDPDB01",
+      "attrs": {
+        "file": "lgdpdb01.cbl",
+        "path": "genapp-src/base/src/lgdpdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGDPDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGDPDB01"
+      }
+    },
+    {
+      "id": "para:LGDPDB01.DELETE-POLICY-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "DELETE-POLICY-DB2-INFO",
+      "attrs": {
+        "program": "LGDPDB01"
+      }
+    },
+    {
+      "id": "para:LGDPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGDPDB01"
+      }
+    },
+    {
+      "id": "pgm:LGDPVS01",
+      "kind": "PGM",
+      "label": "LGDPVS01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgdpvs01.cbl",
+        "file": "lgdpvs01.cbl"
+      }
+    },
+    {
+      "id": "pgm:LGDPOL01",
+      "kind": "PGM",
+      "label": "LGDPOL01",
+      "attrs": {
+        "file": "lgdpol01.cbl",
+        "path": "genapp-src/base/src/lgdpol01.cbl"
+      }
+    },
+    {
+      "id": "para:LGDPOL01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGDPOL01"
+      }
+    },
+    {
+      "id": "para:LGDPOL01.DELETE-POLICY-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "DELETE-POLICY-DB2-INFO",
+      "attrs": {
+        "program": "LGDPOL01"
+      }
+    },
+    {
+      "id": "para:LGDPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGDPOL01"
+      }
+    },
+    {
+      "id": "para:LGDPVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGDPVS01"
+      }
+    },
+    {
+      "id": "para:LGDPVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGDPVS01"
+      }
+    },
+    {
+      "id": "pgm:LGICDB01",
+      "kind": "PGM",
+      "label": "LGICDB01",
+      "attrs": {
+        "file": "lgicdb01.cbl",
+        "path": "genapp-src/base/src/lgicdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGICDB01.MAINLINE-END",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-END",
+      "attrs": {
+        "program": "LGICDB01"
+      }
+    },
+    {
+      "id": "para:LGICDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGICDB01"
+      }
+    },
+    {
+      "id": "para:LGICDB01.GET-CUSTOMER-INFO",
+      "kind": "PARAGRAPH",
+      "label": "GET-CUSTOMER-INFO",
+      "attrs": {
+        "program": "LGICDB01"
+      }
+    },
+    {
+      "id": "para:LGICDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGICDB01"
+      }
+    },
+    {
+      "id": "pgm:LGICUS01",
+      "kind": "PGM",
+      "label": "LGICUS01",
+      "attrs": {
+        "file": "lgicus01.cbl",
+        "path": "genapp-src/base/src/lgicus01.cbl"
+      }
+    },
+    {
+      "id": "para:LGICUS01.MAINLINE-END",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-END",
+      "attrs": {
+        "program": "LGICUS01"
+      }
+    },
+    {
+      "id": "para:LGICUS01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGICUS01"
+      }
+    },
+    {
+      "id": "para:LGICUS01.GET-CUSTOMER-INFO",
+      "kind": "PARAGRAPH",
+      "label": "GET-CUSTOMER-INFO",
+      "attrs": {
+        "program": "LGICUS01"
+      }
+    },
+    {
+      "id": "para:LGICUS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGICUS01"
+      }
+    },
+    {
+      "id": "pgm:LGICVS01",
+      "kind": "PGM",
+      "label": "LGICVS01",
+      "attrs": {
+        "file": "lgicvs01.cbl",
+        "path": "genapp-src/base/src/lgicvs01.cbl"
+      }
+    },
+    {
+      "id": "para:LGICVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGICVS01"
+      }
+    },
+    {
+      "id": "pgm:LGIPDB01",
+      "kind": "PGM",
+      "label": "LGIPDB01",
+      "attrs": {
+        "file": "lgipdb01.cbl",
+        "path": "genapp-src/base/src/lgipdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGIPDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGIPDB01"
+      }
+    },
+    {
+      "id": "para:LGIPDB01.GET-ENDOW-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "GET-ENDOW-DB2-INFO",
+      "attrs": {
+        "program": "LGIPDB01"
+      }
+    },
+    {
+      "id": "para:LGIPDB01.GET-HOUSE-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "GET-HOUSE-DB2-INFO",
+      "attrs": {
+        "program": "LGIPDB01"
+      }
+    },
+    {
+      "id": "para:LGIPDB01.GET-MOTOR-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "GET-MOTOR-DB2-INFO",
+      "attrs": {
+        "program": "LGIPDB01"
+      }
+    },
+    {
+      "id": "para:LGIPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGIPDB01"
+      }
+    },
+    {
+      "id": "pgm:LGIPOL01",
+      "kind": "PGM",
+      "label": "LGIPOL01",
+      "attrs": {
+        "file": "lgipol01.cbl",
+        "path": "genapp-src/base/src/lgipol01.cbl"
+      }
+    },
+    {
+      "id": "para:LGIPOL01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGIPOL01"
+      }
+    },
+    {
+      "id": "para:LGIPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGIPOL01"
+      }
+    },
+    {
+      "id": "pgm:LGIPVS01",
+      "kind": "PGM",
+      "label": "LGIPVS01",
+      "attrs": {
+        "file": "lgipvs01.cbl",
+        "path": "genapp-src/base/src/lgipvs01.cbl"
+      }
+    },
+    {
+      "id": "para:LGIPVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGIPVS01"
+      }
+    },
+    {
+      "id": "pgm:LGSETUP",
+      "kind": "PGM",
+      "label": "LGSETUP",
+      "attrs": {
+        "file": "lgsetup.cbl",
+        "path": "genapp-src/base/src/lgsetup.cbl"
+      }
+    },
+    {
+      "id": "para:LGSETUP.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGSETUP"
+      }
+    },
+    {
+      "id": "para:LGSTSQ.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGSTSQ"
+      }
+    },
+    {
+      "id": "pgm:LGTESTC1",
+      "kind": "PGM",
+      "label": "LGTESTC1",
+      "attrs": {
+        "file": "lgtestc1.cbl",
+        "path": "genapp-src/base/src/lgtestc1.cbl"
+      }
+    },
+    {
+      "id": "copy:SSMAP",
+      "kind": "COPYBOOK",
+      "label": "SSMAP",
+      "attrs": {}
+    },
+    {
+      "id": "para:LGTESTC1.A-GAIN",
+      "kind": "PARAGRAPH",
+      "label": "A-GAIN",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.ENDIT-STARTIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT-STARTIT",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.ENDIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.CLEARIT",
+      "kind": "PARAGRAPH",
+      "label": "CLEARIT",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.NO-UPD",
+      "kind": "PARAGRAPH",
+      "label": "NO-UPD",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.NO-ADD",
+      "kind": "PARAGRAPH",
+      "label": "NO-ADD",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.NO-DATA",
+      "kind": "PARAGRAPH",
+      "label": "NO-DATA",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.ERROR-OUT",
+      "kind": "PARAGRAPH",
+      "label": "ERROR-OUT",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "para:LGTESTC1.WRITE-GENACNTL",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-GENACNTL",
+      "attrs": {
+        "program": "LGTESTC1"
+      }
+    },
+    {
+      "id": "map:SSMAPC1",
+      "kind": "BMS_MAP",
+      "label": "SSMAPC1",
+      "attrs": {
+        "mapset": "SSMAP"
+      }
+    },
+    {
+      "id": "pgm:LGUCUS01",
+      "kind": "PGM",
+      "label": "LGUCUS01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgucus01.cbl",
+        "file": "lgucus01.cbl"
+      }
+    },
+    {
+      "id": "pgm:LGTESTP1",
+      "kind": "PGM",
+      "label": "LGTESTP1",
+      "attrs": {
+        "file": "lgtestp1.cbl",
+        "path": "genapp-src/base/src/lgtestp1.cbl"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.A-GAIN",
+      "kind": "PARAGRAPH",
+      "label": "A-GAIN",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.ENDIT-STARTIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT-STARTIT",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.ENDIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.CLEARIT",
+      "kind": "PARAGRAPH",
+      "label": "CLEARIT",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.NO-ADD",
+      "kind": "PARAGRAPH",
+      "label": "NO-ADD",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.NO-UPD",
+      "kind": "PARAGRAPH",
+      "label": "NO-UPD",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.NO-DELETE",
+      "kind": "PARAGRAPH",
+      "label": "NO-DELETE",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.NO-DATA",
+      "kind": "PARAGRAPH",
+      "label": "NO-DATA",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "para:LGTESTP1.ERROR-OUT",
+      "kind": "PARAGRAPH",
+      "label": "ERROR-OUT",
+      "attrs": {
+        "program": "LGTESTP1"
+      }
+    },
+    {
+      "id": "map:SSMAPP1",
+      "kind": "BMS_MAP",
+      "label": "SSMAPP1",
+      "attrs": {
+        "mapset": "SSMAP"
+      }
+    },
+    {
+      "id": "pgm:LGUPOL01",
+      "kind": "PGM",
+      "label": "LGUPOL01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgupol01.cbl",
+        "file": "lgupol01.cbl"
+      }
+    },
+    {
+      "id": "pgm:LGTESTP2",
+      "kind": "PGM",
+      "label": "LGTESTP2",
+      "attrs": {
+        "file": "lgtestp2.cbl",
+        "path": "genapp-src/base/src/lgtestp2.cbl"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.A-GAIN",
+      "kind": "PARAGRAPH",
+      "label": "A-GAIN",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.ENDIT-STARTIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT-STARTIT",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.ENDIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.CLEARIT",
+      "kind": "PARAGRAPH",
+      "label": "CLEARIT",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.NO-ADD",
+      "kind": "PARAGRAPH",
+      "label": "NO-ADD",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.NO-UPD",
+      "kind": "PARAGRAPH",
+      "label": "NO-UPD",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.NO-DELETE",
+      "kind": "PARAGRAPH",
+      "label": "NO-DELETE",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.NO-DATA",
+      "kind": "PARAGRAPH",
+      "label": "NO-DATA",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "para:LGTESTP2.ERROR-OUT",
+      "kind": "PARAGRAPH",
+      "label": "ERROR-OUT",
+      "attrs": {
+        "program": "LGTESTP2"
+      }
+    },
+    {
+      "id": "map:SSMAPP2",
+      "kind": "BMS_MAP",
+      "label": "SSMAPP2",
+      "attrs": {
+        "mapset": "SSMAP"
+      }
+    },
+    {
+      "id": "pgm:LGTESTP3",
+      "kind": "PGM",
+      "label": "LGTESTP3",
+      "attrs": {
+        "file": "lgtestp3.cbl",
+        "path": "genapp-src/base/src/lgtestp3.cbl"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.A-GAIN",
+      "kind": "PARAGRAPH",
+      "label": "A-GAIN",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.ENDIT-STARTIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT-STARTIT",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.ENDIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.CLEARIT",
+      "kind": "PARAGRAPH",
+      "label": "CLEARIT",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.NO-ADD",
+      "kind": "PARAGRAPH",
+      "label": "NO-ADD",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.NO-UPD",
+      "kind": "PARAGRAPH",
+      "label": "NO-UPD",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.NO-DELETE",
+      "kind": "PARAGRAPH",
+      "label": "NO-DELETE",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.NO-DATA",
+      "kind": "PARAGRAPH",
+      "label": "NO-DATA",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "para:LGTESTP3.ERROR-OUT",
+      "kind": "PARAGRAPH",
+      "label": "ERROR-OUT",
+      "attrs": {
+        "program": "LGTESTP3"
+      }
+    },
+    {
+      "id": "map:SSMAPP3",
+      "kind": "BMS_MAP",
+      "label": "SSMAPP3",
+      "attrs": {
+        "mapset": "SSMAP"
+      }
+    },
+    {
+      "id": "pgm:LGTESTP4",
+      "kind": "PGM",
+      "label": "LGTESTP4",
+      "attrs": {
+        "file": "lgtestp4.cbl",
+        "path": "genapp-src/base/src/lgtestp4.cbl"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.A-GAIN",
+      "kind": "PARAGRAPH",
+      "label": "A-GAIN",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.ENDIT-STARTIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT-STARTIT",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.ENDIT",
+      "kind": "PARAGRAPH",
+      "label": "ENDIT",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.CLEARIT",
+      "kind": "PARAGRAPH",
+      "label": "CLEARIT",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.NO-ADD",
+      "kind": "PARAGRAPH",
+      "label": "NO-ADD",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.NO-UPD",
+      "kind": "PARAGRAPH",
+      "label": "NO-UPD",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.NO-DELETE",
+      "kind": "PARAGRAPH",
+      "label": "NO-DELETE",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.NO-DATA",
+      "kind": "PARAGRAPH",
+      "label": "NO-DATA",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "para:LGTESTP4.ERROR-OUT",
+      "kind": "PARAGRAPH",
+      "label": "ERROR-OUT",
+      "attrs": {
+        "program": "LGTESTP4"
+      }
+    },
+    {
+      "id": "map:SSMAPP4",
+      "kind": "BMS_MAP",
+      "label": "SSMAPP4",
+      "attrs": {
+        "mapset": "SSMAP"
+      }
+    },
+    {
+      "id": "pgm:LGUCDB01",
+      "kind": "PGM",
+      "label": "LGUCDB01",
+      "attrs": {
+        "file": "lgucdb01.cbl",
+        "path": "genapp-src/base/src/lgucdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGUCDB01.END-PROGRAM",
+      "kind": "PARAGRAPH",
+      "label": "END-PROGRAM",
+      "attrs": {
+        "program": "LGUCDB01"
+      }
+    },
+    {
+      "id": "para:LGUCDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGUCDB01"
+      }
+    },
+    {
+      "id": "para:LGUCDB01.UPDATE-CUSTOMER-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-CUSTOMER-INFO",
+      "attrs": {
+        "program": "LGUCDB01"
+      }
+    },
+    {
+      "id": "para:LGUCDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGUCDB01"
+      }
+    },
+    {
+      "id": "pgm:LGUCVS01",
+      "kind": "PGM",
+      "label": "LGUCVS01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgucvs01.cbl",
+        "file": "lgucvs01.cbl"
+      }
+    },
+    {
+      "id": "para:LGUCUS01.END-PROGRAM",
+      "kind": "PARAGRAPH",
+      "label": "END-PROGRAM",
+      "attrs": {
+        "program": "LGUCUS01"
+      }
+    },
+    {
+      "id": "para:LGUCUS01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGUCUS01"
+      }
+    },
+    {
+      "id": "para:LGUCUS01.UPDATE-CUSTOMER-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-CUSTOMER-INFO",
+      "attrs": {
+        "program": "LGUCUS01"
+      }
+    },
+    {
+      "id": "para:LGUCUS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGUCUS01"
+      }
+    },
+    {
+      "id": "para:LGUCVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGUCVS01"
+      }
+    },
+    {
+      "id": "para:LGUCVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGUCVS01"
+      }
+    },
+    {
+      "id": "pgm:LGUPDB01",
+      "kind": "PGM",
+      "label": "LGUPDB01",
+      "attrs": {
+        "file": "lgupdb01.cbl",
+        "path": "genapp-src/base/src/lgupdb01.cbl"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.END-PROGRAM",
+      "kind": "PARAGRAPH",
+      "label": "END-PROGRAM",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.FETCH-DB2-POLICY-ROW",
+      "kind": "PARAGRAPH",
+      "label": "FETCH-DB2-POLICY-ROW",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.UPDATE-POLICY-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-POLICY-DB2-INFO",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.CLOSE-PCURSOR",
+      "kind": "PARAGRAPH",
+      "label": "CLOSE-PCURSOR",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.UPDATE-ENDOW-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-ENDOW-DB2-INFO",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.UPDATE-HOUSE-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-HOUSE-DB2-INFO",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.UPDATE-MOTOR-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-MOTOR-DB2-INFO",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "para:LGUPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGUPDB01"
+      }
+    },
+    {
+      "id": "pgm:LGUPVS01",
+      "kind": "PGM",
+      "label": "LGUPVS01",
+      "attrs": {
+        "path": "genapp-src/base/src/lgupvs01.cbl",
+        "file": "lgupvs01.cbl"
+      }
+    },
+    {
+      "id": "para:LGUPOL01.END-PROGRAM",
+      "kind": "PARAGRAPH",
+      "label": "END-PROGRAM",
+      "attrs": {
+        "program": "LGUPOL01"
+      }
+    },
+    {
+      "id": "para:LGUPOL01.MAINLINE-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "MAINLINE-EXIT",
+      "attrs": {
+        "program": "LGUPOL01"
+      }
+    },
+    {
+      "id": "para:LGUPOL01.UPDATE-POLICY-DB2-INFO",
+      "kind": "PARAGRAPH",
+      "label": "UPDATE-POLICY-DB2-INFO",
+      "attrs": {
+        "program": "LGUPOL01"
+      }
+    },
+    {
+      "id": "para:LGUPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGUPOL01"
+      }
+    },
+    {
+      "id": "para:LGUPVS01.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGUPVS01"
+      }
+    },
+    {
+      "id": "para:LGUPVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PARAGRAPH",
+      "label": "WRITE-ERROR-MESSAGE",
+      "attrs": {
+        "program": "LGUPVS01"
+      }
+    },
+    {
+      "id": "pgm:LGWEBST5",
+      "kind": "PGM",
+      "label": "LGWEBST5",
+      "attrs": {
+        "file": "lgwebst5.cbl",
+        "path": "genapp-src/base/src/lgwebst5.cbl"
+      }
+    },
+    {
+      "id": "para:LGWEBST5.A-EXIT",
+      "kind": "PARAGRAPH",
+      "label": "A-EXIT",
+      "attrs": {
+        "program": "LGWEBST5"
+      }
+    },
+    {
+      "id": "job:DAILYPOL",
+      "kind": "JOB",
+      "label": "DAILYPOL",
+      "attrs": {}
+    },
+    {
+      "id": "step:DAILYPOL.STEP01",
+      "kind": "STEP",
+      "label": "STEP01",
+      "attrs": {}
+    },
+    {
+      "id": "ds:INS.POLICY.MASTER",
+      "kind": "DATASET",
+      "label": "INS.POLICY.MASTER",
+      "attrs": {
+        "gdg": false
+      }
+    },
+    {
+      "id": "ds:INS.CUSTOMER.MASTER",
+      "kind": "DATASET",
+      "label": "INS.CUSTOMER.MASTER",
+      "attrs": {
+        "gdg": false
+      }
+    },
+    {
+      "id": "ds:INS.POLICY.LOADLOG",
+      "kind": "DATASET",
+      "label": "INS.POLICY.LOADLOG",
+      "attrs": {
+        "gdg": true
+      }
+    },
+    {
+      "id": "step:DAILYPOL.STEP02",
+      "kind": "STEP",
+      "label": "STEP02",
+      "attrs": {}
+    },
+    {
+      "id": "job:POLRPT",
+      "kind": "JOB",
+      "label": "POLRPT",
+      "attrs": {}
+    },
+    {
+      "id": "step:POLRPT.STEP01",
+      "kind": "STEP",
+      "label": "STEP01",
+      "attrs": {}
+    },
+    {
+      "id": "ds:INS.POLICY.REPORT",
+      "kind": "DATASET",
+      "label": "INS.POLICY.REPORT",
+      "attrs": {
+        "gdg": true
+      }
+    },
+    {
+      "id": "job:GENAVSAM",
+      "kind": "JOB",
+      "label": "GENAVSAM",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAVSAM.DELETE1",
+      "kind": "STEP",
+      "label": "DELETE1",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:IDCAMS",
+      "kind": "PGM",
+      "label": "IDCAMS",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAVSAM.DEFINE1",
+      "kind": "STEP",
+      "label": "DEFINE1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAVSAM.DELETE2",
+      "kind": "STEP",
+      "label": "DELETE2",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAVSAM.DEFINE2",
+      "kind": "STEP",
+      "label": "DEFINE2",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAVSAM.CUSTDATA",
+      "kind": "STEP",
+      "label": "CUSTDATA",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAVSAM.POLYDATA",
+      "kind": "STEP",
+      "label": "POLYDATA",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENAMAP",
+      "kind": "JOB",
+      "label": "GENAMAP",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAMAP.COPY",
+      "kind": "STEP",
+      "label": "COPY",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:IEBGENER",
+      "kind": "PGM",
+      "label": "IEBGENER",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAMAP.ASMMAP",
+      "kind": "STEP",
+      "label": "ASMMAP",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:ASMA90",
+      "kind": "PGM",
+      "label": "ASMA90",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAMAP.LINKMAP",
+      "kind": "STEP",
+      "label": "LINKMAP",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:IEWL",
+      "kind": "PGM",
+      "label": "IEWL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAMAP.ASMDSECT",
+      "kind": "STEP",
+      "label": "ASMDSECT",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENACSD",
+      "kind": "JOB",
+      "label": "GENACSD",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACSD.CSDDEFS",
+      "kind": "STEP",
+      "label": "CSDDEFS",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:DFHCSDUP",
+      "kind": "PGM",
+      "label": "DFHCSDUP",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENACOMP",
+      "kind": "JOB",
+      "label": "GENACOMP",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.COBL",
+      "kind": "STEP",
+      "label": "COBL",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:IGYCRCTL",
+      "kind": "PGM",
+      "label": "IGYCRCTL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.COPYLINK",
+      "kind": "STEP",
+      "label": "COPYLINK",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LKED",
+      "kind": "STEP",
+      "label": "LKED",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:HEWL",
+      "kind": "PGM",
+      "label": "HEWL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGACDB01",
+      "kind": "STEP",
+      "label": "LGACDB01",
+      "attrs": {}
+    },
+    {
+      "id": "proc:DB2PROC",
+      "kind": "PROC",
+      "label": "DB2PROC",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGACDB02",
+      "kind": "STEP",
+      "label": "LGACDB02",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGACUS01",
+      "kind": "STEP",
+      "label": "LGACUS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGACVS01",
+      "kind": "STEP",
+      "label": "LGACVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGAPDB01",
+      "kind": "STEP",
+      "label": "LGAPDB01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGAPOL01",
+      "kind": "STEP",
+      "label": "LGAPOL01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGAPVS01",
+      "kind": "STEP",
+      "label": "LGAPVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGASTAT1",
+      "kind": "STEP",
+      "label": "LGASTAT1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGDPDB01",
+      "kind": "STEP",
+      "label": "LGDPDB01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGDPOL01",
+      "kind": "STEP",
+      "label": "LGDPOL01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGDPVS01",
+      "kind": "STEP",
+      "label": "LGDPVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGICDB01",
+      "kind": "STEP",
+      "label": "LGICDB01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGICUS01",
+      "kind": "STEP",
+      "label": "LGICUS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGICVS01",
+      "kind": "STEP",
+      "label": "LGICVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGIPDB01",
+      "kind": "STEP",
+      "label": "LGIPDB01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGIPOL01",
+      "kind": "STEP",
+      "label": "LGIPOL01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGIPVS01",
+      "kind": "STEP",
+      "label": "LGIPVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGSETUP",
+      "kind": "STEP",
+      "label": "LGSETUP",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGSTSQ",
+      "kind": "STEP",
+      "label": "LGSTSQ",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGTESTC1",
+      "kind": "STEP",
+      "label": "LGTESTC1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGTESTP1",
+      "kind": "STEP",
+      "label": "LGTESTP1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGTESTP2",
+      "kind": "STEP",
+      "label": "LGTESTP2",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGTESTP3",
+      "kind": "STEP",
+      "label": "LGTESTP3",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGTESTP4",
+      "kind": "STEP",
+      "label": "LGTESTP4",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGUCDB01",
+      "kind": "STEP",
+      "label": "LGUCDB01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGUCUS01",
+      "kind": "STEP",
+      "label": "LGUCUS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGUCVS01",
+      "kind": "STEP",
+      "label": "LGUCVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGUPDB01",
+      "kind": "STEP",
+      "label": "LGUPDB01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGUPOL01",
+      "kind": "STEP",
+      "label": "LGUPOL01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGUPVS01",
+      "kind": "STEP",
+      "label": "LGUPVS01",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENACOMP.LGWEBST5",
+      "kind": "STEP",
+      "label": "LGWEBST5",
+      "attrs": {}
+    },
+    {
+      "id": "job:DEFCPSM",
+      "kind": "JOB",
+      "label": "DEFCPSM",
+      "attrs": {}
+    },
+    {
+      "id": "step:DEFCPSM.EYU9XDBT",
+      "kind": "STEP",
+      "label": "EYU9XDBT",
+      "attrs": {}
+    },
+    {
+      "id": "proc:EYUJXBTP",
+      "kind": "PROC",
+      "label": "EYUJXBTP",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENABIND",
+      "kind": "JOB",
+      "label": "GENABIND",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENABIND.BIND",
+      "kind": "STEP",
+      "label": "BIND",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:IKJEFT01",
+      "kind": "PGM",
+      "label": "IKJEFT01",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENADB2",
+      "kind": "JOB",
+      "label": "GENADB2",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENADB2.CREATE",
+      "kind": "STEP",
+      "label": "CREATE",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENADB2.CRTABS",
+      "kind": "STEP",
+      "label": "CRTABS",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENADB2.CRGRACC",
+      "kind": "STEP",
+      "label": "CRGRACC",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENADB2.INSERT",
+      "kind": "STEP",
+      "label": "INSERT",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENADB2.DELETE",
+      "kind": "STEP",
+      "label": "DELETE",
+      "attrs": {}
+    },
+    {
+      "id": "job:EYUDREP",
+      "kind": "JOB",
+      "label": "EYUDREP",
+      "attrs": {}
+    },
+    {
+      "id": "step:EYUDREP.DELWREP",
+      "kind": "STEP",
+      "label": "DELWREP",
+      "attrs": {}
+    },
+    {
+      "id": "step:EYUDREP.DEFDREP",
+      "kind": "STEP",
+      "label": "DEFDREP",
+      "attrs": {}
+    },
+    {
+      "id": "step:EYUDREP.DREPINIT",
+      "kind": "STEP",
+      "label": "DREPINIT",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:EYU9XDUT",
+      "kind": "PGM",
+      "label": "EYU9XDUT",
+      "attrs": {}
+    },
+    {
+      "id": "job:EYUWREP",
+      "kind": "JOB",
+      "label": "EYUWREP",
+      "attrs": {}
+    },
+    {
+      "id": "step:EYUWREP.DELWREP",
+      "kind": "STEP",
+      "label": "DELWREP",
+      "attrs": {}
+    },
+    {
+      "id": "step:EYUWREP.DEFWREP",
+      "kind": "STEP",
+      "label": "DEFWREP",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENAWSIM",
+      "kind": "JOB",
+      "label": "GENAWSIM",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENAWSIM.RUNSIM",
+      "kind": "STEP",
+      "label": "RUNSIM",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:ITPENTER",
+      "kind": "PGM",
+      "label": "ITPENTER",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENALL",
+      "kind": "JOB",
+      "label": "GENALL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENALL.LOGLIST",
+      "kind": "STEP",
+      "label": "LOGLIST",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:ITPLL",
+      "kind": "PGM",
+      "label": "ITPLL",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENASTL",
+      "kind": "JOB",
+      "label": "GENASTL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.ITPSTL",
+      "kind": "STEP",
+      "label": "ITPSTL",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:ITPSTL",
+      "kind": "PGM",
+      "label": "ITPSTL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.#ONCICS",
+      "kind": "STEP",
+      "label": "#ONCICS",
+      "attrs": {}
+    },
+    {
+      "id": "proc:STL",
+      "kind": "PROC",
+      "label": "STL",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.#SSVARS",
+      "kind": "STEP",
+      "label": "#SSVARS",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSC1A1",
+      "kind": "STEP",
+      "label": "SSC1A1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSC1I1",
+      "kind": "STEP",
+      "label": "SSC1I1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP1A1",
+      "kind": "STEP",
+      "label": "SSP1A1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP1D1",
+      "kind": "STEP",
+      "label": "SSP1D1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP1I1",
+      "kind": "STEP",
+      "label": "SSP1I1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP1U1",
+      "kind": "STEP",
+      "label": "SSP1U1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP2A1",
+      "kind": "STEP",
+      "label": "SSP2A1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP2D1",
+      "kind": "STEP",
+      "label": "SSP2D1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP2I1",
+      "kind": "STEP",
+      "label": "SSP2I1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP2U1",
+      "kind": "STEP",
+      "label": "SSP2U1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP3A1",
+      "kind": "STEP",
+      "label": "SSP3A1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP3D1",
+      "kind": "STEP",
+      "label": "SSP3D1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP3I1",
+      "kind": "STEP",
+      "label": "SSP3I1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP3U1",
+      "kind": "STEP",
+      "label": "SSP3U1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP4A1",
+      "kind": "STEP",
+      "label": "SSP4A1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP4D1",
+      "kind": "STEP",
+      "label": "SSP4D1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.SSP4I1",
+      "kind": "STEP",
+      "label": "SSP4I1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.STOP",
+      "kind": "STEP",
+      "label": "STOP",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.WSC1A1",
+      "kind": "STEP",
+      "label": "WSC1A1",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASTL.WSC1I1",
+      "kind": "STEP",
+      "label": "WSC1I1",
+      "attrs": {}
+    },
+    {
+      "id": "job:CICSCNCS",
+      "kind": "JOB",
+      "label": "CICSCNCS",
+      "attrs": {}
+    },
+    {
+      "id": "step:CICSCNCS.NCSERVER",
+      "kind": "STEP",
+      "label": "NCSERVER",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:DFHNCMN",
+      "kind": "PGM",
+      "label": "DFHNCMN",
+      "attrs": {}
+    },
+    {
+      "id": "job:CICSSTSQ",
+      "kind": "JOB",
+      "label": "CICSSTSQ",
+      "attrs": {}
+    },
+    {
+      "id": "step:CICSSTSQ.SHARETSQ",
+      "kind": "STEP",
+      "label": "SHARETSQ",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:DFHXQMN",
+      "kind": "PGM",
+      "label": "DFHXQMN",
+      "attrs": {}
+    },
+    {
+      "id": "job:GENASOAP",
+      "kind": "JOB",
+      "label": "GENASOAP",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASOAP.LS2WS",
+      "kind": "STEP",
+      "label": "LS2WS",
+      "attrs": {}
+    },
+    {
+      "id": "proc:DFHLS2WS",
+      "kind": "PROC",
+      "label": "DFHLS2WS",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASOAP.LS2WSM",
+      "kind": "STEP",
+      "label": "LS2WSM",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASOAP.LS2WSH",
+      "kind": "STEP",
+      "label": "LS2WSH",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASOAP.LS2WSE",
+      "kind": "STEP",
+      "label": "LS2WSE",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASOAP.LS2WSB",
+      "kind": "STEP",
+      "label": "LS2WSB",
+      "attrs": {}
+    },
+    {
+      "id": "step:GENASOAP.LS2WSVS",
+      "kind": "STEP",
+      "label": "LS2WSVS",
+      "attrs": {}
+    },
+    {
+      "id": "map:SSMAPP5",
+      "kind": "BMS_MAP",
+      "label": "SSMAPP5",
+      "attrs": {
+        "mapset": "SSMAP"
+      }
+    },
+    {
+      "id": "txn:SSC1",
+      "kind": "CICS_TXN",
+      "label": "SSC1",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:SSP1",
+      "kind": "CICS_TXN",
+      "label": "SSP1",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:SSP2",
+      "kind": "CICS_TXN",
+      "label": "SSP2",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:SSP3",
+      "kind": "CICS_TXN",
+      "label": "SSP3",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:SSP4",
+      "kind": "CICS_TXN",
+      "label": "SSP4",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:LGSE",
+      "kind": "CICS_TXN",
+      "label": "LGSE",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:LGCF",
+      "kind": "CICS_TXN",
+      "label": "LGCF",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:LGPF",
+      "kind": "CICS_TXN",
+      "label": "LGPF",
+      "attrs": {
+        "group": "GENASAT"
+      }
+    },
+    {
+      "id": "txn:DSCA",
+      "kind": "CICS_TXN",
+      "label": "DSCA",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSCI",
+      "kind": "CICS_TXN",
+      "label": "DSCI",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSC1",
+      "kind": "CICS_TXN",
+      "label": "DSC1",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSPA",
+      "kind": "CICS_TXN",
+      "label": "DSPA",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSPD",
+      "kind": "CICS_TXN",
+      "label": "DSPD",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSPI",
+      "kind": "CICS_TXN",
+      "label": "DSPI",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSPU",
+      "kind": "CICS_TXN",
+      "label": "DSPU",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:DSP1",
+      "kind": "CICS_TXN",
+      "label": "DSP1",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSCA",
+      "kind": "CICS_TXN",
+      "label": "VSCA",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSCI",
+      "kind": "CICS_TXN",
+      "label": "VSCI",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSC1",
+      "kind": "CICS_TXN",
+      "label": "VSC1",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSPA",
+      "kind": "CICS_TXN",
+      "label": "VSPA",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSPD",
+      "kind": "CICS_TXN",
+      "label": "VSPD",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSPI",
+      "kind": "CICS_TXN",
+      "label": "VSPI",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:VSP1",
+      "kind": "CICS_TXN",
+      "label": "VSP1",
+      "attrs": {
+        "group": "GENADORT"
+      }
+    },
+    {
+      "id": "txn:LGST",
+      "kind": "CICS_TXN",
+      "label": "LGST",
+      "attrs": {
+        "group": "GENAEVNT"
+      }
+    },
+    {
+      "id": "txn:SSST",
+      "kind": "CICS_TXN",
+      "label": "SSST",
+      "attrs": {
+        "group": "GENAEVNT"
+      }
+    },
+    {
+      "id": "sched:SDAILYPOL",
+      "kind": "SCHED_JOB",
+      "label": "SDAILYPOL",
+      "attrs": {
+        "chain": "NIGHTLY-POLICY",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "sched:SPOLRPT",
+      "kind": "SCHED_JOB",
+      "label": "SPOLRPT",
+      "attrs": {
+        "chain": "NIGHTLY-POLICY",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "domain:ACCES-DONNEES-DB2",
+      "kind": "DOMAIN",
+      "label": "ACCES-DONNEES-DB2",
+      "attrs": {}
+    },
+    {
+      "id": "domain:ACCES-DONNEES-VSAM",
+      "kind": "DOMAIN",
+      "label": "ACCES-DONNEES-VSAM",
+      "attrs": {}
+    },
+    {
+      "id": "domain:SERVICES-TECHNIQUES",
+      "kind": "DOMAIN",
+      "label": "SERVICES-TECHNIQUES",
+      "attrs": {}
+    },
+    {
+      "id": "domain:GESTION-CLIENT",
+      "kind": "DOMAIN",
+      "label": "GESTION-CLIENT",
+      "attrs": {}
+    },
+    {
+      "id": "domain:SOUSCRIPTION-POLICE",
+      "kind": "DOMAIN",
+      "label": "SOUSCRIPTION-POLICE",
+      "attrs": {}
+    },
+    {
+      "id": "domain:TESTS",
+      "kind": "DOMAIN",
+      "label": "TESTS",
+      "attrs": {}
+    },
+    {
+      "id": "pgm:DFHMIRS",
+      "kind": "PGM",
+      "label": "DFHMIRS",
+      "attrs": {
+        "external": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "src": "pgm:LGBATCH",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          19
+        ],
+        "line": 19
+      }
+    },
+    {
+      "src": "pgm:LGBATCH",
+      "dst": "para:LGBATCH.READ-POLICY",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          24
+        ],
+        "line": 24
+      }
+    },
+    {
+      "src": "pgm:LGBATCH",
+      "dst": "ds:INS.POLICY.MASTER",
+      "kind": "PGM_READS",
+      "evidence": {}
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          88
+        ],
+        "line": 88
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "para:LGACDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          151,
+          247,
+          276
+        ],
+        "line": 151
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "para:LGACDB01.INSERT-CUSTOMER",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          172
+        ],
+        "line": 172
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          118
+        ],
+        "line": 118,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "pgm:LGACVS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          174
+        ],
+        "line": 174,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "pgm:LGACDB02",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          186
+        ],
+        "line": 186,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "table:CUSTOMER",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          222,
+          251
+        ],
+        "line": 222
+      }
+    },
+    {
+      "src": "pgm:LGACDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          308,
+          316,
+          322
+        ],
+        "line": 308,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGACVS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          56
+        ],
+        "line": 56
+      }
+    },
+    {
+      "src": "pgm:LGACVS01",
+      "dst": "para:LGACVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          78
+        ],
+        "line": 78
+      }
+    },
+    {
+      "src": "pgm:LGACVS01",
+      "dst": "file:KSDSCUST",
+      "kind": "PGM_WRITES_FILE",
+      "evidence": {
+        "lines": [
+          68
+        ],
+        "line": 68
+      }
+    },
+    {
+      "src": "pgm:LGACVS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          102,
+          109,
+          115
+        ],
+        "line": 102,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGACDB02",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          66
+        ],
+        "line": 66
+      }
+    },
+    {
+      "src": "pgm:LGACDB02",
+      "dst": "para:LGACDB02.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          133,
+          180
+        ],
+        "line": 133
+      }
+    },
+    {
+      "src": "pgm:LGACDB02",
+      "dst": "para:LGACDB02.INSERT-CUSTOMER-PASSWORD",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          148
+        ],
+        "line": 148
+      }
+    },
+    {
+      "src": "pgm:LGACDB02",
+      "dst": "table:CUSTOMER_SECURE",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          166
+        ],
+        "line": 166
+      }
+    },
+    {
+      "src": "pgm:LGACDB02",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          205,
+          213,
+          219
+        ],
+        "line": 205,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGACUS01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          61
+        ],
+        "line": 61
+      }
+    },
+    {
+      "src": "pgm:LGACUS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          70
+        ],
+        "line": 70
+      }
+    },
+    {
+      "src": "pgm:LGACUS01",
+      "dst": "para:LGACUS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          97
+        ],
+        "line": 97
+      }
+    },
+    {
+      "src": "pgm:LGACUS01",
+      "dst": "para:LGACUS01.INSERT-CUSTOMER",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          119
+        ],
+        "line": 119
+      }
+    },
+    {
+      "src": "pgm:LGACUS01",
+      "dst": "pgm:LGACDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          134
+        ],
+        "line": 134,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGACUS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          159,
+          167,
+          173
+        ],
+        "line": 159,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "para:LGAPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          167,
+          297,
+          302,
+          391,
+          429,
+          475,
+          549
+        ],
+        "line": 167
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "para:LGAPDB01.INSERT-POLICY",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          219
+        ],
+        "line": 219
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "para:LGAPDB01.INSERT-ENDOW",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          226
+        ],
+        "line": 226
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "para:LGAPDB01.INSERT-HOUSE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          229
+        ],
+        "line": 229
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "para:LGAPDB01.INSERT-MOTOR",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          232
+        ],
+        "line": 232
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "para:LGAPDB01.INSERT-COMMERCIAL",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          235
+        ],
+        "line": 235
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          75
+        ],
+        "line": 75,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          135
+        ],
+        "line": 135,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "pgm:LGAPVS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          243
+        ],
+        "line": 243,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "table:POLICY",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          268
+        ],
+        "line": 268
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "table:POLICY",
+      "kind": "PGM_SQL_READS",
+      "evidence": {
+        "lines": [
+          316
+        ],
+        "line": 316
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "table:ENDOWMENT",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          346,
+          368
+        ],
+        "line": 346
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "table:HOUSE",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          409
+        ],
+        "line": 409
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "table:MOTOR",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          449
+        ],
+        "line": 449
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "table:COMMERCIAL",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          499
+        ],
+        "line": 499
+      }
+    },
+    {
+      "src": "pgm:LGAPDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          575,
+          583,
+          589
+        ],
+        "line": 575,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGAPVS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          87
+        ],
+        "line": 87
+      }
+    },
+    {
+      "src": "pgm:LGAPVS01",
+      "dst": "para:LGAPVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          145
+        ],
+        "line": 145
+      }
+    },
+    {
+      "src": "pgm:LGAPVS01",
+      "dst": "file:KSDSPOLY",
+      "kind": "PGM_WRITES_FILE",
+      "evidence": {
+        "lines": [
+          135
+        ],
+        "line": 135
+      }
+    },
+    {
+      "src": "pgm:LGAPVS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          169,
+          176,
+          182
+        ],
+        "line": 169,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGAPOL01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          71
+        ],
+        "line": 71
+      }
+    },
+    {
+      "src": "pgm:LGAPOL01",
+      "dst": "para:LGAPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          100
+        ],
+        "line": 100
+      }
+    },
+    {
+      "src": "pgm:LGAPOL01",
+      "dst": "pgm:LGAPDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          121
+        ],
+        "line": 121,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGAPOL01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          149,
+          157,
+          163
+        ],
+        "line": 149,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGASTAT1",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          62
+        ],
+        "line": 62
+      }
+    },
+    {
+      "src": "pgm:LGDPDB01",
+      "dst": "para:LGDPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          133,
+          200
+        ],
+        "line": 133
+      }
+    },
+    {
+      "src": "pgm:LGDPDB01",
+      "dst": "para:LGDPDB01.DELETE-POLICY-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          167
+        ],
+        "line": 167
+      }
+    },
+    {
+      "src": "pgm:LGDPDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          100
+        ],
+        "line": 100,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGDPDB01",
+      "dst": "pgm:LGDPVS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          168
+        ],
+        "line": 168,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGDPDB01",
+      "dst": "table:POLICY",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          189
+        ],
+        "line": 189
+      }
+    },
+    {
+      "src": "pgm:LGDPDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          225,
+          233,
+          239
+        ],
+        "line": 225,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGDPVS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          65
+        ],
+        "line": 65
+      }
+    },
+    {
+      "src": "pgm:LGDPVS01",
+      "dst": "para:LGDPVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          89
+        ],
+        "line": 89
+      }
+    },
+    {
+      "src": "pgm:LGDPVS01",
+      "dst": "file:KSDSPOLY",
+      "kind": "PGM_WRITES_FILE",
+      "evidence": {
+        "lines": [
+          81
+        ],
+        "line": 81
+      }
+    },
+    {
+      "src": "pgm:LGDPVS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          113,
+          120,
+          126
+        ],
+        "line": 113,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGDPOL01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          69
+        ],
+        "line": 69
+      }
+    },
+    {
+      "src": "pgm:LGDPOL01",
+      "dst": "para:LGDPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          97
+        ],
+        "line": 97
+      }
+    },
+    {
+      "src": "pgm:LGDPOL01",
+      "dst": "para:LGDPOL01.DELETE-POLICY-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          126
+        ],
+        "line": 126
+      }
+    },
+    {
+      "src": "pgm:LGDPOL01",
+      "dst": "pgm:LGDPDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          141
+        ],
+        "line": 141,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGDPOL01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          166,
+          174,
+          180
+        ],
+        "line": 166,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGICDB01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          74
+        ],
+        "line": 74
+      }
+    },
+    {
+      "src": "pgm:LGICDB01",
+      "dst": "para:LGICDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          121,
+          201
+        ],
+        "line": 121
+      }
+    },
+    {
+      "src": "pgm:LGICDB01",
+      "dst": "para:LGICDB01.GET-CUSTOMER-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          154
+        ],
+        "line": 154
+      }
+    },
+    {
+      "src": "pgm:LGICDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          92
+        ],
+        "line": 92,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGICDB01",
+      "dst": "table:CUSTOMER",
+      "kind": "PGM_SQL_READS",
+      "evidence": {
+        "lines": [
+          169
+        ],
+        "line": 169
+      }
+    },
+    {
+      "src": "pgm:LGICDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          225,
+          233,
+          239
+        ],
+        "line": 225,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGICUS01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          60
+        ],
+        "line": 60
+      }
+    },
+    {
+      "src": "pgm:LGICUS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          69
+        ],
+        "line": 69
+      }
+    },
+    {
+      "src": "pgm:LGICUS01",
+      "dst": "para:LGICUS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          89
+        ],
+        "line": 89
+      }
+    },
+    {
+      "src": "pgm:LGICUS01",
+      "dst": "para:LGICUS01.GET-CUSTOMER-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          109
+        ],
+        "line": 109
+      }
+    },
+    {
+      "src": "pgm:LGICUS01",
+      "dst": "pgm:LGICDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          122
+        ],
+        "line": 122,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGICUS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          146,
+          154,
+          160
+        ],
+        "line": 146,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGICVS01",
+      "dst": "file:KSDSCUST",
+      "kind": "PGM_READS_FILE",
+      "evidence": {
+        "lines": [
+          199
+        ],
+        "line": 199
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "para:LGIPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          253,
+          428,
+          519,
+          617,
+          719,
+          824,
+          845,
+          857,
+          928,
+          940
+        ],
+        "line": 253
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "para:LGIPDB01.GET-ENDOW-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          281
+        ],
+        "line": 281
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "para:LGIPDB01.GET-HOUSE-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          285
+        ],
+        "line": 285
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "para:LGIPDB01.GET-MOTOR-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          289
+        ],
+        "line": 289
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "table:POLICY",
+      "kind": "PGM_SQL_READS",
+      "evidence": {
+        "lines": [
+          89,
+          120,
+          330,
+          444,
+          532,
+          631,
+          734
+        ],
+        "line": 89
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          196
+        ],
+        "line": 196,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          218
+        ],
+        "line": 218,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGIPDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          1010,
+          1018,
+          1024
+        ],
+        "line": 1010,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGIPOL01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          55
+        ],
+        "line": 55
+      }
+    },
+    {
+      "src": "pgm:LGIPOL01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          63
+        ],
+        "line": 63
+      }
+    },
+    {
+      "src": "pgm:LGIPOL01",
+      "dst": "para:LGIPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          81
+        ],
+        "line": 81
+      }
+    },
+    {
+      "src": "pgm:LGIPOL01",
+      "dst": "pgm:LGIPDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          91
+        ],
+        "line": 91,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGIPOL01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          119,
+          127,
+          133
+        ],
+        "line": 119,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGIPVS01",
+      "dst": "file:KSDSPOLY",
+      "kind": "PGM_READS_FILE",
+      "evidence": {
+        "lines": [
+          111
+        ],
+        "line": 111
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "copy:SSMAP",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          44
+        ],
+        "line": 44
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          46
+        ],
+        "line": 46
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "para:LGTESTC1.WRITE-GENACNTL",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          137
+        ],
+        "line": 137
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "map:SSMAPC1",
+      "kind": "PGM_USES_MAP",
+      "evidence": {
+        "lines": [
+          64,
+          79,
+          107,
+          142,
+          168,
+          172,
+          203,
+          215,
+          249,
+          272
+        ],
+        "line": 64
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "pgm:LGICUS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          89,
+          151
+        ],
+        "line": 89,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "pgm:LGACUS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          128
+        ],
+        "line": 128,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTC1",
+      "dst": "pgm:LGUCUS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          190
+        ],
+        "line": 190,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGUCUS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          74
+        ],
+        "line": 74
+      }
+    },
+    {
+      "src": "pgm:LGUCUS01",
+      "dst": "para:LGUCUS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          101
+        ],
+        "line": 101
+      }
+    },
+    {
+      "src": "pgm:LGUCUS01",
+      "dst": "para:LGUCUS01.UPDATE-CUSTOMER-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          116
+        ],
+        "line": 116
+      }
+    },
+    {
+      "src": "pgm:LGUCUS01",
+      "dst": "pgm:LGUCDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          128
+        ],
+        "line": 128,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGUCUS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          152,
+          160,
+          166
+        ],
+        "line": 152,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "copy:SSMAP",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          21
+        ],
+        "line": 21
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          23
+        ],
+        "line": 23
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "map:SSMAPP1",
+      "kind": "PGM_USES_MAP",
+      "evidence": {
+        "lines": [
+          47,
+          61,
+          91,
+          129,
+          159,
+          163,
+          192,
+          196,
+          229,
+          242,
+          276,
+          309
+        ],
+        "line": 47
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "pgm:LGIPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          72,
+          173
+        ],
+        "line": 72,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "pgm:LGAPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          115
+        ],
+        "line": 115,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "pgm:LGDPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          139
+        ],
+        "line": 139,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP1",
+      "dst": "pgm:LGUPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          216
+        ],
+        "line": 216,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGUPOL01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          74
+        ],
+        "line": 74
+      }
+    },
+    {
+      "src": "pgm:LGUPOL01",
+      "dst": "para:LGUPOL01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          101
+        ],
+        "line": 101
+      }
+    },
+    {
+      "src": "pgm:LGUPOL01",
+      "dst": "para:LGUPOL01.UPDATE-POLICY-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          143
+        ],
+        "line": 143
+      }
+    },
+    {
+      "src": "pgm:LGUPOL01",
+      "dst": "pgm:LGUPDB01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          157
+        ],
+        "line": 157,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGUPOL01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          181,
+          189,
+          195
+        ],
+        "line": 181,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "copy:SSMAP",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          21
+        ],
+        "line": 21
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          23
+        ],
+        "line": 23
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "map:SSMAPP2",
+      "kind": "PGM_USES_MAP",
+      "evidence": {
+        "lines": [
+          42,
+          56,
+          84,
+          119,
+          149,
+          176,
+          180,
+          211,
+          224,
+          258,
+          291
+        ],
+        "line": 42
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "pgm:LGIPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          67,
+          159
+        ],
+        "line": 67,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "pgm:LGAPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          105
+        ],
+        "line": 105,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "pgm:LGDPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          129
+        ],
+        "line": 129,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP2",
+      "dst": "pgm:LGUPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          198
+        ],
+        "line": 198,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "copy:SSMAP",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          21
+        ],
+        "line": 21
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          23
+        ],
+        "line": 23
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "map:SSMAPP3",
+      "kind": "PGM_USES_MAP",
+      "evidence": {
+        "lines": [
+          45,
+          59,
+          86,
+          119,
+          149,
+          175,
+          179,
+          209,
+          223,
+          257,
+          290
+        ],
+        "line": 45
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "pgm:LGIPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          70,
+          159
+        ],
+        "line": 70,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "pgm:LGAPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          106
+        ],
+        "line": 106,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "pgm:LGDPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          129
+        ],
+        "line": 129,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP3",
+      "dst": "pgm:LGUPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          196
+        ],
+        "line": 196,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP4",
+      "dst": "copy:SSMAP",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          21
+        ],
+        "line": 21
+      }
+    },
+    {
+      "src": "pgm:LGTESTP4",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          23
+        ],
+        "line": 23
+      }
+    },
+    {
+      "src": "pgm:LGTESTP4",
+      "dst": "map:SSMAPP4",
+      "kind": "PGM_USES_MAP",
+      "evidence": {
+        "lines": [
+          52,
+          66,
+          150,
+          191,
+          230,
+          242,
+          276,
+          309
+        ],
+        "line": 52
+      }
+    },
+    {
+      "src": "pgm:LGTESTP4",
+      "dst": "pgm:LGIPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          122
+        ],
+        "line": 122,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP4",
+      "dst": "pgm:LGAPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          178
+        ],
+        "line": 178,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGTESTP4",
+      "dst": "pgm:LGDPOL01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          201
+        ],
+        "line": 201,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "para:LGUCDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          119,
+          178
+        ],
+        "line": 119
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "para:LGUCDB01.UPDATE-CUSTOMER-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          134
+        ],
+        "line": 134
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          76
+        ],
+        "line": 76,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          90
+        ],
+        "line": 90,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "pgm:LGUCVS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          136
+        ],
+        "line": 136,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "table:CUSTOMER",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          155
+        ],
+        "line": 155
+      }
+    },
+    {
+      "src": "pgm:LGUCDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          202,
+          210,
+          216
+        ],
+        "line": 202,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGUCVS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          57
+        ],
+        "line": 57
+      }
+    },
+    {
+      "src": "pgm:LGUCVS01",
+      "dst": "para:LGUCVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          80,
+          93
+        ],
+        "line": 80
+      }
+    },
+    {
+      "src": "pgm:LGUCVS01",
+      "dst": "file:KSDSCUST",
+      "kind": "PGM_READS_FILE",
+      "evidence": {
+        "lines": [
+          69
+        ],
+        "line": 69
+      }
+    },
+    {
+      "src": "pgm:LGUCVS01",
+      "dst": "file:KSDSCUST",
+      "kind": "PGM_WRITES_FILE",
+      "evidence": {
+        "lines": [
+          85
+        ],
+        "line": 85
+      }
+    },
+    {
+      "src": "pgm:LGUCVS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          117,
+          124,
+          130
+        ],
+        "line": 117,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          185,
+          264,
+          268,
+          341,
+          356,
+          378,
+          415,
+          451,
+          492
+        ],
+        "line": 185
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.UPDATE-POLICY-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          207
+        ],
+        "line": 207
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.FETCH-DB2-POLICY-ROW",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          273
+        ],
+        "line": 273
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.UPDATE-ENDOW-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          288
+        ],
+        "line": 288
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.UPDATE-HOUSE-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          293
+        ],
+        "line": 293
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.UPDATE-MOTOR-DB2-INFO",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          298
+        ],
+        "line": 298
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "para:LGUPDB01.CLOSE-PCURSOR",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          305,
+          360
+        ],
+        "line": 305
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "copy:LGPOLICY",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          102
+        ],
+        "line": 102,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "table:POLICY",
+      "kind": "PGM_SQL_READS",
+      "evidence": {
+        "lines": [
+          128,
+          329
+        ],
+        "line": 128
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "table:POLICY",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          318
+        ],
+        "line": 318
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          151
+        ],
+        "line": 151,
+        "via": "EXEC SQL INCLUDE"
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "pgm:LGUPVS01",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          209
+        ],
+        "line": 209,
+        "via": "CICS-LINK",
+        "literal": false
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "table:ENDOWMENT",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          394
+        ],
+        "line": 394
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "table:HOUSE",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          431
+        ],
+        "line": 431
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "table:MOTOR",
+      "kind": "PGM_SQL_WRITES",
+      "evidence": {
+        "lines": [
+          469
+        ],
+        "line": 469
+      }
+    },
+    {
+      "src": "pgm:LGUPDB01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          515,
+          523,
+          529
+        ],
+        "line": 515,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "pgm:LGUPVS01",
+      "dst": "copy:LGCMAREA",
+      "kind": "PGM_COPIES",
+      "evidence": {
+        "lines": [
+          90
+        ],
+        "line": 90
+      }
+    },
+    {
+      "src": "pgm:LGUPVS01",
+      "dst": "para:LGUPVS01.WRITE-ERROR-MESSAGE",
+      "kind": "PGM_PERFORMS",
+      "evidence": {
+        "lines": [
+          150,
+          163
+        ],
+        "line": 150
+      }
+    },
+    {
+      "src": "pgm:LGUPVS01",
+      "dst": "file:KSDSPOLY",
+      "kind": "PGM_READS_FILE",
+      "evidence": {
+        "lines": [
+          139
+        ],
+        "line": 139
+      }
+    },
+    {
+      "src": "pgm:LGUPVS01",
+      "dst": "file:KSDSPOLY",
+      "kind": "PGM_WRITES_FILE",
+      "evidence": {
+        "lines": [
+          155
+        ],
+        "line": 155
+      }
+    },
+    {
+      "src": "pgm:LGUPVS01",
+      "dst": "pgm:LGSTSQ",
+      "kind": "PGM_CALLS",
+      "evidence": {
+        "lines": [
+          187,
+          194,
+          200
+        ],
+        "line": 187,
+        "via": "CICS-LINK",
+        "literal": true
+      }
+    },
+    {
+      "src": "job:DAILYPOL",
+      "dst": "step:DAILYPOL.STEP01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:DAILYPOL",
+      "dst": "step:DAILYPOL.STEP02",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:DAILYPOL.STEP01",
+      "dst": "pgm:LGACDB01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:DAILYPOL.STEP01",
+      "dst": "ds:INS.POLICY.MASTER",
+      "kind": "STEP_USES_DD",
+      "evidence": {}
+    },
+    {
+      "src": "step:DAILYPOL.STEP01",
+      "dst": "ds:INS.CUSTOMER.MASTER",
+      "kind": "STEP_USES_DD",
+      "evidence": {}
+    },
+    {
+      "src": "step:DAILYPOL.STEP01",
+      "dst": "ds:INS.POLICY.LOADLOG",
+      "kind": "STEP_USES_DD",
+      "evidence": {}
+    },
+    {
+      "src": "step:DAILYPOL.STEP02",
+      "dst": "pgm:LGBATCH",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:DAILYPOL.STEP02",
+      "dst": "ds:INS.POLICY.MASTER",
+      "kind": "STEP_USES_DD",
+      "evidence": {}
+    },
+    {
+      "src": "job:POLRPT",
+      "dst": "step:POLRPT.STEP01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:POLRPT.STEP01",
+      "dst": "pgm:LGICDB01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:POLRPT.STEP01",
+      "dst": "ds:INS.POLICY.MASTER",
+      "kind": "STEP_USES_DD",
+      "evidence": {}
+    },
+    {
+      "src": "step:POLRPT.STEP01",
+      "dst": "ds:INS.POLICY.REPORT",
+      "kind": "STEP_USES_DD",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAVSAM",
+      "dst": "step:GENAVSAM.DELETE1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAVSAM",
+      "dst": "step:GENAVSAM.DEFINE1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAVSAM",
+      "dst": "step:GENAVSAM.DELETE2",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAVSAM",
+      "dst": "step:GENAVSAM.DEFINE2",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAVSAM",
+      "dst": "step:GENAVSAM.CUSTDATA",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAVSAM",
+      "dst": "step:GENAVSAM.POLYDATA",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAVSAM.DELETE1",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAVSAM.DEFINE1",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAVSAM.DELETE2",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAVSAM.DEFINE2",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAVSAM.CUSTDATA",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAVSAM.POLYDATA",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAMAP",
+      "dst": "step:GENAMAP.COPY",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAMAP",
+      "dst": "step:GENAMAP.ASMMAP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAMAP",
+      "dst": "step:GENAMAP.LINKMAP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAMAP",
+      "dst": "step:GENAMAP.ASMDSECT",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAMAP.COPY",
+      "dst": "pgm:IEBGENER",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAMAP.ASMMAP",
+      "dst": "pgm:ASMA90",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAMAP.LINKMAP",
+      "dst": "pgm:IEWL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAMAP.ASMDSECT",
+      "dst": "pgm:ASMA90",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACSD",
+      "dst": "step:GENACSD.CSDDEFS",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACSD.CSDDEFS",
+      "dst": "pgm:DFHCSDUP",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.COBL",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.COPYLINK",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LKED",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGACDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGACDB02",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGACUS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGACVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGAPDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGAPOL01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGAPVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGASTAT1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGDPDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGDPOL01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGDPVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGICDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGICUS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGICVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGIPDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGIPOL01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGIPVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGSETUP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGSTSQ",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGTESTC1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGTESTP1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGTESTP2",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGTESTP3",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGTESTP4",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGUCDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGUCUS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGUCVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGUPDB01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGUPOL01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGUPVS01",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENACOMP",
+      "dst": "step:GENACOMP.LGWEBST5",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.COBL",
+      "dst": "pgm:IGYCRCTL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.COPYLINK",
+      "dst": "pgm:IEBGENER",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LKED",
+      "dst": "pgm:HEWL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGACDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGACDB02",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGACUS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGACVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGAPDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGAPOL01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGAPVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGASTAT1",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGDPDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGDPOL01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGDPVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGICDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGICUS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGICVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGIPDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGIPOL01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGIPVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGSETUP",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGSTSQ",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGTESTC1",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGTESTP1",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGTESTP2",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGTESTP3",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGTESTP4",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGUCDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGUCUS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGUCVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGUPDB01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGUPOL01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGUPVS01",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENACOMP.LGWEBST5",
+      "dst": "proc:DB2PROC",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:DEFCPSM",
+      "dst": "step:DEFCPSM.EYU9XDBT",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:DEFCPSM.EYU9XDBT",
+      "dst": "proc:EYUJXBTP",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENABIND",
+      "dst": "step:GENABIND.BIND",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENABIND.BIND",
+      "dst": "pgm:IKJEFT01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENADB2",
+      "dst": "step:GENADB2.CREATE",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENADB2",
+      "dst": "step:GENADB2.CRTABS",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENADB2",
+      "dst": "step:GENADB2.CRGRACC",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENADB2",
+      "dst": "step:GENADB2.INSERT",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENADB2",
+      "dst": "step:GENADB2.DELETE",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENADB2.CREATE",
+      "dst": "pgm:IKJEFT01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENADB2.CRTABS",
+      "dst": "pgm:IKJEFT01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENADB2.CRGRACC",
+      "dst": "pgm:IKJEFT01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENADB2.INSERT",
+      "dst": "pgm:IKJEFT01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENADB2.DELETE",
+      "dst": "pgm:IKJEFT01",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:EYUDREP",
+      "dst": "step:EYUDREP.DELWREP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:EYUDREP",
+      "dst": "step:EYUDREP.DEFDREP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:EYUDREP",
+      "dst": "step:EYUDREP.DREPINIT",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:EYUDREP.DELWREP",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:EYUDREP.DEFDREP",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:EYUDREP.DREPINIT",
+      "dst": "pgm:EYU9XDUT",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:EYUWREP",
+      "dst": "step:EYUWREP.DELWREP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:EYUWREP",
+      "dst": "step:EYUWREP.DEFWREP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:EYUWREP.DELWREP",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:EYUWREP.DEFWREP",
+      "dst": "pgm:IDCAMS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENAWSIM",
+      "dst": "step:GENAWSIM.RUNSIM",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENAWSIM.RUNSIM",
+      "dst": "pgm:ITPENTER",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENALL",
+      "dst": "step:GENALL.LOGLIST",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENALL.LOGLIST",
+      "dst": "pgm:ITPLL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.ITPSTL",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.#ONCICS",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.#SSVARS",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSC1A1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSC1I1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP1A1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP1D1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP1I1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP1U1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP2A1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP2D1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP2I1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP2U1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP3A1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP3D1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP3I1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP3U1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP4A1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP4D1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.SSP4I1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.STOP",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.WSC1A1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASTL",
+      "dst": "step:GENASTL.WSC1I1",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.ITPSTL",
+      "dst": "pgm:ITPSTL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.#ONCICS",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.#SSVARS",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSC1A1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSC1I1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP1A1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP1D1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP1I1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP1U1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP2A1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP2D1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP2I1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP2U1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP3A1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP3D1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP3I1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP3U1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP4A1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP4D1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.SSP4I1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.STOP",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.WSC1A1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASTL.WSC1I1",
+      "dst": "proc:STL",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:CICSCNCS",
+      "dst": "step:CICSCNCS.NCSERVER",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:CICSCNCS.NCSERVER",
+      "dst": "pgm:DFHNCMN",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:CICSSTSQ",
+      "dst": "step:CICSSTSQ.SHARETSQ",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:CICSSTSQ.SHARETSQ",
+      "dst": "pgm:DFHXQMN",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASOAP",
+      "dst": "step:GENASOAP.LS2WS",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASOAP",
+      "dst": "step:GENASOAP.LS2WSM",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASOAP",
+      "dst": "step:GENASOAP.LS2WSH",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASOAP",
+      "dst": "step:GENASOAP.LS2WSE",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASOAP",
+      "dst": "step:GENASOAP.LS2WSB",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "job:GENASOAP",
+      "dst": "step:GENASOAP.LS2WSVS",
+      "kind": "JOB_CONTAINS",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASOAP.LS2WS",
+      "dst": "proc:DFHLS2WS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASOAP.LS2WSM",
+      "dst": "proc:DFHLS2WS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASOAP.LS2WSH",
+      "dst": "proc:DFHLS2WS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASOAP.LS2WSE",
+      "dst": "proc:DFHLS2WS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASOAP.LS2WSB",
+      "dst": "proc:DFHLS2WS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "step:GENASOAP.LS2WSVS",
+      "dst": "proc:DFHLS2WS",
+      "kind": "STEP_EXECUTES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:SSC1",
+      "dst": "pgm:LGTESTC1",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:SSP1",
+      "dst": "pgm:LGTESTP1",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:SSP2",
+      "dst": "pgm:LGTESTP2",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:SSP3",
+      "dst": "pgm:LGTESTP3",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:SSP4",
+      "dst": "pgm:LGTESTP4",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:LGSE",
+      "dst": "pgm:LGSETUP",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:LGCF",
+      "dst": "pgm:LGICVS01",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:LGPF",
+      "dst": "pgm:LGIPVS01",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSCA",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSCI",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSC1",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSPA",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSPD",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSPI",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSPU",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:DSP1",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSCA",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSCI",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSC1",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSPA",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSPD",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSPI",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:VSP1",
+      "dst": "pgm:DFHMIRS",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:LGST",
+      "dst": "pgm:LGASTAT1",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "txn:SSST",
+      "dst": "pgm:LGWEBST5",
+      "kind": "TXN_INVOKES",
+      "evidence": {}
+    },
+    {
+      "src": "sched:SDAILYPOL",
+      "dst": "job:DAILYPOL",
+      "kind": "SCHED_RUNS",
+      "evidence": {}
+    },
+    {
+      "src": "sched:SDAILYPOL",
+      "dst": "sched:SPOLRPT",
+      "kind": "SCHED_TRIGGERS",
+      "evidence": {}
+    },
+    {
+      "src": "sched:SPOLRPT",
+      "dst": "job:POLRPT",
+      "kind": "SCHED_RUNS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGACDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGACDB02",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGAPDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGDPDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGICDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGIPDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGUCDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-DB2",
+      "dst": "pgm:LGUPDB01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGACVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGAPVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGDPVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGICVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGIPVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGUCVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:ACCES-DONNEES-VSAM",
+      "dst": "pgm:LGUPVS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SERVICES-TECHNIQUES",
+      "dst": "pgm:LGSTSQ",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SERVICES-TECHNIQUES",
+      "dst": "pgm:LGASTAT1",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SERVICES-TECHNIQUES",
+      "dst": "pgm:LGSETUP",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SERVICES-TECHNIQUES",
+      "dst": "pgm:LGWEBST5",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:GESTION-CLIENT",
+      "dst": "pgm:LGACUS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:GESTION-CLIENT",
+      "dst": "pgm:LGICUS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:GESTION-CLIENT",
+      "dst": "pgm:LGUCUS01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SOUSCRIPTION-POLICE",
+      "dst": "pgm:LGAPOL01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SOUSCRIPTION-POLICE",
+      "dst": "pgm:LGDPOL01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SOUSCRIPTION-POLICE",
+      "dst": "pgm:LGIPOL01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:SOUSCRIPTION-POLICE",
+      "dst": "pgm:LGUPOL01",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:TESTS",
+      "dst": "pgm:LGTESTC1",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:TESTS",
+      "dst": "pgm:LGTESTP1",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:TESTS",
+      "dst": "pgm:LGTESTP2",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:TESTS",
+      "dst": "pgm:LGTESTP3",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    },
+    {
+      "src": "domain:TESTS",
+      "dst": "pgm:LGTESTP4",
+      "kind": "DOMAIN_GROUPS",
+      "evidence": {}
+    }
+  ],
+  "stats": {
+    "nodes": 339,
+    "edges": 421
+  }
+}
