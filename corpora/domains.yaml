@@ -1,0 +1,25 @@
+# Manual business-domain mapping for the GenApp corpus (first match wins).
+# Program names are the COBOL PROGRAM-IDs (uppercase). Glob patterns allowed.
+domains:
+  SOUSCRIPTION-POLICE:
+    - "LGAPOL*"
+    - "LGIPOL*"
+    - "LGDPOL*"
+    - "LGUPOL*"
+  GESTION-CLIENT:
+    - "LGACUS*"
+    - "LGICUS*"
+    - "LGDCUS*"
+    - "LGUCUS*"
+  ACCES-DONNEES-DB2:
+    - "*DB01"
+    - "*DB02"
+  ACCES-DONNEES-VSAM:
+    - "*VS01"
+  SERVICES-TECHNIQUES:
+    - "LGSTSQ"
+    - "LGASTAT1"
+    - "LGSETUP"
+    - "LGWEBST5"
+  TESTS:
+    - "LGTEST*"

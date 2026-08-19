@@ -1,0 +1,7 @@
+{
+  "chain": "NIGHTLY-POLICY",
+  "jobs": [
+    { "id": "SDAILYPOL", "runs": "DAILYPOL", "after": [] },
+    { "id": "SPOLRPT", "runs": "POLRPT", "after": ["SDAILYPOL"] }
+  ]
+}
