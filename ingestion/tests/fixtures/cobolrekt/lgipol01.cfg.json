@@ -1,0 +1,830 @@
+{
+  "nodes": [
+    {
+      "id": "efc12f12-bd03-4a34-b535-b1c9511da6f0",
+      "label": "ProcedureDivisionBodyContext/efc12f12-bd03-4a34-b535-b1c9511da6f0",
+      "name": "ProcedureDivisionBodyContext/efc12f12-bd03-4a34-b535-b1c9511da6f0",
+      "originalText": "MAINLINE SECTION.\n       \n           INITIALIZE WS-HEADER.\n       \n           MOVE EIBTRNID TO WS-TRANSID.\n           MOVE EIBTRMID TO WS-TERMID.\n           MOVE EIBTASKN TO WS-TASKNUM.\n       \n       \n           IF EIBCALEN IS EQUAL TO ZERO\n               MOVE \u0027 NO COMMAREA RECEIVED\u0027 TO EM-VARIABLE\n               PERFORM WRITE-ERROR-MESSAGE\n               _DIALECT_ 1 ​​​​ ​​​​ ​​​​​ ​​​​​​​​​​​​​​ ​​​​​​ ​​​​​​​​\n           END-IF\n       \n       \n           MOVE \u002700\u0027 TO CA-RETURN-CODE\n           MOVE EIBCALEN TO WS-CALEN.\n           SET WS-ADDR-DFHCOMMAREA TO ADDRESS OF DFHCOMMAREA.\n       \n       \n           _DIALECT_ 2 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n               ​​​​​​​​​​​​​​​​​​​​​\n           ​​​​​​​​.\n       \n           _DIALECT_ 3 ​​​​ ​​​​ ​​​​​​ ​​​​​​​​.\n       \n       MAINLINE-EXIT.\n           EXIT.\n       \n       \n       \n       \n       \n       \n       \n       WRITE-ERROR-MESSAGE.\n       \n       \n           _DIALECT_ 4 ​​​​ ​​​​ ​​​​​​​ ​​​​​​​​​​​​​​​​​\n           ​​​​​​​​\n           _DIALECT_ 5 ​​​​ ​​​​ ​​​​​​​​​​ ​​​​​​​​​​​​​​​​​\n                     ​​​​​​​​​​​​​​​\n           ​​​​​​​​\n           MOVE DATE1 TO EM-DATE\n           MOVE TIME1 TO EM-TIME\n       \n           _DIALECT_ 6 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                     ​​​​​​​​​​​​​​​​​​​\n           ​​​​​​​​.\n       \n           IF EIBCALEN \u003e 0 THEN\n             IF EIBCALEN \u003c 91 THEN\n               MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA\n               _DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             ELSE\n               MOVE DFHCOMMAREA(1:90) TO CA-DATA\n               _DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             END-IF\n           END-IF.\n           EXIT.",
+      "type": "PROCEDURE_DIVISION_BODY",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "335e0038-35a8-44cc-b967-3a957a4a8a47",
+      "label": "MAINLINE",
+      "name": "MAINLINE",
+      "originalText": "MAINLINE SECTION.",
+      "type": "SECTION",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "2439ee9b-1b84-4b57-a304-4feeee7b1b1a",
+      "label": "INITIALIZEWS-HE",
+      "name": "INITIALIZEWS-HE",
+      "originalText": "INITIALIZE WS-HEADER.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "9eee1783-1d6a-47a1-84a2-a8295841278b",
+      "label": "MOVEEIBTRNIDTOW",
+      "name": "MOVEEIBTRNIDTOW",
+      "originalText": "MOVE EIBTRNID TO WS-TRANSID.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "88a0a1a2-bca8-4f57-a861-05ab6fe6dc37",
+      "label": "MOVEEIBTRMIDTOW",
+      "name": "MOVEEIBTRMIDTOW",
+      "originalText": "MOVE EIBTRMID TO WS-TERMID.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "24a89f23-27e4-4a89-9d34-db69dfe0bcfa",
+      "label": "MOVEEIBTASKNTOW",
+      "name": "MOVEEIBTASKNTOW",
+      "originalText": "MOVE EIBTASKN TO WS-TASKNUM.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "de1ab0d6-2fb4-438b-9aca-6a699e662084",
+      "label": "IFEIBCALENISEQU",
+      "name": "IFEIBCALENISEQU",
+      "originalText": "IF EIBCALEN IS EQUAL TO ZERO\n               MOVE \u0027 NO COMMAREA RECEIVED\u0027 TO EM-VARIABLE\n               PERFORM WRITE-ERROR-MESSAGE\n               _DIALECT_ 1 ​​​​ ​​​​ ​​​​​ ​​​​​​​​​​​​​​ ​​​​​​ ​​​​​​​​\n           END-IF\n       \n       \n           MOVE \u002700\u0027 TO CA-RETURN-CODE\n           MOVE EIBCALEN TO WS-CALEN.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "581c8401-4252-4757-bd3e-8d8c25cc58c4",
+      "label": "SETWS-ADDR-DFHC",
+      "name": "SETWS-ADDR-DFHC",
+      "originalText": "SET WS-ADDR-DFHCOMMAREA TO ADDRESS OF DFHCOMMAREA.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "d9364c5f-6eda-4c33-8d20-f759b60f5f0d",
+      "label": "_DIALECT_2​​​​ ",
+      "name": "_DIALECT_2​​​​ ",
+      "originalText": "_DIALECT_ 2 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n               ​​​​​​​​​​​​​​​​​​​​​\n           ​​​​​​​​.\n       \n           _DIALECT_ 3 ​​​​ ​​​​ ​​​​​​ ​​​​​​​​.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "e5b57826-230a-4393-a57d-bd62059d84d6",
+      "label": "MAINLINE-EXIT",
+      "name": "MAINLINE-EXIT",
+      "originalText": "MAINLINE-EXIT.",
+      "type": "ATOMIC",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "f0f04d02-3411-42fb-98d0-b4c230d68b19",
+      "label": "EXIT.",
+      "name": "EXIT.",
+      "originalText": "EXIT.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "label": "WRITE-ERROR-MESSAGE",
+      "name": "WRITE-ERROR-MESSAGE",
+      "originalText": "WRITE-ERROR-MESSAGE.",
+      "type": "ATOMIC",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "e0fdd35e-521b-4c09-ae84-9f01e52833f4",
+      "label": "_DIALECT_4​​​​ ",
+      "name": "_DIALECT_4​​​​ ",
+      "originalText": "_DIALECT_ 4 ​​​​ ​​​​ ​​​​​​​ ​​​​​​​​​​​​​​​​​\n           ​​​​​​​​\n           _DIALECT_ 5 ​​​​ ​​​​ ​​​​​​​​​​ ​​​​​​​​​​​​​​​​​\n                     ​​​​​​​​​​​​​​​\n           ​​​​​​​​\n           MOVE DATE1 TO EM-DATE\n           MOVE TIME1 TO EM-TIME\n       \n           _DIALECT_ 6 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                     ​​​​​​​​​​​​​​​​​​​\n           ​​​​​​​​.\n       \n           IF EIBCALEN \u003e 0 THEN\n             IF EIBCALEN \u003c 91 THEN\n               MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA\n               _DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             ELSE\n               MOVE DFHCOMMAREA(1:90) TO CA-DATA\n               _DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             END-IF\n           END-IF.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "21c090ec-8334-4abb-84e1-a1e928e8c8a7",
+      "label": "EXIT.",
+      "name": "EXIT.",
+      "originalText": "EXIT.",
+      "type": "SENTENCE",
+      "categories": [
+        "CODE_BLOCK"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "d9651c04-5ebc-490c-8b3a-b0d5d100d636",
+      "label": "EXIT",
+      "name": "EXIT",
+      "originalText": "EXIT",
+      "type": "EXIT",
+      "categories": [
+        "TERMINAL"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "a0014b8d-c87d-48ac-a9ed-2cc863f35ed6",
+      "label": "_DIALECT_4​​​​ ",
+      "name": "_DIALECT_4​​​​ ",
+      "originalText": "_DIALECT_ 4 ​​​​ ​​​​ ​​​​​​​ ​​​​​​​​​​​​​​​​​\n           ​​​​​​​​",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "d88036b2-14e3-4ed8-b0ba-396128bbc58f",
+      "label": "_DIALECT_5​​​​ ",
+      "name": "_DIALECT_5​​​​ ",
+      "originalText": "_DIALECT_ 5 ​​​​ ​​​​ ​​​​​​​​​​ ​​​​​​​​​​​​​​​​​\n                     ​​​​​​​​​​​​​​​\n           ​​​​​​​​",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "e9cfdefe-b688-482b-8e09-025d2c5e0453",
+      "label": "MOVEDATE1TOEM-D",
+      "name": "MOVEDATE1TOEM-D",
+      "originalText": "MOVE DATE1 TO EM-DATE",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "aaa1a079-1bc8-49c6-9b45-b16e2acbae97",
+      "label": "MOVETIME1TOEM-T",
+      "name": "MOVETIME1TOEM-T",
+      "originalText": "MOVE TIME1 TO EM-TIME",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "87233edc-85aa-4877-8524-4f00a817de3f",
+      "label": "_DIALECT_6​​​​ ",
+      "name": "_DIALECT_6​​​​ ",
+      "originalText": "_DIALECT_ 6 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                     ​​​​​​​​​​​​​​​​​​​\n           ​​​​​​​​.",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "83f6567e-d3f6-4d8d-a81e-d574092861b5",
+      "label": "IS \nEIBCALEN \u003e 0?\n",
+      "name": "IS \nEIBCALEN \u003e 0?\n",
+      "originalText": "IF EIBCALEN \u003e 0 THEN\n             IF EIBCALEN \u003c 91 THEN\n               MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA\n               _DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             ELSE\n               MOVE DFHCOMMAREA(1:90) TO CA-DATA\n               _DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             END-IF\n           END-IF",
+      "type": "IF_BRANCH",
+      "categories": [
+        "DECISION"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "37d55ca1-5399-45f6-a3b0-bc43e63ccd35",
+      "label": "Yes",
+      "name": "Yes",
+      "originalText": "THEN\n             IF EIBCALEN \u003c 91 THEN\n               MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA\n               _DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             ELSE\n               MOVE DFHCOMMAREA(1:90) TO CA-DATA\n               _DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             END-IF",
+      "type": "IF_YES",
+      "categories": [
+        "DECISION_BRANCH"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "25d3046d-61f1-4b03-a1b8-c5794cdc95b8",
+      "label": "IS \nEIBCALEN \u003c 91?\n",
+      "name": "IS \nEIBCALEN \u003c 91?\n",
+      "originalText": "IF EIBCALEN \u003c 91 THEN\n               MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA\n               _DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             ELSE\n               MOVE DFHCOMMAREA(1:90) TO CA-DATA\n               _DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​\n             END-IF",
+      "type": "IF_BRANCH",
+      "categories": [
+        "DECISION"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "c4a43660-6c12-4755-b067-260c2ff32738",
+      "label": "Yes",
+      "name": "Yes",
+      "originalText": "THEN\n               MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA\n               _DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​",
+      "type": "IF_YES",
+      "categories": [
+        "DECISION_BRANCH"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "48578fcf-4620-4847-90c9-4bf7a48d9f56",
+      "label": "MOVEDFHCOMMAREA",
+      "name": "MOVEDFHCOMMAREA",
+      "originalText": "MOVE DFHCOMMAREA(1:EIBCALEN) TO CA-DATA",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "a6208fe8-06f8-46bc-a534-1f7f690ed22a",
+      "label": "_DIALECT_7​​​​ ",
+      "name": "_DIALECT_7​​​​ ",
+      "originalText": "_DIALECT_ 7 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "4aa18429-9a4e-4362-bb9b-bc47a834f040",
+      "label": "No",
+      "name": "No",
+      "originalText": "ELSE\n               MOVE DFHCOMMAREA(1:90) TO CA-DATA\n               _DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​",
+      "type": "IF_NO",
+      "categories": [
+        "DECISION_BRANCH"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "ca35851b-2e1c-4321-9d48-23a10bc402e5",
+      "label": "ELSE",
+      "name": "ELSE",
+      "originalText": "ELSE",
+      "type": "SYMBOL",
+      "categories": [
+        "SYMBOL"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "0b0d9aa3-fc6e-4e77-ad55-890c075e3fad",
+      "label": "MOVEDFHCOMMAREA",
+      "name": "MOVEDFHCOMMAREA",
+      "originalText": "MOVE DFHCOMMAREA(1:90) TO CA-DATA",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "8e907d61-a728-4b36-9b9c-8fb150c013fe",
+      "label": "_DIALECT_8​​​​ ",
+      "name": "_DIALECT_8​​​​ ",
+      "originalText": "_DIALECT_ 8 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n                         ​​​​​​​​​​​​​​​​​​​​​​\n               ​​​​​​​​",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "e09effb9-6f9e-4914-b214-658e2ea4cf7a",
+      "label": "EXIT",
+      "name": "EXIT",
+      "originalText": "EXIT",
+      "type": "EXIT",
+      "categories": [
+        "TERMINAL"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "edea375a-4823-41af-ab3e-eb80369526c2",
+      "label": "_DIALECT_2​​​​ ",
+      "name": "_DIALECT_2​​​​ ",
+      "originalText": "_DIALECT_ 2 ​​​​ ​​​​ ​​​​ ​​​​​​​​​​​​​​​​​\n               ​​​​​​​​​​​​​​​​​​​​​\n           ​​​​​​​​.",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "eb142269-d62a-445d-89a7-890c25d36d00",
+      "label": "_DIALECT_3​​​​ ",
+      "name": "_DIALECT_3​​​​ ",
+      "originalText": "_DIALECT_ 3 ​​​​ ​​​​ ​​​​​​ ​​​​​​​​",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "6ebc9f4e-0923-407b-a571-98ea63652551",
+      "label": "SETWS-ADDR-DFHC",
+      "name": "SETWS-ADDR-DFHC",
+      "originalText": "SET WS-ADDR-DFHCOMMAREA TO ADDRESS OF DFHCOMMAREA",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "a86b186c-bd12-41cd-9bb6-c6b3cea410db",
+      "label": "IS \nEIBCALEN IS EQUAL TO ZERO?\n",
+      "name": "IS \nEIBCALEN IS EQUAL TO ZERO?\n",
+      "originalText": "IF EIBCALEN IS EQUAL TO ZERO\n               MOVE \u0027 NO COMMAREA RECEIVED\u0027 TO EM-VARIABLE\n               PERFORM WRITE-ERROR-MESSAGE\n               _DIALECT_ 1 ​​​​ ​​​​ ​​​​​ ​​​​​​​​​​​​​​ ​​​​​​ ​​​​​​​​\n           END-IF",
+      "type": "IF_BRANCH",
+      "categories": [
+        "DECISION"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "835ddce6-5077-4c02-843a-fbdf9a19141c",
+      "label": "MOVE\u002700\u0027TOCA-RE",
+      "name": "MOVE\u002700\u0027TOCA-RE",
+      "originalText": "MOVE \u002700\u0027 TO CA-RETURN-CODE",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "685e14cb-cb3a-42df-97e3-e493787cb62f",
+      "label": "MOVEEIBCALENTOW",
+      "name": "MOVEEIBCALENTOW",
+      "originalText": "MOVE EIBCALEN TO WS-CALEN",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "0b47a658-9bf7-4a5c-9705-b6d2f200c2dc",
+      "label": "Yes",
+      "name": "Yes",
+      "originalText": "MOVE \u0027 NO COMMAREA RECEIVED\u0027 TO EM-VARIABLE\n               PERFORM WRITE-ERROR-MESSAGE\n               _DIALECT_ 1 ​​​​ ​​​​ ​​​​​ ​​​​​​​​​​​​​​ ​​​​​​ ​​​​​​​​",
+      "type": "IF_YES",
+      "categories": [
+        "DECISION_BRANCH"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "0a142aa9-f9bd-494d-a19e-6688f2317f44",
+      "label": "MOVE\u0027 NO COMMAR",
+      "name": "MOVE\u0027 NO COMMAR",
+      "originalText": "MOVE \u0027 NO COMMAREA RECEIVED\u0027 TO EM-VARIABLE",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "label": "PERFORM WRITE-ERROR-MESSAGE",
+      "name": "PERFORMWRITE-ER",
+      "originalText": "PERFORM WRITE-ERROR-MESSAGE",
+      "type": "PERFORM",
+      "categories": [
+        "CONTROL_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "f0edc9f7-08a6-4252-9312-a463b5042371",
+      "label": "_DIALECT_1​​​​ ",
+      "name": "_DIALECT_1​​​​ ",
+      "originalText": "_DIALECT_ 1 ​​​​ ​​​​ ​​​​​ ​​​​​​​​​​​​​​ ​​​​​​ ​​​​​​​​",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "352cbb6f-a7d7-4344-9990-129e6ab86239",
+      "label": "MOVEEIBTASKNTOW",
+      "name": "MOVEEIBTASKNTOW",
+      "originalText": "MOVE EIBTASKN TO WS-TASKNUM",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "4be6b3b1-ce82-4e7b-a66d-6bda920ff50a",
+      "label": "MOVEEIBTRMIDTOW",
+      "name": "MOVEEIBTRMIDTOW",
+      "originalText": "MOVE EIBTRMID TO WS-TERMID",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "b84e7d22-2868-4190-a06c-843c1d43906a",
+      "label": "MOVEEIBTRNIDTOW",
+      "name": "MOVEEIBTRNIDTOW",
+      "originalText": "MOVE EIBTRNID TO WS-TRANSID",
+      "type": "MOVE",
+      "categories": [
+        "DATA_FLOW"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "513cc93d-4124-4c25-bd38-b84348f18ce0",
+      "label": "INITIALIZEWS-HE",
+      "name": "INITIALIZEWS-HE",
+      "originalText": "INITIALIZE WS-HEADER",
+      "type": "GENERIC_STATEMENT",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "9fb703bc-6cf4-4424-99ff-53eab33e61cf",
+      "label": "CobolWordContext/9fb703bc-6cf4-4424-99ff-53eab33e61cf",
+      "name": "CobolWordContext/9fb703bc-6cf4-4424-99ff-53eab33e61cf",
+      "originalText": "MAINLINE",
+      "type": "ATOMIC",
+      "categories": [
+        "GENERIC_CODE"
+      ],
+      "nodeType": "CODE_VERTEX"
+    },
+    {
+      "id": "54990a95-8e00-4af0-ae1e-f2cecd6bc6f1",
+      "label": "SECTION",
+      "name": "SECTION",
+      "originalText": "SECTION",
+      "type": "SYMBOL",
+      "categories": [
+        "SYMBOL"
+      ],
+      "nodeType": "CODE_VERTEX"
+    }
+  ],
+  "edges": [
+    {
+      "id": "44f27e0c-2c33-43b7-b373-beb0c337bab8",
+      "fromNodeID": "efc12f12-bd03-4a34-b535-b1c9511da6f0",
+      "toNodeID": "335e0038-35a8-44cc-b967-3a957a4a8a47",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "3ffb574c-557a-401f-bd1f-f52cbf3c0191",
+      "fromNodeID": "335e0038-35a8-44cc-b967-3a957a4a8a47",
+      "toNodeID": "2439ee9b-1b84-4b57-a304-4feeee7b1b1a",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "b5e5d219-9771-4c16-bbff-578c7100202c",
+      "fromNodeID": "2439ee9b-1b84-4b57-a304-4feeee7b1b1a",
+      "toNodeID": "9eee1783-1d6a-47a1-84a2-a8295841278b",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "f48116a5-adca-44ef-b3f3-395923200ee6",
+      "fromNodeID": "9eee1783-1d6a-47a1-84a2-a8295841278b",
+      "toNodeID": "88a0a1a2-bca8-4f57-a861-05ab6fe6dc37",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "dc03fa5c-dd71-4a36-9335-573f22328ada",
+      "fromNodeID": "88a0a1a2-bca8-4f57-a861-05ab6fe6dc37",
+      "toNodeID": "24a89f23-27e4-4a89-9d34-db69dfe0bcfa",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "b6b72b5d-7cfe-482d-a1fe-da35b4ea2b8e",
+      "fromNodeID": "24a89f23-27e4-4a89-9d34-db69dfe0bcfa",
+      "toNodeID": "de1ab0d6-2fb4-438b-9aca-6a699e662084",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "812d5918-07c2-48d4-a57e-daa0933811fd",
+      "fromNodeID": "de1ab0d6-2fb4-438b-9aca-6a699e662084",
+      "toNodeID": "581c8401-4252-4757-bd3e-8d8c25cc58c4",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "3796d7b0-cc1d-4a36-b8a8-a87207607c1e",
+      "fromNodeID": "581c8401-4252-4757-bd3e-8d8c25cc58c4",
+      "toNodeID": "d9364c5f-6eda-4c33-8d20-f759b60f5f0d",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "9185444f-f37d-4cb8-af1c-f90ff369b483",
+      "fromNodeID": "d9364c5f-6eda-4c33-8d20-f759b60f5f0d",
+      "toNodeID": "e5b57826-230a-4393-a57d-bd62059d84d6",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "ab1c552c-c59f-4093-b408-c9cf52968574",
+      "fromNodeID": "e5b57826-230a-4393-a57d-bd62059d84d6",
+      "toNodeID": "f0f04d02-3411-42fb-98d0-b4c230d68b19",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "40230aa9-fd9a-4de6-a604-5ba7a009e7b3",
+      "fromNodeID": "f0f04d02-3411-42fb-98d0-b4c230d68b19",
+      "toNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "becd0280-fc6d-4b2e-8e96-f0c6a0be9151",
+      "fromNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "toNodeID": "e0fdd35e-521b-4c09-ae84-9f01e52833f4",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "24818e04-bf10-465c-8ab5-0d8185cd394e",
+      "fromNodeID": "e0fdd35e-521b-4c09-ae84-9f01e52833f4",
+      "toNodeID": "21c090ec-8334-4abb-84e1-a1e928e8c8a7",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "b6a4b01e-9697-4b7e-b839-3beda3ccb1d5",
+      "fromNodeID": "21c090ec-8334-4abb-84e1-a1e928e8c8a7",
+      "toNodeID": "d9651c04-5ebc-490c-8b3a-b0d5d100d636",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "73446cb7-dc4c-41d1-a9af-c8fd5843a1c1",
+      "fromNodeID": "e0fdd35e-521b-4c09-ae84-9f01e52833f4",
+      "toNodeID": "a0014b8d-c87d-48ac-a9ed-2cc863f35ed6",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "e6e48866-18b9-4841-97b6-f316e62ff20f",
+      "fromNodeID": "a0014b8d-c87d-48ac-a9ed-2cc863f35ed6",
+      "toNodeID": "d88036b2-14e3-4ed8-b0ba-396128bbc58f",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "80bc9faa-3db7-41f5-b5e0-3c9cd8f9da1a",
+      "fromNodeID": "d88036b2-14e3-4ed8-b0ba-396128bbc58f",
+      "toNodeID": "e9cfdefe-b688-482b-8e09-025d2c5e0453",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "d88bb02d-114e-412c-a613-6514c90d9ad8",
+      "fromNodeID": "e9cfdefe-b688-482b-8e09-025d2c5e0453",
+      "toNodeID": "aaa1a079-1bc8-49c6-9b45-b16e2acbae97",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "65931ed1-67f0-45b9-99a0-9ceacdfe3c3f",
+      "fromNodeID": "aaa1a079-1bc8-49c6-9b45-b16e2acbae97",
+      "toNodeID": "87233edc-85aa-4877-8524-4f00a817de3f",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "1a46c24f-d859-4786-a5b6-a589a145b329",
+      "fromNodeID": "87233edc-85aa-4877-8524-4f00a817de3f",
+      "toNodeID": "83f6567e-d3f6-4d8d-a81e-d574092861b5",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "dce09651-201a-4b8a-a659-2629172b1269",
+      "fromNodeID": "83f6567e-d3f6-4d8d-a81e-d574092861b5",
+      "toNodeID": "37d55ca1-5399-45f6-a3b0-bc43e63ccd35",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "c3ab9eb4-c6e4-41dc-9e81-23761b10095b",
+      "fromNodeID": "37d55ca1-5399-45f6-a3b0-bc43e63ccd35",
+      "toNodeID": "25d3046d-61f1-4b03-a1b8-c5794cdc95b8",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "4a4967c9-5533-436a-89e8-6c6c7ff4d3df",
+      "fromNodeID": "25d3046d-61f1-4b03-a1b8-c5794cdc95b8",
+      "toNodeID": "c4a43660-6c12-4755-b067-260c2ff32738",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "70745985-ad96-40a7-a687-d8cfdffc8e9c",
+      "fromNodeID": "25d3046d-61f1-4b03-a1b8-c5794cdc95b8",
+      "toNodeID": "4aa18429-9a4e-4362-bb9b-bc47a834f040",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "6547dbc9-5935-4848-b16f-995782b33745",
+      "fromNodeID": "c4a43660-6c12-4755-b067-260c2ff32738",
+      "toNodeID": "48578fcf-4620-4847-90c9-4bf7a48d9f56",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "52ceb8aa-bebc-4c06-94c7-a1f1fc5d2aab",
+      "fromNodeID": "48578fcf-4620-4847-90c9-4bf7a48d9f56",
+      "toNodeID": "a6208fe8-06f8-46bc-a534-1f7f690ed22a",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "f52924a3-90a7-4dc3-8875-919b52597cc9",
+      "fromNodeID": "4aa18429-9a4e-4362-bb9b-bc47a834f040",
+      "toNodeID": "ca35851b-2e1c-4321-9d48-23a10bc402e5",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "0096461d-01ce-4e9d-8578-70e2843def33",
+      "fromNodeID": "ca35851b-2e1c-4321-9d48-23a10bc402e5",
+      "toNodeID": "0b0d9aa3-fc6e-4e77-ad55-890c075e3fad",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "309492b8-d299-4a20-960a-4bc153aeab36",
+      "fromNodeID": "0b0d9aa3-fc6e-4e77-ad55-890c075e3fad",
+      "toNodeID": "8e907d61-a728-4b36-9b9c-8fb150c013fe",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "62261f34-5c42-4eb0-bde8-c77a77ca2b3d",
+      "fromNodeID": "f0f04d02-3411-42fb-98d0-b4c230d68b19",
+      "toNodeID": "e09effb9-6f9e-4914-b214-658e2ea4cf7a",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "180223b4-2915-4a44-a513-82507c44ff6d",
+      "fromNodeID": "d9364c5f-6eda-4c33-8d20-f759b60f5f0d",
+      "toNodeID": "edea375a-4823-41af-ab3e-eb80369526c2",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "8d434b38-2eef-48fd-aaf5-726765d55205",
+      "fromNodeID": "edea375a-4823-41af-ab3e-eb80369526c2",
+      "toNodeID": "eb142269-d62a-445d-89a7-890c25d36d00",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "0ff0de98-89f6-4aa0-81c5-a3593eb35ce2",
+      "fromNodeID": "581c8401-4252-4757-bd3e-8d8c25cc58c4",
+      "toNodeID": "6ebc9f4e-0923-407b-a571-98ea63652551",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "f1b4acc2-01f2-4467-b659-cf74683a8f5d",
+      "fromNodeID": "de1ab0d6-2fb4-438b-9aca-6a699e662084",
+      "toNodeID": "a86b186c-bd12-41cd-9bb6-c6b3cea410db",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "492e7060-04db-4e13-8f8a-bf0547f5a447",
+      "fromNodeID": "a86b186c-bd12-41cd-9bb6-c6b3cea410db",
+      "toNodeID": "835ddce6-5077-4c02-843a-fbdf9a19141c",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "95314188-5f74-4f8f-939f-0006c6b999a7",
+      "fromNodeID": "835ddce6-5077-4c02-843a-fbdf9a19141c",
+      "toNodeID": "685e14cb-cb3a-42df-97e3-e493787cb62f",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "0b5285c7-b79a-4561-9e15-ea382bc5a308",
+      "fromNodeID": "a86b186c-bd12-41cd-9bb6-c6b3cea410db",
+      "toNodeID": "0b47a658-9bf7-4a5c-9705-b6d2f200c2dc",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "fe17e1ac-3cf3-48b3-ab70-9b59a818f78e",
+      "fromNodeID": "0b47a658-9bf7-4a5c-9705-b6d2f200c2dc",
+      "toNodeID": "0a142aa9-f9bd-494d-a19e-6688f2317f44",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "bb038a6b-401b-46c7-a487-6cc030f7e83a",
+      "fromNodeID": "0a142aa9-f9bd-494d-a19e-6688f2317f44",
+      "toNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "fd0eae0f-38d8-4168-88a0-d4c211faffe9",
+      "fromNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "toNodeID": "f0edc9f7-08a6-4252-9312-a463b5042371",
+      "edgeType": "FOLLOWED_BY"
+    },
+    {
+      "id": "7de2b9f4-f455-4e34-82ed-28f3c530b4e4",
+      "fromNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "toNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "edgeType": "JUMPS_TO"
+    },
+    {
+      "id": "737ad15c-6a5e-44ff-a2ec-89e62087474b",
+      "fromNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "toNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "edgeType": "JUMPS_TO"
+    },
+    {
+      "id": "36a073b4-ee93-4549-b7df-e83d678798c2",
+      "fromNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "toNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "edgeType": "JUMPS_TO"
+    },
+    {
+      "id": "623ae4c6-e2f1-4ba6-a9e4-483766e95dff",
+      "fromNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "toNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "edgeType": "JUMPS_TO"
+    },
+    {
+      "id": "3571a8a8-ba9a-43b0-9d18-910fd0713a93",
+      "fromNodeID": "b4415d35-581f-4136-a275-8dec08a5e33a",
+      "toNodeID": "f6ad1bb0-e91b-454d-80b9-d7b46d75726f",
+      "edgeType": "JUMPS_TO"
+    },
+    {
+      "id": "5440f4b7-f4bc-4427-8c5b-039ef4d3b065",
+      "fromNodeID": "24a89f23-27e4-4a89-9d34-db69dfe0bcfa",
+      "toNodeID": "352cbb6f-a7d7-4344-9990-129e6ab86239",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "5fb33cd0-7209-4f37-8edd-e2ebdf66aad5",
+      "fromNodeID": "88a0a1a2-bca8-4f57-a861-05ab6fe6dc37",
+      "toNodeID": "4be6b3b1-ce82-4e7b-a66d-6bda920ff50a",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "78c53546-55c5-437b-a0d8-9783ae35543c",
+      "fromNodeID": "9eee1783-1d6a-47a1-84a2-a8295841278b",
+      "toNodeID": "b84e7d22-2868-4190-a06c-843c1d43906a",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "a9a4aef2-6a96-4fff-8140-d52d3d439b93",
+      "fromNodeID": "2439ee9b-1b84-4b57-a304-4feeee7b1b1a",
+      "toNodeID": "513cc93d-4124-4c25-bd38-b84348f18ce0",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "ef83a9e4-e72d-4d03-be34-558b44b0c668",
+      "fromNodeID": "335e0038-35a8-44cc-b967-3a957a4a8a47",
+      "toNodeID": "9fb703bc-6cf4-4424-99ff-53eab33e61cf",
+      "edgeType": "STARTS_WITH"
+    },
+    {
+      "id": "6cb61f56-efd9-4981-bf5a-604f100fda0b",
+      "fromNodeID": "9fb703bc-6cf4-4424-99ff-53eab33e61cf",
+      "toNodeID": "54990a95-8e00-4af0-ae1e-f2cecd6bc6f1",
+      "edgeType": "FOLLOWED_BY"
+    }
+  ],
+  "idProvider": {}
+}
