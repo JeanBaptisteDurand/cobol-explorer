@@ -1,13 +1,13 @@
 {
   "mcpServers": {
     "cobol-explorer": {
-      "command": "/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer/.venv/bin/python",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["-m", "mcp_server.server"],
-      "cwd": "/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer",
+      "cwd": "${workspaceFolder}",
       "env": {
-        "PYTHONPATH": "/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer/packages/core:/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer/ingestion:/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer/server",
-        "COBOL_EXPLORER_GRAPH": "/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer/graph.json",
-        "COBOL_EXPLORER_CORPUS": "/Users/beorlor/Documents/Mainframe/RAG_cobol/cobol-explorer/corpora"
+        "PYTHONPATH": "${workspaceFolder}/packages/core:${workspaceFolder}/ingestion:${workspaceFolder}/server",
+        "COBOL_EXPLORER_GRAPH": "${workspaceFolder}/graph.json",
+        "COBOL_EXPLORER_CORPUS": "${workspaceFolder}/corpora"
       }
     }
   }

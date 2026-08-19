@@ -164,7 +164,7 @@ FRONTEND (React + CodeMirror + React Flow) — atelier IDE/cowork
 
 ```bash
 make setup    # venv (uv) + deps Python + deps front
-make ingest   # corpus -> graph.json (341 nœuds / 367 arêtes)
+make ingest   # corpus -> graph.json (GenApp : 339 nœuds / 421 arêtes ; CardDemo : 1157 / 1294)
 make index    # index sémantique IBM Granite -> index.json
 make web      # build du front
 make serve    # http://127.0.0.1:8000
@@ -173,11 +173,35 @@ make ask N=LGPOLICY   # réponse groundée+tracée en CLI (sans LLM)
 make mcp              # serveur MCP pour IBM Bob
 ```
 
+### 7.1 Authentification (qui est l'utilisateur ?)
+
+Le serveur tourne dans l'un de trois modes, via `COBOL_EXPLORER_AUTH` :
+
+| Mode | Identité | Pour quoi |
+|---|---|---|
+| `open` (défaut) | en-têtes `X-Cobol-User` / `X-Cobol-Role`, déclaratifs | démo — `make serve`, rien à configurer |
+| `jwt` | **login + jeton signé HS256** émis par `/api/login` | déploiement autonome — `make serve-auth` |
+| `enforce` | en-têtes injectés par un reverse-proxy SSO de confiance | l'entreprise garde l'authentification hors de l'app (OIDC/SAML) |
+
+En mode `jwt`, le **rôle voyage dans le jeton signé** : un client ne peut pas se promouvoir en changeant un
+en-tête, RBAC arbitre à partir des *claims*, et chaque tentative — acceptée, refusée ou rejetée — part dans le
+journal d'audit chaîné. Le mot de passe n'est jamais stocké (PBKDF2-HMAC-SHA256, 120 000 itérations, sel par compte).
+
+```bash
+make serve-auth   # même app, authentification réelle activée
+# comptes de démo (mot de passe : demo) — un par geste, pour voir RBAC mordre :
+#   amine (dev) · claire (architect) · sofia (risk) · marc (auditor, lecture seule)
+```
+
+Comptes réels : pointer `COBOL_EXPLORER_USERS` sur un JSON `{user: {display, role, password_hash}}`
+(hachage via `security.users.hash_password`), et fixer `COBOL_EXPLORER_JWT_SECRET` pour que les
+jetons survivent à un redémarrage.
+
 ## 8. Tests
 
 ```bash
-make test                          # 35 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP)
-cd web && pnpm exec playwright test # 4 e2e (aperçu, code, impact, cowork)
+make test                          # 102 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth)
+cd web && pnpm exec playwright test # 24 e2e (aperçu, code, impact, cowork, connexion)
 ```
 
 ## 9. Positionnement

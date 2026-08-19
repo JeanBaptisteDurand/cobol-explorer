@@ -40,6 +40,7 @@ audit.log.jsonl.head
 *.pem
 *.p12
 secrets.*
+users.json
 .bob/mcp.local.json
 
 # ─── OS / editor ──────────────────────────────────────────

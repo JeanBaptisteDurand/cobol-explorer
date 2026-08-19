@@ -27,6 +27,9 @@ web: ## build the frontend
 serve: ## serve API + built frontend on :8000
 	COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000
 
+serve-auth: ## same, with real authentication (login + signed token, RBAC from the claims)
+	COBOL_EXPLORER_AUTH=jwt COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000
+
 mcp: ## run the MCP server (stdio) for IBM Bob
 	$(PP) $(PY) -m mcp_server.server
 
