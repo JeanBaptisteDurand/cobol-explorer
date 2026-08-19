@@ -33,7 +33,7 @@ from sse_starlette.sse import EventSourceResponse
 from agent.responder import answer_copybook_impact
 from agent.tools import GraphTools
 from agent.verify import verify_answer
-from security import rbac
+from security import rbac, tokens, users
 from security.audit import AuditLog
 from security.identity import identify
 from versioning.changeset import VersionStore
@@ -44,7 +44,10 @@ VERSIONS = os.environ.get("COBOL_EXPLORER_VERSIONS", "versions")
 INDEX = os.environ.get("COBOL_EXPLORER_INDEX", "index.json")
 VECTOR = os.environ.get("COBOL_EXPLORER_VECTOR", "json")
 WEB_DIST = os.environ.get("COBOL_EXPLORER_WEB", "web/dist")
-ENFORCE = os.environ.get("COBOL_EXPLORER_AUTH", "open").lower() == "enforce"
+# open (default demo) · jwt (the app logs users in itself) · enforce (SSO reverse proxy)
+AUTH_MODE = os.environ.get("COBOL_EXPLORER_AUTH", "open").lower()
+ENFORCE = AUTH_MODE == "enforce"
+JWT_MODE = AUTH_MODE == "jwt"
 PROXY_SECRET = os.environ.get("COBOL_EXPLORER_PROXY_SECRET", "")
 AUDIT = AuditLog()
 
@@ -78,14 +81,18 @@ def active_cfg() -> dict:
 def gate(request: Request, action: str, target: str = "") -> dict:
     """Identify the caller, enforce RBAC (opt-in), and write an immutable audit line.
 
-    In enforce mode, identity headers are trusted only from an authenticating proxy
-    presenting the shared secret; every attempt (granted OR denied) is audited.
+    In jwt mode a valid signed token is required; in enforce mode identity headers are
+    trusted only from an authenticating proxy presenting the shared secret. Every
+    attempt (granted, denied OR rejected) is audited.
     """
     if ENFORCE and (not PROXY_SECRET or request.headers.get("x-cobol-proxy-secret") != PROXY_SECRET):
         AUDIT.record("?", "guest", action, target, result="rejected")
         raise HTTPException(401, "authentification requise (enforce): proxy de confiance manquant")
+    if JWT_MODE and not tokens.read(tokens.bearer(request.headers)):
+        AUDIT.record("?", "guest", action, target, result="rejected")
+        raise HTTPException(401, "authentification requise: jeton absent, invalide ou expiré")
     actor = identify(request.headers)
-    if ENFORCE and not rbac.allowed(actor["role"], action):
+    if (ENFORCE or JWT_MODE) and not rbac.allowed(actor["role"], action):
         AUDIT.record(actor["name"], actor["role"], action, target, result="denied")
         raise HTTPException(403, f"role '{actor['role']}' non autorisé pour '{action}'")
     AUDIT.record(actor["name"], actor["role"], action, target)
@@ -163,6 +170,39 @@ def health() -> dict:
     return {"ok": True, "graph": os.path.exists(active_cfg()["graph"])}
 
 
+# --- authentication ---
+class LoginBody(BaseModel):
+    username: str
+    password: str
+
+
+@app.get("/api/auth/config")
+def auth_config() -> dict:
+    """What the front end needs to know before showing anything: is a login required?
+
+    Ungated on purpose — it carries no user data, only the mode the server runs in.
+    """
+    return {"mode": AUTH_MODE, "required": JWT_MODE, "roles": list(rbac.ROLES)}
+
+
+@app.post("/api/login")
+def login(body: LoginBody) -> dict:
+    """Exchange credentials for a signed bearer token. Both outcomes are audited."""
+    actor = users.authenticate(body.username, body.password)
+    if not actor:
+        AUDIT.record(body.username or "?", "guest", "login", target="", result="denied")
+        raise HTTPException(401, "identifiants invalides")
+    AUDIT.record(actor["name"], actor["role"], "login")
+    return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
+
+
+@app.get("/api/me")
+def me(request: Request) -> dict:
+    """Who the server thinks you are — the identity every audit line will carry."""
+    actor = identify(request.headers)
+    return {**actor, "authenticated": bool(tokens.read(tokens.bearer(request.headers)))}
+
+
 @app.get("/api/systems")
 def systems_list() -> dict:
     """The mainframe estates available to analyze + which one is active."""
@@ -194,9 +234,10 @@ def system_set(body: SystemBody) -> dict:
 
 
 @app.get("/api/graph")
-def graph() -> dict:
+def graph(request: Request) -> dict:
     # health() advertises graph:false as a normal state (pre-ingest) — so a missing
     # graph is a 503 (not built yet), not an opaque 500.
+    gate(request, "read", target="graph")
     gp = active_cfg()["graph"]
     if not os.path.exists(gp):
         raise HTTPException(503, "graphe non construit — lancez l'ingestion (make ingest)")
@@ -354,7 +395,8 @@ def _writable() -> None:
 
 
 @app.get("/api/changesets")
-def list_cs() -> list[dict]:
+def list_cs(request: Request) -> list[dict]:
+    gate(request, "read", target="changesets")
     if active_cfg().get("readonly"):  # analyze-only system: no versions, no git seeding
         return []
     s = store()
@@ -371,8 +413,8 @@ def create_cs(body: CreateCS, request: Request) -> dict:
 
 
 @app.get("/api/changesets/{cid}")
-def get_cs(cid: str) -> dict:
-
+def get_cs(cid: str, request: Request) -> dict:
+    gate(request, "read", target=f"changeset:{cid}")
     s = store()
     if not s.exists(cid):
         raise HTTPException(404, "changeset not found")
