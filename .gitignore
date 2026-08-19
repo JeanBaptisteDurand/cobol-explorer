@@ -19,6 +19,8 @@ web/dist/
 web/test-results/
 web/playwright-report/
 web/.vite/
+web/tsconfig.tsbuildinfo
+*.tsbuildinfo
 .playwright-mcp/
 
 # ─── Vendored third-party (huge, not our code) ────────────
