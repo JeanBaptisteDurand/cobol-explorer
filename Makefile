@@ -6,7 +6,7 @@ PP := PYTHONPATH=packages/core:ingestion:server
 setup: ## create venv (standalone python via uv) + install everything
 	uv venv --python 3.12 .venv
 	VIRTUAL_ENV=.venv uv pip install networkx pyyaml pytest fastapi "uvicorn[standard]" \
-		sse-starlette requests beeai-framework ollama httpx "mcp[cli]"
+		sse-starlette requests beeai-framework ollama httpx "mcp[cli]" ibm-watsonx-ai
 	cd web && pnpm install
 
 ingest: ## parse corpus -> graph.json
@@ -26,6 +26,10 @@ web: ## build the frontend
 
 serve: ## serve API + built frontend on :8000
 	COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000
+
+serve-watsonx: ## serve with Granite hosted on IBM watsonx.ai instead of local Ollama
+	COBOL_EXPLORER_MODEL=watsonx:ibm/granite-4-h-small COBOL_EXPLORER_WEB=web/dist \
+		$(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000
 
 serve-auth: ## same, with real authentication (login + signed token, RBAC from the claims)
 	COBOL_EXPLORER_AUTH=jwt COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000

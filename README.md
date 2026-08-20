@@ -173,6 +173,25 @@ make ask N=LGPOLICY   # réponse groundée+tracée en CLI (sans LLM)
 make mcp              # serveur MCP pour IBM Bob
 ```
 
+### 7.0 Où tourne Granite (Ollama ou watsonx.ai)
+
+Le modèle est **toujours IBM Granite** ; seule son exécution change, via `COBOL_EXPLORER_MODEL` :
+
+| Valeur | Modèle | Exécution | Latence agent mesurée |
+|---|---|---|---|
+| `ollama:granite3.3:8b` (défaut) | Granite 3.3 8B | **auto-hébergée**, sur la machine — le code du patrimoine ne sort jamais | ~30-40 s (CPU) |
+| `watsonx:ibm/granite-4-h-small` | Granite 4.0 H Small | **IBM watsonx.ai** (région Dallas) | **~6,5 s** |
+
+```bash
+make serve            # Granite auto-hébergé via Ollama
+make serve-watsonx    # Granite hébergé par IBM watsonx.ai
+```
+
+Pour watsonx, renseigner `WATSONX_API_KEY`, `WATSONX_PROJECT_ID` et
+`WATSONX_URL=https://us-south.ml.cloud.ibm.com` (fichier `.env`, non versionné). Le projet
+watsonx doit avoir un service **watsonx.ai Runtime** associé, sinon l'appel échoue en 403
+`no_associated_service_instance_error` — l'erreur ne mentionne pas la cause réelle.
+
 ### 7.1 Authentification (qui est l'utilisateur ?)
 
 Le serveur tourne dans l'un de trois modes, via `COBOL_EXPLORER_AUTH` :
