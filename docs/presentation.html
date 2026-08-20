@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>COBOL Explorer — Présentation</title>
+<title>COBOL Explorer — IBM AI Builders Challenge (Wildcard)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -170,20 +170,20 @@
 </head>
 <body>
 
-<div class="topbar"><span class="sq"></span><span class="brand">COBOL Explorer <small>présentation produit</small></span>
-  <span style="margin-left:auto;font:500 10.5px var(--m);color:var(--faint)" id="counter">01 / 13</span></div>
+<div class="topbar"><span class="sq"></span><span class="brand">COBOL Explorer <small>IBM AI Builders Challenge — Wildcard submission</small></span>
+  <span style="margin-left:auto;font:500 10.5px var(--m);color:var(--faint)" id="counter">01 / 20</span></div>
 <div class="progress" id="prog"></div>
 <nav class="dots" id="dots"></nav>
-<div class="keyhint">← → ou molette</div>
+<div class="keyhint">← → or scroll</div>
 
 <!-- ═══════════ 1. HERO ═══════════ -->
-<section class="slide" id="s1" data-title="Titre">
+<section class="slide" id="s1" data-title="Title">
   <div class="bgdots"></div>
-  <div class="kicker"><span class="num">01</span> Assistant IA agentique · patrimoine mainframe</div>
+  <div class="kicker"><span class="num">01</span> Agentic AI co-worker · mainframe estates</div>
   <div class="hero-title">COBOL<br /><b>Explorer</b></div>
   <p class="lead" style="font-size:19px;max-width:760px;margin-top:26px">
-    Comprendre et gouverner 60 ans de patrimoine COBOL, avec un agent IA
-    <b>traçable jusqu'à la ligne de code</b> — pour les développeurs <b>et</b> les équipes risque &amp; conformité.
+    Understand and govern 60 years of COBOL, with an AI agent
+    <b>traceable down to the line of code</b> — for developers <b>and</b> for risk &amp; compliance teams.
   </p>
   <div class="statrow">
     <span class="pill"><i style="background:var(--amber)"></i>IBM Granite</span>
@@ -193,95 +193,120 @@
     <span class="pill"><i style="background:var(--blue)"></i>Neo4j</span>
     <span class="pill"><i style="background:var(--teal)"></i>pgvector</span>
   </div>
-  <div class="foot"><span>COBOL Explorer — hackathon IBM AI Builders (Bob)</span><span>corpus démo : GenApp · assurance</span></div>
+  <div class="foot"><span>COBOL Explorer — IBM AI Builders Challenge with IBM Bob</span><span>demo estates: GenApp (insurance) · CardDemo (credit cards)</span></div>
 </section>
 
 <!-- ═══════════ 2. PROBLÈME ═══════════ -->
-<section class="slide" data-title="Le problème">
-  <div class="kicker"><span class="num">02</span> Le problème</div>
-  <h1>Des milliards de lignes COBOL,<br />plus personne pour les <b>lire</b>.</h1>
+<section class="slide" data-title="The problem">
+  <div class="kicker"><span class="num">02</span> The problem</div>
+  <h1>Billions of lines of COBOL,<br />and no one left to <b>read</b> them.</h1>
   <div class="grid g4">
-    <div class="card"><h3>Les sachants partent</h3><p>La connaissance quitte l'entreprise <b>plus vite qu'elle ne se transmet</b>. Le dernier qui savait « pourquoi » est parti à la retraite.</p></div>
-    <div class="card"><h3>Zéro documentation fiable</h3><p>Le seul document de référence, <b>c'est le code lui-même</b> — et il fait des millions de lignes.</p></div>
-    <div class="card"><h3>Peur de toucher</h3><p>Un copybook partagé par <b>25 programmes</b> : changer un champ sans connaître l'impact, c'est une panne de production.</p></div>
-    <div class="card"><h3>Le régulateur exige des preuves</h3><p>DORA, ACPR : il faut <b>prouver</b> quelle règle s'applique, où elle vit dans le code, et qui y a touché.</p></div>
+    <div class="card"><h3>The experts are retiring</h3><p>Knowledge leaves the company <b>faster than it is passed on</b>. The last person who knew <i>why</i> retired last year.</p></div>
+    <div class="card"><h3>No reliable documentation</h3><p>The only trustworthy specification <b>is the code itself</b> — and it runs to millions of lines.</p></div>
+    <div class="card"><h3>Fear of touching anything</h3><p>A copybook shared by <b>25 programs</b>: changing one field without knowing the blast radius is a production incident.</p></div>
+    <div class="card"><h3>Regulators demand proof</h3><p>EU DORA and national banking regulators: you must <b>prove</b> which rule applies, where it lives in the code, and who touched it.</p></div>
   </div>
   <div class="divider"></div>
-  <p class="lead" style="margin-top:0">Les assistants IA génériques répondent — mais <b>sans preuve</b>. Sur un patrimoine
-    d'assureur, une réponse plausible mais fausse est <b>pire</b> que pas de réponse.</p>
-  <div class="foot"><span>COBOL Explorer</span><span>02 / 18</span></div>
+  <p class="lead" style="margin-top:0">Generic AI assistants answer — but <b>without proof</b>. On a bank's or an insurer's
+    estate, a plausible-but-wrong answer is <b>worse</b> than no answer at all.</p>
+  <div class="foot"><span>COBOL Explorer</span><span>02 / 20</span></div>
 </section>
 
 <!-- ═══════════ 3. LA RÉPONSE ═══════════ -->
-<section class="slide" data-title="La réponse">
-  <div class="kicker"><span class="num">03</span> La réponse</div>
-  <h1>Un atelier façon VS Code<br />qui parle dev <b>et</b> métier.</h1>
+<section class="slide" data-title="The answer">
+  <div class="kicker"><span class="num">03</span> The answer</div>
+  <h1>A VS Code-style workshop<br />that speaks to devs <b>and</b> to the business.</h1>
   <div class="grid g4" style="margin-top:28px">
-    <div class="stat"><div class="num-big">47</div><div class="klabel">Programmes COBOL</div></div>
-    <div class="stat"><div class="num-big">421</div><div class="klabel">Liens de dépendance</div></div>
-    <div class="stat"><div class="num-big">25</div><div class="klabel">Transactions CICS</div></div>
-    <div class="stat"><div class="num-big amber">6</div><div class="klabel">Domaines métier</div></div>
+    <div class="stat"><div class="num-big">47</div><div class="klabel">COBOL programs</div></div>
+    <div class="stat"><div class="num-big">421</div><div class="klabel">Dependency links</div></div>
+    <div class="stat"><div class="num-big">25</div><div class="klabel">CICS transactions</div></div>
+    <div class="stat"><div class="num-big amber">6</div><div class="klabel">Business domains</div></div>
   </div>
   <div class="grid g3">
-    <div class="card"><h3><i class="ic" style="width:9px;height:9px;border-radius:2px;background:var(--blue);display:inline-block"></i> Explorateur du patrimoine</h3>
-      <p>Programmes classés par <b>domaine métier</b> (souscription, sinistres…), ressources CICS/VSAM/BMS/DB2, versions. Palette <b>⌘P</b> : navigation floue + <b>recherche sémantique Granite</b>.</p></div>
-    <div class="card"><h3><i style="width:9px;height:9px;border-radius:2px;background:var(--amber);display:inline-block"></i> Agent traçable</h3>
-      <p>Chat qui répond en citant <b>fichier:ligne</b> — chaque citation cliquable ouvre le code et <b>surligne la ligne</b>. Trace d'outils streamée <b>en direct</b> (SSE).</p></div>
-    <div class="card"><h3><i style="width:9px;height:9px;border-radius:2px;background:var(--purple);display:inline-block"></i> Graphe vivant</h3>
-      <p>339 nœuds en couches (ordonnanceur → jobs → transactions → programmes → données). <b>Focus voisinage</b>, <b>rayon d'impact</b>, et le graphe <b>s'illumine pendant que l'agent raisonne</b>.</p></div>
+    <div class="card"><h3><i class="ic" style="width:9px;height:9px;border-radius:2px;background:var(--blue);display:inline-block"></i> Estate explorer</h3>
+      <p>Programs grouped by <b>business domain</b> (underwriting, claims…), CICS/VSAM/BMS/DB2 resources, versions. <b>⌘P</b> palette: fuzzy navigation + <b>Granite semantic search</b>.</p></div>
+    <div class="card"><h3><i style="width:9px;height:9px;border-radius:2px;background:var(--amber);display:inline-block"></i> Traceable agent</h3>
+      <p>A chat that answers by citing <b>file:line</b> — every citation is clickable, opens the code and <b>highlights the line</b>. Tool trace streamed <b>live</b> (SSE).</p></div>
+    <div class="card"><h3><i style="width:9px;height:9px;border-radius:2px;background:var(--purple);display:inline-block"></i> Living graph</h3>
+      <p>339 layered nodes (scheduler → jobs → transactions → programs → data). <b>Neighbourhood focus</b>, <b>impact radius</b>, and the graph <b>lights up while the agent reasons</b>.</p></div>
   </div>
-  <p class="lead">Éditeur à onglets avec <b>split view</b> (programme à gauche, son copybook à droite), inspecteur de dépendances,
-    panneau de versions, journal d'audit. Le tout dans une seule console web.</p>
-  <div class="foot"><span>COBOL Explorer</span><span>03 / 18</span></div>
+  <p class="lead">Tabbed editor with <b>split view</b> (program on the left, its copybook on the right), dependency inspector,
+    version panel, audit log. All in a single web console.</p>
+  <div class="foot"><span>COBOL Explorer</span><span>03 / 20</span></div>
+</section>
+
+<!-- ═══════════ CHALLENGE FIT ═══════════ -->
+<section class="slide" data-title="Challenge fit">
+  <div class="kicker"><span class="num">04</span> Wildcard — Build Intelligent Systems for the Future of Work</div>
+  <h1>Disconnected tasks →<br />one <b>governed system</b>.</h1>
+  <p class="lead">The Wildcard asks for intelligent systems that reduce repetitive work, improve decisions and help teams
+    reach outcomes faster. Maintaining a mainframe estate is exactly the work that never got that treatment — so we
+    mapped the product onto the four verbs.</p>
+  <div class="grid g4" style="margin-top:30px">
+    <div class="card hero"><h3>Plan</h3><p><b>Exhaustive impact.</b> “Changing this copybook breaks these 11 programs
+      and these 2 batch chains” — a deterministic traversal, not a plausible sample. The blast radius stops being a guess.</p></div>
+    <div class="card"><h3>Coordinate</h3><p><b>Team versioning.</b> Isolated branches, the owners actually affected,
+      review, conflict resolution — risk, compliance and developers work on the same object without stepping on each other.</p></div>
+    <div class="card"><h3>Decide</h3><p><b>Grounded answers.</b> Every fact cited to <span class="mono">file:line</span> and
+      re-verified before it reaches the screen. Decision support that a regulator can follow.</p></div>
+    <div class="card"><h3>Execute</h3><p><b>Governed merge.</b> Propose → measure → approve → merge, with an HMAC-chained
+      audit trail. The AI proposes; the team decides; the log proves it.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px;border-color:var(--amber-d)">
+    <p style="font-size:13.5px"><b style="color:var(--amber)">Who this is for</b> — not only COBOL developers. The people who
+      carry the risk of a change and cannot read the code (risk, compliance, audit) get the same grounded answers, in
+      their own language, from the same estate. That is the “future of work” part: the system spans roles, not just tools.</p>
+  </div>
+  <div class="foot"><span>COBOL Explorer</span><span>04 / 20</span></div>
 </section>
 
 <!-- ═══════════ 3b. L'ATELIER EN VRAI ═══════════ -->
-<section class="slide tight" data-title="L'atelier">
-  <div class="kicker"><span class="num">04</span> Capture réelle du produit</div>
-  <h2>L'atelier, <b>en vrai</b>.</h2>
-  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="shots/sc-apercu.png" alt="Aperçu du patrimoine" /></div>
-  <div class="cap"><i></i><b>Aperçu du patrimoine</b> — stats, copybooks critiques par fan-in (LGCMAREA ×25), chaînes batch de
-    l'ordonnanceur, carte « Qualité » (0 orphelin · 11 copybooks morts), questions de départ. À droite : Agent · Inspecteur · Modifs · Audit.</div>
-  <div class="foot"><span>COBOL Explorer</span><span>04 / 18</span></div>
+<section class="slide tight" data-title="The workshop">
+  <div class="kicker"><span class="num">05</span> Real product screenshot</div>
+  <h2>The workshop, <b>for real</b>.</h2>
+  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="shots/sc-apercu.png" alt="Estate overview" /></div>
+  <div class="cap"><i></i><b>Estate overview</b> — stats, critical copybooks by fan-in (LGCMAREA ×25), scheduler batch chains,
+    a “Quality” card (0 orphans · 11 dead copybooks), starter questions. On the right: Agent · Inspector · Changes · Audit.</div>
+  <div class="foot"><span>COBOL Explorer</span><span>05 / 20</span></div>
 </section>
 
 <!-- ═══════════ 4. DEUX GESTES ═══════════ -->
-<section class="slide" data-title="Deux gestes">
-  <div class="kicker"><span class="num">05</span> Le principe fondateur</div>
-  <h1>Comprendre <span style="color:var(--faint)">≠</span> <b>Modifier</b>.</h1>
+<section class="slide" data-title="Two gestures">
+  <div class="kicker"><span class="num">06</span> The founding principle</div>
+  <h1>Understanding <span style="color:var(--faint)">≠</span> <b>Changing</b>.</h1>
   <div class="grid g2" style="margin-top:30px">
     <div class="card" style="padding:26px">
-      <span class="tag">lecture seule</span>
-      <h3 style="font-size:21px;margin-top:12px">🔎 Comprendre</h3>
-      <p style="margin-top:10px;font-size:13.5px">Naviguer, questionner, analyser — <b>sans jamais altérer le socle</b>.
-        L'agent lit le code, parcourt le graphe et <b>cite la ligne source</b> à chaque affirmation.
-        Zéro effet de bord, par construction.</p>
+      <span class="tag">read-only</span>
+      <h3 style="font-size:21px;margin-top:12px">🔎 Understand</h3>
+      <p style="margin-top:10px;font-size:13.5px">Browse, ask, analyse — <b>without ever altering the estate</b>.
+        The agent reads the code, walks the graph and <b>cites the source line</b> for every claim.
+        Zero side effects, by construction.</p>
       <div class="code" style="margin-top:16px;font-size:11.5px">
-        <span class="p">think</span> « où est calculée la prime ? »<br />
+        <span class="p">think</span> “where is the premium computed?”<br />
         <span class="t">search_code</span> → MAJORER-PRIME <span class="a">lgipol01.cbl:50</span><br />
-        <span class="g">✓ sources vérifiées</span>
+        <span class="g">✓ sources verified</span>
       </div>
     </div>
     <div class="card hero" style="padding:26px">
-      <span class="tag" style="color:var(--amber);border-color:var(--amber-d)">version isolée</span>
-      <h3 style="font-size:21px;margin-top:12px">✍️ Modifier</h3>
-      <p style="margin-top:10px;font-size:13.5px">Toute modification vit dans une <b>branche git réelle</b> (commit par édition,
-        <b>git diff</b> réel). Impact calculé <b>avant</b>, revue d'équipe, puis <b>merge-gate</b> :
-        rien n'est appliqué au patrimoine sans confirmation explicite.</p>
+      <span class="tag" style="color:var(--amber);border-color:var(--amber-d)">isolated version</span>
+      <h3 style="font-size:21px;margin-top:12px">✍️ Change</h3>
+      <p style="margin-top:10px;font-size:13.5px">Every change lives in a <b>real git branch</b> (one commit per edit,
+        a real <b>git diff</b>). Impact computed <b>first</b>, team review, then the <b>merge gate</b>:
+        nothing reaches the estate without an explicit confirmation.</p>
       <div class="code" style="margin-top:16px;font-size:11.5px">
         <span class="g">+ 05 PREMIUM PIC 9(7)V99.</span><br />
         <span class="r">− 05 PREMIUM PIC 9(6)V99.</span><br />
-        <span class="a">⚠ merge-gate — cette fusion touche 11 programmes. Confirmer ?</span>
+        <span class="a">⚠ merge gate — this merge touches 11 programs. Confirm?</span>
       </div>
     </div>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>05 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>06 / 20</span></div>
 </section>
 
 <!-- ═══════════ 5. AGENT + OUTILS (n8n) ═══════════ -->
-<section class="slide" data-title="L'agent & ses outils">
-  <div class="kicker"><span class="num">06</span> Le cœur du produit</div>
-  <h2>Un agent, <b>six outils</b>, un chemin traçable.</h2>
+<section class="slide" data-title="The agent &amp; its tools">
+  <div class="kicker"><span class="num">07</span> The heart of the product</div>
+  <h2>One agent, <b>six tools</b>, a traceable path.</h2>
   <div class="hub" id="hub">
     <svg class="wires" viewBox="0 0 1256 520" preserveAspectRatio="none">
       <path d="M 628 260 C 500 120, 380 110, 250 95" stroke="#c398ff55" fill="none" stroke-width="1.5"/>
@@ -293,39 +318,39 @@
     </svg>
     <div class="node center">
       <div class="nm">Agent</div>
-      <div class="ds" style="margin-top:6px"><b style="color:var(--tx)">BeeAI RequirementAgent</b><br />IBM Granite 3.3 · boucle ReAct<br />
-        <span style="color:var(--faint);font:400 10px var(--m)">l'ordre des outils est décidé par le LLM,<br />chaque appel est logué &amp; audité</span></div>
+      <div class="ds" style="margin-top:6px"><b style="color:var(--tx)">BeeAI RequirementAgent</b><br />IBM Granite · ReAct loop<br />
+        <span style="color:var(--faint);font:400 10px var(--m)">the LLM decides the order of the tools,<br />every call is logged &amp; audited</span></div>
     </div>
     <div class="node" style="left:0;top:40px"><div class="nm" style="color:var(--purple)"><span class="ic" style="background:var(--purple)"></span>think</div>
-      <div class="ds">Raisonne <b>à voix haute</b> avant chaque action — le « pourquoi » du choix d'outil, capturé dans la trace.</div></div>
+      <div class="ds">Reasons <b>out loud</b> before each action — the “why” behind the tool choice, captured in the trace.</div></div>
     <div class="node" style="left:0;top:205px"><div class="nm" style="color:var(--blue)"><span class="ic" style="background:var(--blue)"></span>graph_lookup</div>
-      <div class="ds"><b>RAG graphe (Neo4j)</b> — 6 opérations : summary, impact, lineage, callers, callees, neighbors.</div></div>
+      <div class="ds"><b>Graph RAG (Neo4j)</b> — 6 operations: summary, impact, lineage, callers, callees, neighbors.</div></div>
     <div class="node" style="left:0;top:375px"><div class="nm" style="color:var(--teal)"><span class="ic" style="background:var(--teal)"></span>search_code</div>
-      <div class="ds"><b>RAG vectoriel (pgvector)</b> — recherche sémantique, embeddings Granite 768-dim.</div></div>
+      <div class="ds"><b>Vector RAG (pgvector)</b> — semantic search, 768-dim Granite embeddings.</div></div>
     <div class="node" style="right:0;top:40px"><div class="nm"><span class="ic" style="background:var(--dim)"></span>read_source_lines</div>
-      <div class="ds">Lit les lignes <b>exactes</b> du source — la matière première de chaque citation <span class="mono">fichier:ligne</span>.</div></div>
+      <div class="ds">Reads the <b>exact</b> source lines — the raw material of every <span class="mono">file:line</span> citation.</div></div>
     <div class="node" style="right:0;top:205px"><div class="nm"><span class="ic" style="background:var(--dim)"></span>web_search</div>
-      <div class="ds">Contexte externe uniquement : réglementation, définitions métier.</div></div>
+      <div class="ds">External context only: regulation, business definitions.</div></div>
     <div class="node" style="right:0;top:375px"><div class="nm" style="color:var(--amber)"><span class="ic" style="background:var(--amber)"></span>propose_change</div>
-      <div class="ds">Crée une <b>version git</b> + calcule l'impact — le pont vers le geste « Modifier ».</div></div>
+      <div class="ds">Creates a <b>git version</b> + computes the impact — the bridge to the “Change” gesture.</div></div>
   </div>
   <div class="loop">
     <span class="step">Question</span><span class="arr">→</span>
     <span class="step hl">💭 think</span><span class="arr">→</span>
-    <span class="step">outil</span><span class="arr">→</span>
+    <span class="step">tool</span><span class="arr">→</span>
     <span class="step">observe</span><span class="arr">→ ⟳ →</span>
-    <span class="step hl">Réponse + citations + ✓ vérification</span>
+    <span class="step hl">Answer + citations + ✓ verification</span>
   </div>
-  <div class="foot"><span>3 de ces outils sont aussi exposés en MCP pour IBM Bob</span><span>06 / 18</span></div>
+  <div class="foot"><span>3 of these tools are also exposed over MCP to IBM Bob</span><span>07 / 20</span></div>
 </section>
 
 <!-- ═══════════ 6b. POURQUOI MCP / IBM BOB ═══════════ -->
-<section class="slide tight" data-title="Pourquoi MCP ?">
-  <div class="kicker"><span class="num">07</span> Complémentarité · MCP → IBM Bob</div>
-  <h2>Bob lit le code. Le MCP lui tend le <b>patrimoine déjà calculé</b>.</h2>
+<section class="slide tight" data-title="Why MCP?">
+  <div class="kicker"><span class="num">08</span> Complementarity · MCP → IBM Bob</div>
+  <h2>Bob reads the code. MCP hands it the <b>estate already computed</b>.</h2>
   <div class="grid g2" style="grid-template-columns:290px 1fr;align-items:center;gap:34px;margin-top:20px">
     <div style="text-align:center">
-      <svg viewBox="0 0 220 250" width="196" height="223" role="img" aria-label="IBM Bob, l'agent qui lit le code" style="filter:drop-shadow(0 16px 34px rgba(0,0,0,.5))">
+      <svg viewBox="0 0 220 250" width="196" height="223" role="img" aria-label="IBM Bob, the agent that reads code" style="filter:drop-shadow(0 16px 34px rgba(0,0,0,.5))">
         <defs>
           <linearGradient id="bobHead" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#2c3752"/><stop offset="1" stop-color="#1b2233"/>
@@ -370,13 +395,13 @@
         <circle cx="110" cy="182" r="3.4" fill="#ffb020"/>
       </svg>
       <div style="font:600 14px var(--m);color:var(--bright);margin-top:6px">IBM <span style="color:var(--blue)">Bob</span></div>
-      <div style="font:400 11px/1.5 var(--s);color:var(--faint);margin-top:4px">excellent lecteur de code —<br />grep, ouvrir, suivre un CALL</div>
+      <div style="font:400 11px/1.5 var(--s);color:var(--faint);margin-top:4px">an excellent code reader —<br />grep, open, follow a CALL</div>
     </div>
     <div>
-      <p class="lead" style="margin-top:0;font-size:16px">Bob lit et raisonne sur le code <b>comme Claude Code</b> — c'est déjà puissant. COBOL Explorer ne remplace pas ça : il lui <b>tend, via MCP, un patrimoine déjà calculé</b> (table des symboles + call graph + lignée). Bob n'a plus à tout <b>re-dériver à chaque question</b>, et il obtient ce qui <b>ne vit dans aucun fichier à lire</b>.</p>
+      <p class="lead" style="margin-top:0;font-size:16px">Bob reads and reasons over code <b>very well already</b>. COBOL Explorer does not replace that: it <b>hands Bob, over MCP, an estate that has already been computed</b> (symbol table + call graph + data lineage). Bob no longer has to <b>re-derive everything on every question</b>, and it gains what <b>lives in no file it could read</b>.</p>
       <div class="card" style="margin-top:14px;border-color:var(--amber-d);background:linear-gradient(180deg,rgba(255,176,32,.05),var(--panel))">
-        <div class="klabel" style="margin-top:0;color:var(--amber)">La question où le graphe gagne sa place</div>
-        <p style="font-size:13px;color:var(--tx);margin-top:6px">« Je change <span class="mono" style="color:var(--purple)">WS-TAUX</span> dans le copybook <span class="mono" style="color:var(--amber)">LGPOLICY</span>. Liste <b>exhaustivement</b> tous les programmes et toutes les chaînes batch impactés, <b>avec preuve</b>. » — une réponse <b>exhaustive, déterministe</b>, avec les chaînes d'ordonnanceur.</p>
+        <div class="klabel" style="margin-top:0;color:var(--amber)">The question where the graph earns its keep</div>
+        <p style="font-size:13px;color:var(--tx);margin-top:6px">“I change <span class="mono" style="color:var(--purple)">WS-RATE</span> in copybook <span class="mono" style="color:var(--amber)">LGPOLICY</span>. List <b>exhaustively</b> every impacted program and every batch chain, <b>with proof</b>.” — an <b>exhaustive, deterministic</b> answer, scheduler chains included.</p>
       </div>
     </div>
   </div>
@@ -384,334 +409,362 @@
   <div class="grid g2" style="margin-top:16px">
     <div class="rag" style="border-color:rgba(108,178,255,.35)">
       <span style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)"></span>
-      <h3 style="font-size:16px"><span style="color:var(--blue)">🤖</span> Ce que Bob fait déjà — <b style="color:var(--tx)">très bien</b></h3>
-      <div class="sub">un agent qui lit et raisonne, comme un dev senior</div>
+      <h3 style="font-size:16px"><span style="color:var(--blue)">🤖</span> What Bob already does — <b style="color:var(--tx)">very well</b></h3>
+      <div class="sub">an agent that reads and reasons, like a senior developer</div>
       <ul>
-        <li><span style="color:var(--blue)">✓</span> <b>lit, grep, ouvre</b>, suit un CALL / un COPY à la demande</li>
-        <li><span style="color:var(--blue)">✓</span> <b>comprend le COBOL</b> et raisonne sur ce qu'il lit</li>
-        <li><span style="color:var(--blue)">✓</span> <b>orchestre</b> : c'est lui qui décide quand appeler l'outil</li>
+        <li><span style="color:var(--blue)">✓</span> <b>reads, greps, opens</b>, follows a CALL / a COPY on demand</li>
+        <li><span style="color:var(--blue)">✓</span> <b>understands COBOL</b> and reasons about what it reads</li>
+        <li><span style="color:var(--blue)">✓</span> <b>orchestrates</b>: it decides when to call the tool</li>
       </ul>
     </div>
     <div class="rag graph">
       <span style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber)"></span>
-      <h3 style="font-size:16px"><span style="color:var(--amber)">🕸</span> Ce que le MCP lui <b style="color:var(--tx)">apporte en plus</b></h3>
-      <div class="sub"><span class="mono" style="font-size:12px;color:var(--amber)">graph_lookup</span> · calculé une fois, offline, servi à Bob</div>
+      <h3 style="font-size:16px"><span style="color:var(--amber)">🕸</span> What MCP <b style="color:var(--tx)">adds on top</b></h3>
+      <div class="sub"><span class="mono" style="font-size:12px;color:var(--amber)">graph_lookup</span> · computed once, offline, served to Bob</div>
       <ul>
-        <li><span style="color:var(--green)">✓</span> la <b>clôture transitive exhaustive</b>, pré-calculée — plutôt que la re-dériver token par token à chaque prompt</li>
-        <li><span style="color:var(--green)">✓</span> les <b>chaînes d'ordonnanceur</b>, qui ne sont dans <b>aucun fichier à lire</b> (elles vivent dans l'export scheduler) — jointes au graphe</li>
-        <li><span style="color:var(--green)">✓</span> la <b>citation <span class="mono">fichier:ligne</span></b> systématique, <b>déterministe</b> à chaque fois</li>
+        <li><span style="color:var(--green)">✓</span> the <b>exhaustive transitive closure</b>, pre-computed — instead of re-deriving it token by token on every prompt</li>
+        <li><span style="color:var(--green)">✓</span> the <b>scheduler chains</b>, which live in <b>no readable file</b> (they come from the scheduler export) — joined into the graph</li>
+        <li><span style="color:var(--green)">✓</span> the <b><span class="mono">file:line</span> citation</b>, systematic and <b>deterministic</b> every time</li>
       </ul>
     </div>
   </div>
 
   <div class="card" style="margin-top:14px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
-    <p style="font-size:12.5px;flex:1;min-width:320px"><b style="color:var(--amber)">L'analogie LSP</b> — un IDE donne au développeur « go-to-definition / find-references / call-hierarchy » via un <b>LSP</b>. Pas parce que le dev ne sait pas lire : parce que <b>re-dériver ces liens à la main coûte cher</b>. COBOL Explorer joue ce rôle <b style="color:var(--tx)">pour Bob</b> — cross-langage (COBOL + JCL + DB2 + ordonnanceur), à l'échelle de tout le patrimoine.</p>
-    <p style="font-size:11px;color:var(--faint);flex:1;min-width:280px;border-left:1px solid var(--line);padding-left:16px">Honnêtement : <span class="mono" style="color:var(--dim)">read_source_lines</span> recoupe ce que Bob sait déjà faire — sa valeur est d'être la <b style="color:var(--tx)">jambe citation</b> de <span class="mono" style="color:var(--dim)">graph_lookup</span>. Le MCP brille là où la lecture seule doit tout reconstruire : la <b style="color:var(--tx)">clôture exhaustive</b> et les <b style="color:var(--tx)">relations hors-code</b>, à l'<b style="color:var(--tx)">échelle réelle</b>.</p>
+    <p style="font-size:12.5px;flex:1;min-width:320px"><b style="color:var(--amber)">The LSP analogy</b> — an IDE gives developers “go-to-definition / find-references / call-hierarchy” through an <b>LSP</b>. Not because they cannot read: because <b>re-deriving those links by hand is expensive</b>. COBOL Explorer plays that role <b style="color:var(--tx)">for Bob</b> — cross-language (COBOL + JCL + DB2 + scheduler), across the whole estate.</p>
+    <p style="font-size:11px;color:var(--faint);flex:1;min-width:280px;border-left:1px solid var(--line);padding-left:16px">Honestly: <span class="mono" style="color:var(--dim)">read_source_lines</span> overlaps with what Bob already does — its value is being the <b style="color:var(--tx)">citation leg</b> of <span class="mono" style="color:var(--dim)">graph_lookup</span>. MCP earns its place where plain reading has to rebuild everything: the <b style="color:var(--tx)">exhaustive closure</b> and the <b style="color:var(--tx)">out-of-code relationships</b>, at <b style="color:var(--tx)">real scale</b>.</p>
   </div>
-  <div class="foot"><span>3 outils exposés en MCP à IBM Bob : graph_lookup · search_code · read_source_lines</span><span>07 / 18</span></div>
+  <div class="foot"><span>3 tools exposed over MCP to IBM Bob: graph_lookup · search_code · read_source_lines</span><span>08 / 20</span></div>
 </section>
 
 <!-- ═══════════ 6. LES 2 RAG ═══════════ -->
-<section class="slide" data-title="Les deux RAG">
-  <div class="kicker"><span class="num">08</span> Récupération augmentée</div>
-  <h2>Deux RAG <b>complémentaires</b>, self-hosted.</h2>
+<section class="slide" data-title="The two RAGs">
+  <div class="kicker"><span class="num">09</span> Retrieval-augmented generation</div>
+  <h2>Two <b>complementary</b> RAGs, self-hosted.</h2>
   <div class="grid g2" style="margin-top:26px">
     <div class="rag graph">
       <span class="selfhost">SELF-HOSTED</span>
-      <h3><span style="color:var(--blue)">🕸</span> RAG graphe — Neo4j</h3>
-      <div class="sub">structure exacte &amp; traçable · Cypher · 339 nœuds / 421 arêtes</div>
+      <h3><span style="color:var(--blue)">🕸</span> Graph RAG — Neo4j</h3>
+      <div class="sub">exact, traceable structure · Cypher · 339 nodes / 421 edges</div>
       <ul>
-        <li>Parcours <b>déterministe</b> — aucun LLM dans la boucle, construit par parsing du code</li>
-        <li><b>Impact</b> (que casse une modif ?), <b>lignée</b> de données, chaînes d'appels, profil fonctionnel</li>
-        <li>Chaque arête porte sa <b>preuve</b> : le numéro de ligne du COPY / CALL / EXEC SQL</li>
-        <li>Repli automatique NetworkX in-process si la base tombe</li>
+        <li><b>Deterministic</b> traversal — no LLM in the loop, built by parsing the code</li>
+        <li><b>Impact</b> (what does a change break?), data <b>lineage</b>, call chains, functional profile</li>
+        <li>Every edge carries its <b>evidence</b>: the line number of the COPY / CALL / EXEC SQL</li>
+        <li>Automatic in-process NetworkX fallback if the database goes down</li>
       </ul>
-      <div class="code" style="font-size:11px">« Quels programmes cassent si je modifie <span class="a">LGPOLICY</span> ? »<br />
-        → <b>11 programmes</b> (LGACDB01 <span class="a">L.88</span>, LGIPOL01 <span class="a">L.55</span>…),<br />
-        → jobs DAILYPOL·POLRPT → chaînes SDAILYPOL·SPOLRPT</div>
+      <div class="code" style="font-size:11px">“Which programs break if I change <span class="a">LGPOLICY</span>?”<br />
+        → <b>11 programs</b> (LGACDB01 <span class="a">L.88</span>, LGIPOL01 <span class="a">L.55</span>…),<br />
+        → jobs DAILYPOL·POLRPT → chains SDAILYPOL·SPOLRPT</div>
     </div>
     <div class="rag vect">
       <span class="selfhost">SELF-HOSTED</span>
-      <h3><span style="color:var(--teal)">◎</span> RAG vectoriel — pgvector</h3>
-      <div class="sub">sémantique, par intention · PostgreSQL + HNSW cosine</div>
+      <h3><span style="color:var(--teal)">◎</span> Vector RAG — pgvector</h3>
+      <div class="sub">semantic, by intent · PostgreSQL + HNSW cosine</div>
       <ul>
-        <li>Embeddings <b>IBM Granite</b> (granite-embedding:278m, <b>768 dimensions</b>)</li>
-        <li>Trouver quand on <b>ne connaît pas le nom</b> : concepts, intentions, métier</li>
-        <li>Index <b>HNSW</b> dans PostgreSQL — la voie de scale (millions de chunks)</li>
-        <li>Branché à l'agent, à la palette ⌘P de l'UI, et au MCP</li>
+        <li><b>IBM Granite</b> embeddings (granite-embedding:278m, <b>768 dimensions</b>)</li>
+        <li>Find things when you <b>don't know the name</b>: concepts, intent, business language</li>
+        <li><b>HNSW</b> index inside PostgreSQL — the path to scale (millions of chunks)</li>
+        <li>Wired into the agent, the ⌘P palette and the MCP server</li>
       </ul>
-      <div class="code" style="font-size:11px">« Où est le <span class="t">logging</span> ? » (aucun nom connu)<br />
+      <div class="code" style="font-size:11px">“Where is the <span class="t">logging</span>?” (no name known)<br />
         → <b>LGSTSQ</b> <span class="g">0.64</span> · LGWEBST5 <span class="g">0.55</span> · LGSETUP <span class="g">0.55</span></div>
     </div>
   </div>
   <div class="card" style="margin-top:14px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
-    <span class="tag" style="color:var(--amber);border-color:var(--amber-d)">Hybride</span>
-    <span class="mono" style="color:var(--dim)">question floue → <b style="color:var(--teal)">search_code</b> (trouver le programme)
-      → <b style="color:var(--blue)">graph_lookup</b> (structurer : impact, dépendances) → réponse citée</span>
-    <span style="font:400 11.5px var(--s);color:var(--faint)">— le LLM route, et l'étape <span style="color:var(--purple)">think</span> logue <b>pourquoi</b>.</span>
+    <span class="tag" style="color:var(--amber);border-color:var(--amber-d)">Hybrid</span>
+    <span class="mono" style="color:var(--dim)">vague question → <b style="color:var(--teal)">search_code</b> (find the program)
+      → <b style="color:var(--blue)">graph_lookup</b> (structure it: impact, dependencies) → cited answer</span>
+    <span style="font:400 11.5px var(--s);color:var(--faint)">— the LLM routes, and the <span style="color:var(--purple)">think</span> step logs <b>why</b>.</span>
   </div>
   <table style="margin-top:14px">
-    <tr><th>Question</th><th>RAG choisi</th><th>Pourquoi</th></tr>
-    <tr><td>« Qui utilise LGPOLICY ? » / « qu'est-ce qui casse ? »</td><td><b style="color:var(--blue)">Graphe</b></td><td>réponse exacte, exhaustive, prouvée ligne par ligne</td></tr>
-    <tr><td>« Où est calculée la prime ? » (nom inconnu)</td><td><b style="color:var(--teal)">Vecteur</b></td><td>similarité sémantique sur le contenu du code</td></tr>
-    <tr><td>« Que fait le programme de souscription ? »</td><td><b style="color:var(--amber)">Hybride</b></td><td>vecteur pour trouver, graphe pour profiler</td></tr>
+    <tr><th>Question</th><th>RAG chosen</th><th>Why</th></tr>
+    <tr><td>“Who uses LGPOLICY?” / “what breaks?”</td><td><b style="color:var(--blue)">Graph</b></td><td>exact, exhaustive answer, proven line by line</td></tr>
+    <tr><td>“Where is the premium computed?” (name unknown)</td><td><b style="color:var(--teal)">Vector</b></td><td>semantic similarity over the code itself</td></tr>
+    <tr><td>“What does the underwriting program do?”</td><td><b style="color:var(--amber)">Hybrid</b></td><td>vector to find it, graph to profile it</td></tr>
   </table>
-  <div class="foot"><span>docker compose up -d · make serve-scale</span><span>08 / 18</span></div>
+  <div class="foot"><span>docker compose up -d · make serve-scale</span><span>09 / 20</span></div>
 </section>
 
 <!-- ═══════════ 7. TRACE RÉELLE ═══════════ -->
-<section class="slide" data-title="Trace réelle">
-  <div class="kicker"><span class="num">09</span> Le chemin de raisonnement, en vrai</div>
-  <h2>Chaque réponse arrive avec <b>son raisonnement</b>.</h2>
-  <p class="lead">Trace <b>réelle</b> du produit (streaming SSE, événement par événement) — la question :
-    <span class="mono" style="color:var(--tx)">« Que fait LGIPOL01 et quels programmes sont impactés par LGPOLICY ? »</span></p>
+<section class="slide" data-title="Real trace">
+  <div class="kicker"><span class="num">10</span> The reasoning path, for real</div>
+  <h2>Every answer arrives with <b>its reasoning</b>.</h2>
+  <p class="lead">A <b>real</b> product trace (SSE streaming, event by event) — the question:
+    <span class="mono" style="color:var(--tx)">“What does LGIPOL01 do, and which programs are impacted by LGPOLICY?”</span></p>
   <div class="code" style="margin-top:22px;font-size:12.5px;line-height:2">
     <span class="c">event:</span> start<br />
-    <span class="c">event:</span> trace   <span class="p">💭 think</span> → « LGIPOL01 est probablement un composant clé de la gestion des polices ;<br />
-    <span style="opacity:.001">.</span>                     je cherche d'abord sémantiquement, puis je profile par le graphe »<br />
-    <span class="c">event:</span> trace   <span class="t">search_code</span>(query=policy inquiry) → 5 résultats <span class="a">lgipol01.cbl</span><br />
-    <span class="c">event:</span> trace   <span class="k">graph_lookup</span>(op=summary, node=LGIPOL01) → profil : 2 copybooks · 2 appels · 4 transactions<br />
-    <span class="c">event:</span> trace   <span class="k">graph_lookup</span>(op=impact, node=LGPOLICY) → <b>11 programmes, 2 chaînes batch</b><br />
-    <span class="c">event:</span> answer  réponse Markdown : fonction métier + 11 programmes avec leur ligne (LGACDB01 <span class="a">L.88</span>…)<br />
-    <span class="c">event:</span> <span class="g">verify</span>  ✓ chaque citation fichier:ligne re-vérifiée dans le corpus<br />
+    <span class="c">event:</span> trace   <span class="p">💭 think</span> → “LGIPOL01 is likely a key component of policy handling;<br />
+    <span style="opacity:.001">.</span>                     I search semantically first, then profile it through the graph”<br />
+    <span class="c">event:</span> trace   <span class="t">search_code</span>(query=policy inquiry) → 5 results <span class="a">lgipol01.cbl</span><br />
+    <span class="c">event:</span> trace   <span class="k">graph_lookup</span>(op=summary, node=LGIPOL01) → profile: 2 copybooks · 2 calls · 4 transactions<br />
+    <span class="c">event:</span> trace   <span class="k">graph_lookup</span>(op=impact, node=LGPOLICY) → <b>11 programs, 2 batch chains</b><br />
+    <span class="c">event:</span> answer  Markdown answer: business function + 11 programs with their line (LGACDB01 <span class="a">L.88</span>…)<br />
+    <span class="c">event:</span> <span class="g">verify</span>  ✓ every file:line citation re-checked against the corpus<br />
     <span class="c">event:</span> done
   </div>
   <div class="grid g3" style="margin-top:18px">
-    <div class="card"><h3>Pendant la requête</h3><p>Le graphe central <b>se grise</b>, puis les entités touchées par le RAG
-      <b>se rallument une à une</b> avec un halo ambre, et la vue zoome dessus. Le raisonnement devient <b>visible</b>.</p></div>
-    <div class="card"><h3>Citations cliquables</h3><p>Chaque <span class="mono">fichier:ligne</span> de la réponse ouvre le code
-      et <b>surligne la ligne</b> 2 s. La preuve est à un clic.</p></div>
-    <div class="card"><h3>Sans LLM ? Ça répond quand même</h3><p>Si Ollama est down, un <b>fallback déterministe</b> répond aux questions
-      structurelles (impact, profil) par le graphe seul — honnêtement annoté.</p></div>
+    <div class="card"><h3>While the query runs</h3><p>The graph <b>greys out</b>, then the entities the RAG touches
+      <b>light up one by one</b> with an amber halo, and the view zooms to them. The reasoning becomes <b>visible</b>.</p></div>
+    <div class="card"><h3>Clickable citations</h3><p>Every <span class="mono">file:line</span> in the answer opens the code
+      and <b>highlights the line</b> for 2 s. The proof is one click away.</p></div>
+    <div class="card"><h3>No LLM? It still answers</h3><p>If the model backend is down, a <b>deterministic fallback</b> answers the
+      structural questions (impact, profile) from the graph alone — labelled as such.</p></div>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>09 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>10 / 20</span></div>
 </section>
 
 <!-- ═══════════ 7b. LE RAISONNEMENT À L'ÉCRAN ═══════════ -->
-<section class="slide tight" data-title="Raisonnement live">
-  <div class="kicker"><span class="num">10</span> Capture réelle · pendant une requête</div>
-  <h2>Le graphe <b>s'illumine</b> au fil du raisonnement.</h2>
-  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="shots/sc-live.png" alt="Graphe live pendant la requête" /></div>
-  <div class="cap"><i></i><b>En direct</b> — le patrimoine se grise, « l'agent explore… 12 entités » : les nœuds touchés par le RAG
-    se rallument un à un. À droite, l'étape <span style="color:var(--purple)">💭 think</span> explique <b>pourquoi</b> il choisit
-    graph_lookup(op=impact) → 11 programmes, 2 chaînes. Au centre : split view code + graphe.</div>
-  <div class="foot"><span>COBOL Explorer</span><span>10 / 18</span></div>
+<section class="slide tight" data-title="Live reasoning">
+  <div class="kicker"><span class="num">11</span> Real screenshot · during a query</div>
+  <h2>The graph <b>lights up</b> as the agent reasons.</h2>
+  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="shots/sc-live.png" alt="Live graph during a query" /></div>
+  <div class="cap"><i></i><b>Live</b> — the estate greys out, “agent path · 12 entities”: the nodes the RAG touches light up one by one.
+    On the right, the <span style="color:var(--purple)">💭 think</span> step explains <b>why</b> it picks
+    graph_lookup(op=impact) → 11 programs, 2 chains. In the centre: split view, code + graph.</div>
+  <div class="foot"><span>COBOL Explorer</span><span>11 / 20</span></div>
 </section>
 
 <!-- ═══════════ 8. GOUVERNANCE ═══════════ -->
-<section class="slide" data-title="Gouvernance">
-  <div class="kicker"><span class="num">11</span> Traçabilité &amp; gouvernance — le pilier assureur</div>
-  <h2>Chaque réponse <b>prouvée</b>, chaque action <b>auditée</b>.</h2>
+<section class="slide" data-title="Governance">
+  <div class="kicker"><span class="num">12</span> Traceability &amp; governance — the regulated-industry pillar</div>
+  <h2>Every answer <b>proven</b>, every action <b>audited</b>.</h2>
   <div class="grid g2" style="margin-top:26px">
-    <div class="card"><h3>🛡 Garde-fou anti-hallucination</h3>
-      <p>Après chaque réponse, le serveur <b>re-vérifie chaque citation</b> <span class="mono">fichier:ligne</span> contre le corpus
-      (fichier existe ? ligne dans les bornes ?). L'UI affiche <span class="badge-ok">✓ 4 sources vérifiées</span> ou
-      <span class="badge-warn">⚠ une citation ne résout pas</span>. Une réponse plausible mais non ancrée <b>ne passe pas en silence</b>.</p></div>
-    <div class="card"><h3>⛓ Journal d'audit inviolable</h3>
-      <p>Chaque action (question, lecture de source, modification, fusion — et chaque <b>refus</b>) est journalisée dans une
-      chaîne <b>HMAC-SHA256</b> : altérer une ligne casse la chaîne. Onglet Audit dans l'UI avec badge
-      <span class="badge-ok">✓ chaîne intègre</span>.</p></div>
-    <div class="card"><h3>👥 RBAC par rôle</h3>
-      <p>5 rôles : <b>dev · architecte · risque · conformité · auditeur</b>. Proposer ≠ fusionner ≠ auditer.
-      Mode <span class="mono">enforce</span> : identité acceptée uniquement via un proxy d'authentification (OIDC/SAML) —
-      les en-têtes seuls ne sont pas une frontière de sécurité, et c'est documenté.</p></div>
-    <div class="card"><h3>📊 Qualité mesurée, pas supposée</h3>
-      <p>Jeu de <b>Q/R golden</b> notées sur 3 axes (rappel d'entités, ancrage des citations, couverture d'impact) —
-      <b>3/3</b> au vert, exécuté en CI : toute régression de qualité de réponse <b>casse le build</b>.
+    <div class="card"><h3>🛡 Anti-hallucination guardrail</h3>
+      <p>After every answer the server <b>re-verifies each</b> <span class="mono">file:line</span> citation against the corpus
+      (does the file exist? is the line in range?). The UI shows <span class="badge-ok">✓ 11 sources verified</span> or
+      <span class="badge-warn">⚠ a citation does not resolve</span>. A plausible but ungrounded answer <b>never passes silently</b>.</p></div>
+    <div class="card"><h3>⛓ Tamper-evident audit log</h3>
+      <p>Every action (question, source read, edit, merge — and every <b>refusal</b>) is written into an
+      <b>HMAC-SHA256</b> chain: altering one line breaks the chain. An Audit tab in the UI shows
+      <span class="badge-ok">✓ chain intact</span>.</p></div>
+    <div class="card"><h3>👥 Role-based access control</h3>
+      <p>Five roles: <b>dev · architect · risk · compliance · auditor</b>. Proposing ≠ merging ≠ auditing.
+      Sign-in issues a <b>signed token</b> carrying the role, so a forged header promotes nobody; an
+      <span class="mono">enforce</span> mode delegates identity to a corporate SSO proxy (OIDC/SAML) instead.</p></div>
+    <div class="card"><h3>📊 Quality measured, not assumed</h3>
+      <p>A <b>golden Q/A</b> set scored on three axes (entity recall, citation grounding, impact coverage) —
+      <b>3/3</b> green, run in CI: any regression in answer quality <b>breaks the build</b>.
       <span class="mono">make eval</span>.</p></div>
   </div>
   <div class="card" style="margin-top:14px">
     <div class="code" style="border:none;background:transparent;padding:4px 0;font-size:11.5px">
-      <span class="c"># extrait réel du journal</span><br />
-      10:52:03  Jean-Baptiste  <span class="t">risk</span>  ask     « Quels programmes sont impactés si je modifie LGPOLICY ? »  <span class="g">granted</span><br />
+      <span class="c"># real excerpt from the audit log</span><br />
+      10:52:03  Jean-Baptiste  <span class="t">risk</span>  ask     “Which programs are impacted if I change LGPOLICY?”  <span class="g">granted</span><br />
       10:52:41  Alice          <span class="k">dev</span>   read    file:lgipol01.cbl                                            <span class="g">granted</span><br />
-      10:53:12  invité         guest <span class="r">merge</span>  tarif-souscription-v2                                       <span class="r">denied</span>
+      10:53:12  Marc           <span class="t">auditor</span> <span class="r">merge</span>  underwriting-rate-v2                                  <span class="r">denied</span>
     </div>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>11 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>12 / 20</span></div>
 </section>
 
 <!-- ═══════════ 9. COMPRENDRE — FEATURES ═══════════ -->
 <section class="slide" data-title="Analyses">
-  <div class="kicker"><span class="num">12</span> Comprendre, en profondeur</div>
-  <h2>Des analyses structurelles, <b>calculées sur le graphe</b>.</h2>
+  <div class="kicker"><span class="num">13</span> Understanding, in depth</div>
+  <h2>Structural analyses, <b>computed on the graph</b>.</h2>
   <div class="grid g3" style="margin-top:26px">
-    <div class="card hero"><div class="num-big amber">85</div><div class="klabel">champs analysés — LGPOLICY</div>
-      <p style="margin-top:10px"><b>Impact au niveau champ</b> : pour chaque champ d'un copybook, quels programmes le référencent
-      (<span class="mono">WS-CUSTOMER-LEN → 4 prog</span>). Savoir ce que casse un changement de PIC <b>avant</b> de le faire.</p></div>
-    <div class="card"><div class="num-big red">11</div><div class="klabel">copybooks non référencés</div>
-      <p style="margin-top:10px"><b>Détection de code mort</b> : programmes orphelins (rien ne les exécute : ni CALL, ni transaction,
-      ni step batch) + fichiers copybook jamais COPYés. Carte « Qualité du patrimoine » dans l'Aperçu.</p></div>
-    <div class="card"><div class="num-big">25→2</div><div class="klabel">écran → programme → donnée</div>
-      <p style="margin-top:10px"><b>Chaîne complète</b> : transactions CICS → programmes → copybooks → tables DB2 / fichiers VSAM →
-      jobs batch → chaînes de l'ordonnanceur. La lignée de bout en bout, navigable.</p></div>
+    <div class="card hero"><div class="num-big amber">85</div><div class="klabel">fields analysed — LGPOLICY</div>
+      <p style="margin-top:10px"><b>Field-level impact</b>: for each field of a copybook, which programs reference it
+      (<span class="mono">WS-CUSTOMER-LEN → 4 programs</span>). Know what a PIC change breaks <b>before</b> making it.</p></div>
+    <div class="card"><div class="num-big red">11</div><div class="klabel">unreferenced copybooks</div>
+      <p style="margin-top:10px"><b>Dead-code detection</b>: orphan programs (nothing runs them — no CALL, no transaction,
+      no batch step) plus copybook files never COPYed. An “Estate quality” card sits in the Overview.</p></div>
+    <div class="card"><div class="num-big">25→2</div><div class="klabel">screen → program → data</div>
+      <p style="margin-top:10px"><b>The full chain</b>: CICS transactions → programs → copybooks → DB2 tables / VSAM files →
+      batch jobs → scheduler chains. End-to-end lineage, navigable.</p></div>
   </div>
   <div class="grid g3">
-    <div class="card"><h3>Profil fonctionnel d'un programme</h3><p><span class="mono">op=summary</span> : copybooks, tables lues/écrites,
-      écrans, appels entrants/sortants, transactions + <b>l'en-tête du source</b> — pour répondre à « que fait X ? » complètement.</p></div>
-    <div class="card"><h3>Fan-in des copybooks critiques</h3><p>LGCMAREA copié par <b>25 programmes</b>, LGPOLICY par 11 —
-      les points de fragilité du patrimoine, identifiés d'un coup d'œil.</p></div>
-    <div class="card"><h3>Résolution copybooks industrielle</h3><p>Concaténation <b>SYSLIB</b>, <span class="mono">COPY REPLACING</span>
-      (pseudo-texte), COPYs <b>imbriqués</b>, cycles détectés — prêt pour un vrai patrimoine multi-bibliothèques.</p></div>
+    <div class="card"><h3>Functional profile of a program</h3><p><span class="mono">op=summary</span>: copybooks, tables read/written,
+      screens, inbound/outbound calls, transactions + <b>the source header</b> — to answer “what does X do?” completely.</p></div>
+    <div class="card"><h3>Fan-in of critical copybooks</h3><p>LGCMAREA is copied by <b>25 programs</b>, LGPOLICY by 11 —
+      the estate's fragile points, spotted at a glance.</p></div>
+    <div class="card"><h3>Industrial copybook resolution</h3><p><b>SYSLIB</b> concatenation, <span class="mono">COPY REPLACING</span>
+      (pseudo-text), <b>nested</b> COPYs, cycle detection — ready for a real multi-library estate.</p></div>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>12 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>13 / 20</span></div>
 </section>
 
 <!-- ═══════════ 10. MODIFIER ═══════════ -->
-<section class="slide" data-title="Modifier">
-  <div class="kicker"><span class="num">13</span> Modifier en confiance</div>
-  <h2>Chaque modification vit dans une <b>branche git</b>.</h2>
+<section class="slide" data-title="Changing">
+  <div class="kicker"><span class="num">14</span> Changing with confidence</div>
+  <h2>Every change lives in a <b>git branch</b>.</h2>
   <div class="flow">
-    <div class="st"><div class="n">1</div><div class="t">Nouvelle version</div><div class="d">= une <b>branche git</b> réelle, isolée du patrimoine (main intact)</div></div>
-    <div class="st"><div class="n">2</div><div class="t">Édition</div><div class="d">= un <b>commit</b> par modification, auteur tracé</div></div>
-    <div class="st"><div class="n">3</div><div class="t">Impact</div><div class="d">recalculé à chaque édition : programmes, jobs, chaînes batch touchés</div></div>
-    <div class="st"><div class="n">4</div><div class="t">Diff &amp; revue</div><div class="d"><b>git diff</b> réel + commentaires d'équipe sur la version</div></div>
-    <div class="st" style="border-color:var(--amber-d)"><div class="n">5</div><div class="t" style="color:var(--amber)">Merge-gate</div><div class="d">« cette fusion touche <b>11 programmes</b> — confirmer ? » + RBAC : seuls dev/architecte fusionnent</div></div>
+    <div class="st"><div class="n">1</div><div class="t">New version</div><div class="d">= a real <b>git branch</b>, isolated from the estate (main untouched)</div></div>
+    <div class="st"><div class="n">2</div><div class="t">Edit</div><div class="d">= one <b>commit</b> per change, author recorded</div></div>
+    <div class="st"><div class="n">3</div><div class="t">Impact</div><div class="d">recomputed on every edit: programs, jobs and batch chains touched</div></div>
+    <div class="st"><div class="n">4</div><div class="t">Diff &amp; review</div><div class="d">a real <b>git diff</b> + team comments on the version</div></div>
+    <div class="st" style="border-color:var(--amber-d)"><div class="n">5</div><div class="t" style="color:var(--amber)">Merge gate</div><div class="d">“this merge touches <b>11 programs</b> — confirm?” + RBAC: only dev/architect may merge</div></div>
   </div>
   <div class="grid g2" style="margin-top:22px">
-    <div class="card"><h3>Pourquoi git plutôt qu'un système maison ?</h3>
-      <p>Branches, historique, blame, diff : <b>déjà résolus par git</b>. Le produit ajoute la couche métier
-      (impact, revue, merge-gate) — exactement ce que Gitea/GitHub ajoutent à git. Chemin d'évolution naturel :
-      <b>Gitea self-hosted</b> pour les vraies pull requests, puis pont vers le SCM z/OS (Endevor/ChangeMan).</p></div>
-    <div class="card"><h3>L'agent peut proposer, jamais imposer</h3>
-      <p>L'outil <span class="mono">propose_change</span> crée une version git et rapporte l'impact — mais la fusion reste
-      <b>humaine</b>, derrière le merge-gate et le RBAC. L'IA propose, l'équipe dispose.</p></div>
+    <div class="card"><h3>Why git rather than a home-grown system?</h3>
+      <p>Branches, history, blame, diff: <b>git already solved them</b>. The product adds the business layer
+      (impact, review, merge gate) — exactly what Gitea/GitHub add on top of git. Natural path forward:
+      <b>self-hosted Gitea</b> for real pull requests, then a bridge to the z/OS SCM (Endevor/ChangeMan).</p></div>
+    <div class="card"><h3>The agent may propose, never impose</h3>
+      <p>The <span class="mono">propose_change</span> tool creates a git version and reports the impact — but merging stays
+      <b>human</b>, behind the merge gate and RBAC. The AI proposes; the team decides.</p></div>
   </div>
-  <div class="foot"><span>COBOL_EXPLORER_VCS=git</span><span>13 / 18</span></div>
+  <div class="foot"><span>COBOL_EXPLORER_VCS=git</span><span>14 / 20</span></div>
 </section>
 
 <!-- ═══════════ GALERIE ═══════════ -->
-<section class="slide tight" data-title="En images">
-  <div class="kicker"><span class="num">14</span> Captures réelles</div>
-  <h2>Toutes les vues, <b>en images</b>.</h2>
+<section class="slide tight" data-title="In pictures">
+  <div class="kicker"><span class="num">15</span> Real screenshots</div>
+  <h2>Every view, <b>in pictures</b>.</h2>
   <div class="gallery">
-    <div><div class="shot"><img src="shots/sc-impact.png" alt="Rayon d'impact" /></div>
-      <div class="cap"><i style="background:var(--red)"></i><b>Rayon d'impact</b> — LGPOLICY : 11 impactés surlignés en rouge, minimap comprise</div></div>
+    <div><div class="shot"><img src="shots/sc-impact.png" alt="Impact radius" /></div>
+      <div class="cap"><i style="background:var(--red)"></i><b>Impact radius</b> — LGPOLICY: 11 impacted nodes highlighted in red, minimap included</div></div>
     <div><div class="shot"><img src="shots/sc-split.png" alt="Split view" /></div>
-      <div class="cap"><i style="background:var(--blue)"></i><b>Split view</b> — programme à gauche, son copybook à droite, façon VS Code</div></div>
-    <div><div class="shot"><img src="shots/sc-champs.png" alt="Impact au niveau champ" /></div>
-      <div class="cap"><i style="background:var(--amber)"></i><b>Impact au niveau champ</b> — 85 champs, 62 référencés, programme par programme</div></div>
-    <div><div class="shot"><img src="shots/sc-palette.png" alt="Palette sémantique" /></div>
-      <div class="cap"><i style="background:var(--teal)"></i><b>Palette ⌘P</b> — fuzzy + recherche sémantique Granite (« logging queue » → LGSTSQ)</div></div>
-    <div><div class="shot"><img src="shots/sc-agent.png" alt="Réponse agent" /></div>
-      <div class="cap"><i style="background:var(--purple)"></i><b>Réponse tracée</b> — Markdown, citations cliquables, raisonnement 💭, badge ✓ vérifié</div></div>
-    <div><div class="shot"><img src="shots/sc-audit.png" alt="Journal d'audit" /></div>
-      <div class="cap"><i style="background:var(--green)"></i><b>Journal d'audit</b> — chaîne HMAC intègre, qui a demandé/modifié quoi</div></div>
+      <div class="cap"><i style="background:var(--blue)"></i><b>Split view</b> — program on the left, its copybook on the right, VS Code style</div></div>
+    <div><div class="shot"><img src="shots/sc-champs.png" alt="Field-level impact" /></div>
+      <div class="cap"><i style="background:var(--amber)"></i><b>Field-level impact</b> — 85 fields, 62 referenced, program by program</div></div>
+    <div><div class="shot"><img src="shots/sc-palette.png" alt="Semantic palette" /></div>
+      <div class="cap"><i style="background:var(--teal)"></i><b>⌘P palette</b> — fuzzy + Granite semantic search (“logging queue” → LGSTSQ)</div></div>
+    <div><div class="shot"><img src="shots/sc-agent.png" alt="Agent answer" /></div>
+      <div class="cap"><i style="background:var(--purple)"></i><b>Traced answer</b> — Markdown, clickable citations, 💭 reasoning, ✓ verified badge</div></div>
+    <div><div class="shot"><img src="shots/sc-audit.png" alt="Audit log" /></div>
+      <div class="cap"><i style="background:var(--green)"></i><b>Audit log</b> — HMAC chain intact, who asked for and changed what</div></div>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>14 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>15 / 20</span></div>
 </section>
 
 <!-- ═══════════ CAPACITÉS ═══════════ -->
-<section class="slide tight" data-title="Toutes les capacités">
-  <div class="kicker"><span class="num">15</span> La liste complète</div>
-  <h2>Tout ce que l'outil <b>sait faire</b>.</h2>
+<section class="slide tight" data-title="All capabilities">
+  <div class="kicker"><span class="num">16</span> The complete list</div>
+  <h2>Everything the tool <b>can do</b>.</h2>
   <div class="caps">
-    <div class="capcol"><h4 style="color:var(--blue)">🔎 Comprendre</h4><ul>
-      <li><b>Plusieurs systèmes</b> analysables — GenApp (assurance) + <b>AWS CardDemo</b> (cartes), bascule en un clic</li>
-      <li><b>Profil fonctionnel</b> d'un programme (copybooks, tables, écrans, appels, transactions)</li>
-      <li><b>Impact</b> d'un copybook / d'une table : programmes → jobs → chaînes batch</li>
-      <li><b>Impact au niveau champ</b> (85 champs de LGPOLICY → programmes)</li>
-      <li><b>Lignée de données</b> : qui lit / écrit un dataset, une table, un fichier VSAM</li>
-      <li><b>Code mort</b> : programmes orphelins + copybooks jamais référencés</li>
-      <li>Fan-in des copybooks critiques (LGCMAREA ×25)</li>
-      <li>Chaînes complètes écran BMS → transaction CICS → programme → donnée</li>
-      <li>Graphe interactif (jusqu'à <b>1157 nœuds</b>) : couches métier, <b>batch/ordonnanceur</b>, focus voisinage, filtres</li>
-      <li>Palette ⌘P : fuzzy + <b>recherche sémantique</b> Granite</li>
-      <li>Éditeur COBOL : coloration, <b>split view</b>, saut à la ligne citée</li>
+    <div class="capcol"><h4 style="color:var(--blue)">🔎 Understand</h4><ul>
+      <li><b>Multiple estates</b> — GenApp (insurance) + <b>AWS CardDemo</b> (credit cards), switched in one click</li>
+      <li><b>Functional profile</b> of a program (copybooks, tables, screens, calls, transactions)</li>
+      <li><b>Impact</b> of a copybook or a table: programs → jobs → batch chains</li>
+      <li><b>Field-level impact</b> (85 LGPOLICY fields → programs)</li>
+      <li><b>Data lineage</b>: who reads / writes a dataset, a table, a VSAM file</li>
+      <li><b>Dead code</b>: orphan programs + copybooks never referenced</li>
+      <li>Fan-in of critical copybooks (LGCMAREA ×25)</li>
+      <li>Full chains: BMS screen → CICS transaction → program → data</li>
+      <li>Interactive graph (up to <b>1,157 nodes</b>): business layers, <b>batch/scheduler</b>, neighbourhood focus, filters</li>
+      <li>⌘P palette: fuzzy + Granite <b>semantic search</b></li>
+      <li>COBOL editor: syntax highlighting, <b>split view</b>, jump to the cited line</li>
     </ul></div>
     <div class="capcol"><h4 style="color:var(--amber)">🤖 Agent &amp; RAG</h4><ul>
-      <li>Agent <b>BeeAI + Granite</b>, 6 outils, boucle ReAct</li>
-      <li><b>2 RAG</b> : graphe Neo4j (exact) + vecteur pgvector (sémantique), routage hybride</li>
-      <li><b>Raisonnement visible</b> : étape 💭 think avant chaque action</li>
-      <li>Trace d'outils <b>streamée en direct</b> (SSE) et repliable</li>
-      <li><b>Citations cliquables</b> fichier:ligne → code surligné 2 s</li>
-      <li><b>Garde-fou anti-hallucination</b> : chaque citation re-vérifiée</li>
-      <li>Graphe <b>animé pendant la requête</b> (grise → rallume → zoome)</li>
-      <li><b>Fallback sans LLM</b> : impact &amp; profils par le graphe seul</li>
-      <li>Éval qualité : <b>golden Q/A 3/3</b> en CI (make eval)</li>
-      <li><b>MCP</b> : 3 outils exposés à IBM Bob</li>
+      <li><b>BeeAI + Granite</b> agent, 6 tools, ReAct loop</li>
+      <li><b>2 RAGs</b>: Neo4j graph (exact) + pgvector (semantic), hybrid routing</li>
+      <li><b>Visible reasoning</b>: a 💭 think step before every action</li>
+      <li>Tool trace <b>streamed live</b> (SSE), collapsible</li>
+      <li><b>Clickable citations</b> file:line → the line is highlighted for 2 s</li>
+      <li><b>Anti-hallucination guardrail</b>: every citation re-verified</li>
+      <li>Graph <b>animated during the query</b> (grey out → light up → zoom)</li>
+      <li><b>LLM-free fallback</b>: impact &amp; profiles from the graph alone</li>
+      <li>Quality eval: <b>golden Q/A 3/3</b> in CI (make eval)</li>
+      <li><b>MCP</b>: 3 tools exposed to IBM Bob</li>
     </ul></div>
-    <div class="capcol"><h4 style="color:var(--green)">🛡 Modifier &amp; gouverner</h4><ul>
-      <li>Versions = <b>branches git réelles</b>, commit par édition, git diff</li>
-      <li>Impact recalculé <b>à chaque édition</b>, avant fusion</li>
-      <li>Revue d'équipe : commentaires, statuts draft/proposed/merged</li>
-      <li><b>Merge-gate</b> : confirmation « touche N programmes »</li>
-      <li><b>RBAC</b> 5 rôles — proposer ≠ fusionner ≠ auditer</li>
-      <li><b>Journal d'audit HMAC</b> inviolable + vue UI, refus inclus</li>
-      <li>Mode <b>enforce</b> derrière proxy d'authentification</li>
-      <li>Accès source confiné au corpus (anti path-traversal) + CORS strict</li>
-      <li>Résolveur copybooks : SYSLIB, COPY REPLACING, imbriqués</li>
-      <li>82 tests backend · 21 e2e Playwright · audits multi-agents (adversariaux)</li>
+    <div class="capcol"><h4 style="color:var(--green)">🛡 Change &amp; govern</h4><ul>
+      <li>Versions = <b>real git branches</b>, one commit per edit, real git diff</li>
+      <li>Impact recomputed <b>on every edit</b>, before merging</li>
+      <li>Team review: comments, draft/proposed/merged statuses</li>
+      <li><b>Merge gate</b>: a “touches N programs” confirmation</li>
+      <li><b>RBAC</b>, 5 roles — proposing ≠ merging ≠ auditing</li>
+      <li><b>Tamper-evident HMAC audit log</b> + UI view, refusals included</li>
+      <li><b>Real sign-in</b> (signed token) or <b>enforce</b> mode behind an SSO proxy</li>
+      <li>Source access confined to the corpus (path-traversal proof) + strict CORS</li>
+      <li>Copybook resolver: SYSLIB, COPY REPLACING, nested</li>
+      <li>123 backend tests · 31 Playwright e2e · multi-agent adversarial audits</li>
     </ul></div>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>15 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>16 / 20</span></div>
 </section>
 
 <!-- ═══════════ 11. STACK IBM ═══════════ -->
-<section class="slide" data-title="Stack IBM">
-  <div class="kicker"><span class="num">16</span> Couche IA 100 % IBM</div>
-  <h2>Construit <b>sur</b> IBM, pensé <b>pour</b> Bob.</h2>
+<section class="slide" data-title="IBM stack">
+  <div class="kicker"><span class="num">17</span> A 100% IBM AI layer</div>
+  <h2>Built <b>on</b> IBM, designed <b>for</b> Bob.</h2>
   <div class="grid g4" style="margin-top:28px">
-    <div class="card hero"><h3>IBM Granite</h3><p>Le <b>cerveau</b> de l'agent — granite3.3:8b via Ollama, on-prem. Le code ne sort jamais.</p></div>
-    <div class="card hero"><h3>Granite Embeddings</h3><p>Le <b>vecteur</b> — granite-embedding:278m, 768 dimensions, dans pgvector.</p></div>
-    <div class="card hero"><h3>BeeAI Framework</h3><p>L'<b>orchestration</b> — RequirementAgent (boucle ReAct), open-source initié par IBM (Linux Foundation).</p></div>
-    <div class="card hero"><h3>MCP → IBM Bob</h3><p>3 outils exposés en <b>Model Context Protocol</b> : graph_lookup, search_code, read_source_lines. Bob interroge le patrimoine directement.</p></div>
+    <div class="card hero"><h3>IBM Granite</h3><p>The agent's <b>brain</b> — self-hosted via Ollama, or <b>granite-4-h-small on watsonx.ai</b>. Same model family, your choice of where it runs.</p></div>
+    <div class="card hero"><h3>Granite Embeddings</h3><p>The <b>vector</b> side — granite-embedding:278m, 768 dimensions, stored in pgvector.</p></div>
+    <div class="card hero"><h3>BeeAI Framework</h3><p>The <b>orchestration</b> — RequirementAgent (ReAct loop), open source, started by IBM (Linux Foundation).</p></div>
+    <div class="card hero"><h3>MCP → IBM Bob</h3><p>3 tools exposed over the <b>Model Context Protocol</b>: graph_lookup, search_code, read_source_lines. Bob queries the estate directly.</p></div>
   </div>
   <div class="card" style="margin-top:16px;border-color:var(--amber-d)">
-    <p style="font-size:13.5px"><b style="color:var(--amber)">Positionnement</b> — complément de <b>watsonx Code Assistant for Z</b> :
-    WCA modernise et convertit le code ; COBOL Explorer le rend <b>compréhensible, navigable et gouvernable</b> pour toute l'organisation —
-    y compris ceux qui ne liront jamais une ligne de COBOL. Comprendre &amp; sécuriser, pas migrer.</p>
+    <p style="font-size:13.5px"><b style="color:var(--amber)">Positioning</b> — a complement to <b>watsonx Code Assistant for Z</b>:
+    WCA modernises and converts code; COBOL Explorer makes it <b>understandable, navigable and governable</b> for the whole organisation —
+    including the people who will never read a line of COBOL. Understand &amp; secure, not migrate.</p>
   </div>
-  <div class="foot"><span>Roadmap IBM : watsonx.ai privé · watsonx.governance · watsonx.data (Milvus)</span><span>16 / 18</span></div>
+  <div class="foot"><span>IBM roadmap: watsonx.ai (live) · watsonx.governance · watsonx.data (Milvus)</span><span>17 / 20</span></div>
 </section>
 
 <!-- ═══════════ 12. ARCHITECTURE ═══════════ -->
 <section class="slide" data-title="Architecture">
-  <div class="kicker"><span class="num">17</span> Architecture</div>
-  <h2>Self-hosted, <b>prêt à grandir</b>.</h2>
+  <div class="kicker"><span class="num">18</span> Architecture</div>
+  <h2>Self-hosted, <b>ready to grow</b>.</h2>
   <div class="arch">
     <div class="layer">
-      <div class="box"><div class="t">UI — React + CodeMirror + React Flow</div><div class="d">atelier VS Code · split view · graphe vivant · palette ⌘P · panneau audit</div></div>
+      <div class="box"><div class="t">UI — React + CodeMirror + React Flow</div><div class="d">VS Code-style workshop · split view · living graph · ⌘P palette · audit panel</div></div>
     </div>
-    <div class="vline">↕ SSE streaming temps réel (start · think · trace · answer · verify · done)</div>
+    <div class="vline">↕ real-time SSE streaming (start · think · trace · answer · verify · done)</div>
     <div class="layer">
-      <div class="box"><div class="t">API — FastAPI</div><div class="d">RBAC + audit HMAC sur chaque endpoint · versions git · éval qualité</div></div>
-    </div>
-    <div class="layer">
-      <div class="box hl"><div class="t">Agent — BeeAI + IBM Granite</div><div class="d">6 outils · trace instrumentée · fallback déterministe sans LLM · garde-fou citations</div></div>
-      <div class="box"><div class="t">MCP Server</div><div class="d">les mêmes outils, pour IBM Bob</div></div>
+      <div class="box"><div class="t">API — FastAPI</div><div class="d">RBAC + HMAC audit on every endpoint · git versions · quality eval</div></div>
     </div>
     <div class="layer">
-      <div class="box blue"><div class="t">Neo4j — RAG graphe</div><div class="d">Cypher · 339 nœuds · impact/lignée · repli NetworkX</div></div>
-      <div class="box teal"><div class="t">pgvector — RAG vectoriel</div><div class="d">PostgreSQL · HNSW cosine · embeddings Granite</div></div>
-      <div class="box"><div class="t">Git — versions</div><div class="d">branche/commit/diff réels</div></div>
+      <div class="box hl"><div class="t">Agent — BeeAI + IBM Granite</div><div class="d">6 tools · instrumented trace · deterministic LLM-free fallback · citation guardrail</div></div>
+      <div class="box"><div class="t">MCP server</div><div class="d">the same tools, for IBM Bob</div></div>
     </div>
     <div class="layer">
-      <div class="box"><div class="t">Ingestion</div><div class="d">parsers COBOL/JCL/CSD/BMS + résolveur copybooks (SYSLIB, REPLACING, imbriqués) → graph.json + index Granite</div></div>
+      <div class="box blue"><div class="t">Neo4j — graph RAG</div><div class="d">Cypher · 339 nodes · impact/lineage · NetworkX fallback</div></div>
+      <div class="box teal"><div class="t">pgvector — vector RAG</div><div class="d">PostgreSQL · HNSW cosine · Granite embeddings</div></div>
+      <div class="box"><div class="t">Git — versions</div><div class="d">real branches, commits and diffs</div></div>
+    </div>
+    <div class="layer">
+      <div class="box"><div class="t">Ingestion</div><div class="d">COBOL/JCL/CSD/BMS parsers + copybook resolver (SYSLIB, REPLACING, nested) → graph.json + Granite index</div></div>
     </div>
   </div>
   <div class="grid g4" style="margin-top:20px">
-    <div class="stat"><div class="num-big green">82</div><div class="klabel">tests backend</div></div>
-    <div class="stat"><div class="num-big green">21</div><div class="klabel">tests e2e Playwright</div></div>
-    <div class="stat"><div class="num-big green">3/3</div><div class="klabel">golden Q/A qualité</div></div>
-    <div class="stat"><div class="num-big amber">2</div><div class="klabel">systèmes analysés (GenApp · CardDemo)</div></div>
+    <div class="stat"><div class="num-big green">123</div><div class="klabel">backend tests</div></div>
+    <div class="stat"><div class="num-big green">31</div><div class="klabel">Playwright e2e tests</div></div>
+    <div class="stat"><div class="num-big green">3/3</div><div class="klabel">golden Q/A quality</div></div>
+    <div class="stat"><div class="num-big amber">2</div><div class="klabel">estates analysed (GenApp · CardDemo)</div></div>
   </div>
-  <div class="foot"><span>docker compose up -d && make serve-scale</span><span>17 / 18</span></div>
+  <div class="foot"><span>docker compose up -d && make serve-scale</span><span>18 / 20</span></div>
+</section>
+
+<!-- ═══════════ BUILT WITH BOB ═══════════ -->
+<section class="slide" data-title="Built with Bob">
+  <div class="kicker"><span class="num">19</span> How the project itself was built</div>
+  <h2>Built <b>with</b> IBM Bob — spec first, not vibes.</h2>
+  <p class="lead">The July lab teaches <b>spec-driven development</b> with Bob rather than vibe coding: describe the
+    intent, let the agent plan, review the plan, then implement. That is how this project was driven — Bob as the
+    development environment, with <b>reusable skills</b> layered on top so the same discipline applied every time.</p>
+  <div class="grid g3" style="margin-top:28px">
+    <div class="card"><h3>Plan before code</h3><p>A brainstorming skill forces the requirements and the design to be
+      settled <b>before</b> a line is written — the spec is the artefact, the code follows it.</p></div>
+    <div class="card"><h3>Test before implementation</h3><p>A TDD skill writes the failing test first. It is why the
+      repository carries <b>123 backend tests</b> instead of a demo that only works on the happy path.</p></div>
+    <div class="card"><h3>Simplify after</h3><p>A cleanup skill re-reads the diff for duplication, dead code and
+      over-engineering. Dead helpers, an unused MCP parameter and copy-pasted logic were removed that way.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <p style="font-size:13px"><b style="color:var(--amber)">And Bob at runtime, too</b> — the same product exposes
+      <span class="mono">graph_lookup</span>, <span class="mono">search_code</span> and
+      <span class="mono">read_source_lines</span> back to Bob over MCP. Bob helped build the tool that now extends Bob:
+      a developer inside Bob can ask “what breaks if I change LGPOLICY?” and get an exhaustive, grounded answer.</p>
+  </div>
+  <div class="foot"><span>IBM SkillsBuild · “Troubleshoot Your Code Using IBM Bob” completed</span><span>19 / 20</span></div>
 </section>
 
 <!-- ═══════════ 13. CLÔTURE ═══════════ -->
-<section class="slide" data-title="Clôture" style="align-items:center;text-align:center">
+<section class="slide" data-title="Close" style="align-items:center;text-align:center">
   <div class="bgdots"></div>
   <span class="sq" style="width:20px;height:20px;margin-bottom:34px"></span>
-  <h1 style="font-size:64px;max-width:1000px">Rendre lisible et gouvernable<br /><b>60 ans de COBOL</b>.</h1>
-  <p class="lead" style="text-align:center;margin-top:24px">COBOL Explorer — l'agent IA traçable pour le patrimoine mainframe.<br />
-    <span class="mono" style="font-size:12px;color:var(--faint)">2 RAG self-hosted · citations vérifiées · audit inviolable · versions git · couche IA 100 % IBM</span></p>
+  <h1 style="font-size:64px;max-width:1000px">Days of manual impact hunting<br />→ <b>30 seconds, with proof</b>.</h1>
+  <p class="lead" style="text-align:center;margin-top:24px">COBOL Explorer — the traceable AI co-worker for mainframe estates.<br />
+    <span class="mono" style="font-size:12px;color:var(--faint)">2 self-hosted RAGs · verified citations · tamper-evident audit · git versions · a 100% IBM AI layer</span></p>
+  <div class="statrow" style="justify-content:center;margin-top:26px">
+    <span class="pill"><i style="background:var(--amber)"></i><b style="color:var(--tx)">cobol-explorer.fr</b></span>
+    <span class="pill"><i style="background:var(--blue)"></i>github.com/JeanBaptisteDurand/cobol-explorer</span>
+  </div>
   <div class="statrow" style="justify-content:center">
-    <span class="pill"><i style="background:var(--amber)"></i>Démo live</span>
+    <span class="pill"><i style="background:var(--amber)"></i>Live demo</span>
     <span class="pill"><i style="background:var(--green)"></i>make serve-scale</span>
     <span class="pill"><i style="background:var(--blue)"></i>IBM AI Builders · Wildcard — Future of Work</span>
   </div>
-  <div class="foot"><span>COBOL Explorer</span><span>18 / 18</span></div>
+  <div class="foot"><span>COBOL Explorer</span><span>20 / 20</span></div>
 </section>
 
 <script>

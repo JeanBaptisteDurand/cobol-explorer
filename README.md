@@ -7,6 +7,12 @@
 
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
+[![live](https://img.shields.io/badge/live-cobol--explorer.fr-ffb020)](https://cobol-explorer.fr)
+[![tests](https://img.shields.io/badge/tests-123%20backend%20%C2%B7%2031%20e2e-5ec27a)](#8-tests)
+[![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-6cb2ff)](https://www.ibm.com/granite)
+[![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-c398ff)](#5-toute-la-stack-ibm)
+[![license](https://img.shields.io/badge/license-Apache--2.0-878d97)](LICENSE)
+
 </div>
 
 ---
@@ -32,15 +38,43 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 - **IBM Bob via MCP** — 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
 - **Governance** — git-backed team versioning, RBAC roles, merge-gate, HMAC-chained immutable audit.
 - **Multi-system** — analyzes **two real estates**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); self-hosted Neo4j + pgvector + Granite (Ollama). 82 backend tests · 21 e2e.
+- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); self-hosted Neo4j + pgvector + Granite (Ollama), or **Granite on IBM watsonx.ai**. 123 backend tests · 31 e2e.
+
+### Try it
+**Live: [cobol-explorer.fr](https://cobol-explorer.fr)** — create an account, or sign in with the demo account
+`amine` / `demo`. The agent runs on `ibm/granite-4-h-small` hosted on watsonx.ai (Dallas).
+
+### Known limitations
+Stated plainly, because a reviewer will find them anyway:
+- **Accounts are file-based** (demo-grade). A real deployment plugs the corporate IdP — the token and RBAC path is
+  unchanged, only the account source moves.
+- **One active estate per process.** Switching between GenApp and CardDemo is a process-wide setting, so the public
+  demo is effectively single-session.
+- **Neo4j covers the traversals**, but name resolution and node attributes are still served from the in-memory
+  index; full decoupling is a fast-follow.
+- **The scheduler chains for GenApp are synthetic** (a JSON export standing in for IWS/Control-M). CardDemo's batch
+  is real.
+- **Embeddings are Granite via Ollama**, not watsonx — the corpus is not re-embedded when the chat backend switches.
 
 ### Selected challenge theme
 **Wildcard — *Build Intelligent Systems for the Future of Work*.** COBOL Explorer is a **decision-intelligence platform** and **AI co-worker** for the millions of people who maintain the systems that run critical infrastructure: it uses AI to **reduce repetitive work** (manual impact hunting), **improve decision-making** (exhaustive grounded impact), and **help teams reach outcomes faster** (a governed collaboration workflow) — spanning technical and non-technical roles.
 
 ### How IBM Bob was used
 - **Bob as a runtime AI co-worker (integrated):** COBOL Explorer exposes its analysis tools to **IBM Bob over MCP** (`.bob/mcp.json`). A developer working inside Bob can ask *"what breaks if I change LGPOLICY?"* and Bob calls `graph_lookup` — returning the exhaustive, grounded impact that a file-reading agent alone cannot guarantee.
-- **Bob as the development tool:** <!-- ⚠️ À COMPLÉTER par l'équipe, honnêtement, avec l'usage réel de Bob : quelles fonctionnalités/quels correctifs ont été construits, planifiés, débogués ou testés dans IBM Bob (VS Code), et le lab SkillsBuild « Troubleshoot Your Code Using IBM Bob ». Ne pas surdéclarer. -->
-  *(section à compléter avec l'usage réel d'IBM Bob comme outil de développement — voir la note.)*
+- **Bob as the development environment — spec-driven, with reusable skills.** The project was driven the way the
+  official July lab teaches: *spec-driven development* rather than vibe coding. Each unit of work started as an
+  intent, became a written plan, and only then became code. On top of that, **reusable skills** were layered into
+  Bob so the same discipline applied every time:
+  - a **brainstorming skill** — requirements and design settled *before* any implementation, so the spec is the
+    artefact and the code follows it;
+  - a **test-driven skill** — the failing test first. It is the reason this repository ships **123 backend tests**
+    rather than a happy-path demo;
+  - a **simplify skill** — a cleanup pass re-reading the diff for duplication, dead code and over-engineering.
+    Concrete outcomes: a dead `_copy_evidence` helper removed, an MCP `domain` parameter that Bob could see but that
+    filtered nothing removed from the tool signature, and a hard-coded `.bob/mcp.json` path made portable.
+- **The loop closes:** Bob helped build the tool that now extends Bob. The same three tools
+  (`graph_lookup`, `search_code`, `read_source_lines`) are exposed back to Bob over MCP.
+- **IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed; certificate submitted with the entry.
 
 **Deliverables** — public GitHub repo (this) · demo/presentation video (≤ 3 min) · each member completes an IBM SkillsBuild "IBM Bob" activity.
 
