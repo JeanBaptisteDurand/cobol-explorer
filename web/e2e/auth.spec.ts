@@ -35,10 +35,10 @@ test("la page d'accueil publique présente le produit sans rien exposer du patri
 
   await page.goto("/");
   await expect(page.getByTestId("landing")).toBeVisible();
-  await expect(page.locator(".lp-hero h1")).toContainText(/code/i);
+  await expect(page.getByTestId("hero-section").locator("h1")).toContainText(/estate|proof/i);
   await expect(page.getByTestId("ibm-section")).toContainText("IBM Granite");
   await expect(page.getByTestId("bob-section")).toContainText("graph_lookup");
-  await expect(page.locator(".lp-num").first()).toBeVisible();
+  await expect(page.getByTestId("hero-section")).toBeVisible();
   expect(estateCalls).toHaveLength(0);
 });
 
