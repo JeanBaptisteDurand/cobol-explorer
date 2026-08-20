@@ -44,9 +44,9 @@ def read_source_lines(file: str, start: int, end: int) -> str:
 
 
 @mcp.tool()
-def search_code(query: str, domain: str = "") -> str:
+def search_code(query: str) -> str:
     """Semantic search over the ingested COBOL code (IBM Granite vector index)."""
-    return json.dumps(_tools.search_code(query, domain or None), ensure_ascii=False)
+    return json.dumps(_tools.search_code(query), ensure_ascii=False)
 
 
 def main() -> None:

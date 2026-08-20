@@ -278,10 +278,7 @@ export default function App() {
   }
   // Sidebar "Ressources": entities usually have no source file — the useful view is
   // their neighbourhood in the graph; copybooks (which do have source) open as code.
-  function openResource(n: GNode) {
-    if (n.attrs?.path) openFile(n);
-    else showInGraph(n.id);
-  }
+  const openResource = (n: GNode) => openNode(n.id);
   // Inspector "Modifier…": open the file AND start the modification gesture —
   // if no version is active yet, propose creating one (was a silent no-op before).
   function editNode(n: GNode) {

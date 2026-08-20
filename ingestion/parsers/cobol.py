@@ -73,7 +73,6 @@ def _code_lines(path: str) -> list[tuple[int, str]]:
 class CobolParser(Parser):
     def parse(self, path: str) -> ParsedUnit:
         lines = _code_lines(path)
-        joined_upper = "\n".join(t for _, t in lines).upper()
 
         pid_match = _PROG_ID.search("\n".join(t for _, t in lines))
         prog = (pid_match.group(1) if pid_match else os.path.basename(path).split(".")[0]).upper()
@@ -108,7 +107,7 @@ class CobolParser(Parser):
 
         # --- Paragraphs + PERFORM (procedure division) ---
         paragraphs = self._paragraphs(lines, proc_div_line)
-        for para_name, lineno in paragraphs.items():
+        for para_name in paragraphs:
             pid = nid("para", f"{prog}.{para_name}")
             add_node(Node(pid, NodeKind.PARAGRAPH, para_name, {"program": prog}))
         for lineno, text in lines:

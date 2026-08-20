@@ -61,12 +61,10 @@ def _cards(lines: list[str]):
                 buf = None
             continue
         if buf is not None:
+            # The card we just closed can't open in-stream data: the line we are
+            # holding starts with '//', so the data (if any) begins after it.
             yield buf
-            in_data = bool(_DD_DATA.search(buf))
             buf = None
-            if in_data:
-                # the current line is fresh; only skip if it's data (it isn't, starts with //)
-                in_data = False
         if line.rstrip().endswith(","):
             buf = line
         else:

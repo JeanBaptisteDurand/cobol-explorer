@@ -113,20 +113,6 @@ class GraphTools:
             return r
         raise ValueError(f"unknown graph_lookup op: {op}")
 
-    def _copy_evidence(self, copy_id: str, pgm_id: str) -> dict:
-        line = None
-        for _u, v, _k, d in self.g.out_edges(pgm_id, keys=True, data=True):
-            if v == copy_id and d.get("kind") == EdgeKind.PGM_COPIES:
-                line = d.get("evidence", {}).get("line")
-                break
-        attrs = self.g.nodes[pgm_id].get("attrs", {}) if pgm_id in self.g else {}
-        return {
-            "id": pgm_id,
-            "label": self.g.nodes[pgm_id].get("label") if pgm_id in self.g else pgm_id,
-            "copy_line": line,
-            "file": attrs.get("file"),
-        }
-
     # --- dead code / orphans --------------------------------------------
     def dead_code(self) -> dict:
         """Quality signal: orphan programs (nothing runs them) + copybook files
@@ -158,7 +144,9 @@ class GraphTools:
         label = node_d.get("label", node)
 
         def _resolve(rel):
-            return safe_corpus_path(self.corpus_root, rel) or self.find_file(os.path.basename(str(rel))) if rel else None
+            if not rel:
+                return None
+            return safe_corpus_path(self.corpus_root, rel) or self.find_file(os.path.basename(str(rel)))
 
         fields: list[dict] = []
         cb_path = (node_d.get("attrs") or {}).get("path")
@@ -235,7 +223,7 @@ class GraphTools:
                 self._index = VectorIndex(self.index_path)
         return self._index
 
-    def search_code(self, query: str, domain: str | None = None) -> dict:
+    def search_code(self, query: str) -> dict:
         idx = self._vector_index()
         engine = getattr(idx, "model", "") or "IBM Granite embeddings"
         try:

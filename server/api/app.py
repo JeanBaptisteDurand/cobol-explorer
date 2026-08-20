@@ -36,7 +36,7 @@ from agent.verify import verify_answer
 from security import rbac, tokens, users
 from security.audit import AuditLog
 from security.identity import identify
-from versioning.changeset import VersionStore
+from versioning.changeset import ChangeSet, VersionStore
 
 GRAPH = os.environ.get("COBOL_EXPLORER_GRAPH", "graph.json")
 CORPUS = os.environ.get("COBOL_EXPLORER_CORPUS", "corpora")

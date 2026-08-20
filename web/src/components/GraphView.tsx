@@ -55,7 +55,7 @@ function NodeBox({ data, selected }: any) {
 }
 const nodeTypes = { m: NodeBox };
 
-// Smoothly recadre the viewport, optionally zooming to a specific set of nodes.
+// Smoothly re-frames the viewport, optionally zooming to a specific set of nodes.
 function Fitter({ dep, nodeIds }: { dep: string; nodeIds?: string[] }) {
   const rf = useReactFlow();
   useEffect(() => {
@@ -116,9 +116,8 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
   // Dimming/illumination kicks in only once nodes actually light up. During the
   // agent's initial "thinking" (query sent, no trace yet — up to ~30s with an
   // on-prem LLM) the graph stays fully readable, so the wait never looks like a
-  // frozen, greyed-out screen. `thinking` only drives the spinner label.
+  // frozen, greyed-out screen. `agentActive` alone drives the spinner label.
   const live = !!(litNodes && litNodes.size > 0);
-  const thinking = !!agentActive;
 
   const { nodes, edges } = useMemo(() => {
     const impSet = impact?.set ?? null;
@@ -132,8 +131,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         // focusing a batch job shows its steps/datasets even when those kinds
         // are hidden in the default landscape.
         if (!live && focusSet) return focusSet.has(n.id);
-        if (!vis.has(n.kind)) return false;
-        return true;
+        return vis.has(n.kind);
       }).map((n) => n.id)
     );
     const nodes = graph.nodes.filter((n) => shown.has(n.id)).map((n) => ({
@@ -184,7 +182,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
       {/* Floating tool panel: legend, focus, kind filters, selected-node quick actions. */}
       <div style={{ position: "absolute", top: 14, left: 14, width: 252, padding: 13, pointerEvents: "auto", background: "var(--panel)", border: "1px solid var(--line)", borderRadius: 8, boxShadow: "0 6px 22px rgba(8,9,11,.5)" }}>
         <div className="ov-h1" style={{ fontSize: 12.5, marginBottom: 2 }}>Estate graph</div>
-        {(thinking || live) ? (
+        {(agentActive || live) ? (
           <div style={{ margin: "6px 0 11px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 7, font: "500 11px var(--s)", color: "var(--amber)" }}>
               <span className="spin" />{live ? `Agent path · ${litNodes?.size ?? 0} entities` : "The agent is thinking… (~30 s, on-prem Granite)"}

@@ -15,7 +15,7 @@ import json
 import os
 from collections import Counter
 
-from core.schema import Edge, Node, nid
+from core.schema import Edge, Node, nid, split_id
 from graph.build import build_graph, to_json
 from graph.cross_resolve import resolve_file_lineage
 from graph.domains import apply_domains, load_mapping
