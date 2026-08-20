@@ -509,3 +509,74 @@
   font: 500 10.5px var(--m); color: var(--amber); border: 1px solid var(--amber-d);
   border-radius: 99px; padding: 3px 11px; background: rgba(255,176,32,.06);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EDITORIAL PASS
+   The page was reading as generated: identical bands, identical card grids,
+   everything boxed and centred. Award-winning work that ships without WebGL wins
+   on typography and structure instead. Three moves, applied here:
+     1. the masthead carries a mark and nothing else — no wordmark, no provenance;
+     2. sections sit on an asymmetric rail, numbered in the margin like an index;
+     3. the display type is large enough to be the page's main visual.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* --- masthead: a mark, an index, one action ------------------------------ */
+.ce-mark { display: inline-flex; padding: 2px; border-radius: 6px; }
+.ce-mark:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+.ce-index { display: flex; gap: 26px; margin-right: 26px; }
+.ce-index a {
+  display: inline-flex; align-items: baseline; gap: 7px;
+  font: 500 12px var(--s); color: var(--dim); text-decoration: none;
+  transition: color 120ms;
+}
+.ce-index a i { font: 500 10px var(--m); font-style: normal; color: var(--faint); }
+.ce-index a:hover { color: var(--tx); }
+.ce-index a:hover i { color: var(--amber); }
+
+/* The rule under the masthead is the page's first hairline — no band, no shadow. */
+.ce-nav { border-bottom: 1px solid var(--line); background: rgba(25,26,29,.9); }
+
+/* --- display type: the hero is typography, not a layout ------------------ */
+.ce-hero h1 {
+  font: 700 clamp(40px, 7.4vw, 88px)/.94 var(--s);
+  letter-spacing: -.035em;
+  margin: 26px 0 24px;
+}
+/* The second line steps in. One deliberate asymmetry does more for the eye than
+   any amount of decoration, and it costs nothing. */
+.ce-hero h1 em { font-style: normal; display: inline-block; margin-left: .38em; color: var(--amber); }
+
+.ce-hero .ce-kicker { letter-spacing: .22em; }
+.ce-hero .ce-lead { font-size: 15.5px; max-width: 46ch; }
+
+/* --- sections on a rail -------------------------------------------------- */
+.ce-rail { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 34px; align-items: start; }
+.ce-rail-side { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 4px; padding-top: 6px; }
+.ce-rail-n {
+  font: 500 30px/1 var(--m); color: var(--el2); letter-spacing: -.04em;
+}
+.ce-rail-t {
+  font: 500 9.5px var(--m); letter-spacing: .16em; text-transform: uppercase; color: var(--faint);
+}
+.ce-sec { border-bottom: none; }
+/* One hairline between sections, drawn by the section itself — cheaper and calmer
+   than alternating background bands, which read as a template. */
+.ce-sec + .ce-sec .ce-inner { border-top: 1px solid var(--line); padding-top: 58px; }
+.ce-sec.is-alt { background: var(--edit); }
+.ce-h2 { max-width: 20ch; }
+
+@media (max-width: 900px) {
+  .ce-index { display: none; }
+  .ce-rail { grid-template-columns: 1fr; gap: 14px; }
+  .ce-rail-side { position: static; flex-direction: row; align-items: baseline; gap: 10px; }
+  .ce-rail-n { font-size: 20px; }
+}
+
+/* The headline takes the full measure — display type is the page's main visual and
+   must not be squeezed into a column. The evidence sits beside the paragraph below it. */
+.ce-hero h1 { max-width: none; }
+.ce-hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 58px; margin-top: 6px; }
+.ce-hero-grid .ce-answer { margin-top: 0; }
+.ce-hero .ce-lead { max-width: 52ch; margin-top: 0; }
+@media (max-width: 1080px) { .ce-hero h1 { font-size: clamp(36px, 9vw, 62px); } }

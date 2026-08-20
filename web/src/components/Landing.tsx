@@ -80,11 +80,18 @@ function Section({ id, kicker, title, lead, alt, children }: {
 }) {
   return (
     <section className={`ce-sec ${alt ? "is-alt" : ""}`} data-testid={id}>
-      <div className="ce-inner">
-        <div className="ce-kicker">{kicker}</div>
-        <h2 className="ce-h2">{title}</h2>
-        {lead && <p className="ce-lead">{lead}</p>}
-        {children}
+      <div className="ce-inner ce-rail">
+        {/* The number sits in the margin, as an index entry — the page reads as a
+            document with a structure, not as a stack of interchangeable panels. */}
+        <div className="ce-rail-side" aria-hidden="true">
+          <span className="ce-rail-n">{kicker.split("·")[0].trim()}</span>
+          <span className="ce-rail-t">{(kicker.split("·")[1] || "").trim()}</span>
+        </div>
+        <div className="ce-rail-main">
+          <h2 className="ce-h2">{title}</h2>
+          {lead && <p className="ce-lead">{lead}</p>}
+          {children}
+        </div>
       </div>
     </section>
   );
@@ -103,27 +110,27 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
   return (
     <div className="ce-landing sb" data-testid="landing">
       <header className="ce-nav">
-        <a className="ce-brand" href="#top" aria-label="COBOL Explorer — home">
-          <Logo size={22} />
-          <span className="nm">COBOL Explorer</span>
+        <a className="ce-mark" href="#top" aria-label="COBOL Explorer — top of page">
+          <Logo size={26} title="COBOL Explorer" />
         </a>
         <span className="ce-spacer" />
-        <nav className="ce-nav-links" aria-label="Sections">
-          <a href="#fig01">Reasoning</a>
-          <a href="#bob-section">IBM Bob</a>
-          <a href="#governance-section">Governance</a>
+        <nav className="ce-index" aria-label="Sections">
+          <a href="#fig01"><i>01</i>Reasoning</a>
+          <a href="#bob-section"><i>02</i>Bob</a>
+          <a href="#governance-section"><i>03</i>Governance</a>
         </nav>
-        <span className="ce-nav-rule" aria-hidden="true" />
         <button className="ce-btn" data-testid="nav-signin" onClick={onSignIn}>Sign in</button>
         <button className="ce-btn-pri ce-nav-cta" data-testid="nav-signup" onClick={onSignUp}>Create account</button>
       </header>
 
       {/* HERO — the instrument first: a real trace, above the fold. */}
       <section className="ce-hero" data-testid="hero-section" id="top">
+        <div className="ce-inner">
+          <div className="ce-kicker">Grounded agentic RAG · mainframe-native graph</div>
+          <h1>Ask the estate.<br /><em>Get the proof.</em></h1>
+        </div>
         <div className="ce-inner ce-hero-grid">
           <div>
-          <div className="ce-kicker">Grounded agentic RAG · mainframe-native graph</div>
-          <h1>Ask the estate.<br />Get the proof.</h1>
           <p className="ce-lead">
             200+ billion lines of COBOL run the world's banks and insurers, and the work of understanding them is
             still manual. <span className="ce-strong">“We found 8 of the 14 impacted programs” is a production
