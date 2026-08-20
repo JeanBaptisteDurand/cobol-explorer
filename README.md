@@ -219,7 +219,7 @@ jetons survivent à un redémarrage.
 ## 8. Tests
 
 ```bash
-make test                          # 113 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
+make test                          # 123 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
 cd web && pnpm exec playwright test # 31 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
 make serve-sandbox &                # serveur authentifié sur une COPIE jetable du patrimoine
 make e2e-governance                 # scénario 3 comptes / 3 rôles joué au navigateur
