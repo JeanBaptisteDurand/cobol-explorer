@@ -6,7 +6,7 @@ import { Icon } from "./Icons";
  *  trace, governance, the IBM stack. A juror who never opens the deck still gets it. */
 
 const PROOF = [
-  { n: "169", label: "automated tests" },
+  { n: "181", label: "automated tests" },
   { n: "2", label: "real mainframe estates" },
   { n: "1 496", label: "entities mapped" },
   { n: "30 s", label: "instead of days of manual hunting" },
@@ -101,6 +101,7 @@ const STACK = [
   { name: "IBM Granite Embedding", tag: "Vector RAG", detail: "Semantic search over the estate, so you can ask by intent when you don't know the program name." },
   { name: "BeeAI", tag: "Agent", detail: "The ReAct loop: the agent picks its own tools and logs why — which is what makes the reasoning auditable." },
   { name: "IBM watsonx.ai", tag: "Cloud", detail: "granite-4-h-small in Dallas — the hosted backend serving this deployment, about 6 s per agent answer." },
+  { name: "IBM Cloud App ID", tag: "Identity", detail: "“Continue with IBM” — an OIDC authorization-code flow; the claims are mapped onto the same signed token the rest of the app already trusts." },
 ];
 
 function Section({ id, kicker, title, sub, alt, children }: {

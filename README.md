@@ -8,7 +8,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-ffb020)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-136%20backend%20%C2%B7%2033%20e2e-5ec27a)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-146%20backend%20%C2%B7%2035%20e2e-5ec27a)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-6cb2ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-c398ff)](#5-toute-la-stack-ibm)
 [![license](https://img.shields.io/badge/license-Apache--2.0-878d97)](LICENSE)
@@ -245,6 +245,34 @@ COBOL_EXPLORER_SMTP_FROM="COBOL Explorer <noreply@cobol-explorer.fr>"
 COBOL_EXPLORER_PUBLIC_URL=https://cobol-explorer.fr
 ```
 
+### 7.0-ter « Sign in with IBM » (OIDC / IBM Cloud App ID)
+
+Deux échanges OAuth 2.0 cohabitent dans le projet, et il ne faut pas les confondre :
+
+| | Qui | Quoi |
+|---|---|---|
+| **Machine à machine** | `ibm_watsonx_ai` | la clé API est échangée contre un jeton IAM (`grant_type=urn:ibm:params:oauth:grant-type:apikey`) pour appeler Granite |
+| **Humain** | `security/oidc.py` | une **personne** se connecte via **IBM Cloud App ID** (authorization code), et ses claims sont mappés sur le même jeton signé que le reste de l'app |
+
+Le rôle accordé à une connexion IBM est volontairement **le moins privilégié qui reste utile**
+(`risk` : lire et proposer, jamais fusionner). Fédérer une identité dit *qui* est quelqu'un, pas ce
+qu'il a le droit de faire ici — ça reste une décision de ce déploiement.
+
+Le jeton revient au SPA **dans le fragment d'URL** : un fragment n'est jamais envoyé au serveur, donc
+il n'apparaît dans aucun log d'accès ni dans l'en-tête `Referer`. Il est lu une fois puis effacé de la
+barre d'adresse. L'état CSRF est **signé** plutôt que stocké (10 minutes de validité), pour qu'un
+redémarrage ne fasse pas échouer les connexions en cours.
+
+```bash
+COBOL_EXPLORER_OIDC_TENANT=<guid du tenant App ID>
+COBOL_EXPLORER_OIDC_REGION=us-south
+COBOL_EXPLORER_OIDC_CLIENT_ID=...
+COBOL_EXPLORER_OIDC_SECRET=...
+COBOL_EXPLORER_OIDC_ROLE=risk
+```
+
+Sans ces variables, le bouton n'est pas proposé (`/api/auth/config` → `ibm_sign_in: false`).
+
 ### 7.1 Authentification (qui est l'utilisateur ?)
 
 Le serveur tourne dans l'un de trois modes, via `COBOL_EXPLORER_AUTH` :
@@ -272,8 +300,8 @@ jetons survivent à un redémarrage.
 ## 8. Tests
 
 ```bash
-make test                          # 136 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
-cd web && pnpm exec playwright test # 33 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
+make test                          # 146 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
+cd web && pnpm exec playwright test # 35 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
 make serve-sandbox &                # serveur authentifié sur une COPIE jetable du patrimoine
 make e2e-governance                 # scénario 3 comptes / 3 rôles joué au navigateur
 ```
