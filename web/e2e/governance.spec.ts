@@ -11,7 +11,9 @@ import { expect, test, type Page } from "@playwright/test";
  *                       tamper-evident trail where all three actors appear.
  *
  * Each actor gets a fresh browser context, so nobody inherits anyone's token.
- * Run with:  make serve-auth   then   E2E_BASE_URL=http://127.0.0.1:8000 pnpm exec playwright test e2e/governance.spec.ts
+ * Run with:  make serve-sandbox   then   make e2e-governance
+ * The sandbox matters: step 3 merges into main, and merging writes the result back
+ * into the corpus — against the repo's own corpora/ this scenario edits your sources.
  */
 
 const RUN = Date.now().toString().slice(-6);
