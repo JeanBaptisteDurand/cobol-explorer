@@ -78,6 +78,26 @@ export function inDeps(g: Graph, id: string, kinds: string[]): Dep[] {
 }
 
 export const fileOfNode = (n?: GNode): string | undefined => n?.attrs?.path as string | undefined;
+
+/** Source file extensions a citation can point at — the single list the UI trusts. */
+export const SOURCE_EXT = ["cbl", "cpy", "jcl", "bms", "csd"];
+const CITATION = new RegExp(`^([\\w.-]+\\.(?:${SOURCE_EXT.join("|")}))(?::(\\d+))?$`, "i");
+
+/** A trace step's `sources` entry is one of three things: a citation (`lgipol01.cbl:55`),
+ *  a graph node id (`copy:LGPOLICY`) or a web URL. Every consumer decodes it here, so
+ *  the three cases stay in sync — clicking a source used to be a silent no-op because
+ *  the whole `file:line` string was handed over as a file name. */
+export type Source =
+  | { kind: "citation"; file: string; line?: number }
+  | { kind: "node"; id: string }
+  | { kind: "url"; url: string };
+
+export function parseSource(src: string): Source {
+  if (/^https?:\/\//i.test(src)) return { kind: "url", url: src };
+  const m = CITATION.exec(src.trim());
+  if (m) return { kind: "citation", file: m[1], line: m[2] ? Number(m[2]) : undefined };
+  return { kind: "node", id: src.trim() };
+}
 export const kindCount = (g: Graph) => {
   const c: Record<string, number> = {};
   g.nodes.forEach((n) => (c[n.kind] = (c[n.kind] || 0) + 1));

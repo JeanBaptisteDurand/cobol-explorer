@@ -1,4 +1,5 @@
 """Versioning / change-set flow, incl. the 'insurance value moves' scenario."""
+import json
 import re
 
 from agent.tools import GraphTools
@@ -51,3 +52,25 @@ def test_list_changesets(tmp_path):
     store.create("V2", author="b")
     ids = {c.id for c in store.list()}
     assert {"v1", "v2"} <= ids
+
+
+def test_impact_of_a_jcl_edit_names_the_programs_it_runs(tmp_path):
+    """Editing a .jcl used to resolve to a phantom ``pgm:`` node and report nothing.
+
+    The graph knows the file belongs to a JOB, and a job's blast radius is what its
+    steps execute — so the panel must name programs, not stay silent.
+    """
+    s, gt = _setup(tmp_path)
+    jcl = next(
+        (n["attrs"]["path"] for n in json.load(open(gt.graph_path))["nodes"]
+         if n["kind"] == "JOB" and (n.get("attrs") or {}).get("path")),
+        None,
+    )
+    assert jcl, "the corpus must expose at least one JOB with a source file"
+
+    cs = s.create("edit a batch job", "tester")
+    s.add_edit(cs.id, jcl, s.read_effective(cs.id, jcl) + "\n//* touched\n", "note")
+    impact = s.compute_impact(cs.id, gt)
+
+    assert impact["by_file"][0]["node"].startswith("job:")
+    assert impact["programs"], "a JCL change must surface the programs the job runs"

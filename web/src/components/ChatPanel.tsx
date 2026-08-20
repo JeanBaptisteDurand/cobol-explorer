@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ask } from "../api";
+import { parseSource } from "../model";
 import type { TraceStep } from "../types";
 import { Icon } from "./Icons";
 import Markdown from "./Markdown";
@@ -13,12 +14,21 @@ const FOLLOWUPS = ["Which programs are impacted?", "Show me the source line", "W
 interface Props {
   seed?: { q: string; nonce: number };
   onCite?: (file: string, line?: number) => void;
+  onOpenNode?: (id: string) => void;
   onQueryStart?: (question: string) => void;
   onTrace?: (step: TraceStep) => void;
   onQueryEnd?: () => void;
 }
 
-export default function ChatPanel({ seed, onCite, onQueryStart, onTrace, onQueryEnd }: Props) {
+export default function ChatPanel({ seed, onCite, onOpenNode, onQueryStart, onTrace, onQueryEnd }: Props) {
+  // A clicked source opens the cited line, reveals the entity, or follows the link.
+  const openSource = (src: string) => {
+    const s = parseSource(src);
+    if (s.kind === "citation") onCite?.(s.file, s.line);
+    else if (s.kind === "node") onOpenNode?.(s.id);
+    else window.open(s.url, "_blank", "noopener");
+  };
+
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -93,7 +103,7 @@ export default function ChatPanel({ seed, onCite, onQueryStart, onTrace, onQuery
                       <div key={j} className="l think">💭 {s.output_summary}</div>
                     ) : (
                       <div key={j} className="l"><b>{s.tool}</b>({fmt(s.input)}) <span style={{ color: "var(--faint)" }}>→ {s.output_summary}</span>
-                        {s.sources?.map((src, k) => <u key={k} onClick={() => onCite?.(src)}> {src}</u>)}
+                        {s.sources?.map((src, k) => <u key={k} onClick={() => openSource(src)}> {src}</u>)}
                       </div>
                     ))}
                   </div>

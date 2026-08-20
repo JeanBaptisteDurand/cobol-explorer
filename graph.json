@@ -1394,7 +1394,10 @@
       "id": "job:DAILYPOL",
       "kind": "JOB",
       "label": "DAILYPOL",
-      "attrs": {}
+      "attrs": {
+        "path": "batch/DAILYPOL.jcl",
+        "file": "DAILYPOL.jcl"
+      }
     },
     {
       "id": "step:DAILYPOL.STEP01",
@@ -1436,7 +1439,10 @@
       "id": "job:POLRPT",
       "kind": "JOB",
       "label": "POLRPT",
-      "attrs": {}
+      "attrs": {
+        "path": "batch/POLRPT.jcl",
+        "file": "POLRPT.jcl"
+      }
     },
     {
       "id": "step:POLRPT.STEP01",
@@ -1456,7 +1462,10 @@
       "id": "job:GENAVSAM",
       "kind": "JOB",
       "label": "GENAVSAM",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/adef121.jcl",
+        "file": "adef121.jcl"
+      }
     },
     {
       "id": "step:GENAVSAM.DELETE1",
@@ -1504,7 +1513,10 @@
       "id": "job:GENAMAP",
       "kind": "JOB",
       "label": "GENAMAP",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/asmmap.jcl",
+        "file": "asmmap.jcl"
+      }
     },
     {
       "id": "step:GENAMAP.COPY",
@@ -1552,7 +1564,10 @@
       "id": "job:GENACSD",
       "kind": "JOB",
       "label": "GENACSD",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/cdef121.jcl",
+        "file": "cdef121.jcl"
+      }
     },
     {
       "id": "step:GENACSD.CSDDEFS",
@@ -1570,7 +1585,10 @@
       "id": "job:GENACOMP",
       "kind": "JOB",
       "label": "GENACOMP",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/cobol.jcl",
+        "file": "cobol.jcl"
+      }
     },
     {
       "id": "step:GENACOMP.COBL",
@@ -1798,7 +1816,10 @@
       "id": "job:DEFCPSM",
       "kind": "JOB",
       "label": "DEFCPSM",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/cpsmde2.jcl",
+        "file": "cpsmde2.jcl"
+      }
     },
     {
       "id": "step:DEFCPSM.EYU9XDBT",
@@ -1816,7 +1837,10 @@
       "id": "job:GENABIND",
       "kind": "JOB",
       "label": "GENABIND",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/db2bind.jcl",
+        "file": "db2bind.jcl"
+      }
     },
     {
       "id": "step:GENABIND.BIND",
@@ -1834,7 +1858,10 @@
       "id": "job:GENADB2",
       "kind": "JOB",
       "label": "GENADB2",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/db2cre.jcl",
+        "file": "db2cre.jcl"
+      }
     },
     {
       "id": "step:GENADB2.CREATE",
@@ -1870,7 +1897,10 @@
       "id": "job:EYUDREP",
       "kind": "JOB",
       "label": "EYUDREP",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/defdrep.jcl",
+        "file": "defdrep.jcl"
+      }
     },
     {
       "id": "step:EYUDREP.DELWREP",
@@ -1900,7 +1930,10 @@
       "id": "job:EYUWREP",
       "kind": "JOB",
       "label": "EYUWREP",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/defwrep.jcl",
+        "file": "defwrep.jcl"
+      }
     },
     {
       "id": "step:EYUWREP.DELWREP",
@@ -1918,7 +1951,10 @@
       "id": "job:GENAWSIM",
       "kind": "JOB",
       "label": "GENAWSIM",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/itpentr.jcl",
+        "file": "itpentr.jcl"
+      }
     },
     {
       "id": "step:GENAWSIM.RUNSIM",
@@ -1936,7 +1972,10 @@
       "id": "job:GENALL",
       "kind": "JOB",
       "label": "GENALL",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/itpll.jcl",
+        "file": "itpll.jcl"
+      }
     },
     {
       "id": "step:GENALL.LOGLIST",
@@ -1954,7 +1993,10 @@
       "id": "job:GENASTL",
       "kind": "JOB",
       "label": "GENASTL",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/itpstl.jcl",
+        "file": "itpstl.jcl"
+      }
     },
     {
       "id": "step:GENASTL.ITPSTL",
@@ -2110,7 +2152,10 @@
       "id": "job:CICSCNCS",
       "kind": "JOB",
       "label": "CICSCNCS",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/sampncs.jcl",
+        "file": "sampncs.jcl"
+      }
     },
     {
       "id": "step:CICSCNCS.NCSERVER",
@@ -2128,7 +2173,10 @@
       "id": "job:CICSSTSQ",
       "kind": "JOB",
       "label": "CICSSTSQ",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/samptsq.jcl",
+        "file": "samptsq.jcl"
+      }
     },
     {
       "id": "step:CICSSTSQ.SHARETSQ",
@@ -2146,7 +2194,10 @@
       "id": "job:GENASOAP",
       "kind": "JOB",
       "label": "GENASOAP",
-      "attrs": {}
+      "attrs": {
+        "path": "genapp-src/base/cntl/wsaac01.jcl",
+        "file": "wsaac01.jcl"
+      }
     },
     {
       "id": "step:GENASOAP.LS2WS",

@@ -175,7 +175,11 @@ class VersionStore:
         for e in cs.edits:
             base = os.path.basename(e["path"])
             name = base.split(".")[0].upper()
-            node = f"copy:{name}" if base.lower().endswith(".cpy") else f"pgm:{name}"
+            # Ask the graph which node this file is; only fall back to the extension
+            # heuristic for a file the corpus does not know (a brand-new source).
+            node = graphtools.node_for_path(e["path"]) or (
+                f"copy:{name}" if base.lower().endswith(".cpy") else f"pgm:{name}"
+            )
             r = graphtools.graph_lookup("impact", node)
             progs = [p["id"] if isinstance(p, dict) else p for p in r.get("programs", [])]
             programs.update(progs)

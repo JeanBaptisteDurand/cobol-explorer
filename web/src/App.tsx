@@ -634,7 +634,7 @@ export default function App() {
               (and any in-progress input) survives switching panels — no re-seeding. */}
           <div className="tabcontent sb" style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: rightTab === "chat" ? "flex" : "none", flexDirection: "column", flex: 1, minHeight: 0 }}>
-              <ChatPanel seed={chatSeed} onCite={openFileAt} onQueryStart={onAgentStart} onTrace={onAgentTrace} onQueryEnd={onAgentEnd} />
+              <ChatPanel seed={chatSeed} onCite={openFileAt} onOpenNode={openNode} onQueryStart={onAgentStart} onTrace={onAgentTrace} onQueryEnd={onAgentEnd} />
             </div>
             <div style={{ display: rightTab === "inspector" ? "block" : "none" }}>
               <Inspector node={node} graph={graph} onOpenNode={openNode} onEdit={editNode} onShowInGraph={showInGraph} activePath={activeTab?.path || null} />

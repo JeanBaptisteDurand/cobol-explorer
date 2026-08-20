@@ -6935,7 +6935,10 @@
       "id": "job:CBPAUP0J",
       "kind": "JOB",
       "label": "CBPAUP0J",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-authorization-ims-db2-mq/jcl/CBPAUP0J.jcl",
+        "file": "CBPAUP0J.jcl"
+      }
     },
     {
       "id": "step:CBPAUP0J.STEP01",
@@ -6977,7 +6980,10 @@
       "id": "job:DBPAUTP0",
       "kind": "JOB",
       "label": "DBPAUTP0",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-authorization-ims-db2-mq/jcl/DBPAUTP0.jcl",
+        "file": "DBPAUTP0.jcl"
+      }
     },
     {
       "id": "step:DBPAUTP0.STEPDEL",
@@ -7073,7 +7079,10 @@
       "id": "job:LOADPADB",
       "kind": "JOB",
       "label": "LOADPADB",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-authorization-ims-db2-mq/jcl/LOADPADB.JCL",
+        "file": "LOADPADB.JCL"
+      }
     },
     {
       "id": "step:LOADPADB.STEP01",
@@ -7101,7 +7110,10 @@
       "id": "job:UNLDGSAM",
       "kind": "JOB",
       "label": "UNLDGSAM",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-authorization-ims-db2-mq/jcl/UNLDGSAM.JCL",
+        "file": "UNLDGSAM.JCL"
+      }
     },
     {
       "id": "step:UNLDGSAM.STEP01",
@@ -7129,7 +7141,10 @@
       "id": "job:UNLDPADB",
       "kind": "JOB",
       "label": "UNLDPADB",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-authorization-ims-db2-mq/jcl/UNLDPADB.JCL",
+        "file": "UNLDPADB.JCL"
+      }
     },
     {
       "id": "step:UNLDPADB.STEP0",
@@ -7147,7 +7162,10 @@
       "id": "job:CREADB2",
       "kind": "JOB",
       "label": "CREADB2",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-transaction-type-db2/jcl/CREADB21.jcl",
+        "file": "CREADB21.jcl"
+      }
     },
     {
       "id": "step:CREADB2.FREEPLN",
@@ -7205,7 +7223,10 @@
       "id": "job:MNTTRDB2",
       "kind": "JOB",
       "label": "MNTTRDB2",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-transaction-type-db2/jcl/MNTTRDB2.jcl",
+        "file": "MNTTRDB2.jcl"
+      }
     },
     {
       "id": "step:MNTTRDB2.STEP1",
@@ -7233,7 +7254,10 @@
       "id": "job:TRANEXTR",
       "kind": "JOB",
       "label": "TRANEXTR",
-      "attrs": {}
+      "attrs": {
+        "path": "app/app-transaction-type-db2/jcl/TRANEXTR.jcl",
+        "file": "TRANEXTR.jcl"
+      }
     },
     {
       "id": "step:TRANEXTR.STEP10",
@@ -7283,7 +7307,10 @@
       "id": "job:ACCTFILE",
       "kind": "JOB",
       "label": "ACCTFILE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/ACCTFILE.jcl",
+        "file": "ACCTFILE.jcl"
+      }
     },
     {
       "id": "step:ACCTFILE.STEP05",
@@ -7329,7 +7356,10 @@
       "id": "job:CARDFILE",
       "kind": "JOB",
       "label": "CARDFILE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CARDFILE.jcl",
+        "file": "CARDFILE.jcl"
+      }
     },
     {
       "id": "step:CARDFILE.CLCIFIL",
@@ -7405,7 +7435,10 @@
       "id": "job:CBADMCDJ",
       "kind": "JOB",
       "label": "CBADMCDJ",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CBADMCDJ.jcl",
+        "file": "CBADMCDJ.jcl"
+      }
     },
     {
       "id": "step:CBADMCDJ.STEP1",
@@ -7439,7 +7472,10 @@
       "id": "job:CBEXPORT",
       "kind": "JOB",
       "label": "CBEXPORT",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CBEXPORT.jcl",
+        "file": "CBEXPORT.jcl"
+      }
     },
     {
       "id": "step:CBEXPORT.STEP01",
@@ -7497,7 +7533,10 @@
       "id": "job:CBIMPORT",
       "kind": "JOB",
       "label": "CBIMPORT",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CBIMPORT.jcl",
+        "file": "CBIMPORT.jcl"
+      }
     },
     {
       "id": "step:CBIMPORT.STEP01",
@@ -7549,7 +7588,10 @@
       "id": "job:CLOSEFIL",
       "kind": "JOB",
       "label": "CLOSEFIL",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CLOSEFIL.jcl",
+        "file": "CLOSEFIL.jcl"
+      }
     },
     {
       "id": "step:CLOSEFIL.CLCIFIL",
@@ -7561,7 +7603,10 @@
       "id": "job:COMBTRAN",
       "kind": "JOB",
       "label": "COMBTRAN",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/COMBTRAN.jcl",
+        "file": "COMBTRAN.jcl"
+      }
     },
     {
       "id": "step:COMBTRAN.STEP05R",
@@ -7601,7 +7646,10 @@
       "id": "job:CREASTMT",
       "kind": "JOB",
       "label": "CREASTMT",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CREASTMT.JCL",
+        "file": "CREASTMT.JCL"
+      }
     },
     {
       "id": "step:CREASTMT.DELDEF01",
@@ -7669,7 +7717,10 @@
       "id": "job:CUSTFILE",
       "kind": "JOB",
       "label": "CUSTFILE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/CUSTFILE.jcl",
+        "file": "CUSTFILE.jcl"
+      }
     },
     {
       "id": "step:CUSTFILE.CLCIFIL",
@@ -7713,7 +7764,10 @@
       "id": "job:DALYREJS",
       "kind": "JOB",
       "label": "DALYREJS",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/DALYREJS.jcl",
+        "file": "DALYREJS.jcl"
+      }
     },
     {
       "id": "step:DALYREJS.STEP05",
@@ -7725,7 +7779,10 @@
       "id": "job:DEFCUST",
       "kind": "JOB",
       "label": "DEFCUST",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/DEFCUST.jcl",
+        "file": "DEFCUST.jcl"
+      }
     },
     {
       "id": "step:DEFCUST.STEP05",
@@ -7737,7 +7794,10 @@
       "id": "job:DEFGDGB",
       "kind": "JOB",
       "label": "DEFGDGB",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/DEFGDGB.jcl",
+        "file": "DEFGDGB.jcl"
+      }
     },
     {
       "id": "step:DEFGDGB.STEP05",
@@ -7749,7 +7809,10 @@
       "id": "job:DEFGDGD",
       "kind": "JOB",
       "label": "DEFGDGD",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/DEFGDGD.jcl",
+        "file": "DEFGDGD.jcl"
+      }
     },
     {
       "id": "step:DEFGDGD.STEP10",
@@ -7839,7 +7902,10 @@
       "id": "job:DISCGRP",
       "kind": "JOB",
       "label": "DISCGRP",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/DISCGRP.jcl",
+        "file": "DISCGRP.jcl"
+      }
     },
     {
       "id": "step:DISCGRP.STEP05",
@@ -7871,7 +7937,10 @@
       "id": "job:DUSRSECJ",
       "kind": "JOB",
       "label": "DUSRSECJ",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/DUSRSECJ.jcl",
+        "file": "DUSRSECJ.jcl"
+      }
     },
     {
       "id": "step:DUSRSECJ.PREDEL",
@@ -7917,7 +7986,10 @@
       "id": "job:ESDSRRDS",
       "kind": "JOB",
       "label": "ESDSRRDS",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/ESDSRRDS.jcl",
+        "file": "ESDSRRDS.jcl"
+      }
     },
     {
       "id": "step:ESDSRRDS.PREDEL",
@@ -7983,7 +8055,10 @@
       "id": "job:FTPJCLS",
       "kind": "JOB",
       "label": "FTPJCLS",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/FTPJCL.JCL",
+        "file": "FTPJCL.JCL"
+      }
     },
     {
       "id": "step:FTPJCLS.STEP1",
@@ -8001,7 +8076,10 @@
       "id": "job:INTCALC",
       "kind": "JOB",
       "label": "INTCALC",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/INTCALC.jcl",
+        "file": "INTCALC.jcl"
+      }
     },
     {
       "id": "step:INTCALC.STEP15",
@@ -8037,7 +8115,10 @@
       "id": "job:INTRDRJ1",
       "kind": "JOB",
       "label": "INTRDRJ1",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/INTRDRJ1.JCL",
+        "file": "INTRDRJ1.JCL"
+      }
     },
     {
       "id": "step:INTRDRJ1.IDCAMS",
@@ -8079,7 +8160,10 @@
       "id": "job:INTRDRJ2",
       "kind": "JOB",
       "label": "INTRDRJ2",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/INTRDRJ2.JCL",
+        "file": "INTRDRJ2.JCL"
+      }
     },
     {
       "id": "step:INTRDRJ2.IDCAMS",
@@ -8099,7 +8183,10 @@
       "id": "job:OPENFIL",
       "kind": "JOB",
       "label": "OPENFIL",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/OPENFIL.jcl",
+        "file": "OPENFIL.jcl"
+      }
     },
     {
       "id": "step:OPENFIL.OPCIFIL",
@@ -8111,7 +8198,10 @@
       "id": "job:POSTTRAN",
       "kind": "JOB",
       "label": "POSTTRAN",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/POSTTRAN.jcl",
+        "file": "POSTTRAN.jcl"
+      }
     },
     {
       "id": "step:POSTTRAN.STEP15",
@@ -8139,7 +8229,10 @@
       "id": "job:PRTCATBL",
       "kind": "JOB",
       "label": "PRTCATBL",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/PRTCATBL.jcl",
+        "file": "PRTCATBL.jcl"
+      }
     },
     {
       "id": "step:PRTCATBL.DELDEF",
@@ -8185,7 +8278,10 @@
       "id": "job:READACCT",
       "kind": "JOB",
       "label": "READACCT",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/READACCT.jcl",
+        "file": "READACCT.jcl"
+      }
     },
     {
       "id": "step:READACCT.PREDEL",
@@ -8227,7 +8323,10 @@
       "id": "job:READCARD",
       "kind": "JOB",
       "label": "READCARD",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/READCARD.jcl",
+        "file": "READCARD.jcl"
+      }
     },
     {
       "id": "step:READCARD.STEP05",
@@ -8239,7 +8338,10 @@
       "id": "job:READCUST",
       "kind": "JOB",
       "label": "READCUST",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/READCUST.jcl",
+        "file": "READCUST.jcl"
+      }
     },
     {
       "id": "step:READCUST.STEP05",
@@ -8251,7 +8353,10 @@
       "id": "job:READXREF",
       "kind": "JOB",
       "label": "READXREF",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/READXREF.jcl",
+        "file": "READXREF.jcl"
+      }
     },
     {
       "id": "step:READXREF.STEP05",
@@ -8263,7 +8368,10 @@
       "id": "job:REPTFILE",
       "kind": "JOB",
       "label": "REPTFILE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/REPTFILE.jcl",
+        "file": "REPTFILE.jcl"
+      }
     },
     {
       "id": "step:REPTFILE.STEP05",
@@ -8275,7 +8383,10 @@
       "id": "job:TCATBALF",
       "kind": "JOB",
       "label": "TCATBALF",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TCATBALF.jcl",
+        "file": "TCATBALF.jcl"
+      }
     },
     {
       "id": "step:TCATBALF.STEP05",
@@ -8307,7 +8418,10 @@
       "id": "job:TRANBKP",
       "kind": "JOB",
       "label": "TRANBKP",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TRANBKP.jcl",
+        "file": "TRANBKP.jcl"
+      }
     },
     {
       "id": "step:TRANBKP.STEP05R",
@@ -8331,7 +8445,10 @@
       "id": "job:TRANCATG",
       "kind": "JOB",
       "label": "TRANCATG",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TRANCATG.jcl",
+        "file": "TRANCATG.jcl"
+      }
     },
     {
       "id": "step:TRANCATG.STEP05",
@@ -8363,7 +8480,10 @@
       "id": "job:TRANFILE",
       "kind": "JOB",
       "label": "TRANFILE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TRANFILE.jcl",
+        "file": "TRANFILE.jcl"
+      }
     },
     {
       "id": "step:TRANFILE.CLCIFIL",
@@ -8425,7 +8545,10 @@
       "id": "job:TRANIDX",
       "kind": "JOB",
       "label": "TRANIDX",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TRANIDX.jcl",
+        "file": "TRANIDX.jcl"
+      }
     },
     {
       "id": "step:TRANIDX.STEP20",
@@ -8449,7 +8572,10 @@
       "id": "job:TRANREPT",
       "kind": "JOB",
       "label": "TRANREPT",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TRANREPT.jcl",
+        "file": "TRANREPT.jcl"
+      }
     },
     {
       "id": "step:TRANREPT.STEP05R",
@@ -8499,7 +8625,10 @@
       "id": "job:TRANTYPE",
       "kind": "JOB",
       "label": "TRANTYPE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TRANTYPE.jcl",
+        "file": "TRANTYPE.jcl"
+      }
     },
     {
       "id": "step:TRANTYPE.STEP05",
@@ -8523,7 +8652,10 @@
       "id": "job:TXT2PDF1",
       "kind": "JOB",
       "label": "TXT2PDF1",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/TXT2PDF1.JCL",
+        "file": "TXT2PDF1.JCL"
+      }
     },
     {
       "id": "step:TXT2PDF1.TXT2PDF",
@@ -8557,7 +8689,10 @@
       "id": "job:WAITSTEP",
       "kind": "JOB",
       "label": "WAITSTEP",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/WAITSTEP.jcl",
+        "file": "WAITSTEP.jcl"
+      }
     },
     {
       "id": "step:WAITSTEP.WAIT",
@@ -8569,7 +8704,10 @@
       "id": "job:XREFFILE",
       "kind": "JOB",
       "label": "XREFFILE",
-      "attrs": {}
+      "attrs": {
+        "path": "app/jcl/XREFFILE.jcl",
+        "file": "XREFFILE.jcl"
+      }
     },
     {
       "id": "step:XREFFILE.STEP05",

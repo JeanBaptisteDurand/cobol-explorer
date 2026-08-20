@@ -15,7 +15,7 @@ import json
 import os
 from collections import Counter
 
-from core.schema import Edge, Node, nid, split_id
+from core.schema import Edge, Node, NodeKind, nid, split_id
 from graph.build import build_graph, to_json
 from graph.cross_resolve import resolve_file_lineage
 from graph.domains import apply_domains, load_mapping
@@ -70,6 +70,13 @@ def ingest(corpus_dir: str, out_path: str, rekt: bool = False, rekt_out: str = "
         except Exception as exc:
             print(f"[warn] JCL parse failed for {f}: {exc}")
             continue
+        # The parser knows which file it read, so the JOB gets its source path here —
+        # matching by name would miss every job whose JCL member is named differently.
+        rel = os.path.relpath(f, corpus_dir)
+        for n in pu.nodes:
+            if n.kind == NodeKind.JOB:
+                n.attrs.setdefault("path", rel)
+                n.attrs.setdefault("file", os.path.basename(rel))
         nodes += pu.nodes
         edges += pu.edges
 
@@ -108,12 +115,12 @@ def ingest(corpus_dir: str, out_path: str, rekt: bool = False, rekt_out: str = "
         nodes += dn
         edges += de
 
-    # enrich PGM/COPYBOOK nodes with a corpus-relative path (source view + editing)
-    from core.schema import split_id
-
-    index: dict[str, str] = {}
-    for f in _find(corpus_dir, ["*.cbl", "*.CBL", "*.cob", "*.cpy", "*.CPY"]):
-        index[os.path.basename(f).split(".")[0].upper()] = os.path.relpath(f, corpus_dir)
+    # enrich PGM/COPYBOOK nodes with a corpus-relative path (source view + editing);
+    # JOB nodes get theirs straight from the JCL parser loop above.
+    index = {
+        os.path.basename(f).split(".")[0].upper(): os.path.relpath(f, corpus_dir)
+        for f in _find(corpus_dir, ["*.cbl", "*.CBL", "*.cob", "*.cpy", "*.CPY"])
+    }
     for n in nodes:
         if n.kind in ("PGM", "COPYBOOK"):
             rel = index.get(split_id(n.id)[1].upper())

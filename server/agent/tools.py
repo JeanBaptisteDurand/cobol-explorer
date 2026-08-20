@@ -52,6 +52,21 @@ class GraphTools:
         return NetworkxBackend(self.g)
 
     # --- node resolution -------------------------------------------------
+    def node_for_path(self, rel: str) -> str | None:
+        """The graph node whose source file is ``rel``, or None.
+
+        The graph already records each node's file in ``attrs.path``, so callers never
+        have to guess the node type from the extension — guessing sent every non-.cpy
+        edit to a ``pgm:`` node that often does not exist (a .jcl edit then reported an
+        empty impact instead of the job's programs).
+        """
+        base = os.path.basename(str(rel)).lower()
+        for nid_, data in self.g.nodes(data=True):
+            path = (data.get("attrs") or {}).get("path")
+            if path and (path == rel or os.path.basename(path).lower() == base):
+                return nid_
+        return None
+
     def resolve(self, node: str) -> str:
         if ":" in node and node in self.g:
             return node

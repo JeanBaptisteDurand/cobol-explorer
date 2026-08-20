@@ -68,9 +68,11 @@ def impact(g: nx.MultiDiGraph, node_id: str) -> dict:
     - copybook -> programs that COPY it
     - db2 table -> programs with EXEC SQL on it
     - program  -> programs that CALL it
+    - job      -> the programs its steps EXECUTE (editing the JCL changes what they run)
     Then roll up: programs -> jobs that run them -> scheduler chains.
     """
     prefix, _ = split_id(node_id)
+    edited_job: set[str] = set()
     if prefix == "copy":
         programs = set(_in_of(g, node_id, EdgeKind.PGM_COPIES))
     elif prefix == "table":
@@ -79,10 +81,18 @@ def impact(g: nx.MultiDiGraph, node_id: str) -> dict:
         )
     elif prefix == "pgm":
         programs = set(callers(g, node_id))
+    elif prefix == "job":
+        # A job is the one case we traverse FORWARD: the JCL is the change, and what
+        # it puts at risk is what it runs. Without this branch, editing a .jcl reported
+        # "0 impacted" — a false negative on the very claim the product makes.
+        programs = set()
+        for step in _out_of(g, node_id, EdgeKind.JOB_CONTAINS):
+            programs |= set(_out_of(g, step, EdgeKind.STEP_EXECUTES))
+        edited_job = {node_id}
     else:
         programs = set()
 
-    jobs: set[str] = set()
+    jobs: set[str] = set(edited_job)
     for p in programs:
         jobs |= _jobs_running(g, p)
     chains = _chains_for(g, jobs)
