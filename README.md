@@ -219,8 +219,8 @@ jetons survivent à un redémarrage.
 ## 8. Tests
 
 ```bash
-make test                          # 102 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth)
-cd web && pnpm exec playwright test # 24 e2e (aperçu, code, impact, cowork, connexion)
+make test                          # 113 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
+cd web && pnpm exec playwright test # 27 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
 ```
 
 ## 9. Positionnement
