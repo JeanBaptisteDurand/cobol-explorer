@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
     localStorage.removeItem("cobol-explorer-token");
   });
   await page.route("**/api/auth/config", (route) =>
-    route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev", "risk", "auditor"] } })
+    route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev", "risk", "auditor"], email_verification: false } })
   );
 });
 
@@ -114,4 +114,38 @@ test("inscription : le rôle choisi part au serveur et ouvre l'atelier", async (
   await expect(page.locator(".ov-stats")).toBeVisible();
   expect(sent).toMatchObject({ username: "nadia", display: "Nadia", role: "risk" });
   await expect(page.getByTestId("identity")).toContainText("Nadia");
+});
+
+
+test("inscription avec vérification : l'e-mail est demandé et la session est retenue", async ({ page }) => {
+  await page.route("**/api/auth/config", (route) =>
+    route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: true } })
+  );
+  let sent: any = null;
+  await page.route("**/api/signup", async (route) => {
+    sent = JSON.parse(route.request().postData() || "{}");
+    return route.fulfill({ json: { verification_required: true, email: sent.email, name: "Nadia", role: "dev" } });
+  });
+
+  await page.goto("/");
+  await page.getByTestId("nav-signup").click();
+  await expect(page.getByTestId("auth-email")).toBeVisible();
+  await page.getByTestId("auth-user").fill("nadia");
+  await page.getByTestId("auth-email").fill("nadia@example.com");
+  await page.getByTestId("auth-display").fill("Nadia");
+  await page.getByTestId("auth-password").fill("correct-horse");
+  await page.getByTestId("auth-submit").click();
+
+  await expect(page.getByTestId("auth-sent")).toContainText("nadia@example.com");
+  expect(sent.email).toBe("nadia@example.com");
+  // Aucune session tant que l'adresse n'est pas confirmée.
+  expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))).toBeNull();
+  await expect(page.getByTestId("landing")).toBeVisible();
+});
+
+test("retour du lien de confirmation : la bannière annonce le résultat", async ({ page }) => {
+  await page.goto("/?verified=1");
+  await expect(page.getByTestId("verified-banner")).toContainText("confirmed");
+  await page.goto("/?verified=expired");
+  await expect(page.getByTestId("verified-banner")).toContainText(/invalid|expired/i);
 });

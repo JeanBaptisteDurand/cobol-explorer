@@ -11,7 +11,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from run_ingest import ingest
-from security import tokens, users
+from security import mailer, tokens, users
 
 
 # --- tokens -------------------------------------------------------------------
@@ -153,8 +153,8 @@ def store(tmp_path, monkeypatch):
 
 def test_signup_creates_a_usable_account(store):
     actor = users.create_account("nadia", "correct-horse", display="Nadia", role="risk")
-    assert actor == {"name": "Nadia", "role": "risk"}
-    assert users.authenticate("nadia", "correct-horse") == actor
+    assert actor["name"] == "Nadia" and actor["role"] == "risk" and actor["verified"] is True
+    assert users.authenticate("nadia", "correct-horse") == {"name": "Nadia", "role": "risk"}
     assert os.path.exists(store)
 
 
@@ -171,10 +171,10 @@ def test_signup_never_stores_the_password(store):
 @pytest.mark.parametrize(
     "kwargs, reason",
     [
-        ({"username": "no", "password": "correct-horse"}, "trop court"),
-        ({"username": "na dia", "password": "correct-horse"}, "espace"),
-        ({"username": "nadia", "password": "short"}, "mot de passe"),
-        ({"username": "nadia", "password": "correct-horse", "role": "root"}, "rôle inconnu"),
+        ({"username": "no", "password": "correct-horse"}, "username too short"),
+        ({"username": "na dia", "password": "correct-horse"}, "space in username"),
+        ({"username": "nadia", "password": "short"}, "password too short"),
+        ({"username": "nadia", "password": "correct-horse", "role": "root"}, "unknown role"),
     ],
 )
 def test_signup_refuses_bad_input(store, kwargs, reason):
@@ -201,4 +201,88 @@ def test_signup_endpoint_signs_the_new_user_in(client, tmp_path, monkeypatch):
 def test_signup_endpoint_reports_why_it_refused(client, tmp_path, monkeypatch):
     monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
     r = client.post("/api/signup", json={"username": "nadia", "password": "short"})
-    assert r.status_code == 400 and "mot de passe" in r.json()["detail"]
+    assert r.status_code == 400 and "password too short" in r.json()["detail"]
+
+
+# --- e-mail verification ------------------------------------------------------
+def test_unverified_account_cannot_sign_in_but_verification_opens_it(store):
+    created = users.create_account("nadia", "correct-horse", email="nadia@example.com", verified=False)
+    assert created["verified"] is False and created["token"]
+
+    with pytest.raises(users.UnverifiedAccount):
+        users.authenticate("nadia", "correct-horse")
+
+    actor = users.verify(created["token"])
+    assert actor == {"name": "nadia", "role": "dev"}
+    assert users.authenticate("nadia", "correct-horse") == actor
+
+
+def test_a_verification_link_works_exactly_once(store):
+    created = users.create_account("nadia", "correct-horse", email="nadia@example.com", verified=False)
+    assert users.verify(created["token"]) is not None
+    assert users.verify(created["token"]) is None
+
+
+def test_an_expired_link_is_refused(store, monkeypatch):
+    monkeypatch.setattr(users, "VERIFY_TTL", -1)
+    created = users.create_account("nadia", "correct-horse", email="nadia@example.com", verified=False)
+    assert users.verify(created["token"]) is None
+    with pytest.raises(users.UnverifiedAccount):
+        users.authenticate("nadia", "correct-horse")
+
+
+def test_a_wrong_token_never_verifies_anyone(store):
+    users.create_account("nadia", "correct-horse", email="nadia@example.com", verified=False)
+    assert users.verify("not-the-token") is None
+    assert users.verify("") is None
+
+
+@pytest.mark.parametrize("bad", ["", "nadia", "nadia@", "@example.com", "nadia example.com"])
+def test_signup_requiring_verification_needs_a_real_address(store, bad):
+    with pytest.raises(users.SignupError):
+        users.create_account("nadia", "correct-horse", email=bad, verified=False)
+
+
+def test_an_address_cannot_be_registered_twice(store):
+    users.create_account("nadia", "correct-horse", email="nadia@example.com", verified=False)
+    with pytest.raises(users.SignupError):
+        users.create_account("other", "correct-horse", email="NADIA@example.com", verified=False)
+
+
+def test_signup_endpoint_says_when_verification_is_disabled(client, tmp_path, monkeypatch):
+    """No relay configured: the UI must not claim an e-mail was sent."""
+    monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
+    monkeypatch.setattr(mailer, "HOST", "")
+    r = client.post("/api/signup", json={"username": "nadia", "password": "correct-horse"})
+    assert r.status_code == 200
+    assert r.json()["verification_required"] is False and r.json()["token"]
+
+
+def test_signup_endpoint_sends_the_link_and_withholds_the_token(client, tmp_path, monkeypatch):
+    sent: dict = {}
+    monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
+    monkeypatch.setattr(mailer, "HOST", "smtp.example.com")
+    monkeypatch.setattr(mailer, "send_verification",
+                        lambda to, display, token: sent.update(to=to, token=token) or True)
+
+    r = client.post("/api/signup", json={
+        "username": "nadia", "password": "correct-horse", "email": "nadia@example.com"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["verification_required"] is True
+    assert "token" not in body, "an unverified signup must not hand out a session"
+    assert sent["to"] == "nadia@example.com"
+
+    # Signing in before clicking the link is refused with a reason the UI can show.
+    assert client.post("/api/login", json={"username": "nadia", "password": "correct-horse"}).status_code == 403
+
+    # The link activates the account and redirects back to the front door.
+    r = client.get("/api/verify", params={"token": sent["token"]}, follow_redirects=False)
+    assert r.status_code == 303 and r.headers["location"] == "/?verified=1"
+    assert client.post("/api/login", json={"username": "nadia", "password": "correct-horse"}).status_code == 200
+
+
+def test_an_invalid_link_redirects_without_activating_anything(client, tmp_path, monkeypatch):
+    monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
+    r = client.get("/api/verify", params={"token": "garbage"}, follow_redirects=False)
+    assert r.status_code == 303 and r.headers["location"] == "/?verified=expired"

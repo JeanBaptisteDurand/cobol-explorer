@@ -25,6 +25,22 @@ interface TabGroup { id: string; tabs: Tab[]; activeKey: string; }
 const OVERVIEW_TAB: Tab = { key: "overview", type: "overview", title: "Overview" };
 const GRAPH_TAB: Tab = { key: "graph", type: "graph", title: "Graph" };
 
+/** Feedback after clicking a confirmation link — the redirect lands back on the
+ *  landing with ?verified=1 (or =expired), and the visitor must be told which. */
+function VerifiedBanner() {
+  const state = new URLSearchParams(window.location.search).get("verified");
+  const [shown, setShown] = useState(!!state);
+  if (!shown || !state) return null;
+  const ok = state === "1";
+  return (
+    <div className="verified-banner" data-testid="verified-banner"
+      style={{ borderColor: ok ? "var(--green)" : "var(--red)", color: ok ? "var(--green)" : "var(--red)" }}>
+      {ok ? "✓ Address confirmed — you can sign in now." : "This confirmation link is invalid or has expired."}
+      <span onClick={() => setShown(false)} style={{ cursor: "pointer", marginLeft: 12, color: "var(--faint)" }}>✕</span>
+    </div>
+  );
+}
+
 export default function App() {
   const [graph, setGraph] = useState<Graph | null>(null);
   const [versions, setVersions] = useState<ChangeSet[]>([]);
@@ -66,6 +82,7 @@ export default function App() {
   const [showOnb, setShowOnb] = useState(false);
   const [authRequired, setAuthRequired] = useState<boolean | null>(null);
   const [signupRoles, setSignupRoles] = useState<string[]>([]);
+  const [emailVerification, setEmailVerification] = useState(false);
   const [token, setToken] = useState<string | null>(getToken());
   // Not signed in on a protected server: the landing page is the front door,
   // and the auth panel opens on top of it (null = panel closed).
@@ -82,7 +99,7 @@ export default function App() {
   // touching any gated endpoint — otherwise the first paint is a wall of 401s.
   useEffect(() => {
     getAuthConfig()
-      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); })
+      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); })
       .catch(() => setAuthRequired(false));
   }, []);
   useEffect(() => {
@@ -431,9 +448,10 @@ export default function App() {
   if (needsLogin)
     return (
       <>
+        <VerifiedBanner />
         <Landing onSignIn={() => setAuthPanel("login")} onSignUp={() => setAuthPanel("signup")} />
         {authPanel && (
-          <Auth mode={authPanel} roles={signupRoles} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
+          <Auth mode={authPanel} roles={signupRoles} emailVerification={emailVerification} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
             onDone={(id) => { setIdent(id); setToken(getToken()); setAuthPanel(null); }} />
         )}
       </>

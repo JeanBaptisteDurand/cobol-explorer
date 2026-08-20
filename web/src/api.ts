@@ -40,13 +40,14 @@ export const setSystem = (id: string) => post("/api/system", { id });
 
 export const getGraph = (): Promise<Graph> => fetch("/api/graph", { headers: authHeaders() }).then(j);
 
-export interface AuthConfig { mode: string; required: boolean; roles: string[]; }
+export interface AuthConfig { mode: string; required: boolean; roles: string[]; email_verification: boolean; }
 /** Does this server require a real login, or is it the open demo? Asked before anything else. */
 export const getAuthConfig = (): Promise<AuthConfig> => fetch("/api/auth/config").then(j);
 export const login = (username: string, password: string): Promise<Identity & { token: string }> =>
   post("/api/login", { username, password });
-export const signup = (username: string, password: string, display: string, role: string): Promise<Identity & { token: string }> =>
-  post("/api/signup", { username, password, display, role });
+export interface SignupResult extends Partial<Identity> { token?: string; verification_required: boolean; email?: string; }
+export const signup = (username: string, password: string, display: string, role: string, email: string): Promise<SignupResult> =>
+  post("/api/signup", { username, password, display, role, email });
 export const getImpact = (node: string) =>
   fetch(`/api/impact?node=${encodeURIComponent(node)}`, { headers: authHeaders() }).then(j);
 export const getAudit = (n = 100) =>

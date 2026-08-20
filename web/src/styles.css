@@ -369,3 +369,7 @@ input, textarea { font-family: var(--s); }
 @media (max-width: 900px) {
   .lp-st { min-width: 100%; border-radius: 9px !important; border-left: 1px solid var(--line) !important; margin-bottom: -1px; }
 }
+
+.verified-banner { position: fixed; top: 62px; left: 50%; transform: translateX(-50%); z-index: 40;
+  display: flex; align-items: center; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 10px 16px; font: 500 12px var(--s); box-shadow: 0 8px 28px rgba(8,9,11,.55); }

@@ -25,6 +25,7 @@ import threading
 from dataclasses import asdict
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -33,7 +34,7 @@ from sse_starlette.sse import EventSourceResponse
 from agent.responder import answer_copybook_impact
 from agent.tools import GraphTools
 from agent.verify import verify_answer
-from security import rbac, tokens, users
+from security import mailer, rbac, tokens, users
 from security.audit import AuditLog
 from security.identity import identify
 from versioning.changeset import ChangeSet, VersionStore
@@ -183,13 +184,17 @@ def auth_config() -> dict:
 
     Ungated on purpose — it carries no user data, only the mode the server runs in.
     """
-    return {"mode": AUTH_MODE, "required": JWT_MODE, "roles": list(users.SIGNUP_ROLES)}
+    return {"mode": AUTH_MODE, "required": JWT_MODE, "roles": list(users.SIGNUP_ROLES), "email_verification": mailer.ready()}
 
 
 @app.post("/api/login")
 def login(body: LoginBody) -> dict:
     """Exchange credentials for a signed bearer token. Both outcomes are audited."""
-    actor = users.authenticate(body.username, body.password)
+    try:
+        actor = users.authenticate(body.username, body.password)
+    except users.UnverifiedAccount:
+        AUDIT.record(body.username, "guest", "login", target="unverified", result="denied")
+        raise HTTPException(403, {"code": "unverified", "message": "confirm your e-mail address first — check your inbox"})
     if not actor:
         AUDIT.record(body.username or "?", "guest", "login", target="", result="denied")
         raise HTTPException(401, "invalid credentials")
@@ -202,18 +207,51 @@ class SignupBody(BaseModel):
     password: str
     display: str = ""
     role: str = "dev"
+    email: str = ""
 
 
 @app.post("/api/signup")
 def signup(body: SignupBody) -> dict:
-    """Register a visitor and sign them straight in — refusals are audited too."""
+    """Register a visitor.
+
+    With a mail relay configured the account is created **unverified** and a
+    confirmation link is sent; without one, verification is disabled and the visitor
+    is signed in immediately. The response says which of the two happened, so the UI
+    never claims an e-mail was sent when it was not.
+    """
+    needs_email = mailer.ready()
     try:
-        actor = users.create_account(body.username, body.password, body.display, body.role)
+        actor = users.create_account(
+            body.username, body.password, body.display, body.role,
+            email=body.email, verified=not needs_email,
+        )
     except users.SignupError as exc:
         AUDIT.record(body.username or "?", "guest", "signup", target=str(exc), result="denied")
         raise HTTPException(400, str(exc))
-    AUDIT.record(actor["name"], actor["role"], "signup")
-    return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
+
+    if not needs_email:
+        AUDIT.record(actor["name"], actor["role"], "signup")
+        return {
+            "token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL,
+            "name": actor["name"], "role": actor["role"], "verification_required": False,
+        }
+
+    sent = mailer.send_verification(body.email, actor["name"], actor["token"])
+    AUDIT.record(actor["name"], actor["role"], "signup", target=f"verification sent={sent}")
+    if not sent:
+        raise HTTPException(502, "account created, but the confirmation e-mail could not be sent — try signing in later to receive a new link")
+    return {"verification_required": True, "email": body.email, "name": actor["name"], "role": actor["role"]}
+
+
+@app.get("/api/verify")
+def verify_email(token: str):
+    """Consume a confirmation link and send the visitor back to the front door."""
+    actor = users.verify(token)
+    if not actor:
+        AUDIT.record("?", "guest", "verify", target="invalid or expired", result="denied")
+        return RedirectResponse("/?verified=expired", status_code=303)
+    AUDIT.record(actor["name"], actor["role"], "verify")
+    return RedirectResponse("/?verified=1", status_code=303)
 
 
 @app.get("/api/me")

@@ -16,10 +16,11 @@ const ROLE_HINT: Record<string, string> = {
  *  The role is picked here but decided server-side — it comes back inside the
  *  signed token, so the workshop trusts the token and never this form. */
 export default function Auth({
-  mode, roles, onMode, onDone, onClose,
+  mode, roles, emailVerification, onMode, onDone, onClose,
 }: {
   mode: AuthMode;
   roles: string[];
+  emailVerification: boolean;
   onMode: (m: AuthMode) => void;
   onDone: (id: Identity) => void;
   onClose?: () => void;
@@ -28,8 +29,10 @@ export default function Auth({
   const [password, setPassword] = useState("");
   const [display, setDisplay] = useState("");
   const [role, setRole] = useState(roles[0] || "dev");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sentTo, setSentTo] = useState("");
   const isSignup = mode === "signup";
 
   const submit = async () => {
@@ -37,9 +40,16 @@ export default function Auth({
     setBusy(true);
     setError("");
     try {
-      const r = isSignup
-        ? await signup(username.trim(), password, display.trim(), role)
-        : await login(username.trim(), password);
+      if (isSignup) {
+        const r = await signup(username.trim(), password, display.trim(), role, email.trim());
+        // No token means the address must be confirmed first — say so instead of
+        // pretending the account is live.
+        if (r.verification_required || !r.token) { setSentTo(r.email || email.trim()); return; }
+        saveSession({ name: r.name!, role: r.role! }, r.token);
+        onDone({ name: r.name!, role: r.role! });
+        return;
+      }
+      const r = await login(username.trim(), password);
       saveSession({ name: r.name, role: r.role }, r.token);
       onDone({ name: r.name, role: r.role });
     } catch (e: any) {
@@ -50,6 +60,24 @@ export default function Auth({
   };
 
   const swap = (m: AuthMode) => { setError(""); onMode(m); };
+
+  if (sentTo)
+    return (
+      <div className="scrim" onClick={(e) => e.target === e.currentTarget && onClose?.()}>
+        <div className="modal" style={{ width: 420, textAlign: "center" }} data-testid="auth-sent">
+          <div style={{ fontSize: 30, marginBottom: 12 }}>📬</div>
+          <div style={{ font: "600 14px var(--s)", color: "var(--tx)", marginBottom: 10 }}>Confirm your address</div>
+          <p style={{ font: "400 12.5px/1.7 var(--s)", color: "var(--dim)", margin: "0 0 18px" }}>
+            We sent a link to <b style={{ color: "var(--tx)" }}>{sentTo}</b>. Click it to activate your account —
+            it is valid for 24 hours. Until then, signing in is refused.
+          </p>
+          <button className="btn-pri" data-testid="auth-sent-ok" onClick={() => { setSentTo(""); onMode("login"); }}
+            style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 6, border: "none" }}>
+            Got it
+          </button>
+        </div>
+      </div>
+    );
 
   return (
     <div className="scrim" onClick={(e) => e.target === e.currentTarget && onClose?.()}>
@@ -80,6 +108,15 @@ export default function Auth({
         <div className="klabel" style={{ marginBottom: 7 }}>User</div>
         <input className="inp" style={{ marginBottom: 13 }} value={username} autoFocus data-testid="auth-user"
           onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()} />
+
+        {isSignup && emailVerification && (
+          <>
+            <div className="klabel" style={{ marginBottom: 7 }}>E-mail</div>
+            <input className="inp" style={{ marginBottom: 13 }} type="email" value={email} data-testid="auth-email"
+              placeholder="we send one confirmation link, nothing else"
+              onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()} />
+          </>
+        )}
 
         {isSignup && (
           <>
