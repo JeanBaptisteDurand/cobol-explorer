@@ -10,7 +10,8 @@ import { Icon } from "./components/Icons";
 import Inspector from "./components/Inspector";
 import Navigator from "./components/Navigator";
 import NewVersionModal from "./components/NewVersionModal";
-import Login from "./components/Login";
+import Auth, { type AuthMode } from "./components/Auth";
+import Landing from "./components/Landing";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
 import { getIdentity, getToken, type Identity } from "./identity";
@@ -64,7 +65,11 @@ export default function App() {
   const [identity, setIdent] = useState<Identity | null>(getIdentity());
   const [showOnb, setShowOnb] = useState(false);
   const [authRequired, setAuthRequired] = useState<boolean | null>(null);
+  const [signupRoles, setSignupRoles] = useState<string[]>([]);
   const [token, setToken] = useState<string | null>(getToken());
+  // Not signed in on a protected server: the landing page is the front door,
+  // and the auth panel opens on top of it (null = panel closed).
+  const [authPanel, setAuthPanel] = useState<AuthMode | null>(null);
   const needsLogin = authRequired === true && !token;
   const [newVer, setNewVer] = useState<{ defaultTitle: string } | null>(null);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -75,7 +80,11 @@ export default function App() {
 
   // Ask the server whether it runs open (demo) or with real authentication, before
   // touching any gated endpoint — otherwise the first paint is a wall of 401s.
-  useEffect(() => { getAuthConfig().then((c) => setAuthRequired(c.required)).catch(() => setAuthRequired(false)); }, []);
+  useEffect(() => {
+    getAuthConfig()
+      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); })
+      .catch(() => setAuthRequired(false));
+  }, []);
   useEffect(() => {
     if (authRequired === null || needsLogin) return;
     getGraph().then(setGraph); reloadVersions(); getSystems().then((d) => { setSystems(d.systems); setActiveSys(d.active); });
@@ -417,14 +426,17 @@ export default function App() {
     else { setSearchMiss(true); setTimeout(() => setSearchMiss(false), 2200); }
   }
 
-  // Real-auth mode: nothing of the estate is fetched — let alone painted — before sign-in.
+  // Real-auth mode: nothing of the estate is fetched — let alone painted — before
+  // sign-in. Visitors get the public landing page instead.
   if (needsLogin)
     return (
-      <div className="app">
-        <div className="titlebar"><div className="brand"><span className="sq" /><span className="nm">COBOL Explorer</span></div></div>
-        <div className="emptypane" />
-        <Login onDone={(id) => { setIdent(id); setToken(getToken()); }} />
-      </div>
+      <>
+        <Landing onSignIn={() => setAuthPanel("login")} onSignUp={() => setAuthPanel("signup")} />
+        {authPanel && (
+          <Auth mode={authPanel} roles={signupRoles} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
+            onDone={(id) => { setIdent(id); setToken(getToken()); setAuthPanel(null); }} />
+        )}
+      </>
     );
 
   if (!graph)

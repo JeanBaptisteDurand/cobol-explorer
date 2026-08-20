@@ -36,6 +36,8 @@ export interface AuthConfig { mode: string; required: boolean; roles: string[]; 
 export const getAuthConfig = (): Promise<AuthConfig> => fetch("/api/auth/config").then(j);
 export const login = (username: string, password: string): Promise<Identity & { token: string }> =>
   post("/api/login", { username, password });
+export const signup = (username: string, password: string, display: string, role: string): Promise<Identity & { token: string }> =>
+  post("/api/signup", { username, password, display, role });
 export const getImpact = (node: string) =>
   fetch(`/api/impact?node=${encodeURIComponent(node)}`, { headers: authHeaders() }).then(j);
 export const getAudit = (n = 100) =>

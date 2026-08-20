@@ -87,3 +87,54 @@ def authenticate(username: str, password: str) -> dict | None:
         "name": account.get("display") or username,
         "role": rbac.canonical(account.get("role", "")),
     }
+
+
+# Roles a visitor may take when signing up. Deliberately excludes nothing today —
+# this is a public demo of a governance workflow, and a signup that cannot reach
+# 'merge' would hide half of what the product does. A real deployment maps roles
+# from the corporate IdP instead and never lets a caller pick their own.
+SIGNUP_ROLES = ("dev", "architect", "risk", "compliance", "auditor")
+MIN_PASSWORD = 8
+
+
+class SignupError(ValueError):
+    """Why a signup was refused, in a sentence the UI can show as-is."""
+
+
+def create_account(username: str, password: str, display: str = "", role: str = "dev") -> dict:
+    """Register a new account and persist it. Raises ``SignupError`` if refused.
+
+    The store is created on first signup, seeded with the demo accounts so the
+    documented ``amine/demo`` logins keep working once a real user exists.
+    """
+    user = (username or "").strip().lower()
+    if not user.isalnum() or not (3 <= len(user) <= 32):
+        raise SignupError("identifiant invalide : 3 à 32 caractères alphanumériques")
+    if len(password or "") < MIN_PASSWORD:
+        raise SignupError(f"mot de passe trop court : {MIN_PASSWORD} caractères minimum")
+    canonical_role = rbac.canonical(role or "dev")
+    if canonical_role not in SIGNUP_ROLES:
+        raise SignupError(f"rôle inconnu : {role!r}")
+
+    current = dict(accounts())
+    if user in current:
+        raise SignupError("cet identifiant est déjà pris")
+
+    current[user] = {
+        "display": (display or username).strip()[:64],
+        "role": canonical_role,
+        "password_hash": hash_password(password),
+    }
+    _write(current)
+    return {"name": current[user]["display"], "role": canonical_role}
+
+
+def _write(all_accounts: dict[str, dict]) -> None:
+    """Persist the store atomically — a truncated users.json locks everyone out."""
+    directory = os.path.dirname(os.path.abspath(STORE))
+    os.makedirs(directory, exist_ok=True)
+    tmp = f"{STORE}.tmp.{os.getpid()}"
+    with open(tmp, "w") as fh:
+        json.dump(all_accounts, fh, ensure_ascii=False, indent=2)
+    os.replace(tmp, STORE)
+    os.chmod(STORE, 0o600)

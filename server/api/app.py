@@ -182,7 +182,7 @@ def auth_config() -> dict:
 
     Ungated on purpose — it carries no user data, only the mode the server runs in.
     """
-    return {"mode": AUTH_MODE, "required": JWT_MODE, "roles": list(rbac.ROLES)}
+    return {"mode": AUTH_MODE, "required": JWT_MODE, "roles": list(users.SIGNUP_ROLES)}
 
 
 @app.post("/api/login")
@@ -193,6 +193,25 @@ def login(body: LoginBody) -> dict:
         AUDIT.record(body.username or "?", "guest", "login", target="", result="denied")
         raise HTTPException(401, "identifiants invalides")
     AUDIT.record(actor["name"], actor["role"], "login")
+    return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
+
+
+class SignupBody(BaseModel):
+    username: str
+    password: str
+    display: str = ""
+    role: str = "dev"
+
+
+@app.post("/api/signup")
+def signup(body: SignupBody) -> dict:
+    """Register a visitor and sign them straight in — refusals are audited too."""
+    try:
+        actor = users.create_account(body.username, body.password, body.display, body.role)
+    except users.SignupError as exc:
+        AUDIT.record(body.username or "?", "guest", "signup", target=str(exc), result="denied")
+        raise HTTPException(400, str(exc))
+    AUDIT.record(actor["name"], actor["role"], "signup")
     return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
 
 

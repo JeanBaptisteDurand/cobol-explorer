@@ -279,3 +279,61 @@ input, textarea { font-family: var(--s); }
   align-items: center; justify-content: center; padding: 28px; z-index: 60; }
 .modal { background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
   box-shadow: 0 40px 90px -30px #000; padding: 26px 28px; }
+
+/* ── Public landing page ─────────────────────────────────────────────────────
+   Same tokens as the workshop, wider rhythm: this is the page a juror or a
+   prospect reads before they have an account. */
+.landing { height: 100%; overflow-y: auto; background: var(--edit); }
+.lp-nav { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 10px;
+  padding: 13px 26px; background: rgba(20,21,24,.86); backdrop-filter: blur(9px);
+  border-bottom: 1px solid var(--line); }
+.lp-brand { display: flex; align-items: center; gap: 9px; }
+.lp-brand .sq { width: 15px; height: 15px; border-radius: 4px; background: var(--amber); }
+.lp-brand .nm { font: 600 13px var(--s); color: var(--tx); }
+.lp-badge { font: 500 10.5px var(--m); color: var(--amber); border: 1px solid var(--amber-d);
+  border-radius: 99px; padding: 4px 11px; background: rgba(255,176,32,.07); }
+.lp-cta { padding: 8px 15px !important; border-radius: 6px !important; border: none !important;
+  font: 600 12px var(--s) !important; cursor: pointer; }
+
+.lp-hero { max-width: 940px; margin: 0 auto; padding: 74px 26px 58px; text-align: center; }
+.lp-kicker { font: 600 11px var(--m); letter-spacing: .09em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 20px; }
+.lp-hero h1 { font: 600 43px/1.16 var(--s); color: #eef1f5; margin: 0 0 22px; letter-spacing: -.02em; }
+.lp-lead { font: 400 15px/1.72 var(--s); color: var(--dim); max-width: 680px; margin: 0 auto 32px; }
+.lp-lead b { color: var(--tx); font-weight: 600; }
+.lp-actions { display: flex; gap: 11px; justify-content: center; align-items: center; margin-bottom: 54px; }
+.lp-proof { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding-top: 34px;
+  border-top: 1px solid var(--line); }
+.lp-num { font: 600 28px var(--m); color: var(--amber); }
+.lp-plabel { font: 400 11.5px/1.45 var(--s); color: var(--faint); margin-top: 5px; }
+
+.lp-sec { max-width: 1060px; margin: 0 auto; padding: 60px 26px; }
+.lp-alt { max-width: none; background: var(--side); border-block: 1px solid var(--line); }
+.lp-alt > * { max-width: 1060px; margin-inline: auto; }
+.lp-h2 { display: flex; align-items: center; gap: 9px; font: 600 21px var(--s); color: #eef1f5; margin-bottom: 12px; }
+.lp-sub { font: 400 13.5px/1.7 var(--s); color: var(--dim); max-width: 700px; margin: 0 0 30px; }
+.lp-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.lp-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.lp-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.lp-card { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 19px; }
+.lp-alt .lp-card { background: var(--edit); }
+.lp-card p { font: 400 12.5px/1.68 var(--s); color: var(--dim); margin: 9px 0 0; }
+.lp-verb { font: 600 10.5px var(--m); letter-spacing: .09em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 9px; }
+.lp-ctitle { font: 600 13.5px var(--s); color: var(--tx); }
+.lp-tag { display: inline-block; font: 500 10px var(--m); color: var(--dim); border: 1px solid var(--line);
+  border-radius: 4px; padding: 2px 7px; margin-bottom: 9px; }
+.lp-mono { font: 600 13px var(--m); color: var(--purple); }
+.lp-note { margin-top: 17px; padding: 15px 17px; border-left: 2px solid var(--amber);
+  background: rgba(255,176,32,.05); font: 400 12.5px/1.7 var(--s); color: var(--dim); border-radius: 0 7px 7px 0; }
+.lp-note code { font: 12px var(--m); color: var(--tx); }
+
+.lp-foot { display: flex; align-items: center; gap: 20px; max-width: 1060px; margin: 0 auto;
+  padding: 40px 26px 64px; font: 400 12px/1.6 var(--s); color: var(--faint); }
+
+@media (max-width: 900px) {
+  .lp-hero h1 { font-size: 31px; }
+  .lp-grid4, .lp-grid3, .lp-grid2 { grid-template-columns: 1fr; }
+  .lp-proof { grid-template-columns: repeat(2, 1fr); }
+  .lp-foot { flex-direction: column; align-items: flex-start; }
+}

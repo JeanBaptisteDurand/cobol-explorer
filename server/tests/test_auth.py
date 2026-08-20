@@ -5,7 +5,7 @@ token is refused, credentials are checked against a hash and never a plaintext, 
 the role carried by the token (not by a client header) is what RBAC enforces.
 """
 import importlib
-import time
+import os
 
 import pytest
 from fastapi.testclient import TestClient
@@ -141,3 +141,64 @@ def test_open_mode_still_needs_no_token(tmp_path, monkeypatch):
     c = TestClient(appmod.app, raise_server_exceptions=False)
     assert c.get("/api/graph").status_code == 200
     assert c.get("/api/auth/config").json()["required"] is False
+
+
+# --- signup -------------------------------------------------------------------
+@pytest.fixture()
+def store(tmp_path, monkeypatch):
+    """An isolated account store, so a test signup never touches the real one."""
+    monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
+    return str(tmp_path / "users.json")
+
+
+def test_signup_creates_a_usable_account(store):
+    actor = users.create_account("nadia", "correct-horse", display="Nadia", role="risk")
+    assert actor == {"name": "Nadia", "role": "risk"}
+    assert users.authenticate("nadia", "correct-horse") == actor
+    assert os.path.exists(store)
+
+
+def test_signup_keeps_the_demo_accounts_working(store):
+    users.create_account("nadia", "correct-horse")
+    assert users.authenticate("amine", users.DEMO_PASSWORD) is not None
+
+
+def test_signup_never_stores_the_password(store):
+    users.create_account("nadia", "correct-horse")
+    assert "correct-horse" not in open(store).read()
+
+
+@pytest.mark.parametrize(
+    "kwargs, reason",
+    [
+        ({"username": "no", "password": "correct-horse"}, "trop court"),
+        ({"username": "na dia", "password": "correct-horse"}, "espace"),
+        ({"username": "nadia", "password": "short"}, "mot de passe"),
+        ({"username": "nadia", "password": "correct-horse", "role": "root"}, "rôle inconnu"),
+    ],
+)
+def test_signup_refuses_bad_input(store, kwargs, reason):
+    with pytest.raises(users.SignupError):
+        users.create_account(**kwargs)
+
+
+def test_signup_refuses_a_taken_username(store):
+    users.create_account("nadia", "correct-horse")
+    with pytest.raises(users.SignupError):
+        users.create_account("NADIA", "another-password")
+
+
+def test_signup_endpoint_signs_the_new_user_in(client, tmp_path, monkeypatch):
+    monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
+    r = client.post("/api/signup", json={"username": "nadia", "password": "correct-horse", "display": "Nadia", "role": "risk"})
+    assert r.status_code == 200
+    token = r.json()["token"]
+    assert client.get("/api/graph", headers={"Authorization": f"Bearer {token}"}).status_code == 200
+    # 'risk' may propose but never merge — the role travels in the token.
+    assert tokens.read(token)["role"] == "risk"
+
+
+def test_signup_endpoint_reports_why_it_refused(client, tmp_path, monkeypatch):
+    monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
+    r = client.post("/api/signup", json={"username": "nadia", "password": "short"})
+    assert r.status_code == 400 and "mot de passe" in r.json()["detail"]
