@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
     localStorage.removeItem("cobol-explorer-token");
   });
   await page.route("**/api/auth/config", (route) =>
-    route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev", "risk", "auditor"], email_verification: false } })
+    route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev", "risk", "auditor"], email_verification: false, ibm_sign_in: false } })
   );
 });
 
@@ -148,4 +148,27 @@ test("retour du lien de confirmation : la bannière annonce le résultat", async
   await expect(page.getByTestId("verified-banner")).toContainText("confirmed");
   await page.goto("/?verified=expired");
   await expect(page.getByTestId("verified-banner")).toContainText(/invalid|expired/i);
+});
+
+
+test("« Continue with IBM » n'apparaît que si le déploiement est câblé", async ({ page }) => {
+  await page.route("**/api/auth/config", (r) =>
+    r.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: false, ibm_sign_in: true } }));
+  await page.goto("/");
+  await page.getByTestId("nav-signin").click();
+  const ibm = page.getByTestId("auth-ibm");
+  await expect(ibm).toBeVisible();
+  await expect(ibm).toHaveAttribute("href", "/api/auth/ibm");
+});
+
+test("retour fédéré : la session arrive par le fragment et l'URL est nettoyée", async ({ page }) => {
+  await page.route("**/api/auth/config", (r) =>
+    r.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: false, ibm_sign_in: true } }));
+  await page.goto("/#token=fragment.jwt.token&name=Jean-Baptiste&role=risk");
+
+  await expect(page.locator(".ov-stats")).toBeVisible({ timeout: 30000 });
+  await expect(page.getByTestId("identity")).toContainText("Jean-Baptiste");
+  expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))).toBe("fragment.jwt.token");
+  // Le jeton ne doit pas rester dans la barre d'adresse.
+  expect(await page.evaluate(() => window.location.hash)).toBe("");
 });

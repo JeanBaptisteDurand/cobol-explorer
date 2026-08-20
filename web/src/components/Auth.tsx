@@ -16,11 +16,12 @@ const ROLE_HINT: Record<string, string> = {
  *  The role is picked here but decided server-side — it comes back inside the
  *  signed token, so the workshop trusts the token and never this form. */
 export default function Auth({
-  mode, roles, emailVerification, onMode, onDone, onClose,
+  mode, roles, emailVerification, ibmSignIn, onMode, onDone, onClose,
 }: {
   mode: AuthMode;
   roles: string[];
   emailVerification: boolean;
+  ibmSignIn: boolean;
   onMode: (m: AuthMode) => void;
   onDone: (id: Identity) => void;
   onClose?: () => void;
@@ -99,6 +100,16 @@ export default function Auth({
             </span>
           ))}
         </div>
+
+        {ibmSignIn && (
+          <>
+            <a className="btn ibm-btn" href="/api/auth/ibm" data-testid="auth-ibm">
+              <span className="ibm-bars"><i /><i /><i /><i /><i /></span>
+              Continue with IBM
+            </a>
+            <div className="auth-or"><span>or</span></div>
+          </>
+        )}
 
         <p style={{ font: "400 12px/1.6 var(--s)", color: "var(--dim)", margin: "0 0 16px" }}>
           Your role travels inside a signed token: it decides what you may read, propose and merge —

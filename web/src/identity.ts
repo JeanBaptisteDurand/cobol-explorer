@@ -36,3 +36,17 @@ export function clearSession() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(KEY);
 }
+
+/** A federated sign-in comes back as `/#token=…&name=…&role=…`. The fragment never
+ *  reaches a server, so the token is not in any access log — read it once, store it,
+ *  and scrub it from the address bar. */
+export function consumeFragmentSession(): Identity | null {
+  if (!window.location.hash.startsWith("#token=")) return null;
+  const p = new URLSearchParams(window.location.hash.slice(1));
+  const token = p.get("token"), name = p.get("name"), role = p.get("role");
+  history.replaceState(null, "", window.location.pathname + window.location.search);
+  if (!token || !name || !role) return null;
+  const id = { name, role };
+  saveSession(id, token);
+  return id;
+}

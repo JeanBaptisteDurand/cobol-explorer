@@ -14,7 +14,7 @@ import Auth, { type AuthMode } from "./components/Auth";
 import Landing from "./components/Landing";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
-import { getIdentity, getToken, type Identity } from "./identity";
+import { consumeFragmentSession, getIdentity, getToken, type Identity } from "./identity";
 import { VISIBLE_DEFAULT } from "./layout";
 import { kindCount, nodeIndex } from "./model";
 import type { ChangeSet, GNode, Graph } from "./types";
@@ -78,11 +78,14 @@ export default function App() {
   const [rightTab, setRightTab] = useState<"chat" | "inspector" | "changes" | "audit">("inspector");
   const [chatSeed, setChatSeed] = useState<{ q: string; nonce: number } | undefined>();
   const [search, setSearch] = useState("");
-  const [identity, setIdent] = useState<Identity | null>(getIdentity());
+  // A federated sign-in lands with the session in the URL fragment; take it before
+  // anything else so the workshop opens straight away.
+  const [identity, setIdent] = useState<Identity | null>(() => consumeFragmentSession() || getIdentity());
   const [showOnb, setShowOnb] = useState(false);
   const [authRequired, setAuthRequired] = useState<boolean | null>(null);
   const [signupRoles, setSignupRoles] = useState<string[]>([]);
   const [emailVerification, setEmailVerification] = useState(false);
+  const [ibmSignIn, setIbmSignIn] = useState(false);
   const [token, setToken] = useState<string | null>(getToken());
   // Not signed in on a protected server: the landing page is the front door,
   // and the auth panel opens on top of it (null = panel closed).
@@ -99,7 +102,7 @@ export default function App() {
   // touching any gated endpoint — otherwise the first paint is a wall of 401s.
   useEffect(() => {
     getAuthConfig()
-      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); })
+      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); setIbmSignIn(!!c.ibm_sign_in); })
       .catch(() => setAuthRequired(false));
   }, []);
   useEffect(() => {
@@ -451,7 +454,7 @@ export default function App() {
         <VerifiedBanner />
         <Landing onSignIn={() => setAuthPanel("login")} onSignUp={() => setAuthPanel("signup")} />
         {authPanel && (
-          <Auth mode={authPanel} roles={signupRoles} emailVerification={emailVerification} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
+          <Auth mode={authPanel} roles={signupRoles} emailVerification={emailVerification} ibmSignIn={ibmSignIn} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
             onDone={(id) => { setIdent(id); setToken(getToken()); setAuthPanel(null); }} />
         )}
       </>

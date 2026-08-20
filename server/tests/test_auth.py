@@ -11,7 +11,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from run_ingest import ingest
-from security import mailer, tokens, users
+from security import mailer, oidc, rbac, tokens, users
 
 
 # --- tokens -------------------------------------------------------------------
@@ -286,3 +286,75 @@ def test_an_invalid_link_redirects_without_activating_anything(client, tmp_path,
     monkeypatch.setattr(users, "STORE", str(tmp_path / "users.json"))
     r = client.get("/api/verify", params={"token": "garbage"}, follow_redirects=False)
     assert r.status_code == 303 and r.headers["location"] == "/?verified=expired"
+
+
+# --- "Sign in with IBM" (OIDC / App ID) ---------------------------------------
+@pytest.fixture()
+def ibm(monkeypatch):
+    """A configured tenant, without ever calling IBM."""
+    monkeypatch.setattr(oidc, "TENANT", "tenant-guid")
+    monkeypatch.setattr(oidc, "CLIENT_ID", "client-id")
+    monkeypatch.setattr(oidc, "SECRET", "client-secret")
+    monkeypatch.setattr(oidc, "BASE", "https://us-south.appid.cloud.ibm.com/oauth/v4/tenant-guid")
+    monkeypatch.setattr(oidc, "REDIRECT_URI", "https://example.test/api/auth/ibm/callback")
+    return oidc
+
+
+def test_ibm_sign_in_is_offered_only_when_configured(monkeypatch):
+    monkeypatch.setattr(oidc, "TENANT", "")
+    assert oidc.ready() is False
+
+
+def test_authorization_url_carries_client_redirect_and_state(ibm):
+    url = ibm.authorization_url("the-state")
+    assert url.startswith(f"{ibm.BASE}/authorization?")
+    for fragment in ["client_id=client-id", "response_type=code", "scope=openid", "state=the-state"]:
+        assert fragment in url
+    assert "redirect_uri=https%3A%2F%2Fexample.test%2Fapi%2Fauth%2Fibm%2Fcallback" in url
+
+
+def test_state_round_trips_and_rejects_tampering(ibm):
+    state = ibm.new_state()
+    assert ibm.valid_state(state) is True
+    nonce, issued, signature = state.rsplit(".", 2)
+    assert ibm.valid_state(f"{nonce}.{issued}.{'0' * len(signature)}") is False
+    assert ibm.valid_state("garbage") is False
+    assert ibm.valid_state("") is False
+
+
+def test_an_expired_state_is_refused(ibm, monkeypatch):
+    state = ibm.new_state()
+    monkeypatch.setattr(oidc, "STATE_TTL", -1)
+    assert ibm.valid_state(state) is False
+
+
+def test_callback_without_a_valid_state_never_mints_a_token(client, ibm):
+    """The CSRF guard: a code alone must not be enough to obtain a session."""
+    r = client.get("/api/auth/ibm/callback", params={"code": "abc", "state": "forged"}, follow_redirects=False)
+    assert r.status_code == 303 and r.headers["location"] == "/?ibm=failed"
+
+
+def test_callback_reports_a_refused_consent(client, ibm):
+    r = client.get("/api/auth/ibm/callback", params={"error": "access_denied"}, follow_redirects=False)
+    assert r.status_code == 303 and r.headers["location"] == "/?ibm=failed"
+
+
+def test_a_successful_exchange_mints_our_own_token(client, ibm, monkeypatch):
+    monkeypatch.setattr(oidc, "exchange", lambda code: {"name": "Jean-Baptiste", "role": "risk", "email": "jb@example.com"})
+    r = client.get("/api/auth/ibm/callback",
+                   params={"code": "abc", "state": oidc.new_state()}, follow_redirects=False)
+    assert r.status_code == 303
+    location = r.headers["location"]
+    assert location.startswith("/#"), "the token must ride in the fragment, never in the query"
+
+    from urllib.parse import parse_qs
+    handed = parse_qs(location[2:])
+    claims = tokens.read(handed["token"][0])
+    assert claims["sub"] == "Jean-Baptiste" and claims["role"] == "risk"
+
+
+def test_ibm_sign_in_grants_a_least_privileged_role(ibm):
+    """Federating an identity says who you are, not what you may do here."""
+    assert oidc.ROLE == "risk"
+    assert not rbac.allowed(oidc.ROLE, "merge")
+    assert rbac.allowed(oidc.ROLE, "propose")

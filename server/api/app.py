@@ -22,6 +22,7 @@ import asyncio
 import json
 import os
 import threading
+import urllib.parse
 from dataclasses import asdict
 
 from fastapi import FastAPI, HTTPException, Request
@@ -34,7 +35,7 @@ from sse_starlette.sse import EventSourceResponse
 from agent.responder import answer_copybook_impact
 from agent.tools import GraphTools
 from agent.verify import verify_answer
-from security import mailer, rbac, tokens, users
+from security import mailer, oidc, rbac, tokens, users
 from security.audit import AuditLog
 from security.identity import identify
 from versioning.changeset import ChangeSet, VersionStore
@@ -184,7 +185,10 @@ def auth_config() -> dict:
 
     Ungated on purpose — it carries no user data, only the mode the server runs in.
     """
-    return {"mode": AUTH_MODE, "required": JWT_MODE, "roles": list(users.SIGNUP_ROLES), "email_verification": mailer.ready()}
+    return {
+        "mode": AUTH_MODE, "required": JWT_MODE, "roles": list(users.SIGNUP_ROLES),
+        "email_verification": mailer.ready(), "ibm_sign_in": oidc.ready(),
+    }
 
 
 @app.post("/api/login")
@@ -241,6 +245,39 @@ def signup(body: SignupBody) -> dict:
     if not sent:
         raise HTTPException(502, "account created, but the confirmation e-mail could not be sent — try signing in later to receive a new link")
     return {"verification_required": True, "email": body.email, "name": actor["name"], "role": actor["role"]}
+
+
+@app.get("/api/auth/ibm")
+def ibm_sign_in():
+    """Start “Sign in with IBM” — hand the browser to IBM Cloud App ID."""
+    if not oidc.ready():
+        raise HTTPException(503, "IBM sign-in is not configured on this deployment")
+    return RedirectResponse(oidc.authorization_url(oidc.new_state()), status_code=303)
+
+
+@app.get("/api/auth/ibm/callback")
+def ibm_callback(code: str = "", state: str = "", error: str = ""):
+    """Come back from IBM with an authorization code, leave with our own token.
+
+    The token is handed to the SPA in the URL fragment: a fragment is never sent to a
+    server, never lands in an access log, and never leaks through the Referer header.
+    """
+    if error or not code:
+        AUDIT.record("?", "guest", "login", target=f"ibm:{error or 'no code'}", result="denied")
+        return RedirectResponse("/?ibm=failed", status_code=303)
+    if not oidc.valid_state(state):
+        AUDIT.record("?", "guest", "login", target="ibm:bad state", result="rejected")
+        return RedirectResponse("/?ibm=failed", status_code=303)
+
+    actor = oidc.exchange(code)
+    if not actor:
+        AUDIT.record("?", "guest", "login", target="ibm:exchange failed", result="denied")
+        return RedirectResponse("/?ibm=failed", status_code=303)
+
+    AUDIT.record(actor["name"], actor["role"], "login", target="ibm")
+    token = tokens.mint(actor["name"], actor["role"])
+    fragment = urllib.parse.urlencode({"token": token, "name": actor["name"], "role": actor["role"]})
+    return RedirectResponse(f"/#{fragment}", status_code=303)
 
 
 @app.get("/api/verify")
