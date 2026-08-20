@@ -220,7 +220,9 @@ jetons survivent à un redémarrage.
 
 ```bash
 make test                          # 113 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
-cd web && pnpm exec playwright test # 27 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
+cd web && pnpm exec playwright test # 31 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
+make serve-auth &                   # puis, sur un serveur authentifié :
+make e2e-governance                 # scénario 3 comptes / 3 rôles joué au navigateur
 ```
 
 ## 9. Positionnement

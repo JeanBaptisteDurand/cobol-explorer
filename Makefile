@@ -34,6 +34,9 @@ serve-watsonx: ## serve with Granite hosted on IBM watsonx.ai instead of local O
 serve-auth: ## same, with real authentication (login + signed token, RBAC from the claims)
 	COBOL_EXPLORER_AUTH=jwt COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000
 
+e2e-governance: ## multi-account scenario (risk proposes, dev merges, auditor reads) — needs `make serve-auth`
+	cd web && E2E_BASE_URL=$${E2E_BASE_URL:-http://127.0.0.1:8000} pnpm exec playwright test e2e/governance.spec.ts
+
 mcp: ## run the MCP server (stdio) for IBM Bob
 	$(PP) $(PY) -m mcp_server.server
 

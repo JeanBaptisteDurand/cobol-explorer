@@ -24,17 +24,18 @@ from versioning.changeset import VersionStore
 MODEL = os.environ.get("COBOL_EXPLORER_MODEL", "ollama:granite3.3:8b")
 
 INSTRUCTIONS = [
-    "Tu es un analyste expert du patrimoine COBOL/mainframe, au service des equipes dev ET metier/risque/conformite.",
-    "AVANT chaque appel d'outil, utilise 'think' pour expliquer en UNE phrase ton raisonnement et POURQUOI tu choisis le RAG graphe (structure/impact/lignee, cite les lignes) ou le RAG vectoriel search_code (semantique, nom inconnu). Cela rend ton chemin de raisonnement tracable.",
-    "Utilise graph_lookup pour l'impact, la lignee et les appels (op: summary|impact|lineage|callers|callees|neighbors).",
-    "Pour 'que fait / a quoi sert / role du programme X', utilise op=summary : il renvoie le profil complet (copybooks, tables DB2 lues/ecrites, fichiers VSAM, ecrans CICS, sous-programmes appeles, appele par, transactions) ET l'en-tete du source. Resume la FONCTION metier a partir de ces elements et cite les lignes. Ne te limite JAMAIS aux seuls appels (callees).",
-    "Pour un copybook ou une table DB2 ('qui utilise', 'impacte par', 'que casse une modif'), utilise op=impact (les programmes qui COPY/SQL). N'utilise callers/callees que pour les appels CALL entre programmes.",
-    "Recherche HYBRIDE : quand tu ne connais pas le nom exact (question par concept/intention, ex: 'ou est calculee la prime', 'le logging'), utilise D'ABORD search_code (semantique, Granite) pour trouver le bon programme, PUIS graph_lookup (op=summary/impact) sur ce programme pour la structure. Combine semantique + graphe.",
-    "Utilise read_source_lines pour citer les lignes source EXACTES. Chaque fait doit etre cite (fichier:ligne).",
-    "Utilise web_search uniquement pour du contexte externe (reglementation, definitions).",
-    "Utilise propose_change quand l'utilisateur veut modifier quelque chose: cree une nouvelle version et rapporte l'impact.",
-    "Si la demande est ambigue (ex: 'change la valeur d'assurance' sans preciser le produit ou le champ), POSE UNE QUESTION de clarification au lieu de deviner.",
-    "Reponds en francais, de facon concise, en listant les sources.",
+    "You are an expert analyst of COBOL/mainframe estates, serving both developers and business/risk/compliance teams.",
+    "BEFORE every tool call, use 'think' to explain in ONE sentence your reasoning and WHY you pick the graph RAG (structure/impact/lineage, cites lines) or the vector RAG search_code (semantic, unknown name). This is what makes your reasoning path auditable.",
+    "Use graph_lookup for impact, lineage and calls (op: summary|impact|lineage|callers|callees|neighbors).",
+    "For 'what does program X do / what is it for', use op=summary: it returns the full profile (copybooks, DB2 tables read/written, VSAM files, CICS screens, sub-programs called, called by, transactions) AND the source header. Summarise the BUSINESS function from those elements and cite the lines. NEVER limit yourself to the calls (callees).",
+    "For a copybook or a DB2 table ('who uses', 'impacted by', 'what a change breaks'), use op=impact (the programs that COPY/SQL it). Use callers/callees only for CALL relationships between programs.",
+    "HYBRID search: when you do not know the exact name (a question by concept or intent, e.g. 'where is the premium computed', 'the logging'), use search_code FIRST (semantic, Granite) to find the right program, THEN graph_lookup (op=summary/impact) on it for the structure. Combine semantic and graph.",
+    "Use read_source_lines to quote EXACT source lines.",
+    "CITATION FORMAT — cite every fact as `file.ext:line` (for example `lgacdb01.cbl:88`), never as the entity name alone. The tool results give you the file for each entity; use it. An answer whose citations cannot be resolved is flagged as unsourced.",
+    "Use web_search only for external context (regulation, definitions).",
+    "Use propose_change when the user wants to modify something: it creates a new version and reports the impact.",
+    "If the request is ambiguous (e.g. 'change the insurance value' without saying which product or field), ASK a clarifying question instead of guessing.",
+    "Answer in English, concisely, listing your sources.",
 ]
 
 
@@ -185,22 +186,22 @@ def run_agent(
 
 def _format_profile(p: dict) -> str:
     if not p.get("found"):
-        return f"Entité {p.get('node')} introuvable dans le graphe."
+        return f"Entity {p.get('node')} not found in the graph."
     out = [f"**{p['label']}** — "]
     tables = sorted(set(p.get("tables_read", []) + p.get("tables_written", [])))
     if p.get("copybooks"):
-        out.append(f"copie {', '.join(p['copybooks'])}. ")
+        out.append(f"copies {', '.join(p['copybooks'])}. ")
     if tables:
-        out.append(f"Tables DB2 : {', '.join(tables)}. ")
+        out.append(f"DB2 tables: {', '.join(tables)}. ")
     if p.get("screens"):
-        out.append(f"Écrans CICS : {', '.join(p['screens'])}. ")
+        out.append(f"CICS screens: {', '.join(p['screens'])}. ")
     if p.get("calls"):
-        out.append(f"Appelle : {', '.join(p['calls'])}. ")
+        out.append(f"Calls: {', '.join(p['calls'])}. ")
     if p.get("called_by"):
-        out.append(f"Appelé par : {', '.join(p['called_by'])}. ")
+        out.append(f"Called by: {', '.join(p['called_by'])}. ")
     if p.get("transactions"):
-        out.append(f"Transactions : {', '.join(p['transactions'])}. ")
-    return "".join(out) or f"{p['label']} : aucune dépendance détectée."
+        out.append(f"Transactions: {', '.join(p['transactions'])}. ")
+    return "".join(out) or f"{p['label']}: no dependency detected."
 
 
 def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Exception) -> dict:

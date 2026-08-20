@@ -18,6 +18,15 @@ import threading
 from versioning.changeset import ChangeSet, VersionStore, _now
 
 
+class MergeConflict(ValueError):
+    """Both sides edited the same lines. Carries the file list so the API can hand
+    the UI a typed error instead of a message it would have to pattern-match."""
+
+    def __init__(self, message: str, files: list[str] | None = None):
+        super().__init__(message)
+        self.files = files or []
+
+
 class GitVersionStore(VersionStore):
     def __init__(self, root: str = "versions", corpus_root: str = "corpora"):
         super().__init__(root, corpus_root)
@@ -199,8 +208,12 @@ class GitVersionStore(VersionStore):
                 if r.returncode != 0:
                     conflicted = self._git("diff", "--name-only", "--diff-filter=U", check=False).split()
                     subprocess.run(["git", "-C", self.repo, "merge", "--abort"], capture_output=True)
-                    files = ", ".join(conflicted) or "fichiers inconnus"
-                    raise ValueError(f"conflit: vous et l'équipe avez modifié les mêmes lignes ({files}) — choisissez « garder mes modifs » ou « prendre main »")
+                    files = ", ".join(conflicted) or "unknown files"
+                    raise MergeConflict(
+                        f"you and the team changed the same lines ({files}) — "
+                        "choose “keep my changes” or “take the main version”",
+                        conflicted,
+                    )
             finally:
                 self._git("checkout", "-q", "main")
         return self.sync_state(cid)

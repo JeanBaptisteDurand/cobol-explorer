@@ -37,24 +37,24 @@ def answer_copybook_impact(
                 trace.record(
                     "read_source_lines",
                     {"file": p["file"], "start": p["copy_line"], "end": p["copy_line"]},
-                    "1 ligne source",
+                    "1 source line",
                     sources=[cite],
                 )
 
     labels = ", ".join(p["label"] for p in programs)
-    kind_word = {"copy": "le copybook", "table": "la table DB2", "pgm": "le programme"}.get(
-        split_id(r["node"])[0], "l'entité"
+    kind_word = {"copy": "copybook", "table": "DB2 table", "pgm": "program"}.get(
+        split_id(r["node"])[0], "entity"
     )
     lines = [
-        f"Modifier {kind_word} {copybook.upper()} impacte {len(programs)} programme(s) : {labels}."
+        f"Changing {kind_word} {copybook.upper()} impacts {len(programs)} program(s): {labels}."
     ]
     if r["chains"]:
         chain_names = ", ".join(split_id(c)[1] for c in r["chains"])
         job_names = ", ".join(split_id(j)[1] for j in r["jobs"])
-        lines.append(f"Chaine(s) batch touchee(s) : {chain_names} (via les jobs {job_names}).")
+        lines.append(f"Batch chain(s) affected: {chain_names} (via jobs {job_names}).")
     if citations:
-        lines.append("Preuves (ligne source) :")
+        lines.append("Evidence (source line):")
         for cite, text in citations:
-            lines.append(f"  - {cite} : {text}")
+            lines.append(f"  - {cite}: {text}")
 
     return {"answer": "\n".join(lines), "trace": trace, "impact": r}

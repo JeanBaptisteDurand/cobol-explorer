@@ -12,7 +12,7 @@ import shutil
 
 import pytest
 
-from versioning.git_store import GitVersionStore
+from versioning.git_store import MergeConflict, GitVersionStore
 
 
 @pytest.fixture
@@ -59,7 +59,7 @@ def test_trois_personas_meme_fichier_avec_erreurs(store):
         store.merge_to_main(bob.id)
 
     # ── t5 : Bob importe main → CONFLIT (même lignes modifiées) ────────────
-    with pytest.raises(ValueError, match="conflit"):
+    with pytest.raises(MergeConflict):
         store.sync_main(bob.id)
     # le conflit nomme le fichier pour guider la décision
     try:

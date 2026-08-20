@@ -14,7 +14,7 @@
       *                                                                *
       ******************************************************************
        01  WS-POLICY-LENGTHS.
-           03 WS-CUSTOMER-LEN          PIC S9(4) COMP VALUE +72.
+           03 WS-CUSTOMER-LEN          PIC S9(4) COMP VALUE +72.      *> widened by risk review
            03 WS-POLICY-LEN            PIC S9(4) COMP VALUE +72.
            03 WS-ENDOW-LEN             PIC S9(4) COMP VALUE +52.
            03 WS-HOUSE-LEN             PIC S9(4) COMP VALUE +58.

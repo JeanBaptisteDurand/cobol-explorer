@@ -651,7 +651,7 @@ export default function App() {
             <div style={{ display: rightTab === "inspector" ? "block" : "none" }}>
               <Inspector node={node} graph={graph} onOpenNode={openNode} onEdit={editNode} onShowInGraph={showInGraph} activePath={activeTab?.path || null} />
             </div>
-            <div style={{ display: rightTab === "changes" ? "flex" : "none", flexDirection: "column", flex: 1, minHeight: 0 }}>
+            <div data-testid="rp-changes-panel" style={{ display: rightTab === "changes" ? "flex" : "none", flexDirection: "column", flex: 1, minHeight: 0 }}>
               <ChangesPanel version={activeVersion} author={identity?.name || "you"} onReload={reloadVersions} onOpenDiff={openDiff} onFileReverted={(p) => loadContent(p)} onExit={exitVersion} />
             </div>
             {rightTab === "audit" && (

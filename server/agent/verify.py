@@ -9,7 +9,23 @@ import glob
 import os
 import re
 
-_CITE = re.compile(r"([\w-]+\.(?:cbl|cpy|jcl|bms|csd))(?::(\d+))?", re.I)
+SOURCE_EXT = ("cbl", "cpy", "jcl", "bms", "csd")
+_CITE = re.compile(rf"([\w-]+\.(?:{'|'.join(SOURCE_EXT)}))(?::(\d+))?", re.I)
+# An LLM often writes the *entity* rather than its file — "`LGACDB01` (line 88)".
+# That is a real citation and must be verified, not reported as unsourced: the badge
+# has to describe the answer, not the wording the model happened to pick.
+_ENTITY_CITE = re.compile(r"`?\b([A-Z][A-Z0-9$#@-]{2,9})\b`?\s*[(\[]\s*(?:ligne|line|l\.)\s*(\d+)", re.I)
+
+
+def _file_of_entity(corpus_root: str, name: str) -> str | None:
+    """The source file of an entity cited by name (program, copybook, job)."""
+    root = os.path.realpath(corpus_root)
+    for ext in SOURCE_EXT:
+        hits = glob.glob(os.path.join(root, "**", f"{name}.{ext}"), recursive=True)
+        hits += glob.glob(os.path.join(root, "**", f"{name.lower()}.{ext}"), recursive=True)
+        if hits:
+            return os.path.basename(hits[0])
+    return None
 
 
 def _resolve(corpus_root: str, file: str) -> str | None:
@@ -38,6 +54,10 @@ def verify_answer(text: str, trace_sources: list[str], corpus_root: str) -> dict
     cites: set[tuple[str, int | None]] = set()
     for m in _CITE.finditer(text or ""):
         cites.add((m.group(1), int(m.group(2)) if m.group(2) else None))
+    for m in _ENTITY_CITE.finditer(text or ""):
+        file = _file_of_entity(corpus_root, m.group(1))
+        if file:
+            cites.add((file, int(m.group(2))))
     for s in trace_sources or []:
         m = _CITE.fullmatch((s or "").strip())
         if m:

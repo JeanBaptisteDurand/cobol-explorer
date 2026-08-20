@@ -37,6 +37,7 @@ from security import rbac, tokens, users
 from security.audit import AuditLog
 from security.identity import identify
 from versioning.changeset import ChangeSet, VersionStore
+from versioning.git_store import MergeConflict
 
 GRAPH = os.environ.get("COBOL_EXPLORER_GRAPH", "graph.json")
 CORPUS = os.environ.get("COBOL_EXPLORER_CORPUS", "corpora")
@@ -57,11 +58,11 @@ AUDIT = AuditLog()
 # (AWS, Apache-2.0) is a second, richer estate — real batch/JCL/VSAM.
 SYSTEMS: dict[str, dict] = {
     "genapp": {
-        "label": "GenApp", "detail": "assurance — souscription, sinistres, contrats",
+        "label": "GenApp", "detail": "insurance — underwriting, claims, policies",
         "graph": GRAPH, "corpus": CORPUS, "index": INDEX, "versions": VERSIONS, "vector": VECTOR,
     },
     "carddemo": {
-        "label": "CardDemo", "detail": "AWS · cartes de crédit — batch + CICS + VSAM",
+        "label": "CardDemo", "detail": "AWS · credit cards — batch + CICS + VSAM",
         "graph": "systems/carddemo/graph.json", "corpus": "systems/carddemo/corpus",
         "index": "systems/carddemo/index.json", "versions": "systems/carddemo/versions",
         "vector": "json", "readonly": True,  # analyze-only second estate
@@ -87,14 +88,14 @@ def gate(request: Request, action: str, target: str = "") -> dict:
     """
     if ENFORCE and (not PROXY_SECRET or request.headers.get("x-cobol-proxy-secret") != PROXY_SECRET):
         AUDIT.record("?", "guest", action, target, result="rejected")
-        raise HTTPException(401, "authentification requise (enforce): proxy de confiance manquant")
+        raise HTTPException(401, "authentication required (enforce): trusted proxy missing")
     if JWT_MODE and not tokens.read(tokens.bearer(request.headers)):
         AUDIT.record("?", "guest", action, target, result="rejected")
-        raise HTTPException(401, "authentification requise: jeton absent, invalide ou expiré")
+        raise HTTPException(401, "authentication required: token missing, invalid or expired")
     actor = identify(request.headers)
     if (ENFORCE or JWT_MODE) and not rbac.allowed(actor["role"], action):
         AUDIT.record(actor["name"], actor["role"], action, target, result="denied")
-        raise HTTPException(403, f"role '{actor['role']}' non autorisé pour '{action}'")
+        raise HTTPException(403, f"role '{actor['role']}' is not allowed to '{action}'")
     AUDIT.record(actor["name"], actor["role"], action, target)
     return actor
 
@@ -191,7 +192,7 @@ def login(body: LoginBody) -> dict:
     actor = users.authenticate(body.username, body.password)
     if not actor:
         AUDIT.record(body.username or "?", "guest", "login", target="", result="denied")
-        raise HTTPException(401, "identifiants invalides")
+        raise HTTPException(401, "invalid credentials")
     AUDIT.record(actor["name"], actor["role"], "login")
     return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
 
@@ -247,7 +248,7 @@ def system_set(body: SystemBody) -> dict:
     """Switch the active mainframe estate (graph + corpus + index + versions)."""
     global _ACTIVE_SYSTEM
     if body.id not in SYSTEMS:
-        raise HTTPException(404, f"système inconnu: {body.id!r}")
+        raise HTTPException(404, f"unknown system: {body.id!r}")
     _ACTIVE_SYSTEM = body.id
     return {"active": _ACTIVE_SYSTEM, "label": SYSTEMS[_ACTIVE_SYSTEM]["label"]}
 
@@ -259,7 +260,7 @@ def graph(request: Request) -> dict:
     gate(request, "read", target="graph")
     gp = active_cfg()["graph"]
     if not os.path.exists(gp):
-        raise HTTPException(503, "graphe non construit — lancez l'ingestion (make ingest)")
+        raise HTTPException(503, "graph not built — run the ingestion (make ingest)")
     with open(gp) as fh:
         return json.load(fh)
 
@@ -410,7 +411,7 @@ class StatusBody(BaseModel):
 def _writable() -> None:
     """Guard: some systems (e.g. CardDemo) are analyze-only — no versioning."""
     if active_cfg().get("readonly"):
-        raise HTTPException(409, "système en lecture seule — le versioning est réservé au système principal")
+        raise HTTPException(409, "read-only system — versioning is reserved for the primary estate")
 
 
 @app.get("/api/changesets")
@@ -455,7 +456,7 @@ def _safe_rel(path: str) -> None:
     from safe import safe_corpus_path
 
     if not safe_corpus_path(active_cfg()["corpus"], path):
-        raise HTTPException(400, "chemin invalide (hors du corpus)")
+        raise HTTPException(400, "invalid path (outside the corpus)")
 
 
 def _editable(s: VersionStore, cid: str) -> ChangeSet:
@@ -464,7 +465,7 @@ def _editable(s: VersionStore, cid: str) -> ChangeSet:
         raise HTTPException(404, "changeset not found")
     cs = s.get(cid)
     if cs.status == "merged":
-        raise HTTPException(409, "version déjà fusionnée dans main — elle est en lecture seule")
+        raise HTTPException(409, "version already merged into main — it is read-only")
     return cs
 
 
@@ -509,7 +510,9 @@ def cs_sync(cid: str, request: Request, body: SyncBody | None = None) -> dict:
     try:
         s.sync_main(cid, strategy=(body.strategy if body else None))
     except ValueError as e:
-        raise HTTPException(409, str(e))
+        # Typed so the UI can offer the two resolutions without matching on wording.
+        code = "conflict" if isinstance(e, MergeConflict) else "sync_failed"
+        raise HTTPException(409, {"code": code, "message": str(e), "files": getattr(e, "files", [])})
     return cs_payload(s, cid)
 
 
@@ -567,7 +570,7 @@ _STATUSES = {"draft", "proposed", "merged", "rejected"}
 def cs_status(cid: str, body: StatusBody, request: Request) -> dict:
     status = (body.status or "").strip().lower()
     if status not in _STATUSES:
-        raise HTTPException(400, f"statut invalide: {body.status!r} (attendu: {', '.join(sorted(_STATUSES))})")
+        raise HTTPException(400, f"invalid status: {body.status!r} (expected: {', '.join(sorted(_STATUSES))})")
     body.status = status
     # Merging (applying to the patrimony) needs a stronger role than proposing.
     gate(request, "merge" if body.status == "merged" else "propose", target=f"{cid}:{body.status}")
@@ -577,7 +580,7 @@ def cs_status(cid: str, body: StatusBody, request: Request) -> dict:
         raise HTTPException(404, "changeset not found")
     # A merged version is closed: no re-proposing, re-merging or status flip-flop.
     if cs.status == "merged":
-        raise HTTPException(409, "version déjà fusionnée dans main — elle est close")
+        raise HTTPException(409, "version already merged into main — it is closed")
     if body.status == "merged":
         # Real git merge onto main — refused (409) if the branch is behind main.
         try:

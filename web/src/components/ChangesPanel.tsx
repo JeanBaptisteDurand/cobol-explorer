@@ -13,7 +13,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
   const [comment, setComment] = useState("");
   const [confirmMerge, setConfirmMerge] = useState(false);
   const [confirmRevert, setConfirmRevert] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ message: string; code?: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
   if (!version)
@@ -38,7 +38,9 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
 
   const run = (p: Promise<any>, after?: () => void) => {
     setBusy(true); setError(null);
-    p.then(() => { after?.(); onReload(); }).catch((e) => setError(String(e.message || e))).finally(() => setBusy(false));
+    p.then(() => { after?.(); onReload(); })
+      .catch((e) => setError({ message: String(e?.message || e), code: e?.code }))
+      .finally(() => setBusy(false));
   };
 
   return (
@@ -127,9 +129,9 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       </div>
       {error && (
         <div className="card" style={{ padding: "10px 12px", borderColor: "var(--red)", font: "400 11px/1.5 var(--s)", color: "var(--red)" }} data-testid="cs-error">
-          {error}
+          {error.message}
           {/* Conflict resolution: both sides touched the same lines — the user decides. */}
-          {error.includes("conflit") && (
+          {error.code === "conflict" && (
             <div style={{ display: "flex", gap: 7, marginTop: 9 }}>
               <button className="btn" style={{ flex: 1, fontSize: 10.5, justifyContent: "center" }} disabled={busy} data-testid="resolve-mine"
                 title="Your changes win on the conflicting lines; the rest of main is imported"
@@ -173,7 +175,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
 
       <div style={{ position: "relative", marginTop: "auto" }}>
         <input className="inp" style={{ paddingRight: 38 }} value={comment} onChange={(e) => setComment(e.target.value)} placeholder="comment on the version…" />
-        <button className="btn-pri" style={{ position: "absolute", right: 6, top: 6, padding: "5px 8px", border: "none" }} onClick={() => { if (comment.trim()) run(csComment(version.id, author, comment.trim()), () => setComment("")); }}>
+        <button className="btn-pri" data-testid="comment-send" style={{ position: "absolute", right: 6, top: 6, padding: "5px 8px", border: "none" }} onClick={() => { if (comment.trim()) run(csComment(version.id, author, comment.trim()), () => setComment("")); }}>
           <Icon name="send" size={14} />
         </button>
       </div>

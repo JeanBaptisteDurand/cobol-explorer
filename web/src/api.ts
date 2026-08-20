@@ -21,7 +21,16 @@ const post = (url: string, body: any) =>
     body: JSON.stringify(body),
   }).then(async (r) => {
     const d = await r.json();
-    if (!r.ok) throw new Error(d?.detail || "erreur serveur"); // surface 409s (merge/sync refusés)
+    if (!r.ok) {
+      // A typed detail ({code, message}) lets the UI branch on the machine code —
+      // matching on the message text broke as soon as the wording changed.
+      const detail = d?.detail;
+      const err: any = new Error(
+        (typeof detail === "string" ? detail : detail?.message) || "server error"
+      );
+      if (detail && typeof detail === "object") { err.code = detail.code; err.files = detail.files; }
+      throw err;
+    }
     return d;
   });
 
