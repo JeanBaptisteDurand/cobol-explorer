@@ -6,7 +6,7 @@ import { Icon } from "./Icons";
  *  trace, governance, the IBM stack. A juror who never opens the deck still gets it. */
 
 const PROOF = [
-  { n: "154", label: "automated tests" },
+  { n: "169", label: "automated tests" },
   { n: "2", label: "real mainframe estates" },
   { n: "1 496", label: "entities mapped" },
   { n: "30 s", label: "instead of days of manual hunting" },

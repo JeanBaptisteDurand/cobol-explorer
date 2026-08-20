@@ -8,7 +8,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-ffb020)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-123%20backend%20%C2%B7%2031%20e2e-5ec27a)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-136%20backend%20%C2%B7%2033%20e2e-5ec27a)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-6cb2ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-c398ff)](#5-toute-la-stack-ibm)
 [![license](https://img.shields.io/badge/license-Apache--2.0-878d97)](LICENSE)
@@ -226,6 +226,25 @@ Pour watsonx, renseigner `WATSONX_API_KEY`, `WATSONX_PROJECT_ID` et
 watsonx doit avoir un service **watsonx.ai Runtime** associé, sinon l'appel échoue en 403
 `no_associated_service_instance_error` — l'erreur ne mentionne pas la cause réelle.
 
+### 7.0-bis Inscription et vérification d'adresse
+
+L'inscription est ouverte (`POST /api/signup`). Si un relais SMTP est configuré, le compte est créé
+**non vérifié** et un lien de confirmation à usage unique (24 h) part par e-mail ; la connexion est
+refusée en 403 tant qu'il n'est pas cliqué. **Sans relais configuré, la vérification est désactivée**
+et le visiteur entre directement — l'API le dit (`/api/auth/config` → `email_verification: false`),
+donc l'interface ne prétend jamais avoir envoyé un e-mail qu'elle n'a pas envoyé.
+
+Aucun service tiers : du SMTP standard, avec la boîte du domaine.
+
+```bash
+COBOL_EXPLORER_SMTP_HOST=smtp.ionos.fr
+COBOL_EXPLORER_SMTP_PORT=587            # 587 STARTTLS · 465 TLS implicite
+COBOL_EXPLORER_SMTP_USER=noreply@cobol-explorer.fr
+COBOL_EXPLORER_SMTP_PASSWORD=...
+COBOL_EXPLORER_SMTP_FROM="COBOL Explorer <noreply@cobol-explorer.fr>"
+COBOL_EXPLORER_PUBLIC_URL=https://cobol-explorer.fr
+```
+
 ### 7.1 Authentification (qui est l'utilisateur ?)
 
 Le serveur tourne dans l'un de trois modes, via `COBOL_EXPLORER_AUTH` :
@@ -253,8 +272,8 @@ jetons survivent à un redémarrage.
 ## 8. Tests
 
 ```bash
-make test                          # 123 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
-cd web && pnpm exec playwright test # 31 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
+make test                          # 136 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
+cd web && pnpm exec playwright test # 33 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
 make serve-sandbox &                # serveur authentifié sur une COPIE jetable du patrimoine
 make e2e-governance                 # scénario 3 comptes / 3 rôles joué au navigateur
 ```
