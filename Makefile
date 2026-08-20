@@ -40,6 +40,9 @@ serve-sandbox: ## serve with real auth on a THROWAWAY copy of the estate (mergin
 e2e-governance: ## multi-account scenario (risk proposes, dev merges, auditor reads) — needs `make serve-sandbox`
 	cd web && E2E_BASE_URL=$${E2E_BASE_URL:-http://127.0.0.1:8000} pnpm exec playwright test e2e/governance.spec.ts
 
+bob-attribution: ## generate the measured "How IBM Bob was used" table from git
+	scripts/bob-attribution.sh
+
 mcp: ## run the MCP server (stdio) for IBM Bob
 	$(PP) $(PY) -m mcp_server.server
 
