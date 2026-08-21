@@ -130,7 +130,7 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
           </div>
         </div>
         <div style={{ font: "600 11px var(--m)", color: "#6cb2ff", border: "1px solid rgba(108,178,255,.4)", borderRadius: 0, padding: "6px 12px", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 7 }}>
-          <span style={{ width: 7, height: 7, borderRadius: 0, background: "#6cb2ff", boxShadow: "0 0 6px #6cb2ff" }} />MCP exposed
+          <span style={{ width: 7, height: 7, borderRadius: 99, background: "var(--graph)" }} />MCP exposed
         </div>
       </div>
 

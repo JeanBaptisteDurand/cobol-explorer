@@ -219,11 +219,9 @@ export default function ReasoningTrace() {
                       top: n.y,
                       opacity: on ? 1 : dim ? 0.05 : 0.5,
                       borderColor: on ? (n.hub ? LIT : n.c) : "#393939",
-                      boxShadow: on
-                        ? n.hub
-                          ? `0 0 0 1px ${LIT}`
-                          : `0 0 14px ${n.c}33`
-                        : "none",
+                      // A ring, never a glow: the hub takes the interactive blue,
+                      // every other retrieved entity takes its own kind colour.
+                      boxShadow: on ? `0 0 0 1px ${n.hub ? LIT : n.c}` : "none",
                     }}
                   >
                     <span className="ce-node-kind"

@@ -23,8 +23,8 @@ def identify(headers) -> dict:
     """Resolve the caller: signed token first, then the demo identity headers."""
     claims = tokens.read(tokens.bearer(headers))
     if claims:
-        return {"name": claims.get("sub") or "invité", "role": rbac.canonical(claims.get("role") or "")}
+        return {"name": claims.get("sub") or "guest", "role": rbac.canonical(claims.get("role") or "")}
     get = headers.get
-    name = unquote(get("x-cobol-user") or "").strip() or "invité"
+    name = unquote(get("x-cobol-user") or "").strip() or "guest"
     role = rbac.canonical(unquote(get("x-cobol-role") or ""))
     return {"name": name, "role": role}

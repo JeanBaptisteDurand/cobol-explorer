@@ -17,11 +17,15 @@ def test_rbac_policy():
 
 def test_ui_role_labels_all_canonicalize():
     # Every label shipped in web/src/identity.ts must map to a real role (not guest).
-    for label, want in [("Développeur", "dev"), ("Architecte", "architect"),
-                        ("Risque", "risk"), ("Conformité", "compliance"), ("Auditeur", "auditor")]:
+    for label, want in [("Developer", "dev"), ("Architect", "architect"),
+                        ("Risk", "risk"), ("Compliance", "compliance"), ("Auditor", "auditor")]:
         assert rbac.canonical(label) == want, label
-    # legacy label still maps
-    assert rbac.canonical("Risque & Conformité") == "risk"
+    # The French labels the UI used to ship still map, so a stored identity from
+    # before the switch keeps its role instead of silently becoming a guest.
+    for label, want in [("Développeur", "dev"), ("Architecte", "architect"),
+                        ("Risque", "risk"), ("Conformité", "compliance"), ("Auditeur", "auditor"),
+                        ("Risque & Conformité", "risk")]:
+        assert rbac.canonical(label) == want, label
 
 
 def test_audit_chain_is_tamper_evident(tmp_path):

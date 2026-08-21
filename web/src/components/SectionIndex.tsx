@@ -7,20 +7,24 @@ import { useEffect, useState } from "react";
  *  happened: two of the three header links targeted `#bob-section` and
  *  `#governance-section`, and the sections carried a `data-testid` but no `id`.
  *
- *  The number is the position in this array. Never type one by hand. */
+ *  The number is the position in this array. Never type one by hand.
+ *
+ *  `topic` is what the section calls itself on the page. `nav` is the short form
+ *  the header uses — twelve full topics do not fit a 48px shell, and a number on
+ *  its own is a riddle. */
 export const SECTIONS = [
-  { id: "product-section", topic: "The product" },
-  { id: "problem-section", topic: "The problem" },
-  { id: "gestures-section", topic: "The founding principle" },
-  { id: "agent-section", topic: "The agent" },
-  { id: "rag-section", topic: "Retrieval" },
-  { id: "bob-section", topic: "MCP and IBM Bob" },
-  { id: "governance-section", topic: "Traceability and governance" },
-  { id: "ibm-section", topic: "The IBM layer" },
-  { id: "fit-section", topic: "Challenge fit" },
-  { id: "identity-section", topic: "Identity" },
-  { id: "built-section", topic: "How it was built" },
-  { id: "access-section", topic: "Access" },
+  { id: "product-section", topic: "The product", nav: "Product" },
+  { id: "problem-section", topic: "The problem", nav: "Problem" },
+  { id: "gestures-section", topic: "The founding principle", nav: "Principle" },
+  { id: "agent-section", topic: "The agent", nav: "Agent" },
+  { id: "rag-section", topic: "Retrieval", nav: "Retrieval" },
+  { id: "bob-section", topic: "MCP and IBM Bob", nav: "Bob" },
+  { id: "governance-section", topic: "Traceability and governance", nav: "Governance" },
+  { id: "ibm-section", topic: "The IBM layer", nav: "IBM" },
+  { id: "fit-section", topic: "Challenge fit", nav: "Fit" },
+  { id: "identity-section", topic: "Identity", nav: "Identity" },
+  { id: "built-section", topic: "How it was built", nav: "Built" },
+  { id: "access-section", topic: "Access", nav: "Access" },
 ] as const;
 
 export const pad = (n: number) => String(n).padStart(2, "0");
@@ -60,8 +64,8 @@ function useActiveSection() {
   return active;
 }
 
-/** A numbered rail — one target per section — with the active topic spelled out
- *  beside it, so the numbers are an index rather than a riddle. */
+/** One named target per section. The label is the short form; the full topic and
+ *  its number live in the tooltip, so nothing is lost and nothing is cryptic. */
 export default function SectionIndex() {
   const active = useActiveSection();
 
@@ -77,14 +81,11 @@ export default function SectionIndex() {
               aria-label={`${pad(i)} — ${s.topic}`}
               aria-current={i === active ? "true" : undefined}
             >
-              {pad(i)}
+              {s.nav}
             </a>
           </li>
         ))}
       </ol>
-      <span className="ce-index-topic" aria-hidden="true">
-        {active >= 0 ? SECTIONS[active].topic : "Overview"}
-      </span>
     </nav>
   );
 }

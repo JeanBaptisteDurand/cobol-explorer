@@ -182,7 +182,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
       </ReactFlow>
 
       {/* Floating tool panel: legend, focus, kind filters, selected-node quick actions. */}
-      <div style={{ position: "absolute", top: 14, left: 14, width: 252, padding: 13, pointerEvents: "auto", background: "var(--layer-01)", border: "1px solid var(--border-subtle)", borderRadius: 0, boxShadow: "0 6px 22px rgba(8,9,11,.5)" }}>
+      <div style={{ position: "absolute", top: 14, left: 14, width: 252, padding: 13, pointerEvents: "auto", background: "var(--layer-01)", border: "1px solid var(--border-subtle)", borderRadius: 0 }}>
         <div className="ov-h1" style={{ fontSize: 12.5, marginBottom: 2 }}>Estate graph</div>
         {(agentActive || live) ? (
           <div style={{ margin: "6px 0 11px" }}>
