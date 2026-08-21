@@ -65,8 +65,7 @@ export default function Auth({
   if (sentTo)
     return (
       <div className="scrim" onClick={(e) => e.target === e.currentTarget && onClose?.()}>
-        <div className="modal" style={{ width: 420, textAlign: "center" }} data-testid="auth-sent">
-          <div style={{ fontSize: 30, marginBottom: 12 }}>📬</div>
+        <div className="modal" style={{ width: 420 }} data-testid="auth-sent">
           <div style={{ font: "600 14px var(--s)", color: "var(--text-primary)", marginBottom: 10 }}>Confirm your address</div>
           <p style={{ font: "400 12.5px/1.7 var(--s)", color: "var(--text-secondary)", margin: "0 0 18px" }}>
             We sent a link to <b style={{ color: "var(--text-primary)" }}>{sentTo}</b>. Click it to activate your account —
@@ -93,7 +92,7 @@ export default function Auth({
             <span key={m} data-testid={`tab-${m}`} onClick={() => swap(m)}
               style={{
                 padding: "7px 12px", cursor: "pointer", font: "600 12px var(--s)",
-                color: mode === m ? "var(--interactive)" : "var(--text-secondary)",
+                color: mode === m ? "var(--link)" : "var(--text-secondary)",
                 borderBottom: `2px solid ${mode === m ? "var(--interactive)" : "transparent"}`, marginBottom: -1,
               }}>
               {m === "login" ? "Sign in" : "Create account"}
@@ -149,7 +148,7 @@ export default function Auth({
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 6 }}>
               {roles.map((r) => (
                 <span key={r} className="btn" data-testid={`role-${r}`} onClick={() => setRole(r)}
-                  style={role === r ? { borderColor: "var(--interactive)", color: "var(--interactive)", background: "rgba(15, 98, 254, .16)" } : {}}>
+                  style={role === r ? { borderColor: "var(--interactive)", color: "var(--link)", background: "rgba(15, 98, 254, .16)" } : {}}>
                   {r}
                 </span>
               ))}

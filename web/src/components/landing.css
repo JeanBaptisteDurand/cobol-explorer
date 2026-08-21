@@ -11,17 +11,19 @@
   background: var(--bg);
 }
 
-/* ---------- nav ---------- */
+/* ---------- header ----------
+   Carbon's 48px shell: solid, not frosted. The previous one was a translucent
+   blurred panel, which §2 forbids outright, and it carried three links of which
+   two pointed at ids that did not exist. */
 .ce-nav {
   position: sticky;
   top: 0;
   z-index: 5;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 26px;
-  background: rgba(25, 26, 29, .9);
-  backdrop-filter: blur(10px);
+  align-items: stretch;
+  height: 48px;
+  padding: 0 0 0 16px;
+  background: var(--bg);
   border-bottom: 1px solid var(--border-subtle);
 }
 .ce-brand { display: flex; align-items: center; gap: 9px; }
@@ -62,7 +64,9 @@
    Carbon works full-width on a hairline grid, so there is no centred 1060px
    column any more — the rule does the separating, and the content breathes to
    the gutter. Spacing is on Carbon's steps: 8 · 16 · 24 · 32 · 48 · 64. */
-.ce-sec { padding: 64px 0; border-bottom: 1px solid var(--border-subtle); background: var(--bg); }
+.ce-sec { padding: 64px 0; border-bottom: 1px solid var(--border-subtle); background: var(--bg);
+  /* the header is sticky at 48px; without this an anchored section lands under it */
+  scroll-margin-top: 48px; }
 .ce-sec.is-alt { background: var(--layer-01); }
 .ce-inner { max-width: 1440px; margin-inline: auto; padding-inline: 32px; }
 
@@ -495,15 +499,6 @@
 /* --- masthead: a mark, an index, one action ------------------------------ */
 .ce-mark { display: inline-flex; padding: 2px; border-radius: 0; }
 
-.ce-index { display: flex; gap: 26px; margin-right: 26px; }
-.ce-index a {
-  display: inline-flex; align-items: baseline; gap: 7px;
-  font: 500 12px var(--s); color: var(--text-secondary); text-decoration: none;
-  transition: color var(--fast);
-}
-.ce-index a i { font: 500 10px var(--m); font-style: normal; color: var(--text-helper); }
-.ce-index a:hover { color: var(--text-primary); }
-.ce-index a:hover i { color: var(--interactive); }
 
 /* The rule under the masthead is the page's first hairline — no band, no shadow. */
 .ce-nav { border-bottom: 1px solid var(--border-subtle); background: rgba(25,26,29,.9); }
@@ -529,8 +524,7 @@
 .ce-h2 { max-width: 20ch; }
 
 @media (max-width: 900px) {
-  .ce-index { display: none; }
-}
+  }
 
 /* The headline takes the full measure — display type is the page's main visual and
    must not be squeezed into a column. The evidence sits beside the paragraph below it. */
@@ -563,8 +557,7 @@
 
 /* ═══ responsive — declared last so nothing later overrides it ═══════════ */
 @media (max-width: 1080px) {
-  .ce-index { display: none; }
-}
+  }
 @media (max-width: 720px) {
   .ce-inner { padding-inline: 20px; }
   .ce-hero h1 { font-size: clamp(30px, 10vw, 44px); letter-spacing: -.03em; }
@@ -640,3 +633,40 @@
 @media (max-width: 900px) {
   .ce-grid3, .ce-verbs.ce-grid4 { grid-template-columns: 1fr; }
 }
+
+
+/* ── Header index: one target per section ────────────────────────────────────
+   Twelve links will not fit as words in a 48px shell, so the rail carries the
+   numbers and spells out the one you are currently in. Dense, and every section
+   is one click away — which none of them were before. */
+.ce-index { display: flex; align-items: center; gap: 16px; margin-left: 32px; min-width: 0; }
+.ce-index-rail { display: flex; align-items: stretch; gap: 0; list-style: none; margin: 0; padding: 0; }
+.ce-index-rail a {
+  display: grid; place-items: center; height: 48px; padding: 0 9px;
+  font: 400 11px var(--m); color: var(--text-helper); text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color var(--fast) var(--ease-productive), border-color var(--fast) var(--ease-productive);
+}
+.ce-index-rail a:hover { color: var(--text-primary); border-bottom-color: var(--layer-03); }
+.ce-index-rail a.is-on { color: var(--link); border-bottom-color: var(--interactive); }
+.ce-index-topic {
+  font: 400 12.5px var(--s); color: var(--text-secondary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  align-self: center; padding-left: 16px; border-left: 1px solid var(--border-subtle);
+}
+
+/* The header actions become Carbon header cells: full height, hairline-separated. */
+.ce-nav .ce-spacer { flex: 1; }
+.ce-nav .ce-btn,
+.ce-nav .ce-btn-pri {
+  height: 48px; padding: 0 16px; border: 0; border-left: 1px solid var(--border-subtle);
+  font: 400 14px var(--s);
+}
+.ce-nav .ce-btn { background: transparent; color: var(--text-primary); }
+.ce-nav .ce-btn:hover { background: var(--layer-01); }
+.ce-nav .ce-btn-pri { background: var(--interactive); color: var(--text-on-color); padding: 0 20px; }
+.ce-nav .ce-btn-pri:hover { background: #0353e9; filter: none; }
+.ce-mark { display: inline-flex; align-items: center; padding-right: 8px; }
+
+@media (max-width: 1100px) { .ce-index-topic { display: none; } }
+@media (max-width: 860px)  { .ce-index { display: none; } }

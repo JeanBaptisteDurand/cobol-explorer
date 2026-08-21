@@ -17,7 +17,7 @@ function inline(text: string, onCite: ((f: string, l?: number) => void) | undefi
       const file = m[1];
       const line = m[2] ? parseInt(m[2], 10) : undefined;
       out.push(
-        <a key={`${kb}cite${ti}-${m.index}`} className="md-cite" title="Ouvrir la source" onClick={() => onCite?.(file, line)}>
+        <a key={`${kb}cite${ti}-${m.index}`} className="md-cite" title="Open the source" onClick={() => onCite?.(file, line)}>
           {m[0]}
         </a>
       );

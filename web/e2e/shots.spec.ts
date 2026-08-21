@@ -26,7 +26,7 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() =>
     localStorage.setItem(
       "cobol-explorer-identity",
-      JSON.stringify({ name: "test", role: "Développeur" }),
+      JSON.stringify({ name: "test", role: "Developer" }),
     ),
   );
 });

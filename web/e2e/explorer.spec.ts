@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 // Seed an identity so the onboarding modal doesn't block the workspace.
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() =>
-    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "test", role: "Développeur" }))
+    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "test", role: "Developer" }))
   );
 });
 

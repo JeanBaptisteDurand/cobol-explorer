@@ -6,7 +6,9 @@ export interface Identity {
 const KEY = "cobol-explorer-identity";
 const TOKEN_KEY = "cobol-explorer-token";
 // Labels map (accent-insensitively) to canonical RBAC roles server-side.
-export const ROLES = ["Développeur", "Architecte", "Risque", "Conformité", "Auditeur"];
+// English, and the same vocabulary the server returns from /api/auth/config —
+// the two lists were drifting, one French and one not.
+export const ROLES = ["Developer", "Architect", "Risk", "Compliance", "Auditor"];
 
 export function getIdentity(): Identity | null {
   try {

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import EstateAtRest from "./EstateAtRest";
+import SectionIndex, { SECTIONS, pad } from "./SectionIndex";
 import Logo from "./Logo";
 import ReasoningTrace from "./ReasoningTrace";
 import "./landing.css";
@@ -101,14 +102,15 @@ const BUILT = [
  *  types. The previous version took it from the kicker prop and had drifted to
  *  00 01 02 03 04 05 06 10 07 08 09 11 — a reader following the page in order
  *  saw a bug before they saw the argument. */
-function Section({ id, n, topic, title, lead, alt, children }: {
-  id: string; n: number; topic: string; title: string;
-  lead?: ReactNode; alt?: boolean; children?: ReactNode;
+function Section({ id, title, lead, alt, children }: {
+  id: string; title: string; lead?: ReactNode; alt?: boolean; children?: ReactNode;
 }) {
+  const n = SECTIONS.findIndex((s) => s.id === id);
+  const topic = SECTIONS[n].topic;
   return (
-    <section className={`ce-sec ${alt ? "is-alt" : ""}`} data-testid={id}>
+    <section id={id} className={`ce-sec ${alt ? "is-alt" : ""}`} data-testid={id}>
       <div className="ce-inner">
-        <span className="ce-kicker">{String(n).padStart(2, "0")} — {topic}</span>
+        <span className="ce-kicker">{pad(n)} — {topic}</span>
         <h2 className="ce-h2">{title}</h2>
         {lead && <p className="ce-lead">{lead}</p>}
         {children}
@@ -134,11 +136,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
           <Logo size={26} title="COBOL Explorer" />
         </a>
         <span className="ce-spacer" />
-        <nav className="ce-index" aria-label="Sections">
-          <a href="#fig01"><i>01</i>Reasoning</a>
-          <a href="#bob-section"><i>02</i>Bob</a>
-          <a href="#governance-section"><i>03</i>Governance</a>
-        </nav>
+        <SectionIndex />
         <button className="ce-btn" data-testid="nav-signin" onClick={onSignIn}>Sign in</button>
         <button className="ce-btn-pri ce-nav-cta" data-testid="nav-signup" onClick={onSignUp}>Create account</button>
       </header>
@@ -176,7 +174,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
 
       <div id="fig01"><ReasoningTrace /></div>
 
-      <Section id="product-section" alt n={0} topic="The product"
+      <Section id="product-section" alt
         title="An IDE for an estate nobody can read."
         lead="Activity bar, explorer, tabbed editor, agent panel. A developer knows where everything is on the first click, and a risk officer can follow the same trail without reading a line of COBOL.">
         <Figure src="/shots/sc-apercu.png"
@@ -184,7 +182,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
           caption="Fig 01 · the workshop · GenApp insurance estate" />
       </Section>
 
-      <Section id="problem-section" n={1} topic="The problem"
+      <Section id="problem-section"
         title="Billions of lines, and no one left to read them."
         lead="Generic assistants answer without proof. On a bank's core systems a plausible-but-wrong answer is worse than no answer, because nobody can tell the difference until production tells them.">
         <div className="ce-rows">
@@ -203,7 +201,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="gestures-section" alt n={2} topic="The founding principle"
+      <Section id="gestures-section" alt
         title="Understanding ≠ changing."
         lead="The product keeps the two gestures apart on purpose. One has no side effects by construction. The other never reaches the estate without an explicit, recorded confirmation.">
         <div className="ce-grid2">
@@ -245,7 +243,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="agent-section" n={3} topic="The agent"
+      <Section id="agent-section"
         title="One agent, six tools, every call on the record."
         lead={<>A BeeAI RequirementAgent on IBM Granite. The model chooses the order of the tools; the server logs each one, and a <span className="ce-mono-in" style={{ color: "var(--reason)" }}>think</span> step records why before every call. That log is what makes the reasoning auditable rather than merely plausible.</>}>
         <div>
@@ -271,7 +269,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="rag-section" alt n={4} topic="Retrieval"
+      <Section id="rag-section" alt
         title="Two RAGs, because one is never enough."
         lead="The agent routes between them: the graph when the answer must be exact and exhaustive, the vector index when you don't know the name of what you are looking for. Neither is a substitute for the other.">
         <div className="ce-grid2">
@@ -310,7 +308,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="bob-section" n={5} topic="MCP and IBM Bob"
+      <Section id="bob-section"
         title="Bob reads the code. MCP hands it the estate already computed."
         lead="COBOL Explorer doesn't just use an AI, it extends one. Bob reads and reasons over code very well already, and this does not replace that. It hands Bob a symbol table, a call graph and data lineage computed once, offline — so Bob stops re-deriving everything on every prompt, and gains what lives in no file it could read.">
         <div className="ce-grid2">
@@ -347,7 +345,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="governance-section" alt n={6} topic="Traceability and governance"
+      <Section id="governance-section" alt
         title="Every answer proven, every action audited."
         lead="This is what decides whether a regulated organisation can put an AI anywhere near its core systems. It is not a feature list; it is the precondition.">
         <div className="ce-rows">
@@ -368,7 +366,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="ibm-section" n={7} topic="The IBM layer"
+      <Section id="ibm-section"
         title="Built on IBM, designed for Bob."
         lead="No competing model anywhere in the pipeline: the reasoning, the embeddings and the hosted inference are all IBM.">
         <div className="ce-grid4 ce-stack">
@@ -391,7 +389,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="fit-section" n={8} topic="Challenge fit"
+      <Section id="fit-section"
         title="Disconnected tasks, turned into one governed system."
         lead="The Wildcard asks for intelligent systems that cut repetitive work, improve decisions and get teams to an outcome faster. Maintaining a mainframe estate is the work that never received that treatment.">
         {/* The four Wildcard verbs, as a grid: they are four peers, not an
@@ -412,7 +410,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </p>
       </Section>
 
-      <Section id="identity-section" alt n={9} topic="Identity"
+      <Section id="identity-section" alt
         title="Who is asking, proven — not declared."
         lead="Governance is only worth the identity behind it. Sign-in issues a signed token that carries your role, so a forged header promotes nobody, and every action lands in the audit trail under a name that was verified.">
         <div className="ce-rows">
@@ -426,7 +424,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="built-section" n={10} topic="How it was built"
+      <Section id="built-section"
         title="Built with IBM Bob — spec first, not vibes."
         lead="The July lab teaches spec-driven development with Bob rather than vibe coding: describe the intent, let the agent plan, review the plan, then implement. Reusable skills kept that discipline on every unit of work.">
         <div className="ce-grid3 ce-verbs">
@@ -443,7 +441,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </p>
       </Section>
 
-      <Section id="access-section" alt n={11} topic="Access"
+      <Section id="access-section" alt
         title="Days of manual hunting, down to 6.5 seconds — with line-level proof."
         lead="Your role travels inside a signed token: it decides what you may read, propose and merge, and every action is written to the tamper-evident audit trail under your name.">
         <div className="ce-access-actions">
