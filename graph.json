@@ -2468,33 +2468,33 @@
       }
     },
     {
-      "id": "domain:ACCES-DONNEES-DB2",
+      "id": "domain:DB2-DATA-ACCESS",
       "kind": "DOMAIN",
-      "label": "ACCES-DONNEES-DB2",
+      "label": "DB2-DATA-ACCESS",
       "attrs": {}
     },
     {
-      "id": "domain:ACCES-DONNEES-VSAM",
+      "id": "domain:VSAM-DATA-ACCESS",
       "kind": "DOMAIN",
-      "label": "ACCES-DONNEES-VSAM",
+      "label": "VSAM-DATA-ACCESS",
       "attrs": {}
     },
     {
-      "id": "domain:SERVICES-TECHNIQUES",
+      "id": "domain:TECHNICAL-SERVICES",
       "kind": "DOMAIN",
-      "label": "SERVICES-TECHNIQUES",
+      "label": "TECHNICAL-SERVICES",
       "attrs": {}
     },
     {
-      "id": "domain:GESTION-CLIENT",
+      "id": "domain:CUSTOMER-MANAGEMENT",
       "kind": "DOMAIN",
-      "label": "GESTION-CLIENT",
+      "label": "CUSTOMER-MANAGEMENT",
       "attrs": {}
     },
     {
-      "id": "domain:SOUSCRIPTION-POLICE",
+      "id": "domain:POLICY-UNDERWRITING",
       "kind": "DOMAIN",
-      "label": "SOUSCRIPTION-POLICE",
+      "label": "POLICY-UNDERWRITING",
       "attrs": {}
     },
     {
@@ -5944,157 +5944,157 @@
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGACDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGACDB02",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGAPDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGDPDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGICDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGIPDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGUCDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-DB2",
+      "src": "domain:DB2-DATA-ACCESS",
       "dst": "pgm:LGUPDB01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGACVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGAPVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGDPVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGICVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGIPVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGUCVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:ACCES-DONNEES-VSAM",
+      "src": "domain:VSAM-DATA-ACCESS",
       "dst": "pgm:LGUPVS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SERVICES-TECHNIQUES",
+      "src": "domain:TECHNICAL-SERVICES",
       "dst": "pgm:LGSTSQ",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SERVICES-TECHNIQUES",
+      "src": "domain:TECHNICAL-SERVICES",
       "dst": "pgm:LGASTAT1",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SERVICES-TECHNIQUES",
+      "src": "domain:TECHNICAL-SERVICES",
       "dst": "pgm:LGSETUP",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SERVICES-TECHNIQUES",
+      "src": "domain:TECHNICAL-SERVICES",
       "dst": "pgm:LGWEBST5",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:GESTION-CLIENT",
+      "src": "domain:CUSTOMER-MANAGEMENT",
       "dst": "pgm:LGACUS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:GESTION-CLIENT",
+      "src": "domain:CUSTOMER-MANAGEMENT",
       "dst": "pgm:LGICUS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:GESTION-CLIENT",
+      "src": "domain:CUSTOMER-MANAGEMENT",
       "dst": "pgm:LGUCUS01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SOUSCRIPTION-POLICE",
+      "src": "domain:POLICY-UNDERWRITING",
       "dst": "pgm:LGAPOL01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SOUSCRIPTION-POLICE",
+      "src": "domain:POLICY-UNDERWRITING",
       "dst": "pgm:LGDPOL01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SOUSCRIPTION-POLICE",
+      "src": "domain:POLICY-UNDERWRITING",
       "dst": "pgm:LGIPOL01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}
     },
     {
-      "src": "domain:SOUSCRIPTION-POLICE",
+      "src": "domain:POLICY-UNDERWRITING",
       "dst": "pgm:LGUPOL01",
       "kind": "DOMAIN_GROUPS",
       "evidence": {}

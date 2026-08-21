@@ -35,7 +35,7 @@ export function domainsTree(g: Graph) {
     .filter((n) => n.kind === "PGM" && !domainOf.has(n.id) && n.attrs?.path)
     .sort((a, b) => a.label.localeCompare(b.label));
   const groups = [...domains];
-  if (ungrouped.length) groups.push({ id: "ungrouped", label: domains.length ? "Autres programmes" : "Programmes", programs: ungrouped });
+  if (ungrouped.length) groups.push({ id: "ungrouped", label: domains.length ? "Other programs" : "Programs", programs: ungrouped });
   return { domains, groups, ungrouped };
 }
 

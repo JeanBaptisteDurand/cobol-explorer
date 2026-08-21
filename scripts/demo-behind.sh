@@ -35,14 +35,14 @@ def call(p, d, u): return json.load(urllib.request.urlopen(urllib.request.Reques
 F = "genapp-src/base/src/lgpolicy.cpy"
 
 # 1) TA version (JB), créée sur main propre. Tu modifies le plafond MOTEUR (+65 -> +72).
-jb = call("/changesets", {"title": "Hausse plafond moteur (JB)", "author": "JB"}, "JB")["id"]
+jb = call("/changesets", {"title": "Raise motor cover limit (JB)", "author": "JB"}, "JB")["id"]
 base = json.load(urllib.request.urlopen(f"{B}/changesets/{jb}/file?path={F}"))["content"]
 call(f"/changesets/{jb}/edit", {"path": F, "content": base.replace("VALUE +65", "VALUE +72", 1), "note": "JB: moteur +65 -> +72"}, "JB")
 
 # 2) Version de Léa, créée sur le MÊME main. Elle modifie un champ LOIN du tien
 #    (WS-SUMRY-ENDOW-LEN, ~8 lignes plus bas) pour que l'import soit PROPRE (hunks
 #    git non chevauchants) ; puis elle FUSIONNE -> main avance -> ta version "en retard".
-lea = call("/changesets", {"title": "Correctif longueur (Lea)", "author": "Lea"}, "Lea")["id"]
+lea = call("/changesets", {"title": "Fix field length (Lea)", "author": "Lea"}, "Lea")["id"]
 lea_lines = base.split("\n")
 for i, l in enumerate(lea_lines):
     if "WS-SUMRY-ENDOW-LEN" in l:
@@ -51,12 +51,12 @@ call(f"/changesets/{lea}/edit", {"path": F, "content": "\n".join(lea_lines), "no
 call(f"/changesets/{lea}/status", {"status": "merged"}, "Lea")
 
 st = json.load(urllib.request.urlopen(urllib.request.Request(f"{B}/changesets/{jb}", headers=H("JB"))))["sync"]
-print(f"   ta version 'Hausse plafond moteur (JB)' -> {st}")
+print(f"   ta version 'Raise motor cover limit (JB)' -> {st}")
 PY
 
 echo ""
 echo "✓ Prêt. Toi = JB. Ta version est EN RETARD sur main (Léa a fusionné après toi)."
 echo "  → dans l'app : pastille en haut à droite -> nom 'JB' -> Entrer"
-echo "  → barre latérale Versions -> clic 'Hausse plafond moteur (JB)'"
+echo "  → barre latérale Versions -> clic 'Raise motor cover limit (JB)'"
 echo "  → panneau Modifs : « en retard de N commits » -> clique « ↓ Importer main »"
 echo "  (Léa a touché un autre champ -> l'import est PROPRE, pas de conflit -> « à jour ».)"

@@ -102,9 +102,12 @@ test("split view : deux fichiers côte à côte (programme + copybook)", async (
 
 test("graphe : le mode focus réduit au voisinage du nœud", async ({ page }) => {
   await page.goto("/");
+  // Select through the search box rather than by clicking the canvas: node positions
+  // depend on the layout, so a click target can end up under the floating panel.
+  await page.getByTestId("search").fill("LGIPOL01");
+  await page.getByTestId("search").press("Enter");
   await page.locator('.tab:has-text("Graph")').click();
   const before = await page.locator(".rf-node").count();
-  await page.locator('.rf-node:has-text("LGIPOL01")').first().click();
   await page.getByTestId("graph-focus").click();
   await expect(page.locator(".rf-node")).not.toHaveCount(before);
   const after = await page.locator(".rf-node").count();

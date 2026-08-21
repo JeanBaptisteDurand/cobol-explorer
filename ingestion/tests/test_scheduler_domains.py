@@ -23,6 +23,6 @@ def test_domains_grouping_first_match_wins():
     ]
     dnodes, dedges = apply_domains(nodes, mapping)
     pairs = {(e.src, e.dst) for e in dedges}
-    assert (nid("domain", "SOUSCRIPTION-POLICE"), nid("pgm", "LGAPOL01")) in pairs
-    assert (nid("domain", "ACCES-DONNEES-DB2"), nid("pgm", "LGAPDB01")) in pairs
-    assert (nid("domain", "GESTION-CLIENT"), nid("pgm", "LGACUS01")) in pairs
+    assert (nid("domain", "POLICY-UNDERWRITING"), nid("pgm", "LGAPOL01")) in pairs
+    assert (nid("domain", "DB2-DATA-ACCESS"), nid("pgm", "LGAPDB01")) in pairs
+    assert (nid("domain", "CUSTOMER-MANAGEMENT"), nid("pgm", "LGACUS01")) in pairs
