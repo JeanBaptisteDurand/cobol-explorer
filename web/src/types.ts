@@ -27,6 +27,8 @@ export interface Comment {
   at: string;
 }
 export interface ChangeSet {
+  /** Written record of what the version changes — {text, grounded, at}. */
+  summary?: { text: string; grounded?: boolean; at?: string };
   id: string;
   title: string;
   author: string;

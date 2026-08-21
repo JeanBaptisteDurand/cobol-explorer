@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { csComment, csRevert, csStatus, csSync } from "../api";
+import { csComment, csRevert, csStatus, csSummarize, csSync } from "../api";
 import type { ChangeSet } from "../types";
 import Help from "./Help";
 import { Icon } from "./Icons";
@@ -45,6 +45,32 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
 
   return (
     <div style={{ padding: 15, display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
+      {/* The written record: what this version changes, what it puts at risk, what to
+          check. Generated at merge time, and on demand before it — because the diff of
+          a merged version against main is empty, and by then it is too late to write. */}
+      <div className="card" style={{ padding: "12px 13px" }} data-testid="cs-summary">
+        <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: version.summary?.text ? 8 : 0 }}>
+          <Icon name="spark" size={12} color="var(--amber)" />
+          <span className="klabel" style={{ margin: 0 }}>Change record</span>
+          {version.summary?.grounded === false && (
+            <span className="tag" title="No model was reachable — the facts were written without prose">facts only</span>
+          )}
+          <span style={{ flex: 1 }} />
+          <button className="btn" style={{ fontSize: 9.5, padding: "2px 8px" }} disabled={busy}
+            data-testid="cs-summarize" onClick={() => run(csSummarize(version.id))}
+            title="Read the diff and the impact, and write what changed">
+            {version.summary?.text ? "rewrite" : "write it"}
+          </button>
+        </div>
+        {version.summary?.text ? (
+          <p style={{ font: "400 11.5px/1.65 var(--s)", color: "var(--dim)", margin: 0 }}>{version.summary.text}</p>
+        ) : (
+          <p style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--faint)", margin: 0 }}>
+            Written automatically when the version is merged — or now, so reviewers read it before they approve.
+          </p>
+        )}
+      </div>
+
       {/* Your branch vs the team's main */}
       <div className="card" style={{ padding: "12px 13px", borderColor: "var(--amber-d)", background: "rgba(255,176,32,.05)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>

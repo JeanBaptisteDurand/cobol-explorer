@@ -8,7 +8,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-ffb020)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-146%20backend%20%C2%B7%2035%20e2e-5ec27a)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-153%20backend%20%C2%B7%2036%20e2e-5ec27a)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-6cb2ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-c398ff)](#5-toute-la-stack-ibm)
 [![license](https://img.shields.io/badge/license-Apache--2.0-878d97)](LICENSE)
@@ -300,8 +300,8 @@ jetons survivent à un redémarrage.
 ## 8. Tests
 
 ```bash
-make test                          # 146 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
-cd web && pnpm exec playwright test # 35 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
+make test                          # 153 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
+cd web && pnpm exec playwright test # 36 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
 make serve-sandbox &                # serveur authentifié sur une COPIE jetable du patrimoine
 make e2e-governance                 # scénario 3 comptes / 3 rôles joué au navigateur
 ```

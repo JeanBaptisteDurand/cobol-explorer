@@ -600,6 +600,17 @@ def cs_diff(cid: str, path: str, request: Request) -> dict:
     return {"path": path, "diff": s.diff(cid, path)}
 
 
+@app.post("/api/changesets/{cid}/summary")
+def cs_summary(cid: str, request: Request) -> dict:
+    """(Re)write the plain-language record of what this version changes."""
+    gate(request, "read", target=f"summary:{cid}")
+    s = store()
+    if not s.exists(cid):
+        raise HTTPException(404, "changeset not found")
+    _write_summary(s, cid)
+    return cs_payload(s, cid)
+
+
 @app.post("/api/changesets/{cid}/impact")
 def cs_impact(cid: str, request: Request) -> dict:
     gate(request, "read", target=f"impact:{cid}")
@@ -641,6 +652,26 @@ def _refresh_from_main(s: VersionStore) -> None:
 _STATUSES = {"draft", "proposed", "merged", "rejected"}
 
 
+
+def _write_summary(s: VersionStore, cid: str) -> dict:
+    """Write the record of what a version changed. Never blocks the caller on failure."""
+    from versioning import summarize
+
+    cs = s.get(cid)
+    diffs = {}
+    for e in cs.edits:
+        try:
+            diffs[e["path"]] = s.diff(cid, e["path"])
+        except Exception:
+            continue
+    try:
+        result = summarize.summarize(cs, diffs)
+    except Exception:
+        result = {"text": summarize.deterministic(cs, diffs), "grounded": False}
+    s.set_summary(cid, result)
+    return result
+
+
 @app.post("/api/changesets/{cid}/status")
 def cs_status(cid: str, body: StatusBody, request: Request) -> dict:
     status = (body.status or "").strip().lower()
@@ -657,6 +688,10 @@ def cs_status(cid: str, body: StatusBody, request: Request) -> dict:
     if cs.status == "merged":
         raise HTTPException(409, "version already merged into main — it is closed")
     if body.status == "merged":
+        # Write the record BEFORE merging: once main carries the change, the diff of the
+        # version against main is empty and there is nothing left to summarise.
+        if not cs.summary:
+            _write_summary(s, cid)
         # Real git merge onto main — refused (409) if the branch is behind main.
         try:
             s.merge_to_main(cid)

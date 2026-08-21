@@ -39,6 +39,9 @@ class ChangeSet:
     edits: list[dict] = field(default_factory=list)  # {path, note}
     comments: list[dict] = field(default_factory=list)  # {author, text, at}
     impact: dict = field(default_factory=dict)  # {programs, chains}
+    # Written when the version is merged (or on demand): what changed, what it put at
+    # risk, what to check. {text, grounded, at} — grounded=False means no model wrote it.
+    summary: dict = field(default_factory=dict)
 
 
 class VersionStore:
@@ -156,6 +159,13 @@ class VersionStore:
     def add_comment(self, cid: str, author: str, text: str, now: str | None = None) -> ChangeSet:
         cs = self.get(cid)
         cs.comments.append({"author": author, "text": text, "at": now or _now()})
+        self._save(cs)
+        return cs
+
+    def set_summary(self, cid: str, summary: dict) -> ChangeSet:
+        """Attach the written record of the change and persist it."""
+        cs = self.get(cid)
+        cs.summary = {**summary, "at": _now()}
         self._save(cs)
         return cs
 

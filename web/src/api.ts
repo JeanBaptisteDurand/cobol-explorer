@@ -73,6 +73,7 @@ export const csComment = (id: string, author: string, text: string) =>
   post(`/api/changesets/${id}/comment`, { author, text });
 export const csStatus = (id: string, status: string) =>
   post(`/api/changesets/${id}/status`, { status });
+export const csSummarize = (id: string): Promise<ChangeSet> => post(`/api/changesets/${id}/summary`, {});
 export const csRevert = (id: string, path: string) =>
   post(`/api/changesets/${id}/revert`, { path });
 export const csSync = (id: string, strategy?: "mine" | "main") =>

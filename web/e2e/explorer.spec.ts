@@ -231,3 +231,13 @@ test("l'agent répond avec une trace @slow", async ({ page }) => {
   await page.getByTestId("chat-send").click();
   await expect(page.getByTestId("trace")).toContainText("graph_lookup", { timeout: 130_000 });
 });
+
+test("registre de version : écrit à la demande, relisible ensuite", async ({ page }) => {
+  await page.goto("/");
+  await page.locator('[data-ab="branch"]').click();
+  const card = page.getByTestId("cs-summary");
+  await expect(card).toBeVisible();
+  await page.getByTestId("cs-summarize").click();
+  // Le registre nomme le fichier et chiffre l'impact — jamais une phrase vide.
+  await expect(card).toContainText(/file\(s\) edited|program\(s\)|No file was edited/i, { timeout: 60000 });
+});
