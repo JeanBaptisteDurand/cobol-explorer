@@ -122,7 +122,12 @@ function Section({ id, title, lead, alt, children }: {
 function Figure({ src, alt, caption }: { src: string; alt: string; caption: string }) {
   return (
     <figure style={{ margin: 0 }}>
-      <div className="ce-shot"><img src={src} alt={alt} loading="lazy" /></div>
+      {/* width/height are the capture size: they reserve the space before the
+          image arrives, so lazy loading cannot shift what is below it — which is
+          what made anchored navigation land in the wrong place. */}
+      <div className="ce-shot">
+        <img src={src} alt={alt} loading="lazy" decoding="async" width={2880} height={1800} />
+      </div>
       <figcaption className="ce-cap">{caption}</figcaption>
     </figure>
   );

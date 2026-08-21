@@ -297,7 +297,7 @@
 /* ---------- product plates ---------- */
 .ce-shot { border: 1px solid var(--border-subtle); border-radius: 0; overflow: hidden; background: var(--layer-01); }
 .ce-sec.is-alt .ce-shot { background: var(--bg); }
-.ce-shot img { width: 100%; display: block; }
+.ce-shot img { width: 100%; height: auto; aspect-ratio: 2880 / 1800; display: block; }
 .ce-cap {
   font: 600 10px/1.5 var(--m);
   letter-spacing: .12em;
