@@ -39,7 +39,7 @@
   border-radius: 0;
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 120ms cubic-bezier(.2, 0, 0, 1), filter 120ms cubic-bezier(.2, 0, 0, 1);
+  transition: border-color var(--fast) var(--ease-expressive), filter var(--fast) var(--ease-expressive);
 }
 .ce-btn {
   color: var(--text-primary);
@@ -56,8 +56,6 @@
 }
 .ce-btn-pri:hover { filter: brightness(1.06); }
 .ce-nav .ce-btn { font-size: 12px; padding: 8px 14px; }
-.ce-btn:focus-visible,
-.ce-btn-pri:focus-visible { outline: 2px solid var(--interactive); outline-offset: 2px; }
 
 /* ---------- section scaffold ---------- */
 .ce-sec { padding: 62px 0; border-bottom: 1px solid var(--border-subtle); background: var(--bg); }
@@ -143,8 +141,8 @@
 .ce-graph-stage { position: absolute; top: 0; left: 0; width: 1000px; height: 545px; transform-origin: 0 0; }
 .ce-graph-field,
 .ce-graph-edges { position: absolute; inset: 0; display: block; }
-.ce-graph-field { transition: opacity 500ms cubic-bezier(.2, 0, 0, 1); filter: grayscale(1); }
-.ce-graph-edges line { transition: opacity 420ms cubic-bezier(.2, 0, 0, 1), stroke 420ms; }
+.ce-graph-field { transition: opacity var(--slow) var(--ease-expressive); filter: grayscale(1); }
+.ce-graph-edges line { transition: opacity var(--slow) var(--ease-expressive), stroke var(--slow); }
 
 .ce-node {
   position: absolute;
@@ -158,7 +156,7 @@
   background: var(--layer-01);
   border: 1px solid var(--border-subtle);
   filter: grayscale(1);
-  transition: opacity 420ms cubic-bezier(.2, 0, 0, 1), border-color 420ms, box-shadow 420ms, background-color 420ms;
+  transition: opacity var(--slow) var(--ease-expressive), border-color var(--slow), box-shadow var(--slow), background-color var(--slow);
 }
 .ce-node.is-small { padding: 5px 10px; }
 .ce-node.is-on { filter: none; }
@@ -271,7 +269,7 @@
   border-radius: 0;
   padding: 4px 8px;
   white-space: nowrap;
-  transition: color 420ms, border-color 420ms, background-color 420ms;
+  transition: color var(--slow), border-color var(--slow), background-color var(--slow);
 }
 .ce-cite.is-on { color: var(--interactive); border-color: var(--interactive); background: rgba(15, 98, 254, .14); }
 
@@ -449,11 +447,6 @@
   .ce-pipe-st { flex-basis: 100%; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ce-landing *,
-  .ce-landing *::before,
-  .ce-landing *::after { transition-duration: 1ms !important; animation: none !important; }
-}
 
 /* ── Header: a mark, a wordmark, three anchors. The challenge name lives in the
    footer, where a claim about provenance belongs — not in the masthead. ── */
@@ -461,7 +454,7 @@
 .ce-nav-links { display: flex; gap: 22px; margin-right: 20px; }
 .ce-nav-links a {
   font: 500 12px var(--s); color: var(--text-secondary); text-decoration: none;
-  padding: 4px 0; border-bottom: 1px solid transparent; transition: color 120ms, border-color 120ms;
+  padding: 4px 0; border-bottom: 1px solid transparent; transition: color var(--fast), border-color var(--fast);
 }
 .ce-nav-links a:hover { color: var(--text-primary); border-bottom-color: var(--interactive); }
 .ce-nav-cta { padding: 7px 14px !important; }
@@ -526,13 +519,12 @@
 
 /* --- masthead: a mark, an index, one action ------------------------------ */
 .ce-mark { display: inline-flex; padding: 2px; border-radius: 0; }
-.ce-mark:focus-visible { outline: 2px solid var(--interactive); outline-offset: 3px; }
 
 .ce-index { display: flex; gap: 26px; margin-right: 26px; }
 .ce-index a {
   display: inline-flex; align-items: baseline; gap: 7px;
   font: 500 12px var(--s); color: var(--text-secondary); text-decoration: none;
-  transition: color 120ms;
+  transition: color var(--fast);
 }
 .ce-index a i { font: 500 10px var(--m); font-style: normal; color: var(--text-helper); }
 .ce-index a:hover { color: var(--text-primary); }
@@ -586,9 +578,6 @@
 @media (max-width: 1080px) { .ce-hero h1 { font-size: clamp(36px, 9vw, 62px); } }
 
 /* --- focus: the index links were falling back to the browser default ---- */
-.ce-index a:focus-visible,
-.ce-foot a:focus-visible,
-.ce-cap a:focus-visible { outline: 2px solid var(--interactive); outline-offset: 3px; border-radius: 0; }
 
 /* --- the demo video, as a facade (no request to YouTube before a click) -- */
 .ce-video { margin: 26px 0 0; }
@@ -596,7 +585,7 @@
 .ce-video-facade {
   position: relative; display: block; width: 100%; padding: 0; cursor: pointer;
   border: 1px solid var(--border-subtle); border-radius: 0; overflow: hidden; background: var(--layer-02);
-  transition: border-color 120ms;
+  transition: border-color var(--fast);
 }
 .ce-video-facade:hover { border-color: var(--interactive); }
 .ce-video-facade img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; opacity: .42; }

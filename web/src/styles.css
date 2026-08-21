@@ -43,6 +43,27 @@
   --ease-expressive: cubic-bezier(.4, .14, .3, 1);
 }
 * { box-sizing: border-box; }
+
+/* Carbon's double ring: white outside so it survives any layer, interactive blue
+   inside so it reads as "this is the thing you are on". Global, because the
+   inputs below set outline: none and previously replaced it with nothing. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 3px var(--interactive);
+}
+
+/* Part of the audience runs with this on, so it is not a nicety. Global rather
+   than scoped to the landing, which is what it was: the workshop animates too. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html, body, #root { height: 100%; margin: 0; }
 body { color: var(--text-primary); font-family: var(--s); font-size: 13px; background: var(--bg);
   -webkit-font-smoothing: antialiased; }
@@ -110,7 +131,7 @@ input, textarea { font-family: var(--s); }
 .editorwrap { flex: 1; display: flex; min-width: 0; min-height: 0; }
 .editor { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
 .editor.eg-active { box-shadow: inset 0 2px 0 var(--interactive); }
-.splitter { width: 5px; flex: none; background: var(--border-subtle); cursor: col-resize; transition: background .12s; }
+.splitter { width: 5px; flex: none; background: var(--border-subtle); cursor: col-resize; transition: background var(--fast); }
 .splitter:hover { background: var(--interactive); }
 .tab-act { display: flex; align-items: center; padding: 0 12px; color: var(--text-helper); cursor: pointer; border-left: 1px solid var(--border-subtle); flex: none; }
 .tab-act:hover { color: var(--interactive); background: var(--layer-02); }
@@ -137,7 +158,7 @@ input, textarea { font-family: var(--s); }
 .help .tip { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 240px;
   background: var(--layer-03); border: 1px solid var(--border-subtle); border-radius: 0; padding: 9px 11px;
   font: 400 11px/1.55 var(--s); color: var(--text-primary); text-transform: none; letter-spacing: 0;
-  opacity: 0; pointer-events: none; transition: opacity .12s; z-index: 80; }
+  opacity: 0; pointer-events: none; transition: opacity var(--fast); z-index: 80; }
 .help:hover .tip, .help:focus .tip { opacity: 1; }
 .row { display: flex; align-items: center; gap: 7px; padding: 3px 8px; border-radius: 0;
   cursor: pointer; font: 400 12.5px var(--s); color: var(--text-secondary); }
@@ -146,7 +167,7 @@ input, textarea { font-family: var(--s); }
 .row .cnt { margin-left: auto; color: var(--text-helper); font: 400 10px var(--m); }
 .row.folder { color: var(--text-primary); font-weight: 600; font-size: 11px; letter-spacing: .02em; }
 .igd { border-left: 1px solid var(--layer-02); margin-left: 11px; padding-left: 9px; }
-.chev { width: 12px; transition: transform .12s; color: var(--text-helper); }
+.chev { width: 12px; transition: transform var(--fast); color: var(--text-helper); }
 .chev.open { transform: rotate(90deg); color: var(--text-secondary); }
 .tag { font: 500 9px var(--m); letter-spacing: .05em; color: var(--text-helper); text-transform: uppercase; }
 .tag.b { border: 1px solid var(--border-subtle); padding: 2px 6px; border-radius: 0; }
@@ -226,7 +247,7 @@ input, textarea { font-family: var(--s); }
 .grounded.ok { color: var(--verified); background: rgba(94, 194, 122, .1); border: 1px solid rgba(94, 194, 122, .3); }
 .grounded.warn { color: var(--danger); background: rgba(255, 91, 82, .1); border: 1px solid rgba(255, 91, 82, .3); }
 .chip { font: 500 10.5px var(--s); color: var(--text-secondary); background: var(--layer-02); border: 1px solid var(--border-subtle);
-  border-radius: 0; padding: 4px 10px; cursor: pointer; transition: all .12s; }
+  border-radius: 0; padding: 4px 10px; cursor: pointer; transition: all var(--fast); }
 .chip:hover { color: var(--interactive); border-color: var(--interactive); background: rgba(15, 98, 254, .12); }
 .emptypane { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 15px; padding: 30px; text-align: center; }
@@ -242,7 +263,7 @@ input, textarea { font-family: var(--s); }
 /* ---------- code / diff ---------- */
 .cm-host { position: absolute; inset: 42px 0 0 0; }
 .cm-host.no-top { inset: 0; }
-.cm-flash { background: rgba(15, 98, 254, .22); box-shadow: inset 3px 0 0 var(--interactive); transition: background .3s; }
+.cm-flash { background: rgba(15, 98, 254, .22); box-shadow: inset 3px 0 0 var(--interactive); transition: background var(--base); }
 .cm-theme, .cm-editor { height: 100%; background: transparent !important; }
 .ed { font: 400 12px/1.72 var(--m); white-space: pre; }
 .ln { color: #3f444d; display: inline-block; width: 34px; text-align: right; padding-right: 16px; user-select: none; }
@@ -275,7 +296,7 @@ input, textarea { font-family: var(--s); }
   color: var(--text-helper); cursor: pointer; }
 .rf-node .rf-open:hover { color: var(--interactive); background: rgba(15, 98, 254, .18); }
 /* Live agent visualisation: dim the landscape, light what the RAG touches. */
-.rf-node.dim { opacity: .12; filter: grayscale(1); transition: opacity .5s ease, filter .5s ease; }
+.rf-node.dim { opacity: .12; filter: grayscale(1); transition: opacity var(--slow) var(--ease-expressive), filter var(--slow) var(--ease-expressive); }
 /* Carbon has no glow: a node the agent is touching gets a ring, and the ring
    contracts once on arrival so the eye catches which node just lit up. */
 .rf-node.lit { box-shadow: 0 0 0 1px var(--interactive); animation: litpop var(--slow) var(--ease-expressive); }
