@@ -8,7 +8,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-ffb020)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-153%20backend%20%C2%B7%2036%20e2e-5ec27a)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-151%20backend%20%C2%B7%2036%20e2e-5ec27a)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-6cb2ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-c398ff)](#5-toute-la-stack-ibm)
 [![license](https://img.shields.io/badge/license-Apache--2.0-878d97)](LICENSE)
@@ -38,7 +38,7 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 - **IBM Bob via MCP** — 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
 - **Governance** — git-backed team versioning, RBAC roles, merge-gate, HMAC-chained immutable audit.
 - **Multi-system** — analyzes **two real estates**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); self-hosted Neo4j + pgvector + Granite (Ollama), or **Granite on IBM watsonx.ai**. 123 backend tests · 31 e2e.
+- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); self-hosted Neo4j + pgvector + Granite (Ollama), or **Granite on IBM watsonx.ai**. 151 backend tests · 36 e2e.
 
 ### Try it
 **Live: [cobol-explorer.fr](https://cobol-explorer.fr)** — create an account, or sign in with the demo account
@@ -67,7 +67,7 @@ Stated plainly, because a reviewer will find them anyway:
   Bob so the same discipline applied every time:
   - a **brainstorming skill** — requirements and design settled *before* any implementation, so the spec is the
     artefact and the code follows it;
-  - a **test-driven skill** — the failing test first. It is the reason this repository ships **123 backend tests**
+  - a **test-driven skill** — the failing test first. It is the reason this repository ships **151 backend tests**
     rather than a happy-path demo;
   - a **simplify skill** — a cleanup pass re-reading the diff for duplication, dead code and over-engineering.
     Concrete outcomes: a dead `_copy_evidence` helper removed, an MCP `domain` parameter that Bob could see but that
