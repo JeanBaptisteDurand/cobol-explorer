@@ -399,12 +399,14 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
       <Section id="fit-section" n={8} topic="Challenge fit"
         title="Disconnected tasks, turned into one governed system."
         lead="The Wildcard asks for intelligent systems that cut repetitive work, improve decisions and get teams to an outcome faster. Maintaining a mainframe estate is the work that never received that treatment.">
-        <div className="ce-rows">
-          {FIT.map((f, i) => (
-            <div className="ce-row" key={f.t}>
-              <span className="ce-row-n">{String(i + 1).padStart(2, "0")}</span>
-              <span className="ce-row-t">{f.t}</span>
-              <span className="ce-row-d">{f.d}</span>
+        {/* The four Wildcard verbs, as a grid: they are four peers, not an
+            ordered list, and the row table was already this page's most reused
+            shape. */}
+        <div className="ce-grid4 ce-verbs">
+          {FIT.map((f) => (
+            <div className="ce-verb" key={f.t}>
+              <div className="ce-verb-t">{f.t}</div>
+              <p className="ce-verb-d">{f.d}</p>
             </div>
           ))}
         </div>
@@ -432,12 +434,11 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
       <Section id="built-section" n={10} topic="How it was built"
         title="Built with IBM Bob — spec first, not vibes."
         lead="The July lab teaches spec-driven development with Bob rather than vibe coding: describe the intent, let the agent plan, review the plan, then implement. Reusable skills kept that discipline on every unit of work.">
-        <div className="ce-rows">
-          {BUILT.map((f, i) => (
-            <div className="ce-row" key={f.t}>
-              <span className="ce-row-n">{String(i + 1).padStart(2, "0")}</span>
-              <span className="ce-row-t">{f.t}</span>
-              <span className="ce-row-d">{f.d}</span>
+        <div className="ce-grid3 ce-verbs">
+          {BUILT.map((f) => (
+            <div className="ce-verb" key={f.t}>
+              <div className="ce-verb-t">{f.t}</div>
+              <p className="ce-verb-d">{f.d}</p>
             </div>
           ))}
         </div>
