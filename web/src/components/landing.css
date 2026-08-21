@@ -8,8 +8,6 @@
    and "landing — deck sections") once this is in. */
 
 .ce-landing {
-  height: 100%;
-  overflow-y: auto;
   background: var(--bg);
 }
 

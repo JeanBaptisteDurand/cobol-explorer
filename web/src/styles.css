@@ -64,7 +64,10 @@
   }
 }
 
-html, body, #root { height: 100%; margin: 0; }
+/* No height: 100% here. The workshop shell sizes itself with .app { height: 100vh },
+   and the public page is a document that must scroll natively — pinning the body
+   was what forced the landing to scroll inside a div. */
+html, body, #root { margin: 0; }
 body { color: var(--text-primary); font-family: var(--s); font-size: 13px; background: var(--bg);
   -webkit-font-smoothing: antialiased; }
 ::selection { background: rgba(15, 98, 254, .38); color: var(--text-on-color); }

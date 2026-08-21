@@ -130,7 +130,7 @@ function Figure({ src, alt, caption }: { src: string; alt: string; caption: stri
 
 export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; onSignUp: () => void }) {
   return (
-    <div className="ce-landing sb" data-testid="landing">
+    <div className="ce-landing" data-testid="landing">
       <header className="ce-nav">
         <a className="ce-mark" href="#top" aria-label="COBOL Explorer — top of page">
           <Logo size={26} title="COBOL Explorer" />
