@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import HeroVideo from "./HeroVideo";
 import Logo from "./Logo";
 import ReasoningTrace from "./ReasoningTrace";
 import "./landing.css";
@@ -142,6 +143,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             <button className="ce-btn-pri" data-testid="hero-signup" onClick={onSignUp}>Enter the workshop</button>
             <a className="ce-btn" href="#fig01">Watch it reason</a>
           </div>
+          <HeroVideo />
           </div>
 
           {/* The void on the right used to be decoration waiting to happen. It holds the

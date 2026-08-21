@@ -580,3 +580,45 @@
 .ce-hero-grid .ce-answer { margin-top: 0; }
 .ce-hero .ce-lead { max-width: 52ch; margin-top: 0; }
 @media (max-width: 1080px) { .ce-hero h1 { font-size: clamp(36px, 9vw, 62px); } }
+
+/* --- focus: the index links were falling back to the browser default ---- */
+.ce-index a:focus-visible,
+.ce-foot a:focus-visible,
+.ce-cap a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+
+/* --- the demo video, as a facade (no request to YouTube before a click) -- */
+.ce-video { margin: 26px 0 0; }
+.ce-video iframe { width: 100%; aspect-ratio: 16/9; border: 1px solid var(--line); border-radius: 10px; display: block; }
+.ce-video-facade {
+  position: relative; display: block; width: 100%; padding: 0; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--soft);
+  transition: border-color 120ms;
+}
+.ce-video-facade:hover { border-color: var(--amber-d); }
+.ce-video-facade img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; opacity: .42; }
+.ce-video-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 56px; height: 56px; border-radius: 99px; background: var(--amber); color: var(--edit);
+  display: grid; place-items: center; padding-left: 4px;
+}
+.ce-video-meta {
+  position: absolute; left: 16px; bottom: 14px; display: flex; flex-direction: column; gap: 3px; text-align: left;
+}
+.ce-video-meta b { font: 600 13px var(--s); color: #edeff3; }
+.ce-video-meta i { font: 400 11px var(--m); font-style: normal; color: var(--dim); }
+
+/* ═══ responsive — declared last so nothing later overrides it ═══════════ */
+@media (max-width: 1080px) {
+  .ce-hero-grid { grid-template-columns: 1fr !important; gap: 26px !important; }
+  .ce-hero-grid .ce-answer { margin-top: 0; }
+  .ce-index { display: none; }
+}
+@media (max-width: 720px) {
+  .ce-inner { padding-inline: 20px; }
+  .ce-hero h1 { font-size: clamp(30px, 10vw, 44px); letter-spacing: -.03em; }
+  .ce-hero h1 em { margin-left: 0; display: block; }
+  .ce-hero .ce-lead { max-width: none; }
+  .ce-answer-cites li { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .ce-answer-foot { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .ce-metrics { grid-template-columns: repeat(2, 1fr); gap: 22px 15px; }
+}
