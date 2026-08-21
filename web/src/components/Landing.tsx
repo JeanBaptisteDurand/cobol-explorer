@@ -35,6 +35,19 @@ const PIPELINE = [
   { n: "Step 5", t: "Merge gate", d: "“this touches 11 programs — confirm?” plus RBAC", gate: true },
 ];
 
+/** The four acts of e2e/governance.spec.ts, which plays this scenario in a browser
+ *  with three real accounts. Every claim below is a test that has to pass. */
+const COWORK = [
+  { who: "Sofia", role: "risk", t: "proposes, in isolation",
+    d: "She opens a version — a real git branch off the estate — edits a copybook, and the impact of her change is recomputed as she types: the programs, the jobs, the chains." },
+  { who: "Sofia", role: "risk", t: "is refused the merge",
+    d: "Her role may propose and may not apply. The refusal is not a disabled button: the server says no, and writes the attempt to the audit trail under her name." },
+  { who: "Amine", role: "dev", t: "reviews, comments, merges",
+    d: "He reads the diff, leaves a comment on the version, and passes the merge gate — which states the blast radius out loud and asks him to confirm it before anything touches main." },
+  { who: "Marc", role: "auditor", t: "can change nothing, and sees everything",
+    d: "He may propose no version at all, and he reads the complete chain: who asked what, who edited what, who was refused, and whether the chain is still intact." },
+];
+
 const TOOLS = [
   { n: "think", c: "var(--reason)", cls: "reason", d: "Reasons out loud before each action — the “why” behind the tool choice, captured in the trace." },
   { n: "graph_lookup", c: "var(--graph)", cls: "graph rag", d: "Summary, impact, lineage, callers, callees, neighbours. Deterministic traversal, no model in the loop." },
@@ -246,6 +259,51 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             </div>
           ))}
         </div>
+      </Section>
+
+      <Section id="cowork-section"
+        title="A change is a proposal, not an edit."
+        lead="One person changing a copybook alone is how estates break. The work is split the way a team actually works — someone proposes, someone else reviews, and the system refuses whoever is not entitled — and every branch knows what the rest of the team merged while it was open.">
+        <div className="ce-rows">
+          {COWORK.map((c, i) => (
+            <div className="ce-row" key={i}>
+              <span className="ce-row-n">{String(i + 1).padStart(2, "0")}</span>
+              <span className="ce-row-t">
+                {c.who} <span className="ce-mono-sm" style={{ color: "var(--text-helper)" }}>{c.role}</span>
+                <div style={{ font: "400 13px var(--s)", color: "var(--text-secondary)", marginTop: 3 }}>{c.t}</div>
+              </span>
+              <span className="ce-row-d">{c.d}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="ce-grid2" style={{ marginTop: 32 }}>
+          <div className="ce-card">
+            <span className="ce-tag">branch state</span>
+            <div className="ce-card-t">Every version knows what it is missing</div>
+            <p>
+              A branch that has been open while the team merged is behind, and says so —
+              <span className="ce-mono-sm"> 3 commits behind main</span>. Importing that work is one
+              action, and the impact is recomputed against the estate as it is now, not as it was
+              when the branch was cut.
+            </p>
+          </div>
+          <div className="ce-card">
+            <span className="ce-tag">conflict</span>
+            <div className="ce-card-t">Two people on the same lines is a question, not a crash</div>
+            <p>
+              When both sides touched the same lines the merge stops and asks: keep mine, or take
+              the team's. Whichever you pick, the other file's changes are still imported — and the
+              decision lands in the audit trail like everything else.
+            </p>
+          </div>
+        </div>
+
+        <p className="ce-fine">
+          This is the part that turns a clever tool into something a bank can put people on. It is
+          also the part that is easiest to claim and hardest to prove, so it is played end to end in
+          the browser with three separate accounts on every run.
+        </p>
       </Section>
 
       <Section id="agent-section"

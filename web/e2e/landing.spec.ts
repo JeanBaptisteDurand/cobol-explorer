@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { SECTIONS } from "../src/components/SectionIndex";
 
 // Structural guarantees of the public page. The visual language is not testable
 // here, but the four things that made the old page fail a reader are: hijacked
@@ -46,8 +47,19 @@ test("les numéros de section se suivent sans trou", async ({ page }) => {
   // figure captions and a couple of asides, and those carry no number.
   const kickers = await page.locator(".ce-sec > .ce-inner > .ce-kicker").allInnerTexts();
   const parsed = kickers.map((t) => parseInt(t.trim().slice(0, 2), 10));
-  expect(parsed.length).toBe(12);
+
+  // Counted against the declaration rather than a literal: adding a section must
+  // not need this file edited, but a section the header knows and the page does
+  // not — or the reverse — has to fail.
+  expect(parsed.length).toBe(SECTIONS.length);
   expect(parsed).toEqual(parsed.map((_, i) => i));
+
+  // And every header link must resolve to a section that is actually rendered.
+  const missing = await page.evaluate(
+    (ids) => ids.filter((id) => !document.getElementById(id)),
+    SECTIONS.map((s) => s.id),
+  );
+  expect(missing).toEqual([]);
 });
 
 // A hand-written citation is a claim nobody re-checks. Every product fact on the

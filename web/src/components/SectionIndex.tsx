@@ -16,6 +16,7 @@ export const SECTIONS = [
   { id: "product-section", topic: "The product", nav: "Product" },
   { id: "problem-section", topic: "The problem", nav: "Problem" },
   { id: "gestures-section", topic: "The founding principle", nav: "Principle" },
+  { id: "cowork-section", topic: "Working as a team", nav: "Team" },
   { id: "agent-section", topic: "The agent", nav: "Agent" },
   { id: "rag-section", topic: "Retrieval", nav: "Retrieval" },
   { id: "bob-section", topic: "MCP and IBM Bob", nav: "Bob" },
