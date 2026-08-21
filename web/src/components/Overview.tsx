@@ -44,8 +44,8 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
         <div
           data-testid="impact-hero"
           style={{
-            background: "linear-gradient(180deg, rgba(255,176,32,.08), rgba(255,176,32,.015))",
-            border: "1px solid rgba(255,176,32,.35)",
+            background: "linear-gradient(180deg, rgba(15, 98, 254, .16), rgba(15, 98, 254, .05))",
+            border: "1px solid rgba(15, 98, 254, .35)",
             borderRadius: 12,
             padding: "18px 20px",
             display: "flex",
@@ -70,9 +70,9 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
             className="btn"
             data-testid="impact-hero-cta"
             onClick={() => onShowImpact(top.node.id)}
-            style={{ background: "#ffb020", color: "#1a1a1a", border: "none", font: "600 13px var(--s)", padding: "11px 16px", whiteSpace: "nowrap" }}
+            style={{ background: "var(--interactive)", color: "var(--text-on-color)", border: "none", font: "600 13px var(--s)", padding: "11px 16px", whiteSpace: "nowrap" }}
           >
-            <Icon name="spark" size={14} color="#1a1a1a" />See the {impactN} impacted programs
+            <Icon name="spark" size={14} color="var(--text-on-color)" />See the {impactN} impacted programs
           </button>
         </div>
       )}

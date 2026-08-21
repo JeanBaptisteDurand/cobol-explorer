@@ -10,14 +10,19 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
  *  Timings are authored, not fetched: the landing page is public and must not hit
  *  a gated endpoint before sign-in. */
 
-const AMBER = "#ffb020";
-const BLUE = "#6cb2ff";
-const TEAL = "#43c9bd";
-const PURPLE = "#c398ff";
-const GREEN = "#5ec27a";
-const GREY = "#9aa0b5";
-const SAND = "#c0a878";
-const LILAC = "#b0a0c8";
+/* Carbon values. LIT is the interactive blue and means "the agent is touching
+   this right now"; it is never used to say what kind of thing a node is. The
+   rest match the categorical hues the graph view uses, so an entity keeps its
+   colour whether the reader sees it in the trace or in the estate. */
+const LIT = "#0f62fe";
+const LIT_TEXT = "#78a9ff";
+const BLUE = "#33b1ff";
+const TEAL = "#08bdba";
+const PURPLE = "#be95ff";
+const GREEN = "#42be65";
+const GREY = "#a8a8a8";
+const SAND = "#f1c21b";
+const LILAC = "#ffb3b8";
 
 type Kind = "cpy" | "pgm" | "db2" | "job" | "ds" | "sch";
 interface Node { id: string; k: Kind; c: string; x: number; y: number; hub?: boolean; small?: boolean; phase: number; }
@@ -95,12 +100,12 @@ function useField() {
       if (NAMED.some((n) => Math.abs(n.x - x) < 108 && Math.abs(n.y - y) < 28)) continue;
       out.push(
         <rect key={i} x={x} y={y} width={2.6 + r() * 1.6} height={2.6} rx={0.8}
-          fill={["#3a3d44", "#33363c", "#43474f"][i % 3]} />,
+          fill={["#393939", "#333333", "#4c4c4c"][i % 3]} />,
       );
       if (i % 5 === 0) {
         out.push(
           <line key={"l" + i} x1={x} y1={y} x2={20 + r() * 960} y2={16 + r() * 512}
-            stroke="#26282d" strokeWidth={0.7} />,
+            stroke="#2a2a2a" strokeWidth={0.7} />,
         );
       }
     }
@@ -198,7 +203,7 @@ export default function ReasoningTrace() {
                   const B = pos.get(b)!;
                   return (
                     <line key={i} x1={A.x} y1={A.y} x2={B.x} y2={B.y}
-                      stroke={on ? AMBER : "#2b2e34"} strokeWidth={on ? 1.5 : 0.9}
+                      stroke={on ? LIT : "#393939"} strokeWidth={on ? 1.5 : 0.9}
                       opacity={on ? 0.6 : dim ? 0.05 : 0.3} />
                   );
                 })}
@@ -213,19 +218,19 @@ export default function ReasoningTrace() {
                       left: n.x,
                       top: n.y,
                       opacity: on ? 1 : dim ? 0.05 : 0.5,
-                      borderColor: on ? (n.hub ? AMBER : n.c) : "#2b2e34",
+                      borderColor: on ? (n.hub ? LIT : n.c) : "#393939",
                       boxShadow: on
                         ? n.hub
-                          ? `0 0 0 1px ${AMBER}, 0 0 22px rgba(255,176,32,.35)`
+                          ? `0 0 0 1px ${LIT}`
                           : `0 0 14px ${n.c}33`
                         : "none",
                     }}
                   >
                     <span className="ce-node-kind"
-                      style={{ color: on ? (n.hub ? AMBER : n.c) : "#596069", borderColor: on ? (n.hub ? "#b57d18" : `${n.c}66`) : "#2b2e34" }}>
+                      style={{ color: on ? (n.hub ? LIT_TEXT : n.c) : "#6f6f6f", borderColor: on ? (n.hub ? LIT : `${n.c}66`) : "#393939" }}>
                       {n.k}
                     </span>
-                    <span className="ce-node-id" style={{ color: on ? "#edeff3" : "#596069" }}>{n.id}</span>
+                    <span className="ce-node-id" style={{ color: on ? "#f4f4f4" : "#6f6f6f" }}>{n.id}</span>
                   </div>
                 );
               })}

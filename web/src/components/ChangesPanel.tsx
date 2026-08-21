@@ -72,7 +72,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       </div>
 
       {/* Your branch vs the team's main */}
-      <div className="card" style={{ padding: "12px 13px", borderColor: "var(--amber-d)", background: "rgba(255,176,32,.05)" }}>
+      <div className="card" style={{ padding: "12px 13px", borderColor: "var(--amber-d)", background: "rgba(15, 98, 254, .12)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <Icon name="branch" size={13} color="var(--amber)" />
           <span style={{ font: "600 12px var(--m)", color: "var(--amber)" }}>{version.title}</span>
@@ -174,7 +174,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
         </div>
       )}
       {confirmMerge && (
-        <div className="card" style={{ padding: "10px 12px", borderColor: "var(--amber-d)", background: "rgba(255,176,32,.06)", font: "400 11px/1.5 var(--s)", color: "var(--dim)" }} data-testid="merge-gate">
+        <div className="card" style={{ padding: "10px 12px", borderColor: "var(--amber-d)", background: "rgba(15, 98, 254, .12)", font: "400 11px/1.5 var(--s)", color: "var(--dim)" }} data-testid="merge-gate">
           <span style={{ color: "var(--amber)" }}>⚠ Merge-gate</span> — this merge applies the change to the estate and touches <b style={{ color: "var(--tx)" }}>{nProg} program{nProg > 1 ? "s" : ""}</b>. Confirm?
         </div>
       )}

@@ -123,7 +123,7 @@
   white-space: nowrap;
   border: 1px solid;
 }
-.ce-live.is-running { color: var(--amber); border-color: var(--amber-d); background: rgba(255, 176, 32, .09); }
+.ce-live.is-running { color: var(--amber); border-color: var(--amber-d); background: rgba(15, 98, 254, .16); }
 .ce-live.is-done { color: var(--green); border-color: rgba(94, 194, 122, .3); background: rgba(94, 194, 122, .1); }
 .ce-live-dot { width: 5px; height: 5px; border-radius: 99px; background: currentColor; flex: none; }
 .ce-clock { font: 600 11px var(--m); color: var(--dim); font-variant-numeric: tabular-nums; }
@@ -162,7 +162,11 @@
 }
 .ce-node.is-small { padding: 5px 10px; }
 .ce-node.is-on { filter: none; }
-.ce-node.is-on.is-hub { background: rgba(255, 176, 32, .1); }
+.ce-node.is-on.is-hub {
+  background: rgba(15, 98, 254, .18);
+  border-color: var(--interactive);
+  box-shadow: 0 0 0 1px var(--interactive);
+}
 .ce-node-kind {
   font: 600 10px var(--m);
   letter-spacing: .08em;
@@ -181,7 +185,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 176, 32, .45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(15, 98, 254, .45), transparent);
   animation: ce-scan 2.6s linear infinite;
   pointer-events: none;
 }
@@ -269,7 +273,7 @@
   white-space: nowrap;
   transition: color 420ms, border-color 420ms, background-color 420ms;
 }
-.ce-cite.is-on { color: var(--amber); border-color: var(--amber-d); background: rgba(255, 176, 32, .07); }
+.ce-cite.is-on { color: var(--amber); border-color: var(--amber-d); background: rgba(15, 98, 254, .14); }
 
 /* ---------- product plates ---------- */
 .ce-shot { border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--panel); }
@@ -318,9 +322,9 @@
 .ce-sec.is-alt .ce-card { background: var(--edit); }
 .ce-card.is-hi {
   border-color: var(--amber-d);
-  background: linear-gradient(180deg, rgba(255, 176, 32, .05), var(--panel));
+  background: linear-gradient(180deg, rgba(15, 98, 254, .12), var(--panel));
 }
-.ce-sec.is-alt .ce-card.is-hi { background: linear-gradient(180deg, rgba(255, 176, 32, .05), var(--edit)); }
+.ce-sec.is-alt .ce-card.is-hi { background: linear-gradient(180deg, rgba(15, 98, 254, .12), var(--edit)); }
 .ce-card-t { font: 600 13.5px/1.4 var(--s); color: var(--tx); }
 .ce-card p { font: 400 12.5px/1.68 var(--s); color: var(--dim); margin: 9px 0 0; }
 .ce-tag {
@@ -379,14 +383,14 @@
 /* ---------- react loop ---------- */
 .ce-loop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 22px; font: 400 11.5px var(--m); color: var(--dim); }
 .ce-loop span { border: 1px solid var(--line); border-radius: 6px; padding: 7px 12px; }
-.ce-loop span.is-accent { color: var(--amber); border-color: var(--amber-d); background: rgba(255, 176, 32, .05); }
+.ce-loop span.is-accent { color: var(--amber); border-color: var(--amber-d); background: rgba(15, 98, 254, .12); }
 .ce-loop i { color: var(--faint); font-style: normal; }
 
 /* ---------- change pipeline ---------- */
 .ce-pipe { display: flex; flex-wrap: wrap; margin-top: 26px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--line); gap: 1px; }
 .ce-pipe-st { flex: 1 1 168px; background: var(--edit); padding: 15px 17px; }
 .ce-sec.is-alt .ce-pipe-st { background: var(--side); }
-.ce-pipe-st.is-gate { background: linear-gradient(180deg, rgba(255, 176, 32, .05), var(--edit)); }
+.ce-pipe-st.is-gate { background: linear-gradient(180deg, rgba(15, 98, 254, .12), var(--edit)); }
 .ce-pipe-n { font: 600 10px var(--m); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
 .ce-pipe-st.is-gate .ce-pipe-n { color: var(--amber); }
 .ce-pipe-t { font: 600 13.5px/1.4 var(--s); color: var(--tx); margin-top: 8px; }
@@ -404,7 +408,7 @@
   padding: 15px 17px;
   border-left: 2px solid var(--amber);
   border-radius: 0 7px 7px 0;
-  background: rgba(255, 176, 32, .05);
+  background: rgba(15, 98, 254, .12);
 }
 .ce-note p { font: 400 12.5px/1.7 var(--s); color: var(--dim); margin: 8px 0 0; }
 .ce-note p .ce-strong { color: var(--tx); }
@@ -507,7 +511,7 @@
 }
 .ce-foot-badge {
   font: 500 10.5px var(--m); color: var(--amber); border: 1px solid var(--amber-d);
-  border-radius: 99px; padding: 3px 11px; background: rgba(255,176,32,.06);
+  border-radius: 99px; padding: 3px 11px; background: rgba(15, 98, 254, .12);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

@@ -7,7 +7,7 @@ import type { Graph } from "../types";
 import Help from "./Help";
 import { Icon } from "./Icons";
 
-const IMPACT_COLOR = "#ff5b52";
+const IMPACT_COLOR = "#fa4d56";
 
 const NT: Record<string, string> = {
   DOMAIN: "dom", PGM: "pgm", COPYBOOK: "cpy", DB2_TABLE: "db2", CICS_TXN: "cic", CICS_FILE: "vsa",
@@ -18,15 +18,17 @@ const KIND_LABEL: Record<string, string> = {
   CICS_FILE: "VSAM files", BMS_MAP: "BMS screens", JOB: "Jobs", SCHED_JOB: "Scheduler", STEP: "Steps",
   PROC: "Procedures", DATASET: "Datasets", PARAGRAPH: "Paragraphs",
 };
-// Muted, desaturated hues by family — amber stays reserved for selection/impact.
+// Carbon's categorical hues, one per entity family. The interactive blue is
+// absent on purpose: it means selection here, never a kind of thing.
 const KIND_COLOR: Record<string, string> = {
-  PGM: "#6cb2ff", COPYBOOK: "#c398ff", DB2_TABLE: "#43c9bd", CICS_TXN: "#5ec27a", CICS_FILE: "#7fc9a0",
-  BMS_MAP: "#8ab4f0", JOB: "#9aa0b5", SCHED_JOB: "#b0a0c8", STEP: "#8a93a3", PROC: "#8a93a3",
-  DATASET: "#c0a878", PARAGRAPH: "#6b7280", DOMAIN: "#ffb020",
+  PGM: "#33b1ff", COPYBOOK: "#be95ff", DB2_TABLE: "#08bdba", CICS_TXN: "#42be65", CICS_FILE: "#6fdc8c",
+  BMS_MAP: "#78a9ff", JOB: "#ff832b", SCHED_JOB: "#ffb3b8", STEP: "#a8a8a8", PROC: "#a8a8a8",
+  DATASET: "#f1c21b", PARAGRAPH: "#6f6f6f", DOMAIN: "#ff7eb6",
 };
-const kColor = (k: string) => KIND_COLOR[k] || "#5a616b";
+const kColor = (k: string) => KIND_COLOR[k] || "#8d8d8d";
 
-const NEUTRAL = "#3a3d44";
+const SELECTED = "#0f62fe";
+const NEUTRAL = "#525252";
 const DASHED = new Set([
   "PGM_COPIES", "PGM_USES_MAP", "PGM_SQL_READS", "PGM_SQL_WRITES", "PGM_READS_FILE", "PGM_WRITES_FILE", "STEP_USES_DD", "SCHED_RUNS",
 ]);
@@ -148,7 +150,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
       const bothLit = live && lit?.has(e.src) && lit?.has(e.dst);
       const inImpact = impSet && impSet.has(e.src) && impSet.has(e.dst);
       const touchesSel = selectedId && (e.src === selectedId || e.dst === selectedId);
-      const stroke = bothLit ? "#ffb020" : inImpact ? IMPACT_COLOR : touchesSel ? "#ffb020" : ACCENT.has(e.kind) ? "#5a616b" : NEUTRAL;
+      const stroke = bothLit ? SELECTED : inImpact ? IMPACT_COLOR : touchesSel ? SELECTED : ACCENT.has(e.kind) ? "#6f6f6f" : NEUTRAL;
       const dimLive = live && !bothLit;
       return {
         id: `e${i}`, source: e.src, target: e.dst, type: "default",
@@ -176,7 +178,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         <Fitter dep={fitKey} nodeIds={fitNodeIds} />
         <Background color="#232529" gap={44} />
         <Controls showInteractive={false} />
-        <MiniMap pannable zoomable nodeColor={(n: any) => (n.id === selectedId ? "#ffb020" : kColor(n.data?.kind))} maskColor="rgba(16,17,19,.7)" style={{ background: "var(--panel)", border: "1px solid var(--line)" }} />
+        <MiniMap pannable zoomable nodeColor={(n: any) => (n.id === selectedId ? SELECTED : kColor(n.data?.kind))} maskColor="rgba(22,22,22,.7)" style={{ background: "var(--layer-01)", border: "1px solid var(--border-subtle)" }} />
       </ReactFlow>
 
       {/* Floating tool panel: legend, focus, kind filters, selected-node quick actions. */}
@@ -184,7 +186,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         <div className="ov-h1" style={{ fontSize: 12.5, marginBottom: 2 }}>Estate graph</div>
         {(agentActive || live) ? (
           <div style={{ margin: "6px 0 11px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, font: "500 11px var(--s)", color: "var(--amber)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 7, font: "500 11px var(--s)", color: "var(--link)" }}>
               <span className="spin" />{live ? `Agent path · ${litNodes?.size ?? 0} entities` : "The agent is thinking… (~30 s, on-prem Granite)"}
             </div>
             {/* Collapse the whole reasoning trail down to just the asked entity + neighbours. */}
@@ -192,7 +194,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
               <button className="btn" style={{ fontSize: 10.5, padding: "4px 9px", marginTop: 8, width: "100%", justifyContent: "center" }}
                 onClick={onFocusPrimary} data-testid="focus-primary"
                 title={`Keep only ${agentPrimaryLabel} and its direct neighbors (hide the rest of the reasoning)`}>
-                <Icon name="graph" size={12} color="var(--amber)" />Show {agentPrimaryLabel} + neighbors only
+                <Icon name="graph" size={12} color="var(--interactive)" />Show {agentPrimaryLabel} + neighbors only
               </button>
             )}
           </div>
@@ -239,7 +241,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
             {(sel.kind === "COPYBOOK" || sel.kind === "DB2_TABLE") && (
               <button className="btn" style={{ width: "100%", justifyContent: "center", fontSize: 11, padding: "7px 0", marginTop: 7, borderColor: impact ? IMPACT_COLOR : undefined, color: impact ? IMPACT_COLOR : undefined }}
                 data-testid="graph-impact" onClick={() => (impact ? setImpact(null) : showImpact(sel))}>
-                <Icon name="graph" size={12} color={impact ? IMPACT_COLOR : "var(--amber)"} />
+                <Icon name="graph" size={12} color={impact ? IMPACT_COLOR : "var(--interactive)"} />
                 {impact ? `${impact.count} impacted — clear` : "See change impact"}
               </button>
             )}

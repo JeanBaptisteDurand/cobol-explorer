@@ -149,7 +149,7 @@ export default function Auth({
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 6 }}>
               {roles.map((r) => (
                 <span key={r} className="btn" data-testid={`role-${r}`} onClick={() => setRole(r)}
-                  style={role === r ? { borderColor: "var(--amber-d)", color: "var(--amber)", background: "rgba(255,176,32,.08)" } : {}}>
+                  style={role === r ? { borderColor: "var(--amber-d)", color: "var(--amber)", background: "rgba(15, 98, 254, .16)" } : {}}>
                   {r}
                 </span>
               ))}

@@ -23,7 +23,7 @@ export default function Onboarding({ initial, onDone }: { initial: Identity | nu
         <div className="klabel" style={{ marginBottom: 8 }}>Role</div>
         <div style={{ display: "flex", gap: 8, marginBottom: 22 }}>
           {ROLES.map((r) => (
-            <span key={r} className="btn" style={role === r ? { borderColor: "var(--amber-d)", color: "var(--amber)", background: "rgba(255,176,32,.08)" } : {}} onClick={() => setRole(r)}>{r}</span>
+            <span key={r} className="btn" style={role === r ? { borderColor: "var(--amber-d)", color: "var(--amber)", background: "rgba(15, 98, 254, .16)" } : {}} onClick={() => setRole(r)}>{r}</span>
           ))}
         </div>
         <button className="btn-pri" style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 6, border: "none" }} onClick={start} data-testid="onb-start">Enter the workshop →</button>

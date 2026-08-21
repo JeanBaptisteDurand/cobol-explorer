@@ -93,7 +93,7 @@ input, textarea { font-family: var(--s); }
 .sysmenu-h { font: 600 9.5px var(--m); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); padding: 6px 8px 8px; }
 .sysmenu-item { padding: 9px 10px; border-radius: 7px; cursor: pointer; border: 1px solid transparent; }
 .sysmenu-item:hover { background: var(--el); }
-.sysmenu-item.on { border-color: var(--amber-d); background: rgba(255,176,32,.06); }
+.sysmenu-item.on { border-color: var(--amber-d); background: rgba(15, 98, 254, .12); }
 .cmdk { width: 100%; max-width: 520px; display: flex; align-items: center; gap: 8px; height: 26px;
   background: var(--edit); border: 1px solid var(--line); border-radius: 5px; padding: 0 10px; }
 .cmdk input { flex: 1; background: transparent; border: none; outline: none; color: var(--tx);
@@ -122,7 +122,7 @@ input, textarea { font-family: var(--s); }
   overflow: auto; flex: none; display: flex; flex-direction: column; }
 .editorwrap { flex: 1; display: flex; min-width: 0; min-height: 0; }
 .editor { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--edit); }
-.editor.eg-active { box-shadow: inset 0 2px 0 rgba(255, 176, 32, .45); }
+.editor.eg-active { box-shadow: inset 0 2px 0 rgba(15, 98, 254, .45); }
 .splitter { width: 5px; flex: none; background: var(--line); cursor: col-resize; transition: background .12s; }
 .splitter:hover { background: var(--amber-d); }
 .tab-act { display: flex; align-items: center; padding: 0 12px; color: var(--faint); cursor: pointer; border-left: 1px solid var(--line); flex: none; }
@@ -203,7 +203,7 @@ input, textarea { font-family: var(--s); }
 .badge { font: 600 9px var(--m); letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px;
   border-radius: 3px; border: 1px solid; white-space: nowrap; }
 .b-draft { color: var(--dim); border-color: var(--line); background: var(--el); }
-.b-proposed { color: var(--amber); border-color: var(--amber-d); background: rgba(255, 176, 32, .09); }
+.b-proposed { color: var(--amber); border-color: var(--amber-d); background: rgba(15, 98, 254, .16); }
 .b-merged { color: var(--green); border-color: rgba(94, 194, 122, .4); background: rgba(94, 194, 122, .09); }
 .b-rejected { color: var(--red); border-color: rgba(255, 91, 82, .4); background: rgba(255, 91, 82, .09); }
 .klist { }
@@ -233,14 +233,14 @@ input, textarea { font-family: var(--s); }
 .md-code { font: 500 11.5px var(--m); background: var(--el); border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; color: var(--tx); }
 .md-pre { font: 400 11.5px/1.5 var(--m); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; overflow-x: auto; color: var(--tx); margin: 2px 0; }
 .md-cite { color: var(--amber); cursor: pointer; border-bottom: 1px dotted var(--amber-d); font-weight: 500; }
-.md-cite:hover { background: rgba(255, 176, 32, .12); }
+.md-cite:hover { background: rgba(15, 98, 254, .18); }
 .grounded { display: inline-flex; align-items: center; gap: 5px; font: 600 10px var(--s); letter-spacing: .02em;
   padding: 3px 8px; border-radius: 99px; width: fit-content; }
 .grounded.ok { color: var(--green); background: rgba(94, 194, 122, .1); border: 1px solid rgba(94, 194, 122, .3); }
 .grounded.warn { color: var(--red); background: rgba(255, 91, 82, .1); border: 1px solid rgba(255, 91, 82, .3); }
 .chip { font: 500 10.5px var(--s); color: var(--dim); background: var(--soft); border: 1px solid var(--line);
   border-radius: 99px; padding: 4px 10px; cursor: pointer; transition: all .12s; }
-.chip:hover { color: var(--amber); border-color: var(--amber-d); background: rgba(255, 176, 32, .06); }
+.chip:hover { color: var(--amber); border-color: var(--amber-d); background: rgba(15, 98, 254, .12); }
 .emptypane { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 15px; padding: 30px; text-align: center; }
 .emptypane .t { font: 600 14px var(--s); color: var(--tx); }
@@ -255,7 +255,7 @@ input, textarea { font-family: var(--s); }
 /* ---------- code / diff ---------- */
 .cm-host { position: absolute; inset: 42px 0 0 0; }
 .cm-host.no-top { inset: 0; }
-.cm-flash { background: rgba(255, 176, 32, .16); box-shadow: inset 3px 0 0 var(--amber); transition: background .3s; }
+.cm-flash { background: rgba(15, 98, 254, .22); box-shadow: inset 3px 0 0 var(--amber); transition: background .3s; }
 .cm-theme, .cm-editor { height: 100%; background: transparent !important; }
 .ed { font: 400 12px/1.72 var(--m); white-space: pre; }
 .ln { color: #3f444d; display: inline-block; width: 34px; text-align: right; padding-right: 16px; user-select: none; }
@@ -283,15 +283,17 @@ input, textarea { font-family: var(--s); }
 .rf-node .nt { font: 600 8px var(--m); letter-spacing: .06em; color: var(--faint); text-transform: uppercase;
   border: 1px solid var(--line); border-radius: 2px; padding: 1px 3px; }
 .rf-node.sel { border-color: var(--amber); box-shadow: 0 0 0 1px var(--amber-d); }
-.rf-node.dom { border-color: var(--amber-d); background: rgba(255, 176, 32, .06); }
+.rf-node.dom { border-color: var(--amber-d); background: rgba(15, 98, 254, .12); }
 .rf-node.dom .nt { color: var(--amber); border-color: var(--amber-d); }
 .rf-node .rf-open { display: inline-flex; align-items: center; margin-left: 2px; padding: 2px; border-radius: 3px;
   color: var(--faint); cursor: pointer; }
-.rf-node .rf-open:hover { color: var(--amber); background: rgba(255, 176, 32, .12); }
+.rf-node .rf-open:hover { color: var(--amber); background: rgba(15, 98, 254, .18); }
 /* Live agent visualisation: dim the landscape, light what the RAG touches. */
 .rf-node.dim { opacity: .12; filter: grayscale(1); transition: opacity .5s ease, filter .5s ease; }
-.rf-node.lit { box-shadow: 0 0 0 1px var(--amber), 0 0 16px rgba(255, 176, 32, .4); animation: litpop .5s ease; }
-@keyframes litpop { from { box-shadow: 0 0 0 5px rgba(255, 176, 32, .55); } to { box-shadow: 0 0 0 1px var(--amber), 0 0 16px rgba(255, 176, 32, .4); } }
+/* Carbon has no glow: a node the agent is touching gets a ring, and the ring
+   contracts once on arrival so the eye catches which node just lit up. */
+.rf-node.lit { box-shadow: 0 0 0 1px var(--interactive); animation: litpop var(--slow) var(--ease-expressive); }
+@keyframes litpop { from { box-shadow: 0 0 0 5px rgba(15, 98, 254, .55); } to { box-shadow: 0 0 0 1px var(--interactive); } }
 
 /* ---------- command palette ---------- */
 .palette { width: 580px; max-width: 92vw; background: var(--panel); border: 1px solid var(--line);
