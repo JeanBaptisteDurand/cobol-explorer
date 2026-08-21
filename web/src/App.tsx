@@ -25,17 +25,33 @@ interface TabGroup { id: string; tabs: Tab[]; activeKey: string; }
 const OVERVIEW_TAB: Tab = { key: "overview", type: "overview", title: "Overview" };
 const GRAPH_TAB: Tab = { key: "graph", type: "graph", title: "Graph" };
 
-/** Feedback after clicking a confirmation link — the redirect lands back on the
- *  landing with ?verified=1 (or =expired), and the visitor must be told which. */
-function VerifiedBanner() {
-  const state = new URLSearchParams(window.location.search).get("verified");
-  const [shown, setShown] = useState(!!state);
-  if (!shown || !state) return null;
-  const ok = state === "1";
+/** Feedback for the two redirects that land back on the public page: a confirmation
+ *  link (?verified=1 or =expired) and a federated sign-in that did not complete
+ *  (?ibm=failed).
+ *
+ *  The IBM case used to say nothing at all. The server redirects here on any
+ *  failure — an expired state, a rejected code, a directory that refused the
+ *  account — and the visitor was returned to the home page with no explanation,
+ *  which is indistinguishable from a button that does nothing. */
+function ReturnBanner() {
+  const params = new URLSearchParams(window.location.search);
+  const verified = params.get("verified");
+  const ibm = params.get("ibm");
+  const [shown, setShown] = useState(!!(verified || ibm));
+  if (!shown || !(verified || ibm)) return null;
+
+  const ok = verified === "1";
+  const message = ibm
+    ? "IBM sign-in did not complete. Use an account from this deployment's directory, or sign in with a password below."
+    : ok
+      ? "✓ Address confirmed — you can sign in now."
+      : "This confirmation link is invalid or has expired.";
+  const good = !ibm && ok;
+
   return (
     <div className="verified-banner" data-testid="verified-banner"
-      style={{ borderColor: ok ? "var(--verified)" : "var(--danger)", color: ok ? "var(--verified)" : "var(--danger)" }}>
-      {ok ? "✓ Address confirmed — you can sign in now." : "This confirmation link is invalid or has expired."}
+      style={{ borderColor: good ? "var(--verified)" : "var(--danger)", color: good ? "var(--verified)" : "var(--danger)" }}>
+      {message}
       <span onClick={() => setShown(false)} style={{ cursor: "pointer", marginLeft: 12, color: "var(--text-helper)" }}>✕</span>
     </div>
   );
@@ -451,7 +467,7 @@ export default function App() {
   if (needsLogin)
     return (
       <>
-        <VerifiedBanner />
+        <ReturnBanner />
         <Landing onSignIn={() => setAuthPanel("login")} onSignUp={() => setAuthPanel("signup")} />
         {authPanel && (
           <Auth mode={authPanel} roles={signupRoles} emailVerification={emailVerification} ibmSignIn={ibmSignIn} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
