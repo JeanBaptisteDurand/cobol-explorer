@@ -1,7 +1,25 @@
 import { getIdentity, getToken, type Identity } from "./identity";
 import type { ChangeSet, Graph } from "./types";
 
-const j = (r: Response) => r.json();
+/** fetch() only rejects on a network failure, so a 403 or a 500 arrives here as a
+ *  perfectly good Response whose body is an error object. Returning that as data
+ *  hands every caller a shape it never expects — a refused audit read resolved
+ *  with {detail}, the panel reached for .entries.length, and the app unmounted
+ *  into a black page. Throw like post() does, so the .catch already written at
+ *  each call site is the thing that runs. */
+const j = async (r: Response) => {
+  const d = await r.json().catch(() => null);
+  if (!r.ok) {
+    const detail = (d as any)?.detail;
+    const err: any = new Error(
+      (typeof detail === "string" ? detail : detail?.message) || `HTTP ${r.status}`,
+    );
+    err.status = r.status;
+    if (detail && typeof detail === "object") err.code = detail.code;
+    throw err;
+  }
+  return d;
+};
 // Attach the caller identity so the server can audit (who) and enforce RBAC (role).
 // A signed token, when we have one, is what the server actually trusts; the
 // X-Cobol-* headers stay for the open demo mode (they prove nothing on their own).

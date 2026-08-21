@@ -16,7 +16,7 @@ import "./landing.css";
 const METRICS = [
   { n: "6.5 s", l: "per grounded answer\ngranite-4-h-small · watsonx.ai" },
   { n: "1 496", l: "entities mapped\n1 715 typed edges" },
-  { n: "187", l: "automated tests\n151 backend · 36 e2e" },
+  { n: "194", l: "automated tests\n151 backend · 43 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
 ];
 

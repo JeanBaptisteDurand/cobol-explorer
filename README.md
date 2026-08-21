@@ -8,7 +8,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-0f62fe)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-151%20backend%20%C2%B7%2036%20e2e-42be65)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-151%20backend%20%C2%B7%2043%20e2e-42be65)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-33b1ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-be95ff)](#5-toute-la-stack-ibm)
 [![license](https://img.shields.io/badge/license-Apache--2.0-8d8d8d)](LICENSE)
@@ -38,7 +38,7 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 - **IBM Bob via MCP** — 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
 - **Governance** — git-backed team versioning, RBAC roles, merge-gate, HMAC-chained immutable audit.
 - **Multi-system** — analyzes **two real estates**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); self-hosted Neo4j + pgvector + Granite (Ollama), or **Granite on IBM watsonx.ai**. 151 backend tests · 36 e2e.
+- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); self-hosted Neo4j + pgvector + Granite (Ollama), or **Granite on IBM watsonx.ai**. 151 backend tests · 43 e2e.
 
 ### Try it
 **Live: [cobol-explorer.fr](https://cobol-explorer.fr)** — create an account, or sign in with the demo account
@@ -300,8 +300,8 @@ jetons survivent à un redémarrage.
 ## 8. Tests
 
 ```bash
-make test                          # 153 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
-cd web && pnpm exec playwright test # 36 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
+make test                          # 151 tests backend (parsing, graphe, impact, recherche, versioning, API, MCP, auth, inscription)
+cd web && pnpm exec playwright test # 43 e2e (landing, inscription, connexion, aperçu, code, impact, cowork)
 make serve-sandbox &                # serveur authentifié sur une COPIE jetable du patrimoine
 make e2e-governance                 # scénario 3 comptes / 3 rôles joué au navigateur
 ```
