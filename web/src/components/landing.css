@@ -622,3 +622,37 @@
   .ce-answer-foot { flex-direction: column; align-items: flex-start; gap: 6px; }
   .ce-metrics { grid-template-columns: repeat(2, 1fr); gap: 22px 15px; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HERO, second pass — measured against how Linear and Resend actually build one.
+   Three things they do that a generated page never does:
+     · a long silence above the headline. Confidence reads as space, not density.
+     · display type that is NEVER the accent colour — colour on a headline is the
+       single loudest template tell. Amber earns its place on the evidence instead.
+     · very few objects. Linear ships headline + one line + the product. That is all.
+   ═════════════════════════════════════════════════════════════════════════ */
+.ce-hero { padding-top: 132px; }
+.ce-hero .ce-kicker { margin-bottom: 30px; }
+
+.ce-hero h1 {
+  font-family: var(--d);
+  font-weight: 500;
+  font-size: clamp(40px, 7vw, 82px);
+  line-height: .98;
+  letter-spacing: -.028em;
+  color: #f2f4f7;
+  margin: 0 0 26px;
+}
+/* The second line steps in and stays monochrome — the asymmetry carries it. */
+.ce-hero h1 em { font-style: italic; color: #f2f4f7; margin-left: .5em; display: inline-block; }
+
+.ce-hero-note {
+  font: 400 13.5px/1.7 var(--s); color: var(--faint);
+  max-width: 44ch; margin: 0 0 34px;
+}
+.ce-hero .ce-lead { font-size: 14.5px; max-width: 50ch; }
+
+@media (max-width: 720px) {
+  .ce-hero { padding-top: 62px; }
+  .ce-hero h1 em { margin-left: 0; display: block; }
+}

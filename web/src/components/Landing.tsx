@@ -76,6 +76,27 @@ const VERBS = [
   { v: "Execute", t: "Governed merge", d: "Propose, measure, approve, merge — on a chained audit trail." },
 ];
 
+
+const FIT = [
+  { t: "Plan", d: "Exhaustive impact: “this copybook breaks these 11 programs and these 2 batch chains” — a deterministic traversal, never a plausible sample." },
+  { t: "Coordinate", d: "Team versioning on real git branches: the owners actually affected, review, conflict resolution, a merge gate." },
+  { t: "Decide", d: "Grounded answers, every fact cited to file:line and re-verified against the source before it reaches the screen." },
+  { t: "Execute", d: "A governed merge — propose, measure, approve, apply — recorded in a hash-chained audit trail." },
+];
+
+const IDENTITY = [
+  { t: "Signed sessions", d: "Sign-in mints an HS256 token carrying the role; PBKDF2 password hashing, 120 000 iterations, salted per account. The demo headers stop being trusted the moment real auth is on." },
+  { t: "Confirmed addresses", d: "Sign-up sends a single-use link over plain SMTP from the estate's own domain — no third-party mail service. Until it is clicked, signing in is refused." },
+  { t: "Continue with IBM", d: "An OIDC authorization-code flow through IBM Cloud App ID. The token comes back in the URL fragment, so it never reaches a server log, and a federated sign-in gets the least privileged role that is still useful." },
+  { t: "Roles that bite", d: "Seven actions across six roles. An auditor reads and audits; only dev and architect may merge — and the refusal is written to the log like everything else." },
+];
+
+const BUILT = [
+  { t: "Plan before code", d: "A brainstorming skill settles requirements and design before a line is written, so the spec is the artefact and the code follows it." },
+  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 146 backend tests instead of a happy-path demo." },
+  { t: "Simplify after", d: "A cleanup skill re-reads the diff for duplication and dead code. It removed a dead helper, an MCP parameter that filtered nothing, and a hard-coded path that broke the Bob integration on any other machine." },
+];
+
 function Section({ id, kicker, title, lead, alt, children }: {
   id: string; kicker: string; title: string; lead?: ReactNode; alt?: boolean; children?: ReactNode;
 }) {
@@ -129,14 +150,14 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <div className="ce-inner">
           <div className="ce-kicker">Grounded agentic RAG · mainframe-native graph</div>
           <h1>Ask the estate.<br /><em>Get the proof.</em></h1>
+          <p className="ce-hero-note">200+ billion lines of COBOL run the world's banks, insurers and public services. Understanding them is still manual.</p>
         </div>
         <div className="ce-inner ce-hero-grid">
           <div>
           <p className="ce-lead">
-            200+ billion lines of COBOL run the world's banks and insurers, and the work of understanding them is
-            still manual. <span className="ce-strong">“We found 8 of the 14 impacted programs” is a production
-            incident.</span> COBOL Explorer parses the whole estate — COBOL, JCL, CICS, DB2, scheduler — into a
-            dependency graph, and answers in plain language with every claim cited to{" "}
+            <span className="ce-strong">“We found 8 of the 14 impacted programs” is a production incident.</span>{" "}
+            COBOL Explorer parses a whole mainframe estate — COBOL, JCL, CICS, DB2, scheduler — into a dependency
+            graph, and answers in plain language with every claim cited to{" "}
             <span className="ce-mono-in">file:line</span>.
           </p>
           <div className="ce-hero-actions">
@@ -392,7 +413,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="ibm-section" kicker="07 · The IBM layer"
+      <Section id="ibm-section" kicker="10 · The IBM layer"
         title="Built on IBM, designed for Bob."
         lead="No competing model anywhere in the pipeline: the reasoning, the embeddings and the hosted inference are all IBM.">
         <div className="ce-grid4 ce-stack">
@@ -413,14 +434,60 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             </div>
           ))}
         </div>
+      </Section>
+
+      <Section id="fit-section" kicker="07 · Challenge fit"
+        title="Disconnected tasks, turned into one governed system."
+        lead="The Wildcard asks for intelligent systems that cut repetitive work, improve decisions and get teams to an outcome faster. Maintaining a mainframe estate is the work that never received that treatment.">
+        <div className="ce-rows">
+          {FIT.map((f, i) => (
+            <div className="ce-row" key={f.t}>
+              <span className="ce-row-n">{String(i + 1).padStart(2, "0")}</span>
+              <span className="ce-row-t">{f.t}</span>
+              <span className="ce-row-d">{f.d}</span>
+            </div>
+          ))}
+        </div>
         <p className="ce-fine">
-          Wildcard — Build Intelligent Systems for the Future of Work. Not only for COBOL developers: the people who
-          carry the risk of a change and cannot read the code, in risk, compliance and audit, get the same grounded
-          answers in their own language.
+          Not only for COBOL developers. The people who carry the risk of a change and cannot read the code — risk,
+          compliance, audit — get the same grounded answers in their own language, from the same estate. That is the
+          part that makes it a system rather than a tool.
         </p>
       </Section>
 
-      <Section id="access-section" alt kicker="08 · Access"
+      <Section id="identity-section" alt kicker="08 · Identity"
+        title="Who is asking, proven — not declared."
+        lead="Governance is only worth the identity behind it. Sign-in issues a signed token that carries your role, so a forged header promotes nobody, and every action lands in the audit trail under a name that was verified.">
+        <div className="ce-rows">
+          {IDENTITY.map((f, i) => (
+            <div className="ce-row" key={f.t}>
+              <span className="ce-row-n">{String(i + 1).padStart(2, "0")}</span>
+              <span className="ce-row-t">{f.t}</span>
+              <span className="ce-row-d">{f.d}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="built-section" kicker="09 · How it was built"
+        title="Built with IBM Bob — spec first, not vibes."
+        lead="The July lab teaches spec-driven development with Bob rather than vibe coding: describe the intent, let the agent plan, review the plan, then implement. Reusable skills kept that discipline on every unit of work.">
+        <div className="ce-rows">
+          {BUILT.map((f, i) => (
+            <div className="ce-row" key={f.t}>
+              <span className="ce-row-n">{String(i + 1).padStart(2, "0")}</span>
+              <span className="ce-row-t">{f.t}</span>
+              <span className="ce-row-d">{f.d}</span>
+            </div>
+          ))}
+        </div>
+        <p className="ce-fine">
+          The loop closes: Bob helped build the tool that now extends Bob. The same three tools are exposed back to it
+          over MCP, so a developer inside Bob can ask what breaks and get an exhaustive, grounded answer.
+        </p>
+      </Section>
+
+      <Section id="access-section" alt kicker="11 · Access"
         title="Days of manual hunting, down to 6.5 seconds — with line-level proof."
         lead="Your role travels inside a signed token: it decides what you may read, propose and merge, and every action is written to the tamper-evident audit trail under your name.">
         <div className="ce-access-actions">

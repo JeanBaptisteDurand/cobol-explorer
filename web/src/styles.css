@@ -22,6 +22,7 @@
   --titlebar: #202226;
   --m: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --s: "IBM Plex Sans", system-ui, sans-serif;
+  --d: "IBM Plex Serif", Georgia, serif;   /* display type only */
 }
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; margin: 0; }
