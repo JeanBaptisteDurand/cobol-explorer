@@ -24,6 +24,9 @@ eval: ## answer-quality regression (golden Q/A, deterministic)
 web: ## build the frontend
 	cd web && pnpm build
 
+shots: ## re-capture the five product plates the public page carries (needs `make serve`)
+	cd web && SHOTS=1 pnpm exec playwright test e2e/shots.spec.ts --reporter=list
+
 serve: ## serve API + built frontend on :8000
 	COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000
 

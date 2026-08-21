@@ -6,6 +6,10 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   timeout: 120_000,
+  // shots.spec.ts rewrites the PNGs the public page ships. It is a generator, not
+  // a test, so an ordinary run must neither trigger it nor count it. `make shots`
+  // sets SHOTS=1 to let it in.
+  testIgnore: process.env.SHOTS ? [] : ["**/shots.spec.ts"],
   use: { baseURL: process.env.E2E_BASE_URL || "http://127.0.0.1:8000", headless: true },
   reporter: [["list"]],
 });

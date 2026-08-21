@@ -198,8 +198,8 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
         <div style={{ marginTop: 32 }}>
           <Figure src="/shots/sc-impact.png"
-            alt="The graph with the impact radius of LGPOLICY drawn in red: 11 impacted programs"
-            caption="Fig 02 · impact radius · 11 impacted, drawn in red" />
+            alt="The graph with the impact radius of LGCMAREA drawn in red: 25 impacted programs, each named"
+            caption="Fig 02 · impact radius · LGCMAREA reaches 25 programs, drawn in red" />
         </div>
       </Section>
 
@@ -232,7 +232,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <div style={{ marginTop: 32 }}>
           <Figure src="/shots/sc-merge.png"
             alt="The merge gate: a change-set with its diff, impact and review state before merging"
-            caption="Fig 03 · change · the diff, its impact and the merge gate" />
+            caption="Fig 03 · change · the change record, its measured impact and the merge gate" />
         </div>
         <div className="ce-pipe">
           {PIPELINE.map((s) => (
@@ -268,11 +268,6 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
           <span>tool</span><i>→</i>
           <span>observe</span><i>→ ⟳ →</i>
           <span className="is-accent">answer + citations + verify</span>
-        </div>
-        <div style={{ marginTop: 26 }}>
-          <Figure src="/shots/sc-agent.png"
-            alt="The agent panel: a grounded answer with its tool-call trace and clickable file:line citations"
-            caption="Fig 04 · a grounded answer, its trace and its citations" />
         </div>
       </Section>
 
@@ -369,7 +364,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <div style={{ marginTop: 26 }}>
           <Figure src="/shots/sc-audit.png"
             alt="The audit panel: a chained log of actions and refusals, with the chain integrity state"
-            caption="Fig 05 · the audit trail, chain state included" />
+            caption="Fig 04 · the audit trail, chain state included" />
         </div>
       </Section>
 
