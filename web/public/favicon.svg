@@ -1,17 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <!-- The product's mark: one node and everything it takes down with it.
-       Square corners, because the whole system is. Ships as SVG so it stays
-       crisp at every tab size and costs one request. -->
+  <!-- The aperture: the C opens and the light gets out. Same geometry as
+       src/components/Logo.tsx — arc of 278° with a 41° half-gap, mid-radius 8.4,
+       stroke 5.2, and a beam whose apex is the centre point. Kept in step by
+       hand; if one moves, move the other. -->
   <rect width="32" height="32" fill="#161616"/>
-  <g stroke="#0f62fe" stroke-width="1.6" stroke-linecap="square">
-    <path d="M11 16 H21"/>
-    <path d="M12.5 12 L20 7.5"/>
-    <path d="M12.5 20 L20 24.5"/>
-  </g>
-  <g stroke="#c6c6c6" stroke-width="1.7" fill="none">
-    <rect x="21" y="3.6" width="7.8" height="7.8"/>
-    <rect x="21" y="12.1" width="7.8" height="7.8"/>
-    <rect x="21" y="20.6" width="7.8" height="7.8"/>
-  </g>
-  <rect x="2.6" y="11.4" width="9.2" height="9.2" fill="#0f62fe"/>
+  <path d="M 20.84 21.51 A 8.4 8.4 0 1 1 20.84 10.49" fill="none" stroke="#e8e6e1" stroke-width="5.2"/>
+  <path d="M 14.5 16 L 27.6 11.4 L 27.6 20.6 Z" fill="#ffb020"/>
+  <circle cx="14.5" cy="16" r="1.95" fill="#ffb020"/>
 </svg>
