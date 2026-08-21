@@ -33,6 +33,14 @@ function useActiveSection() {
 
   useEffect(() => {
     const read = () => {
+      // At the very bottom the page cannot scroll further, so the last section
+      // never reaches the threshold — without this the rail stops one short.
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) {
+        setActive(SECTIONS.length - 1);
+        return;
+      }
       let found = -1;
       for (let i = 0; i < SECTIONS.length; i++) {
         const el = document.getElementById(SECTIONS[i].id);
