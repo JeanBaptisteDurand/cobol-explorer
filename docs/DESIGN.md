@@ -6,7 +6,8 @@
 > inventing a new pattern.
 >
 > **Read this before writing any UI code. Re-read the “Forbidden” section before
-> shipping.** The most common failure mode is not ugliness — it is *genericness*.
+> shipping.** The most common failure mode is not ugliness — it is *genericness*, and
+> genericness arrives at least as often through repetition as through decoration.
 
 ---
 
@@ -38,15 +39,15 @@ glyph* in a dense list is acceptable; emoji as ornament is not).
 
 **The reference points**, and why:
 
-- **Linear** — the discipline of it. One sentence, then a real product clip. Tight copy,
-  every section earns its place. Steal the restraint, not the purple.
-- **Vercel** — dark surface as a credibility signal, and a hero that shows a *live
-  system* rather than an illustration. Our equivalent of their globe is the estate graph
-  lighting up while the agent reasons.
-- **Resend** — code as hero content. A real snippet beside its real result. Our
-  equivalent is the SSE trace beside the verified citations.
+- **IBM Carbon** — the grammar. The product runs on Granite, targets IBM mainframes and
+  is submitted to an IBM challenge; the interface speaks the same language as the stack
+  underneath it. Square corners, a hairline grid, one interactive blue.
+- **Resend** — the restraint, and only at the fold. A badge, a headline, one line, two
+  actions, and a single very quiet object. Nothing else competes.
+- **Linear** — the discipline. One sentence, then a real product surface. Every section
+  earns its place.
 - **Stripe docs** — density without noise: how much information can sit on one screen
-  when hierarchy is exact.
+  when the hierarchy is exact.
 
 What we take from all four: **the product itself is the best visual**. No abstract
 illustration will ever beat a real trace with real line numbers.
@@ -61,38 +62,55 @@ These are not preferences. Each one actively damages the positioning.
 - ❌ Purple→pink or blue→purple gradients. The signature of an AI template.
 - ❌ Glassmorphism, frosted panels, blurred translucent cards.
 - ❌ Neumorphism, soft-UI, embossed buttons.
-- ❌ More than one accent colour used decoratively. Amber is the only accent; every
-  other colour must carry *meaning* (see §3.2).
+- ❌ **The interactive blue (`--interactive`) used as a data colour.** It means "this is
+  interactive, or this is selected". A kind of entity is never blue for that reason;
+  that is what the categorical hues are for.
+- ❌ A semantic colour used decoratively. If you cannot say what a colour *asserts*,
+  use `--text-primary`, `--text-secondary` or `--text-helper` (see §3.2).
 - ❌ Gradient text. Ever.
+- ❌ Colour on a headline. Display type is monochrome — colour on a headline is the
+  single loudest template tell.
 - ❌ Rainbow borders, animated gradient borders, "aurora" backgrounds.
 
 **Shape and ornament**
+- ❌ **Any non-zero border-radius**, except a genuinely circular indicator: a status dot,
+  an avatar, a spinner, a count badge. Everything else is square (§5.2).
+- ❌ **Any elevation shadow.** Carbon separates by layer and by a 1px rule (§5.3).
 - ❌ Floating 3D blobs, spheres, abstract meshes, liquid metal, shader backgrounds.
 - ❌ Stock developer photography, illustrated mascots, isometric people.
 - ❌ Emoji as section iconography (🚀 ✨ 💡 as headings).
 - ❌ "Powered by AI" / "AI-first" badges. The product demonstrates it; the page does not
   announce it.
-- ❌ Decorative dashed borders, sticker shapes, hand-drawn arrows.
+
+**Repetition**
+- ❌ The same layout component three times in a row. Four consecutive sections built from
+  the same row table is how this page became unreadable the first time, without a single
+  ugly pixel in it. Two uses of a shape is a rhythm; four is wallpaper.
+- ❌ Two product screenshots side by side. At half width the line numbers they exist to
+  prove are illegible; ship one at full width instead.
+- ❌ A figure that restates what the block above it already showed.
 
 **Typography**
 - ❌ Inter, Roboto, Open Sans, Lato, Poppins, Montserrat. Overexposed; they read as
   "template" to exactly the audience we want.
-- ❌ Weight 500 for headings. Use the extremes (§4.2).
+- ❌ Serif anywhere except display type — H1 and H2. Never body, never labels, never UI.
 - ❌ Letter-spacing on body text.
-- ❌ Sentence-case headings that end in a full stop *and* run over two lines with no
-  deliberate break.
+- ❌ A reading column wider than 72ch. The grid is full-width; the text is not.
 
 **Motion**
 - ❌ Parallax scrolling.
 - ❌ Elements that fly in from off-screen.
 - ❌ Anything that loops forever in the periphery.
-- ❌ Scroll-jacking, scroll-driven full-page transitions.
+- ❌ Scroll-jacking, scroll-driven full-page transitions, and **scroll captured in a div**:
+  the public page is a document and must scroll natively.
 - ❌ Counters that count up on scroll. Our numbers are measured, not animated.
+- ❌ Glow. Carbon has none. A lit element gets a 1px ring, not a halo.
 
 **Copy**
 - ❌ "Revolutionary", "game-changing", "seamlessly", "effortlessly", "unlock", "empower".
 - ❌ Exclamation marks.
 - ❌ Any number that is not literally true and reproducible from the repository.
+- ❌ A figure caption that claims more than its image shows.
 
 ---
 
@@ -100,70 +118,98 @@ These are not preferences. Each one actively damages the positioning.
 
 ### 3.1 Tokens
 
-Declare every colour once, as a CSS custom property on `:root`. No hard-coded hex
-anywhere else in the codebase.
+Declare every colour once, as a CSS custom property on `:root` in `web/src/styles.css`.
+No hard-coded hex anywhere else in the codebase. **This block is shared by the public
+page and the workshop** — retinting here retints both, which is the point.
 
 ```css
 :root {
-  /* surfaces — warm neutral, never blue-grey */
-  --edit:   #191a1d;  /* page background, the deepest layer */
-  --side:   #1c1e22;  /* alternating section band */
-  --panel:  #1c1e22;  /* card on --edit */
-  --soft:   #232529;  /* code blocks, inset wells */
-  --el:     #26282d;  /* hover surface */
-  --el2:    #2d2f35;  /* pressed surface, strong border */
-  --line:   #2b2e34;  /* every 1px divider */
+  /* surfaces — Carbon Gray 100 */
+  --bg:        #161616;
+  --layer-01:  #262626;
+  --layer-02:  #393939;
+  --layer-03:  #525252;
+  --border-subtle: #393939;
+  --border-strong: #6f6f6f;
 
   /* text — four steps, never more */
-  --bright: #edeff3;  /* h1/h2 only */
-  --tx:     #cdd1d8;  /* body, primary */
-  --dim:    #878d97;  /* secondary, descriptions */
-  --faint:  #596069;  /* labels, metadata, disabled */
+  --text-primary:   #f4f4f4;
+  --text-secondary: #c6c6c6;
+  --text-helper:    #8d8d8d;
+  --text-on-color:  #ffffff;
 
-  /* the single accent */
-  --amber:   #ffb020;
-  --amber-d: #b57d18;  /* borders and hovers of amber elements */
+  /* interaction — never a data colour */
+  --interactive: #0f62fe;
+  --link:        #78a9ff;
+  --focus:       #ffffff;
 
   /* semantic — meaning only, never decoration */
-  --blue:   #6cb2ff;  /* graph / structure / deterministic */
-  --teal:   #43c9bd;  /* vector / semantic search */
-  --purple: #c398ff;  /* reasoning, the think step */
-  --green:  #5ec27a;  /* verified, granted, intact */
-  --red:    #ff5b52;  /* impact radius, denied, broken chain */
+  --graph:    #33b1ff;
+  --vector:   #08bdba;
+  --reason:   #be95ff;
+  --verified: #42be65;
+  --danger:   #fa4d56;
+
+  /* families */
+  --m: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --s: "IBM Plex Sans", system-ui, sans-serif;
+  --d: "IBM Plex Serif", Georgia, serif;
+
+  /* motion */
+  --fast: 110ms;
+  --base: 240ms;
+  --slow: 400ms;
+  --ease-productive: cubic-bezier(.2, 0, .38, .9);
+  --ease-expressive: cubic-bezier(.4, .14, .3, 1);
 }
 ```
+
+Fills use `--interactive` with `--text-on-color` on top. Text and links use `--link`:
+`#0f62fe` as a foreground on `#161616` is 3.4:1 and fails.
 
 ### 3.2 The colour contract
 
 This is the rule that keeps the interface readable at a glance, and it is absolute:
 
 > **A colour is a claim about meaning.** If you cannot say what a colour *asserts*,
-> use `--tx`, `--dim` or `--faint`.
+> use `--text-primary`, `--text-secondary` or `--text-helper`.
 
-| Colour | Asserts | Appears on |
+| Token | Asserts | Appears on |
 |---|---|---|
-| amber | *this is the focus / this is yours to act on* | primary CTA, selection, the active version, agent activity |
-| blue | *this comes from the deterministic graph* | graph RAG, structural relationships, Bob-side surfaces |
-| teal | *this comes from semantic search* | vector RAG, similarity scores |
-| purple | *this is the model reasoning* | the `think` step, trace lines authored by the agent |
-| green | *this was verified / granted* | verified-sources badge, audit chain intact, additions in a diff |
-| red | *this breaks / was denied* | impact radius, RBAC refusal, deletions in a diff |
+| `--interactive` | *this is interactive, or this is what you selected* | primary button, active tab rule, selection, lit node ring, focus |
+| `--link` | the same, as text | links, kickers, tool names in a trace |
+| `--graph` | *this comes from the deterministic graph* | graph RAG, `graph_lookup`, structural relationships |
+| `--vector` | *this comes from semantic search* | vector RAG, `search_code`, similarity scores |
+| `--reason` | *this is the model reasoning* | the `think` step, trace lines authored by the agent |
+| `--verified` | *this was verified / granted* | verified-sources badge, audit chain intact, additions in a diff |
+| `--danger` | *this breaks / was denied* | impact radius, RBAC refusal, deletions in a diff |
 
 Consequences you must respect:
-- Never use red for a decorative heading, nor green for a generic success toast that has
-  nothing to do with verification.
-- Never colour a nav item amber "to make it pop". Amber on a nav item means it is active.
-- Two accents never touch. If blue and teal sit side by side, they are contrasting two
-  retrieval paths — which is legitimate. If they sit side by side for variety, delete one.
+
+- **The interactive blue is not in the entity palette.** In the estate graph a program is
+  cyan and a copybook is purple; blue means *you clicked this*. If a kind of thing were
+  also blue, selection would stop being readable.
+- Never use `--danger` for a decorative heading, nor `--verified` for a generic success
+  toast that has nothing to do with verification.
+- **Never colour a metric.** A number is not made important by tinting it; if it matters,
+  it is large. Carbon's display weight for figures is 300.
+- Two accents never touch. If `--graph` and `--vector` sit side by side, they are
+  contrasting two retrieval paths — legitimate. Side by side for variety: delete one.
 
 ### 3.3 Contrast floors
 
-- Body text on any surface: **≥ 7:1** (`--tx` on `--edit` is 9.6:1).
-- Secondary text: **≥ 4.5:1** (`--dim` on `--edit` is 5.1:1).
-- `--faint` is for text that may be missed: labels, counters, metadata. Never for a
-  sentence the reader must read.
-- Amber on `--edit` is 9.2:1 — safe for text. **Amber text on an amber-tinted surface is
-  not.** Amber fills always take `--edit` as their foreground, never white.
+On `--bg` (`#161616`):
+
+| Token | Measured | Floor |
+|---|---|---|
+| `--text-primary` `#f4f4f4` | 16.1:1 | ≥ 7:1 |
+| `--text-secondary` `#c6c6c6` | 9.9:1 | ≥ 7:1 |
+| `--text-helper` `#8d8d8d` | 4.6:1 | ≥ 4.5:1 |
+| `--link` `#78a9ff` | 6.6:1 | ≥ 4.5:1 |
+
+`--text-secondary` carries body copy and every section lead. `--text-helper` is for text
+that may be missed: labels, counters, metadata. **Never for a sentence the reader must
+read** — that was the previous system's most damaging habit.
 
 ---
 
@@ -171,38 +217,45 @@ Consequences you must respect:
 
 ### 4.1 Families
 
-```css
---s: "IBM Plex Sans", system-ui, -apple-system, sans-serif;   /* everything human */
---m: "IBM Plex Mono", ui-monospace, Menlo, monospace;         /* everything machine */
-```
+Three, all IBM Plex. The typeface is an argument: the product runs on IBM Granite,
+targets IBM mainframes, and is submitted to an IBM challenge.
 
-IBM Plex is not a neutral choice, it is *the* choice: the product runs on IBM Granite,
-targets IBM mainframes, and is submitted to an IBM challenge. The typeface is an argument.
+- `--s` **IBM Plex Sans** — everything human, and every UI surface.
+- `--m` **IBM Plex Mono** — everything machine.
+- `--d` **IBM Plex Serif** — display type only: H1 and H2, nothing else.
 
 **The mono rule** — mono is not a style, it is a signal. Use `--m` if and only if the
 string is *produced or consumed by a machine*:
 
 - ✅ identifiers (`LGPOLICY`, `lgacdb01.cbl:88`), tool names (`graph_lookup()`),
-  commands, env vars, HTTP status, counts inside a table, section kickers, badges.
-- ❌ headings, body copy, button labels, card descriptions.
+  commands, env vars, HTTP status, figure labels.
+- ❌ headings, body copy, button labels, card descriptions, section kickers.
+
+**The serif rule** — the serif is the display voice and appears nowhere else. A serif
+used once, on one line, reads as a header pasted in from another site; a serif that
+carries both heading levels reads as a decision.
 
 ### 4.2 Scale
 
-Eight sizes. Adding a ninth requires deleting one.
-
 | Role | Size / line-height | Weight | Family | Notes |
 |---|---|---|---|---|
-| Hero | 44–56 / 1.05 | 600 | `--s` | `letter-spacing: -.02em`, max 2 lines, deliberate `<br />` |
-| H2 | 21 / 1.25 | 600 | `--s` | section titles |
-| H3 | 13.5 / 1.4 | 600 | `--s` | card titles |
-| Lead | 15 / 1.72 | 400 | `--s` | one per section, max 700px |
-| Body | 12.5 / 1.68 | 400 | `--s` | card copy |
-| Label | 10 / 1 | 600 | `--m` | uppercase, `letter-spacing: .12em`, `--faint` |
-| Code | 11.5–12 / 1.85 | 400 | `--m` | inside `--soft` wells |
-| Metric | 28–44 / 1 | 600 | `--m` | `letter-spacing: -.03em` |
+| Hero | `clamp(40px, 6vw, 76px)` / 1.04 | 400, second line 600 | `--d` | `letter-spacing: -.012em`, two lines, deliberate `<br />` |
+| H2 | `clamp(28px, 3vw, 40px)` / 1.14 | 400 | `--d` | `letter-spacing: -.01em`, max 20ch |
+| H3 / card title | 16 / 1.4 | 600 | `--s` | |
+| Hero lead | 18 / 1.55 | 400 | `--s` | `--text-secondary`, max 46ch |
+| Section lead | 16.5 / 1.6 | 400 | `--s` | `--text-secondary`, max 62ch |
+| Body | 14 / 1.6 | 400 | `--s` | `--text-secondary`, max 72ch |
+| Kicker | 12 / 1 | 600 | `--s` | `--link`, 3px left rule, sentence case |
+| Label | 12.5 / 1.5 | 400 | `--s` | `--text-helper` |
+| Code | 11.5–12 / 1.55 | 400 | `--m` | inside `--layer-02` |
+| Metric | 40 / 1 | **300** | `--s` | `letter-spacing: -.01em`, never coloured |
 
-**Weight extremes only.** 400 for text, 600 for emphasis and headings, 700 reserved for
-the hero. Never 500 — the middle reads as a default nobody chose.
+**The ratio matters more than any single size.** H1÷H2 is **1.9×**. It was 3.9× — an 82px
+hero over 21px headings — and that single number is why every section below the fold
+read as a footnote regardless of what it said.
+
+Carbon uses light weights for display, so 300 is correct for figures. Weights in use:
+300 (metrics), 400 (display and body), 600 (emphasis, card titles, kickers).
 
 ### 4.3 Copy rules
 
@@ -212,6 +265,7 @@ the hero. Never 500 — the middle reads as a default nobody chose.
 - Numbers always with their unit and their source: *"11 programs"*, not *"11"*.
 - Em dashes for asides, never parentheses stacked inside parentheses.
 - French is allowed **nowhere** in user-visible strings. The jury is international.
+  (Internal test names and code comments are exempt; the repository's tests are French.)
 
 ---
 
@@ -219,41 +273,40 @@ the hero. Never 500 — the middle reads as a default nobody chose.
 
 ### 5.1 Spacing scale
 
-`4 · 6 · 8 · 11 · 14 · 18 · 22 · 26 · 34 · 44 · 62`
+Carbon's steps: `2 · 4 · 8 · 12 · 16 · 24 · 32 · 40 · 48 · 64 · 80 · 96`.
 
-Odd-looking values are deliberate: they come from optical alignment against 1px borders,
-not from a doubling sequence. Use them; do not round them to multiples of 8.
+Section rhythm: `64px` vertical padding, `32px` horizontal gutter, content capped at
+`1440px`. The hero takes `104px` at the top — the silence above the headline is the
+single most Resend thing on the page, and confidence reads as space.
 
-Section rhythm: `62px` vertical padding, `26px` horizontal gutter, content capped at
-`1060px`. Hero is the exception: `74px` top.
+`gap: 1px` is not spacing. It is how a hairline grid draws its rules: the container takes
+`background: var(--border-subtle)` and the cells take `background: var(--bg)`.
 
-### 5.2 Radius — the concentric rule
+*The workshop keeps its own tighter optical spacing.* It is a dense IDE chrome, and
+Carbon's own product surfaces do the same in dense contexts.
 
-> **outer radius = inner radius + padding**
+### 5.2 Radius
 
-A card with `padding: 19px` and an inner code block at `radius: 7px` must itself be
-`radius: 26px`… which is too round for this system, so instead we cap the inner element:
+**Zero. Everywhere.**
 
-| Element | Radius |
-|---|---|
-| Section card | 9px |
-| Inner code well | 7px |
-| Button, input | 6px |
-| Tag, badge | 4px |
-| Pill | 99px |
-| Colour swatch | 2px |
+The single exception is an element that is genuinely a circle: a status dot, an avatar,
+a spinner, a count badge. Those take `99px`. A brand mark that happens to be square is
+square; a colour swatch is square.
 
-Never apply the same radius to a parent and its padded child — that is the single most
-common visual tell of unconsidered UI.
+There is no concentric radius rule any more, because there are no radii to nest.
 
 ### 5.3 Borders and elevation
 
-- **1px `--line` is the default separator.** It does more work than any shadow.
-- Shadows exist for exactly two things: floating panels (`0 6px 22px rgba(8,9,11,.5)`)
-  and modals (`0 8px 30px rgba(0,0,0,.35)`). Cards in flow have **no shadow**.
-- A highlighted card is `border-color: var(--amber-d)` plus
-  `background: linear-gradient(180deg, rgba(255,176,32,.05), var(--panel))`. Nothing else.
-- Never stack a border, a shadow and a gradient on the same element.
+- **1px `--border-subtle` is the separator.** It does all the work.
+- **No shadows.** Not on cards, not on floating panels, not on the modal. Carbon
+  distinguishes by layer: `--bg` → `--layer-01` → `--layer-02` → `--layer-03`. A panel
+  that floats gets a border and a higher layer, and that is enough.
+- A highlighted element takes `border-color: var(--interactive)` and a
+  `rgba(15, 98, 254, .12)` fill. Nothing else.
+- A selected row takes `box-shadow: inset 3px 0 0 var(--interactive)` — a left rule, not
+  an elevation.
+- **Blue carries far less than amber did at the same alpha.** A tint below `.12` on
+  `#161616` is invisible; do not copy alpha values from a warmer palette.
 
 ---
 
@@ -262,21 +315,22 @@ common visual tell of unconsidered UI.
 Motion exists to explain causality — *this happened because of that*. Motion that exists
 to delight is noise here.
 
-```css
---fast:  120ms;  /* hover, focus, toggles */
---base:  180ms;  /* panel open, tab switch */
---slow:  500ms;  /* viewport re-frame after a graph focus change */
---ease:  cubic-bezier(.2, 0, 0, 1);
-```
+Use the tokens; do not write a duration by hand. `--fast` for hover, focus and toggles;
+`--base` for a panel opening or a tab switching; `--slow` for a viewport re-frame.
+`--ease-productive` for interface response, `--ease-expressive` for anything that moves
+a distance.
 
 Rules:
+
 - Only `opacity`, `transform`, `border-color`, `background-color` animate. Never `height`,
   `width`, `top`, `left` — they jank and they read as cheap.
-- Nothing animates on page load except a single content fade (`opacity 0→1, 180ms`).
-- Nothing loops except: the agent spinner, and the pulse on nodes the agent is currently
-  touching. Both stop the instant the work stops.
-- **Honour `prefers-reduced-motion: reduce`**: drop every transition to `1ms` and remove
-  the pulse. This is not optional; part of the audience uses it.
+- Nothing animates on page load except a single content fade.
+- Nothing loops except: the agent spinner, the caret, and the pulse on nodes the agent is
+  currently touching. All stop the instant the work stops.
+- **`prefers-reduced-motion: reduce` is one global rule** in `styles.css`, not a
+  per-selector list that new code keeps forgetting to join. It sets
+  `animation-duration`, `animation-iteration-count`, `transition-duration` and
+  `scroll-behavior`. Part of the audience uses it; it is not optional.
 
 ### 6.1 The signature moment
 
@@ -284,14 +338,16 @@ The estate graph greying out and lighting up entity by entity while the agent re
 is **the single most valuable frame in the product**. No competitor has it.
 
 Design rules for it:
+
 - Un-touched nodes go to `opacity: .05` — nearly gone, still spatially present, so the
   reader keeps the map in their head.
-- Touched nodes return to full opacity with an amber halo:
-  `box-shadow: 0 0 0 1px var(--amber), 0 0 22px rgba(255,176,32,.35)`.
+- Touched nodes return to full opacity with a ring: `box-shadow: 0 0 0 1px var(--interactive)`.
+  The ring contracts once on arrival so the eye catches which node just lit up. **No glow.**
 - Edges between two lit nodes animate; everything else stays static.
 - The viewport re-frames to the lit set over `--slow`, once, at the end — not per node.
 - During the initial wait (no nodes lit yet) the graph stays **fully readable**. A greyed
-  screen during a 6-second wait reads as a freeze, not as thinking.
+  screen during a six-second wait reads as a freeze, not as thinking. The public page's
+  fold shows exactly this state.
 
 ---
 
@@ -300,91 +356,124 @@ Design rules for it:
 ### 7.1 Buttons
 
 ```
-btn-pri   background var(--amber) · color var(--edit) · weight 600 · radius 6 · padding 10/16
-btn       background var(--panel) · color var(--tx) · border 1px var(--line) · radius 6
+btn-pri   background var(--interactive) · color var(--text-on-color) · radius 0
+btn       background var(--layer-01) · color var(--text-primary) · border 1px var(--border-subtle) · radius 0
 ```
+
 - Exactly **one** `btn-pri` per viewport. Two primaries means neither is primary.
-- Hover: `btn` → `border-color: var(--el2)`; `btn-pri` → `filter: brightness(1.06)`.
-- Focus-visible on every interactive element:
-  `outline: 2px solid var(--amber); outline-offset: 2px`. Never `outline: none` without
-  a replacement.
+- The pair sits at `gap: 1px`, so the two read as one control with a dominant half.
+- Hover: `btn` → `border-color: var(--layer-03)`; `btn-pri` → `#0353e9` (Carbon blue-70).
+- A primary action carries a trailing `→`.
 - Disabled: `opacity: .45`, cursor default, no colour change.
 
-### 7.2 Cards
+### 7.2 Focus
 
-Base: `background --panel · border 1px --line · radius 9 · padding 19`.
-Inside a card, in order: optional tag → title (H3) → body (Body) → optional code well.
-Never more than one accent colour per card.
+One global rule, on `:focus-visible`, covering every interactive element in both the page
+and the workshop:
 
-### 7.3 Code wells and traces
+```css
+outline: 2px solid var(--focus);
+outline-offset: -2px;
+box-shadow: inset 0 0 0 3px var(--interactive);
+```
 
-`background --soft · border 1px --line · radius 7 · padding 12/14 · font --m 11.5/1.85`
+Never `outline: none` without a replacement. Three workshop inputs did exactly that, and
+the product had no visible keyboard focus at all until it was found.
 
-A trace line reads `event: <type> <tool> <summary>` where `event:` is `#667085`, the type
-is `--faint` in a fixed-width column, the tool takes its semantic colour, and the summary
-is `--dim`. Alignment between lines matters more than colour here.
+### 7.3 Cards and grids
 
-### 7.4 Metric tiles
+A grid is a hairline grid: container `gap: 1px` on `background: var(--border-subtle)`,
+cells on `background: var(--bg)`, one `1px` border around the whole. Padding `24px`.
+Never more than one accent colour per cell.
 
-Number in `--m` at 28–44px, label underneath in Label style. The number is `--amber` when
-it is the argument of the section, `--bright` otherwise. **Never animate a metric.**
+`grid-template-columns: repeat(N, 1fr)` with N ∈ {2, 3, 4}. Below 900px every grid
+collapses to a single column — no intermediate 2-up breakpoint, it always looks accidental.
 
-### 7.5 Inputs
+### 7.4 Code wells and traces
 
-`background --soft · border 1px --line · radius 6 · padding 9/11 · color --tx`
-Focus: `border-color: var(--amber-d)`. Placeholder in `--faint`, and the placeholder must
-say something useful ("we send one confirmation link, nothing else"), never repeat the label.
+`background --layer-02 · border 1px --border-subtle · radius 0 · padding 12/16 · font --m 11.5/1.55`
 
-### 7.6 Badges
+A trace line reads `time · tool · summary`: the timestamp in `--text-helper`, the tool in
+its semantic colour (§3.2), the summary in `--text-secondary`. Alignment between lines
+matters more than colour here.
+
+### 7.5 Metric tiles
+
+Number in `--s` at 40px weight 300, label underneath in Label style. **Never coloured,
+never animated.** They sit in a hairline grid, not in cards.
+
+### 7.6 Inputs
+
+`background --layer-02 · border 1px --border-subtle · radius 0 · padding 8/12 · color --text-primary`
+Focus: the global ring (§7.2). Placeholder in `--text-helper`, and it must say something
+useful ("we send one confirmation link, nothing else"), never repeat the label.
+
+### 7.7 Badges and tags
 
 ```
-badge-ok    green text, rgba(94,194,122,.1) fill, 1px rgba(94,194,122,.3), radius 99
-badge-warn  red equivalent
-tag         --dim text, 1px --line, radius 4, font --m 9/uppercase/.08em
+badge-ok    --verified text, rgba(66,190,101,.14) fill, 3px left rule --verified
+badge-warn  --danger equivalent
+tag         --text-secondary text, 1px --border-subtle, radius 0, font --m 10/uppercase
 ```
+
 A badge states a verified fact (`✓ 11 sources verified`). A tag classifies (`read-only`).
 Never use a badge for decoration.
 
-### 7.7 Tables
+### 7.8 Tables
 
-Header: Label style, `--faint`, bottom border `--line`. Rows: `--dim`, bottom border
-`--soft`. Emphasised cell content in `--tx`. No zebra striping, no vertical rules.
+Header: Label style, `--text-helper`, bottom border `--border-subtle`. Rows:
+`--text-secondary`, bottom border `--layer-02`. Emphasised cell content in
+`--text-primary`. Description columns capped at 72ch. No zebra striping, no vertical rules.
 
-### 7.8 Modal
+### 7.9 Modal
 
-Scrim `rgba(8,9,11,.62)`, panel `--panel`, radius 10, shadow `0 8px 30px rgba(0,0,0,.35)`,
-width 400–470px. Closes on scrim click and on Escape. Focus moves to the first input on
-open and returns to the trigger on close.
+Scrim `rgba(0,0,0,.6)`, panel `--layer-01`, radius 0, **no shadow**, border 1px
+`--border-subtle`, width 400–470px. Closes on scrim click and on Escape. Focus moves to
+the first input on open and returns to the trigger on close.
 
 ---
 
 ## 8. Page composition
 
-### 8.1 Section rhythm
+### 8.1 The fold
 
-Alternate `--edit` and `--side` bands so the eye can count sections without scrolling
+Four elements, and this is the one place the rule is a hard count:
+
+1. **Kicker** — a short topic, `--link`, 3px left rule.
+2. **H1** — two lines in `--d`, with a deliberate break.
+3. **Lead** — one sentence, two lines at most, 46ch.
+4. **Actions** — one `btn-pri`, one `btn`.
+
+Then, still above the fold, **the estate at rest**: real entities, dim, wide, bleeding off
+the right edge. It is the product before the agent runs, not an illustration of it, and
+it is readable rather than greyed — the trace below is what greys and lights up, and the
+two states must not say the same thing.
+
+The measured numbers **leave the fold** and sit in a hairline strip immediately below it.
+The real reasoning trace follows. Nothing else belongs in the first screen.
+
+### 8.2 Section rhythm
+
+Alternate `--bg` and `--layer-01` bands so the eye can count sections without scrolling
 back. Every section carries, in order:
 
-1. **Kicker** — `NN · Short topic`, Label style, amber.
-2. **H2** — one line, an assertion not a noun phrase. *"Understanding ≠ changing."* beats
+1. **Kicker** — `NN — Topic`. **The number is derived from the section's index**, never
+   typed into a prop. It drifted to `00 01 02 03 04 05 06 10 07 08 09 11` when it was a
+   string, and a reader following the page in order saw a bug before they saw the argument.
+2. **H2** — one assertion, not a noun phrase. *"Understanding ≠ changing."* beats
    *"Our approach"*.
-3. **Lead** — one paragraph, ≤ 700px, that could stand alone as the section's summary.
-4. **Evidence** — grid of cards, a code well, a trace, or a flow. Never two evidence
-   blocks of the same type back to back.
+3. **Lead** — one paragraph, ≤ 62ch, that could stand alone as the section's summary.
+4. **Evidence** — a grid, a code well, a trace, a flow, or one full-width plate.
+   **Never the same evidence shape as either neighbour** (§2, Repetition).
 
-### 8.2 Grids
+### 8.3 Product plates
 
-`grid-template-columns: repeat(N, 1fr)` with `gap: 14–15px`. N ∈ {2, 3, 4}. Below 900px
-every grid collapses to a single column — no intermediate 2-up breakpoint, it always
-looks accidental.
-
-### 8.3 The hero
-
-- Kicker, then a two-line headline with a deliberate break, then one lead paragraph, then
-  exactly two actions (one primary, one quiet), then a row of four measured numbers above
-  the fold.
-- The numbers are the hero's proof. They must be reproducible from the repository, and
-  they must match the README to the digit.
+- One per section, at full width. Never two side by side.
+- Regenerated with `make shots`, never by hand. A plate taken by hand becomes a picture
+  of a product that no longer exists the moment anything is retinted.
+- **The caption must claim exactly what the image shows** — the entity, and the number.
+  If the plate shows LGCMAREA reaching 25 programs, the caption does not say LGPOLICY
+  and 11.
 
 ---
 
@@ -393,7 +482,7 @@ looks accidental.
 Non-negotiable, and cheap:
 
 - Every interactive element reachable by keyboard, in DOM order.
-- `:focus-visible` styled everywhere (§7.1). Test by tabbing the whole page once.
+- `:focus-visible` styled globally (§7.2). Test by tabbing the whole page once.
 - Colour is never the only carrier of meaning: the verified badge has a ✓ *and* text;
   a denied audit row says "denied" *and* is red.
 - Icons that convey meaning get `aria-label`; purely decorative ones get `aria-hidden`.
@@ -410,13 +499,18 @@ Non-negotiable, and cheap:
 - **No external network at runtime.** No CDN fonts, no remote images, no analytics. The
   page must render identically behind a corporate proxy with no internet — that is the
   actual deployment environment of our users.
-- Fonts: prefer a locally served IBM Plex. If loading remotely, the fallback chain must be
-  tested with fonts blocked; the layout must not shift.
+- Fonts: locally served IBM Plex, via `@fontsource`.
 - Icons: inline SVG, `currentColor`, no icon font, no sprite sheet.
-- One stylesheet, ordered: tokens → reset → primitives → components → page sections →
-  responsive. New rules go in their section, never appended at the bottom.
+- Two stylesheets: `styles.css` (tokens, reset, primitives, workshop) and
+  `components/landing.css` (the public page). New rules go in their section, never
+  appended at the bottom.
+- **The public page scrolls in the document.** The workshop shell sizes itself with
+  `height: 100vh`; nothing pins the body.
 - Every component that renders data a juror might verify (counts, node totals, test
   numbers) reads it from **one** constant, never a literal in JSX.
+- Structural guarantees are tested, not remembered: `web/e2e/landing.spec.ts` guards
+  native scroll, the numbering sequence, the absence of hand-written product data, and
+  the four-element fold.
 
 ---
 
@@ -425,24 +519,31 @@ Non-negotiable, and cheap:
 1. **Read the product first.** Open the running app before designing a page about it.
    Screenshots of the real workshop beat any illustration you could compose.
 2. **Design the evidence, then the frame.** Decide which real artefact proves the section
-   (a trace, a diff, a count), then build the layout around it.
+   (a trace, a plate, a count), then build the layout around it.
 3. **Write the copy before the CSS.** If the sentence is vague, no styling will save it.
 4. **Every number is a claim.** Before shipping a number, run the command that produces it.
+   Four different test counts were live in this repository at once, and none was right.
 5. **Delete one thing per section.** If a section survives the deletion, it was noise.
-6. **Check against §2 before committing.** Genericness creeps in through small additions.
+6. **Count your shapes.** Before committing a section, look at its two neighbours. Three
+   of the same block in a row is the failure mode this system is most prone to.
+7. **Check against §2 before committing.** Genericness creeps in through small additions.
 
 ---
 
 ## 12. Pre-ship checklist
 
 - [ ] No forbidden pattern from §2 present anywhere.
+- [ ] `grep -rn "border-radius" web/src | grep -v 99px | grep -v ": 0"` is empty.
+- [ ] `grep -rn "box-shadow" web/src | grep -vE "0 0 0 1px|inset"` is empty.
 - [ ] Exactly one `btn-pri` per viewport.
-- [ ] Every colour on the page can be justified by §3.2.
-- [ ] No parent and padded child share a border-radius.
+- [ ] Every colour on the page can be justified by §3.2, and none of them is a metric.
+- [ ] No section shares its evidence shape with either neighbour.
+- [ ] Section numbers read `00`…`11` with no gap.
 - [ ] Tab through the entire page: focus is always visible, order is logical.
 - [ ] `prefers-reduced-motion: reduce` removes every animation and the node pulse.
 - [ ] 200% zoom: no horizontal scrollbar.
 - [ ] Fonts blocked: layout stable, nothing overlaps.
-- [ ] Every metric matches the README and the deck to the digit.
+- [ ] Every metric matches the README **and the repository** to the digit.
+- [ ] Every plate was produced by `make shots`, and its caption matches what it shows.
 - [ ] No French, no emoji ornament, no exclamation mark in user-visible copy.
 - [ ] Read the page aloud. If a sentence embarrasses you, rewrite it.

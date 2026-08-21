@@ -7,11 +7,11 @@
 
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
 
-[![live](https://img.shields.io/badge/live-cobol--explorer.fr-ffb020)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-151%20backend%20%C2%B7%2036%20e2e-5ec27a)](#8-tests)
-[![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-6cb2ff)](https://www.ibm.com/granite)
-[![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-c398ff)](#5-toute-la-stack-ibm)
-[![license](https://img.shields.io/badge/license-Apache--2.0-878d97)](LICENSE)
+[![live](https://img.shields.io/badge/live-cobol--explorer.fr-0f62fe)](https://cobol-explorer.fr)
+[![tests](https://img.shields.io/badge/tests-151%20backend%20%C2%B7%2036%20e2e-42be65)](#8-tests)
+[![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-33b1ff)](https://www.ibm.com/granite)
+[![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-be95ff)](#5-toute-la-stack-ibm)
+[![license](https://img.shields.io/badge/license-Apache--2.0-8d8d8d)](LICENSE)
 
 </div>
 
