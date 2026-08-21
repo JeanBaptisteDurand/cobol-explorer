@@ -1,39 +1,70 @@
-/* COBOL Explorer — design system (VS Code-like, from Claude Design handoff).
-   Warm neutral dark, single amber accent, IBM Plex, muted syntax palette. */
+/* COBOL Explorer — design system.
+   IBM Carbon Gray 100 for the grammar, IBM Plex Serif for the display type.
+   One interactive blue that is never a data colour, and five semantic colours
+   that each assert something. Shared by the public page and the workshop, so
+   retinting here retints both — that is deliberate. */
 :root {
-  --act: #141518;
-  --side: #1c1e22;
-  --edit: #191a1d;
-  --panel: #1c1e22;
-  --el: #26282d;
-  --el2: #2d2f35;
-  --line: #2b2e34;
-  --soft: #232529;
-  --tx: #cdd1d8;
-  --dim: #878d97;
-  --faint: #596069;
-  --amber: #ffb020;
-  --amber-d: #b57d18;
-  --red: #ff5b52;
-  --green: #5ec27a;
-  --purple: #c398ff;
-  --blue: #6cb2ff;
-  --teal: #43c9bd;
-  --titlebar: #202226;
+  /* surfaces — Carbon Gray 100 */
+  --bg:        #161616;
+  --layer-01:  #262626;
+  --layer-02:  #393939;
+  --layer-03:  #525252;
+  --border-subtle: #393939;
+  --border-strong: #6f6f6f;
+
+  /* text — four steps, never more */
+  --text-primary:   #f4f4f4;
+  --text-secondary: #c6c6c6;
+  --text-helper:    #8d8d8d;
+  --text-on-color:  #ffffff;
+
+  /* interaction — never a data colour */
+  --interactive: #0f62fe;
+  --link:        #78a9ff;
+  --focus:       #ffffff;
+
+  /* semantic — meaning only, never decoration */
+  --graph:    #33b1ff;  /* deterministic traversal */
+  --vector:   #08bdba;  /* semantic search */
+  --reason:   #be95ff;  /* the model reasoning */
+  --verified: #42be65;  /* verified, granted, intact */
+  --danger:   #fa4d56;  /* impact radius, denied, broken chain */
+
+  /* families */
   --m: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --s: "IBM Plex Sans", system-ui, sans-serif;
   --d: "IBM Plex Serif", Georgia, serif;   /* display type only */
+
+  /* motion — Carbon durations and curves */
+  --fast: 110ms;
+  --base: 240ms;
+  --slow: 400ms;
+  --ease-productive: cubic-bezier(.2, 0, .38, .9);
+  --ease-expressive: cubic-bezier(.4, .14, .3, 1);
+
+  /* ── transition aliases — deleted once the sweep below is complete ─────── */
+  --act: var(--bg);            --titlebar: var(--layer-01);
+  --edit: var(--bg);           --side: var(--layer-01);
+  --panel: var(--layer-01);    --soft: var(--layer-02);
+  --el: var(--layer-02);       --el2: var(--layer-03);
+  --line: var(--border-subtle);
+  --tx: var(--text-primary);   --dim: var(--text-secondary);
+  --faint: var(--text-helper);
+  --amber: var(--interactive); --amber-d: var(--interactive);
+  --blue: var(--graph);        --teal: var(--vector);
+  --purple: var(--reason);     --green: var(--verified);
+  --red: var(--danger);
 }
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; margin: 0; }
 body { color: var(--tx); font-family: var(--s); font-size: 13px; background: var(--edit);
   -webkit-font-smoothing: antialiased; }
-::selection { background: rgba(255, 176, 32, 0.28); }
+::selection { background: rgba(15, 98, 254, .38); color: var(--text-on-color); }
 button { font-family: var(--s); }
 input, textarea { font-family: var(--s); }
 
 @keyframes spin { to { transform: rotate(360deg); } }
-.spin { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--amber);
+.spin { width: 14px; height: 14px; border: 2px solid var(--border-subtle); border-top-color: var(--interactive);
   border-radius: 99px; animation: spin .7s linear infinite; flex: none; display: inline-block; }
 
 /* scrollbars */
