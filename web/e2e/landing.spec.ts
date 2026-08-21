@@ -42,9 +42,11 @@ test("les numéros de section se suivent sans trou", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByTestId("landing")).toBeVisible();
 
-  const kickers = await page.locator(".ce-kicker").allInnerTexts();
+  // Scoped to .ce-sec: the same kicker style also labels the hero badge, the
+  // figure captions and a couple of asides, and those carry no number.
+  const kickers = await page.locator(".ce-sec > .ce-inner > .ce-kicker").allInnerTexts();
   const parsed = kickers.map((t) => parseInt(t.trim().slice(0, 2), 10));
-  expect(parsed.length).toBeGreaterThan(10);
+  expect(parsed.length).toBe(12);
   expect(parsed).toEqual(parsed.map((_, i) => i));
 });
 
@@ -58,16 +60,32 @@ test("le fold ne porte aucune donnée produit écrite à la main", async ({ page
   await expect(hero.locator(".ce-answer")).toHaveCount(0);
 });
 
-// Resend's restraint: the fold carries the argument, the measured numbers come
-// after it. If they creep back above the fold, the fold has seven things again.
-test("les chiffres sont sous le pli, pas dedans", async ({ page }) => {
+// Resend's restraint: the fold carries the argument and nothing else, and the
+// measured numbers come after it. Asserted structurally rather than against a
+// pixel, so the guarantee survives a change of viewport or of hero height: the
+// metrics must begin at or below the bottom edge of the hero.
+test("les chiffres commencent après le bloc d'argument", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   await expect(page.getByTestId("landing")).toBeVisible();
 
-  const metrics = page.locator(".ce-metrics");
-  await expect(metrics).toBeVisible();
-  const box = await metrics.boundingBox();
-  expect(box).not.toBeNull();
-  expect(box!.y).toBeGreaterThan(820);
+  const hero = await page.getByTestId("hero-section").boundingBox();
+  const metrics = await page.locator(".ce-metrics").boundingBox();
+  expect(hero).not.toBeNull();
+  expect(metrics).not.toBeNull();
+  expect(metrics!.y).toBeGreaterThanOrEqual(hero!.y + hero!.height);
 });
+
+// The fold holds four things: badge, headline, one lead, two actions. Anything
+// more and it stops being an argument and becomes a summary of the whole page.
+test("le fold ne contient que les quatre éléments prévus", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const hero = page.getByTestId("hero-section");
+  await expect(hero.locator(".ce-kicker")).toHaveCount(1);
+  await expect(hero.locator("h1")).toHaveCount(1);
+  await expect(hero.locator(".ce-hero-lead")).toHaveCount(1);
+  await expect(hero.locator(".ce-hero-actions > *")).toHaveCount(2);
+  await expect(hero.locator(".ce-metrics")).toHaveCount(0);
+});
+

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import HeroVideo from "./HeroVideo";
+import EstateAtRest from "./EstateAtRest";
 import Logo from "./Logo";
 import ReasoningTrace from "./ReasoningTrace";
 import "./landing.css";
@@ -13,7 +13,7 @@ import "./landing.css";
  *  and lives in web/public/shots/. */
 
 const METRICS = [
-  { n: "6.5 s", l: "per grounded answer\ngranite-4-h-small · watsonx.ai", accent: true },
+  { n: "6.5 s", l: "per grounded answer\ngranite-4-h-small · watsonx.ai" },
   { n: "1 496", l: "entities mapped\n1 715 typed edges" },
   { n: "187", l: "automated tests\n151 backend · 36 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
@@ -97,23 +97,21 @@ const BUILT = [
   { t: "Simplify after", d: "A cleanup skill re-reads the diff for duplication and dead code. It removed a dead helper, an MCP parameter that filtered nothing, and a hard-coded path that broke the Bob integration on any other machine." },
 ];
 
-function Section({ id, kicker, title, lead, alt, children }: {
-  id: string; kicker: string; title: string; lead?: ReactNode; alt?: boolean; children?: ReactNode;
+/** The number comes from the section's position, never from a string a writer
+ *  types. The previous version took it from the kicker prop and had drifted to
+ *  00 01 02 03 04 05 06 10 07 08 09 11 — a reader following the page in order
+ *  saw a bug before they saw the argument. */
+function Section({ id, n, topic, title, lead, alt, children }: {
+  id: string; n: number; topic: string; title: string;
+  lead?: ReactNode; alt?: boolean; children?: ReactNode;
 }) {
   return (
     <section className={`ce-sec ${alt ? "is-alt" : ""}`} data-testid={id}>
-      <div className="ce-inner ce-rail">
-        {/* The number sits in the margin, as an index entry — the page reads as a
-            document with a structure, not as a stack of interchangeable panels. */}
-        <div className="ce-rail-side" aria-hidden="true">
-          <span className="ce-rail-n">{kicker.split("·")[0].trim()}</span>
-          <span className="ce-rail-t">{(kicker.split("·")[1] || "").trim()}</span>
-        </div>
-        <div className="ce-rail-main">
-          <h2 className="ce-h2">{title}</h2>
-          {lead && <p className="ce-lead">{lead}</p>}
-          {children}
-        </div>
+      <div className="ce-inner">
+        <span className="ce-kicker">{String(n).padStart(2, "0")} — {topic}</span>
+        <h2 className="ce-h2">{title}</h2>
+        {lead && <p className="ce-lead">{lead}</p>}
+        {children}
       </div>
     </section>
   );
@@ -145,75 +143,48 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <button className="ce-btn-pri ce-nav-cta" data-testid="nav-signup" onClick={onSignUp}>Create account</button>
       </header>
 
-      {/* HERO — the instrument first: a real trace, above the fold. */}
+      {/* HERO — four elements and nothing else. Everything the page has to prove
+          comes after; the fold only has to make the reader want it. Underneath
+          sits the estate at rest, which is the product before the agent runs —
+          not an illustration, and readable rather than greyed, because during a
+          wait a greyed screen reads as a freeze instead of as thinking. */}
       <section className="ce-hero" data-testid="hero-section" id="top">
         <div className="ce-inner">
-          <div className="ce-kicker">Grounded agentic RAG · mainframe-native graph</div>
-          <h1>Ask the estate.<br /><em>Get the proof.</em></h1>
-          <p className="ce-hero-note">200+ billion lines of COBOL run the world's banks, insurers and public services. Understanding them is still manual.</p>
-        </div>
-        <div className="ce-inner ce-hero-grid">
-          <div>
-          <p className="ce-lead">
-            <span className="ce-strong">“We found 8 of the 14 impacted programs” is a production incident.</span>{" "}
-            COBOL Explorer parses a whole mainframe estate — COBOL, JCL, CICS, DB2, scheduler — into a dependency
-            graph, and answers in plain language with every claim cited to{" "}
-            <span className="ce-mono-in">file:line</span>.
+          <span className="ce-kicker">Grounded agentic RAG · mainframe-native graph</span>
+          <h1>Ask the estate.<br /><b>Get the proof.</b></h1>
+          <p className="ce-hero-lead">
+            Every answer cited to the exact source line, across COBOL, JCL, CICS, DB2 and the scheduler.
           </p>
           <div className="ce-hero-actions">
             <button className="ce-btn-pri" data-testid="hero-signup" onClick={onSignUp}>Enter the workshop</button>
             <a className="ce-btn" href="#fig01">Watch it reason</a>
           </div>
-          <HeroVideo />
-          </div>
-
-          {/* The void on the right used to be decoration waiting to happen. It holds the
-              answer instead: the exact output of the question in the headline. */}
-          <aside className="ce-answer" aria-label="A grounded answer, as returned by the product">
-            <div className="ce-answer-head">
-              <span className="ce-answer-q">what breaks if I change <b>LGPOLICY</b>?</span>
-            </div>
-            <div className="ce-answer-body">
-              <div className="ce-answer-line"><b>11 programs</b> and <b>2 batch chains</b> are impacted.</div>
-              <ul className="ce-answer-cites">
-                <li><span>LGACDB01</span><i>lgacdb01.cbl:88</i></li>
-                <li><span>LGIPOL01</span><i>lgipol01.cbl:55</i></li>
-                <li><span>LGBATCH</span><i>LGBATCH.cbl:19</i></li>
-                <li className="is-more">+ 8 more, each with its COPY line</li>
-              </ul>
-              <div className="ce-answer-chains">
-                <span className="ce-chip">DAILYPOL</span><span className="ce-chip">POLRPT</span>
-                <span className="ce-chip is-sched">SDAILYPOL</span><span className="ce-chip is-sched">SPOLRPT</span>
-              </div>
-            </div>
-            <div className="ce-answer-foot">
-              <span className="ce-verified">✓ 11 sources verified</span>
-              <span className="ce-answer-time">6.5 s</span>
-            </div>
-          </aside>
         </div>
-        <div className="ce-inner">
-          <div className="ce-metrics">
-            {METRICS.map((m) => (
-              <div key={m.n}>
-                <div className={`ce-metric-n ${m.accent ? "is-accent" : ""}`}>{m.n}</div>
-                <div className="ce-metric-l" style={{ whiteSpace: "pre-line" }}>{m.l}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div id="fig01"><ReasoningTrace /></div>
+        <EstateAtRest />
       </section>
 
-      <Section id="product-section" alt kicker="00 · The product"
+      {/* The measured numbers leave the fold. A hairline grid, no cards: in Carbon
+          the rule does the separating. */}
+      <div className="ce-metrics">
+        {METRICS.map((m) => (
+          <div className="ce-metric" key={m.n}>
+            <div className="ce-metric-n">{m.n}</div>
+            <div className="ce-metric-l" style={{ whiteSpace: "pre-line" }}>{m.l}</div>
+          </div>
+        ))}
+      </div>
+
+      <div id="fig01"><ReasoningTrace /></div>
+
+      <Section id="product-section" alt n={0} topic="The product"
         title="An IDE for an estate nobody can read."
         lead="Activity bar, explorer, tabbed editor, agent panel. A developer knows where everything is on the first click, and a risk officer can follow the same trail without reading a line of COBOL.">
         <Figure src="/shots/sc-apercu.png"
           alt="The COBOL Explorer workshop: explorer tree, estate overview tab, and the agent panel"
-          caption="Fig 02 · the workshop · GenApp insurance estate" />
+          caption="Fig 01 · the workshop · GenApp insurance estate" />
       </Section>
 
-      <Section id="problem-section" kicker="01 · The problem"
+      <Section id="problem-section" n={1} topic="The problem"
         title="Billions of lines, and no one left to read them."
         lead="Generic assistants answer without proof. On a bank's core systems a plausible-but-wrong answer is worse than no answer, because nobody can tell the difference until production tells them.">
         <div className="ce-rows">
@@ -225,17 +196,14 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             </div>
           ))}
         </div>
-        <div className="ce-grid2" style={{ marginTop: 26 }}>
+        <div style={{ marginTop: 32 }}>
           <Figure src="/shots/sc-impact.png"
             alt="The graph with the impact radius of LGPOLICY drawn in red: 11 impacted programs"
-            caption="Fig 03 · impact radius · 11 impacted, drawn in red" />
-          <Figure src="/shots/sc-champs.png"
-            alt="Field-level impact for LGPOLICY: 85 fields, 62 referenced, each with a count of programs"
-            caption="Fig 04 · field-level impact · 85 fields, 62 referenced" />
+            caption="Fig 02 · impact radius · 11 impacted, drawn in red" />
         </div>
       </Section>
 
-      <Section id="gestures-section" alt kicker="02 · The founding principle"
+      <Section id="gestures-section" alt n={2} topic="The founding principle"
         title="Understanding ≠ changing."
         lead="The product keeps the two gestures apart on purpose. One has no side effects by construction. The other never reaches the estate without an explicit, recorded confirmation.">
         <div className="ce-grid2">
@@ -261,13 +229,10 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             </div>
           </div>
         </div>
-        <div className="ce-grid2" style={{ marginTop: 15 }}>
-          <Figure src="/shots/sc-split.png"
-            alt="Split view: the COBOL source on the left, the estate graph on the right"
-            caption="Fig 05 · understand · source beside the graph" />
+        <div style={{ marginTop: 32 }}>
           <Figure src="/shots/sc-merge.png"
             alt="The merge gate: a change-set with its diff, impact and review state before merging"
-            caption="Fig 06 · change · diff, impact and the merge gate" />
+            caption="Fig 03 · change · the diff, its impact and the merge gate" />
         </div>
         <div className="ce-pipe">
           {PIPELINE.map((s) => (
@@ -280,7 +245,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="agent-section" kicker="03 · The agent"
+      <Section id="agent-section" n={3} topic="The agent"
         title="One agent, six tools, every call on the record."
         lead={<>A BeeAI RequirementAgent on IBM Granite. The model chooses the order of the tools; the server logs each one, and a <span className="ce-mono-in" style={{ color: "var(--reason)" }}>think</span> step records why before every call. That log is what makes the reasoning auditable rather than merely plausible.</>}>
         <div>
@@ -307,11 +272,11 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <div style={{ marginTop: 26 }}>
           <Figure src="/shots/sc-agent.png"
             alt="The agent panel: a grounded answer with its tool-call trace and clickable file:line citations"
-            caption="Fig 07 · a grounded answer, its trace and its citations" />
+            caption="Fig 04 · a grounded answer, its trace and its citations" />
         </div>
       </Section>
 
-      <Section id="rag-section" alt kicker="04 · Retrieval"
+      <Section id="rag-section" alt n={4} topic="Retrieval"
         title="Two RAGs, because one is never enough."
         lead="The agent routes between them: the graph when the answer must be exact and exhaustive, the vector index when you don't know the name of what you are looking for. Neither is a substitute for the other.">
         <div className="ce-grid2">
@@ -348,14 +313,9 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             </div>
           </div>
         </div>
-        <div style={{ marginTop: 15 }}>
-          <Figure src="/shots/sc-palette.png"
-            alt="The command palette resolving a natural-language query into ranked estate entities"
-            caption="Fig 08 · the same vector index, in the ⌘P palette" />
-        </div>
       </Section>
 
-      <Section id="bob-section" kicker="05 · MCP → IBM Bob"
+      <Section id="bob-section" n={5} topic="MCP and IBM Bob"
         title="Bob reads the code. MCP hands it the estate already computed."
         lead="COBOL Explorer doesn't just use an AI, it extends one. Bob reads and reasons over code very well already, and this does not replace that. It hands Bob a symbol table, a call graph and data lineage computed once, offline — so Bob stops re-deriving everything on every prompt, and gains what lives in no file it could read.">
         <div className="ce-grid2">
@@ -392,7 +352,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="governance-section" alt kicker="06 · Traceability and governance"
+      <Section id="governance-section" alt n={6} topic="Traceability and governance"
         title="Every answer proven, every action audited."
         lead="This is what decides whether a regulated organisation can put an AI anywhere near its core systems. It is not a feature list; it is the precondition.">
         <div className="ce-rows">
@@ -409,11 +369,11 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <div style={{ marginTop: 26 }}>
           <Figure src="/shots/sc-audit.png"
             alt="The audit panel: a chained log of actions and refusals, with the chain integrity state"
-            caption="Fig 09 · the audit trail, chain state included" />
+            caption="Fig 05 · the audit trail, chain state included" />
         </div>
       </Section>
 
-      <Section id="ibm-section" kicker="10 · The IBM layer"
+      <Section id="ibm-section" n={7} topic="The IBM layer"
         title="Built on IBM, designed for Bob."
         lead="No competing model anywhere in the pipeline: the reasoning, the embeddings and the hosted inference are all IBM.">
         <div className="ce-grid4 ce-stack">
@@ -436,7 +396,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="fit-section" kicker="07 · Challenge fit"
+      <Section id="fit-section" n={8} topic="Challenge fit"
         title="Disconnected tasks, turned into one governed system."
         lead="The Wildcard asks for intelligent systems that cut repetitive work, improve decisions and get teams to an outcome faster. Maintaining a mainframe estate is the work that never received that treatment.">
         <div className="ce-rows">
@@ -455,7 +415,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </p>
       </Section>
 
-      <Section id="identity-section" alt kicker="08 · Identity"
+      <Section id="identity-section" alt n={9} topic="Identity"
         title="Who is asking, proven — not declared."
         lead="Governance is only worth the identity behind it. Sign-in issues a signed token that carries your role, so a forged header promotes nobody, and every action lands in the audit trail under a name that was verified.">
         <div className="ce-rows">
@@ -469,7 +429,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
       </Section>
 
-      <Section id="built-section" kicker="09 · How it was built"
+      <Section id="built-section" n={10} topic="How it was built"
         title="Built with IBM Bob — spec first, not vibes."
         lead="The July lab teaches spec-driven development with Bob rather than vibe coding: describe the intent, let the agent plan, review the plan, then implement. Reusable skills kept that discipline on every unit of work.">
         <div className="ce-rows">
@@ -487,7 +447,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </p>
       </Section>
 
-      <Section id="access-section" alt kicker="11 · Access"
+      <Section id="access-section" alt n={11} topic="Access"
         title="Days of manual hunting, down to 6.5 seconds — with line-level proof."
         lead="Your role travels inside a signed token: it decides what you may read, propose and merge, and every action is written to the tamper-evident audit trail under your name.">
         <div className="ce-access-actions">

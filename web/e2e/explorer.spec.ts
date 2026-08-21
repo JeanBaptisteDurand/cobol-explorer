@@ -58,13 +58,13 @@ test("graphe : clic node -> inspecteur, 'ouvrir le code' -> onglet code au centr
   await expect(page.locator(".cm-editor")).toContainText("POLICY");
 });
 
-test("barre d'activité : un seul bouton ambre à la fois (jamais collé)", async ({ page }) => {
+test("barre d'activité : un seul bouton actif à la fois (jamais collé)", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".abtn.on")).toHaveCount(1); // Explorateur
   await page.locator('[data-ab="graph"]').click();
   await expect(page.locator(".abtn.on")).toHaveCount(1); // Graphe seul
   await expect(page.locator('[data-ab="graph"]')).toHaveClass(/on/);
-  await page.locator('[data-ab="spark"]').click(); // ouvre l'agent, n'ajoute pas d'ambre
+  await page.locator('[data-ab="spark"]').click(); // ouvre l'agent, n'ajoute pas d'état actif
   await expect(page.locator(".abtn.on")).toHaveCount(1);
 });
 
