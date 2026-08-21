@@ -658,7 +658,7 @@ export default function App() {
               <div key={rt} className={`tab ${rightTab === rt ? "on" : ""}`} style={{ flex: 1, justifyContent: "center", padding: "0 8px" }} onClick={() => setRightTab(rt)} data-testid={`rp-${rt}`}>
                 {label}
                 {rt === "changes" && activeVersion && activeVersion.edits.length > 0 && (
-                  <span style={{ background: "var(--interactive)", color: "#111", font: "600 9px var(--m)", padding: "0 5px", borderRadius: 99 }}>{activeVersion.edits.length}</span>
+                  <span style={{ background: "var(--interactive)", color: "var(--text-on-color)", font: "600 9px var(--m)", padding: "0 5px", borderRadius: 99 }}>{activeVersion.edits.length}</span>
                 )}
               </div>
             ))}

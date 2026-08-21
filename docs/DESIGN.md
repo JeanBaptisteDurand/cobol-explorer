@@ -202,10 +202,17 @@ On `--bg` (`#161616`):
 
 | Token | Measured | Floor |
 |---|---|---|
-| `--text-primary` `#f4f4f4` | 16.1:1 | ≥ 7:1 |
-| `--text-secondary` `#c6c6c6` | 9.9:1 | ≥ 7:1 |
-| `--text-helper` `#8d8d8d` | 4.6:1 | ≥ 4.5:1 |
-| `--link` `#78a9ff` | 6.6:1 | ≥ 4.5:1 |
+| `--text-primary` `#f4f4f4` | 16.45:1 | ≥ 7:1 |
+| `--text-secondary` `#c6c6c6` | 10.59:1 | ≥ 7:1 |
+| `--text-helper` `#8d8d8d` | 5.45:1 | ≥ 4.5:1 |
+| `--link` `#78a9ff` | 7.68:1 | ≥ 4.5:1 |
+| `--graph` `#33b1ff` | 7.65:1 | ≥ 4.5:1 |
+| `--vector` `#08bdba` | 7.75:1 | ≥ 4.5:1 |
+| `--reason` `#be95ff` | 7.70:1 | ≥ 4.5:1 |
+| `--verified` `#42be65` | 7.57:1 | ≥ 4.5:1 |
+| `--danger` `#fa4d56` | 5.40:1 | ≥ 4.5:1 |
+
+`--text-on-color` `#ffffff` on `--interactive` `#0f62fe` is 5.00:1.
 
 `--text-secondary` carries body copy and every section lead. `--text-helper` is for text
 that may be missed: labels, counters, metadata. **Never for a sentence the reader must

@@ -223,7 +223,7 @@ input, textarea { font-family: var(--s); }
 
 /* ---------- agent / trace ---------- */
 .msg-user { align-self: flex-end; max-width: 82%; background: var(--layer-02); border: 1px solid var(--border-subtle);
-  border-radius: 0 8px 3px 8px; padding: 9px 12px; font: 400 12.5px/1.5 var(--s); color: var(--text-primary); }
+  border-radius: 0; padding: 9px 12px; font: 400 12.5px/1.5 var(--s); color: var(--text-primary); }
 .msg-ai { font: 400 12.5px/1.6 var(--s); color: var(--text-primary); }
 .msg-ai.err { color: var(--danger); }
 .agent-lbl { display: flex; align-items: center; gap: 7px; font: 600 11px var(--s); color: var(--interactive); letter-spacing: .02em; }
