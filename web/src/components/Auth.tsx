@@ -67,13 +67,13 @@ export default function Auth({
       <div className="scrim" onClick={(e) => e.target === e.currentTarget && onClose?.()}>
         <div className="modal" style={{ width: 420, textAlign: "center" }} data-testid="auth-sent">
           <div style={{ fontSize: 30, marginBottom: 12 }}>📬</div>
-          <div style={{ font: "600 14px var(--s)", color: "var(--tx)", marginBottom: 10 }}>Confirm your address</div>
-          <p style={{ font: "400 12.5px/1.7 var(--s)", color: "var(--dim)", margin: "0 0 18px" }}>
-            We sent a link to <b style={{ color: "var(--tx)" }}>{sentTo}</b>. Click it to activate your account —
+          <div style={{ font: "600 14px var(--s)", color: "var(--text-primary)", marginBottom: 10 }}>Confirm your address</div>
+          <p style={{ font: "400 12.5px/1.7 var(--s)", color: "var(--text-secondary)", margin: "0 0 18px" }}>
+            We sent a link to <b style={{ color: "var(--text-primary)" }}>{sentTo}</b>. Click it to activate your account —
             it is valid for 24 hours. Until then, signing in is refused.
           </p>
           <button className="btn-pri" data-testid="auth-sent-ok" onClick={() => { setSentTo(""); onMode("login"); }}
-            style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 6, border: "none" }}>
+            style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 0, border: "none" }}>
             Got it
           </button>
         </div>
@@ -84,17 +84,17 @@ export default function Auth({
     <div className="scrim" onClick={(e) => e.target === e.currentTarget && onClose?.()}>
       <div className="modal" style={{ width: 420 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-          <div style={{ width: 16, height: 16, borderRadius: 4, background: "var(--amber)" }} />
-          <span style={{ font: "600 13px var(--s)", color: "var(--tx)" }}>COBOL Explorer</span>
+          <div style={{ width: 16, height: 16, borderRadius: 0, background: "var(--interactive)" }} />
+          <span style={{ font: "600 13px var(--s)", color: "var(--text-primary)" }}>COBOL Explorer</span>
         </div>
 
-        <div style={{ display: "flex", gap: 4, marginBottom: 18, borderBottom: "1px solid var(--line)" }}>
+        <div style={{ display: "flex", gap: 4, marginBottom: 18, borderBottom: "1px solid var(--border-subtle)" }}>
           {(["login", "signup"] as AuthMode[]).map((m) => (
             <span key={m} data-testid={`tab-${m}`} onClick={() => swap(m)}
               style={{
                 padding: "7px 12px", cursor: "pointer", font: "600 12px var(--s)",
-                color: mode === m ? "var(--amber)" : "var(--dim)",
-                borderBottom: `2px solid ${mode === m ? "var(--amber)" : "transparent"}`, marginBottom: -1,
+                color: mode === m ? "var(--interactive)" : "var(--text-secondary)",
+                borderBottom: `2px solid ${mode === m ? "var(--interactive)" : "transparent"}`, marginBottom: -1,
               }}>
               {m === "login" ? "Sign in" : "Create account"}
             </span>
@@ -111,7 +111,7 @@ export default function Auth({
           </>
         )}
 
-        <p style={{ font: "400 12px/1.6 var(--s)", color: "var(--dim)", margin: "0 0 16px" }}>
+        <p style={{ font: "400 12px/1.6 var(--s)", color: "var(--text-secondary)", margin: "0 0 16px" }}>
           Your role travels inside a signed token: it decides what you may read, propose and merge —
           and every action is written to the tamper-evident audit trail under your name.
         </p>
@@ -149,33 +149,33 @@ export default function Auth({
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 6 }}>
               {roles.map((r) => (
                 <span key={r} className="btn" data-testid={`role-${r}`} onClick={() => setRole(r)}
-                  style={role === r ? { borderColor: "var(--amber-d)", color: "var(--amber)", background: "rgba(15, 98, 254, .16)" } : {}}>
+                  style={role === r ? { borderColor: "var(--interactive)", color: "var(--interactive)", background: "rgba(15, 98, 254, .16)" } : {}}>
                   {r}
                 </span>
               ))}
             </div>
-            <div style={{ font: "400 10.5px var(--m)", color: "var(--faint)", marginBottom: 16 }}>
+            <div style={{ font: "400 10.5px var(--m)", color: "var(--text-helper)", marginBottom: 16 }}>
               {ROLE_HINT[role] || "read"}
             </div>
           </>
         )}
 
         {error && (
-          <div data-testid="auth-error" style={{ font: "400 12px/1.5 var(--s)", color: "var(--red)", marginBottom: 14 }}>{error}</div>
+          <div data-testid="auth-error" style={{ font: "400 12px/1.5 var(--s)", color: "var(--danger)", marginBottom: 14 }}>{error}</div>
         )}
 
         <button className="btn-pri" data-testid="auth-submit" onClick={submit} disabled={busy}
-          style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 6, border: "none" }}>
+          style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 0, border: "none" }}>
           {busy ? "…" : isSignup ? "Create account →" : "Sign in →"}
         </button>
 
-        <div style={{ textAlign: "center", marginTop: 14, font: "400 11.5px var(--s)", color: "var(--faint)" }}>
+        <div style={{ textAlign: "center", marginTop: 14, font: "400 11.5px var(--s)", color: "var(--text-helper)" }}>
           {isSignup ? (
-            <>Already have an account? <u style={{ cursor: "pointer", color: "var(--dim)" }} onClick={() => swap("login")}>Sign in</u></>
+            <>Already have an account? <u style={{ cursor: "pointer", color: "var(--text-secondary)" }} onClick={() => swap("login")}>Sign in</u></>
           ) : (
-            <>Demo accounts: <code style={{ font: "11px var(--m)", color: "var(--dim)" }}>amine</code> ·{" "}
-              <code style={{ font: "11px var(--m)", color: "var(--dim)" }}>marc</code> — password{" "}
-              <code style={{ font: "11px var(--m)", color: "var(--dim)" }}>demo</code></>
+            <>Demo accounts: <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>amine</code> ·{" "}
+              <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>marc</code> — password{" "}
+              <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>demo</code></>
           )}
         </div>
       </div>

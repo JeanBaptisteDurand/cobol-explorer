@@ -35,12 +35,12 @@ const PIPELINE = [
 ];
 
 const TOOLS = [
-  { n: "think", c: "var(--purple)", cls: "reason", d: "Reasons out loud before each action — the “why” behind the tool choice, captured in the trace." },
-  { n: "graph_lookup", c: "var(--blue)", cls: "graph rag", d: "Summary, impact, lineage, callers, callees, neighbours. Deterministic traversal, no model in the loop." },
-  { n: "search_code", c: "var(--teal)", cls: "vector rag", d: "Semantic search over the estate, 768-dimension IBM Granite embeddings, for when the name is unknown." },
-  { n: "read_source_lines", c: "var(--tx)", cls: "evidence", d: "Reads the exact source lines. The raw material of every file:line citation the answer carries." },
-  { n: "web_search", c: "var(--dim)", cls: "external", d: "External context only: regulation, business definitions. Never the estate itself." },
-  { n: "propose_change", c: "var(--amber)", cls: "write", d: "Creates a git version and computes its impact — the single bridge from understanding to changing." },
+  { n: "think", c: "var(--reason)", cls: "reason", d: "Reasons out loud before each action — the “why” behind the tool choice, captured in the trace." },
+  { n: "graph_lookup", c: "var(--graph)", cls: "graph rag", d: "Summary, impact, lineage, callers, callees, neighbours. Deterministic traversal, no model in the loop." },
+  { n: "search_code", c: "var(--vector)", cls: "vector rag", d: "Semantic search over the estate, 768-dimension IBM Granite embeddings, for when the name is unknown." },
+  { n: "read_source_lines", c: "var(--text-primary)", cls: "evidence", d: "Reads the exact source lines. The raw material of every file:line citation the answer carries." },
+  { n: "web_search", c: "var(--text-secondary)", cls: "external", d: "External context only: regulation, business definitions. Never the estate itself." },
+  { n: "propose_change", c: "var(--interactive)", cls: "write", d: "Creates a git version and computes its impact — the single bridge from understanding to changing." },
 ];
 
 const BOB_HAS = [
@@ -56,10 +56,10 @@ const MCP_ADDS: ReactNode[] = [
 ];
 
 const GOVERNANCE = [
-  { tag: "Verified", c: "var(--green)", t: "Anti-hallucination guardrail", d: "After every answer the server re-verifies each citation against the corpus: does the file exist, is the line in range. An ungrounded answer never passes silently — the panel labels it." },
-  { tag: "Audited", c: "var(--blue)", t: "Tamper-evident audit log", d: "Every action, and every refusal, is appended to an HMAC-SHA256 chain. Altering one line breaks the chain, and the panel says so." },
-  { tag: "Scoped", c: "var(--purple)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights. Passwords are never stored — PBKDF2-HMAC-SHA256, 120 000 iterations, per-account salt." },
-  { tag: "Measured", c: "var(--red)", t: "Quality, not assumption", d: "A golden question set scored on entity recall, citation grounding and impact coverage, run in CI — so a quality regression breaks the build rather than reaching a demo." },
+  { tag: "Verified", c: "var(--verified)", t: "Anti-hallucination guardrail", d: "After every answer the server re-verifies each citation against the corpus: does the file exist, is the line in range. An ungrounded answer never passes silently — the panel labels it." },
+  { tag: "Audited", c: "var(--graph)", t: "Tamper-evident audit log", d: "Every action, and every refusal, is appended to an HMAC-SHA256 chain. Altering one line breaks the chain, and the panel says so." },
+  { tag: "Scoped", c: "var(--reason)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights. Passwords are never stored — PBKDF2-HMAC-SHA256, 120 000 iterations, per-account salt." },
+  { tag: "Measured", c: "var(--danger)", t: "Quality, not assumption", d: "A golden question set scored on entity recall, citation grounding and impact coverage, run in CI — so a quality regression breaks the build rather than reaching a demo." },
 ];
 
 const STACK = [
@@ -93,7 +93,7 @@ const IDENTITY = [
 
 const BUILT = [
   { t: "Plan before code", d: "A brainstorming skill settles requirements and design before a line is written, so the spec is the artefact and the code follows it." },
-  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 146 backend tests instead of a happy-path demo." },
+  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 151 backend tests instead of a happy-path demo." },
   { t: "Simplify after", d: "A cleanup skill re-reads the diff for duplication and dead code. It removed a dead helper, an MCP parameter that filtered nothing, and a hard-coded path that broke the Bob integration on any other machine." },
 ];
 
@@ -244,10 +244,10 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             <div className="ce-card-t">Understand</div>
             <p>Browse, ask, analyse without ever altering the estate. Read-only by construction, not by policy.</p>
             <div className="ce-code">
-              <span style={{ color: "var(--purple)" }}>think</span> “where is the premium computed?”<br />
-              <span style={{ color: "var(--teal)" }}>search_code</span> → MAJORER-PRIME{" "}
-              <span style={{ color: "var(--amber)" }}>lgipol01.cbl:50</span><br />
-              <span style={{ color: "var(--green)" }}>✓ 3 sources verified</span>
+              <span style={{ color: "var(--reason)" }}>think</span> “where is the premium computed?”<br />
+              <span style={{ color: "var(--vector)" }}>search_code</span> → MAJORER-PRIME{" "}
+              <span style={{ color: "var(--interactive)" }}>lgipol01.cbl:50</span><br />
+              <span style={{ color: "var(--verified)" }}>✓ 3 sources verified</span>
             </div>
           </div>
           <div className="ce-card is-hi">
@@ -255,9 +255,9 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             <div className="ce-card-t">Change</div>
             <p>Every edit lives in a real git branch. Impact is computed before review, and the merge gate states the blast radius out loud.</p>
             <div className="ce-code">
-              <span style={{ color: "var(--green)" }}>+ 05 PREMIUM PIC 9(7)V99.</span><br />
-              <span style={{ color: "var(--red)" }}>− 05 PREMIUM PIC 9(6)V99.</span><br />
-              <span style={{ color: "var(--amber)" }}>merge gate — touches 11 programs. Confirm?</span>
+              <span style={{ color: "var(--verified)" }}>+ 05 PREMIUM PIC 9(7)V99.</span><br />
+              <span style={{ color: "var(--danger)" }}>− 05 PREMIUM PIC 9(6)V99.</span><br />
+              <span style={{ color: "var(--interactive)" }}>merge gate — touches 11 programs. Confirm?</span>
             </div>
           </div>
         </div>
@@ -282,7 +282,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
 
       <Section id="agent-section" kicker="03 · The agent"
         title="One agent, six tools, every call on the record."
-        lead={<>A BeeAI RequirementAgent on IBM Granite. The model chooses the order of the tools; the server logs each one, and a <span className="ce-mono-in" style={{ color: "var(--purple)" }}>think</span> step records why before every call. That log is what makes the reasoning auditable rather than merely plausible.</>}>
+        lead={<>A BeeAI RequirementAgent on IBM Granite. The model chooses the order of the tools; the server logs each one, and a <span className="ce-mono-in" style={{ color: "var(--reason)" }}>think</span> step records why before every call. That log is what makes the reasoning auditable rather than merely plausible.</>}>
         <div>
           <div className="ce-thead">
             <span style={{ width: 178, flex: "none" }}>Tool</span>
@@ -299,7 +299,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         </div>
         <div className="ce-loop">
           <span>question</span><i>→</i>
-          <span style={{ color: "var(--purple)" }}>think</span><i>→</i>
+          <span style={{ color: "var(--reason)" }}>think</span><i>→</i>
           <span>tool</span><i>→</i>
           <span>observe</span><i>→ ⟳ →</i>
           <span className="is-accent">answer + citations + verify</span>
@@ -317,7 +317,7 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         <div className="ce-grid2">
           <div className="ce-card">
             <div className="ce-rag-head">
-              <span className="ce-swatch" style={{ background: "var(--blue)" }} aria-hidden="true" />
+              <span className="ce-swatch" style={{ background: "var(--graph)" }} aria-hidden="true" />
               <span className="ce-card-t">Graph RAG</span>
               <span className="ce-spacer" />
               <span className="ce-rag-eng">Neo4j</span>
@@ -327,13 +327,13 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
               evidence — the line of the COPY, CALL or EXEC SQL that produced it.</p>
             <div className="ce-code">
               “which programs break if I change LGPOLICY?”<br />
-              <span style={{ color: "var(--tx)" }}>→ 11 programs · jobs DAILYPOL·POLRPT</span><br />
-              <span style={{ color: "var(--tx)" }}>→ chains SDAILYPOL·SPOLRPT</span>
+              <span style={{ color: "var(--text-primary)" }}>→ 11 programs · jobs DAILYPOL·POLRPT</span><br />
+              <span style={{ color: "var(--text-primary)" }}>→ chains SDAILYPOL·SPOLRPT</span>
             </div>
           </div>
           <div className="ce-card">
             <div className="ce-rag-head">
-              <span className="ce-swatch" style={{ background: "var(--teal)" }} aria-hidden="true" />
+              <span className="ce-swatch" style={{ background: "var(--vector)" }} aria-hidden="true" />
               <span className="ce-card-t">Vector RAG</span>
               <span className="ce-spacer" />
               <span className="ce-rag-eng">pgvector · HNSW</span>
@@ -343,8 +343,8 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
               the MCP server alike.</p>
             <div className="ce-code">
               “where is the logging?” — no name known<br />
-              <span style={{ color: "var(--tx)" }}>→ LGSTSQ 0.64 · LGWEBST5 0.55</span><br />
-              <span style={{ color: "var(--tx)" }}>→ LGSETUP 0.55</span>
+              <span style={{ color: "var(--text-primary)" }}>→ LGSTSQ 0.64 · LGWEBST5 0.55</span><br />
+              <span style={{ color: "var(--text-primary)" }}>→ LGSETUP 0.55</span>
             </div>
           </div>
         </div>
@@ -360,18 +360,18 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         lead="COBOL Explorer doesn't just use an AI, it extends one. Bob reads and reasons over code very well already, and this does not replace that. It hands Bob a symbol table, a call graph and data lineage computed once, offline — so Bob stops re-deriving everything on every prompt, and gains what lives in no file it could read.">
         <div className="ce-grid2">
           <div className="ce-card">
-            <div className="ce-card-t" style={{ color: "var(--blue)", marginBottom: 14 }}>What Bob already does, very well</div>
+            <div className="ce-card-t" style={{ color: "var(--graph)", marginBottom: 14 }}>What Bob already does, very well</div>
             <ul className="ce-ul">
               {BOB_HAS.map((x) => (
-                <li key={x}><span className="ce-mark" style={{ color: "var(--blue)" }}>✓</span>{x}</li>
+                <li key={x}><span className="ce-mark" style={{ color: "var(--graph)" }}>✓</span>{x}</li>
               ))}
             </ul>
           </div>
           <div className="ce-card is-hi">
-            <div className="ce-card-t" style={{ color: "var(--amber)", marginBottom: 14 }}>What MCP adds on top</div>
+            <div className="ce-card-t" style={{ color: "var(--interactive)", marginBottom: 14 }}>What MCP adds on top</div>
             <ul className="ce-ul">
               {MCP_ADDS.map((x, i) => (
-                <li key={i}><span className="ce-mark" style={{ color: "var(--green)" }}>✓</span><span>{x}</span></li>
+                <li key={i}><span className="ce-mark" style={{ color: "var(--verified)" }}>✓</span><span>{x}</span></li>
               ))}
             </ul>
           </div>

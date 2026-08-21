@@ -78,9 +78,9 @@ export default function ChatPanel({ seed, onCite, onOpenNode, onQueryStart, onTr
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {msgs.length === 0 ? (
         <div className="emptypane">
-          <Icon name="spark" size={26} color="var(--amber)" />
+          <Icon name="spark" size={26} color="var(--interactive)" />
           <div className="t">Query the estate</div>
-          <div className="d">The agent reads the code read-only and <b style={{ color: "var(--tx)", fontWeight: 600 }}>always cites the source line</b>. The graph lights up as it reasons.</div>
+          <div className="d">The agent reads the code read-only and <b style={{ color: "var(--text-primary)", fontWeight: 600 }}>always cites the source line</b>. The graph lights up as it reasons.</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%", marginTop: 4 }}>
             {SUGGESTED.map((s) => <button key={s} className="btn" style={{ justifyContent: "flex-start" }} onClick={() => send(s)}>{s}</button>)}
           </div>
@@ -92,17 +92,17 @@ export default function ChatPanel({ seed, onCite, onOpenNode, onQueryStart, onTr
               <div key={i} className="msg-user">{m.text}</div>
             ) : (
               <div key={i} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <div className="agent-lbl"><Icon name="spark" size={13} color="var(--amber)" />Agent</div>
+                <div className="agent-lbl"><Icon name="spark" size={13} color="var(--interactive)" />Agent</div>
                 {m.trace && m.trace.length > 0 && (
                   <div className="trace" data-testid="trace">
                     <div className="trace-head" onClick={() => setOpenTrace((o) => ({ ...o, [i]: !(o[i] ?? true) }))}>
-                      <Icon name="chev" size={11} color="var(--faint)" style={{ transform: (openTrace[i] ?? true) ? "rotate(90deg)" : undefined, transition: "transform .12s" }} />
+                      <Icon name="chev" size={11} color="var(--text-helper)" style={{ transform: (openTrace[i] ?? true) ? "rotate(90deg)" : undefined, transition: "transform .12s" }} />
                       {m.trace.length} tool call{m.trace.length > 1 ? "s" : ""} · traceable
                     </div>
                     {(openTrace[i] ?? true) && m.trace.map((s, j) => s.tool === "think" ? (
                       <div key={j} className="l think">💭 {s.output_summary}</div>
                     ) : (
-                      <div key={j} className="l"><b>{s.tool}</b>({fmt(s.input)}) <span style={{ color: "var(--faint)" }}>→ {s.output_summary}</span>
+                      <div key={j} className="l"><b>{s.tool}</b>({fmt(s.input)}) <span style={{ color: "var(--text-helper)" }}>→ {s.output_summary}</span>
                         {s.sources?.map((src, k) => <u key={k} onClick={() => openSource(src)}> {src}</u>)}
                       </div>
                     ))}
@@ -131,7 +131,7 @@ export default function ChatPanel({ seed, onCite, onOpenNode, onQueryStart, onTr
           )}
         </div>
       )}
-      <div style={{ borderTop: "1px solid var(--line)", padding: 12, flex: "none" }}>
+      <div style={{ borderTop: "1px solid var(--border-subtle)", padding: 12, flex: "none" }}>
         <div style={{ position: "relative" }}>
           <textarea className="inp" style={{ resize: "none", height: 60, paddingRight: 40 }} value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask the agent…" data-testid="chat-input"
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} />

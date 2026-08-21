@@ -75,7 +75,7 @@ export default function CommandPalette({ graph, onClose, onOpenNode, onCommand }
           else if (e.key === "Escape") onClose();
         }}>
         <div className="palette-in">
-          <Icon name="search" size={15} color="var(--faint)" />
+          <Icon name="search" size={15} color="var(--text-helper)" />
           <input ref={inputRef} data-testid="palette-input" value={q} onChange={(e) => setQ(e.target.value)}
             placeholder="Go to a program, a table, a transaction, a command…" />
           <span className="kbd">esc</span>
@@ -85,24 +85,24 @@ export default function CommandPalette({ graph, onClose, onOpenNode, onCommand }
             <div key={it.id} className={`palette-row ${i === sel ? "sel" : ""}`} data-testid="palette-row"
               onMouseEnter={() => setSel(i)} onClick={() => activate(it)}>
               <span className="tag" style={{ width: 24, textAlign: "center" }}>{TAG[it.kind] || "·"}</span>
-              <span style={{ flex: 1, color: "var(--tx)", font: "500 12.5px var(--s)" }}>{it.label}</span>
-              <span style={{ color: "var(--faint)", font: "400 10px var(--m)" }}>{it.hint}</span>
+              <span style={{ flex: 1, color: "var(--text-primary)", font: "500 12.5px var(--s)" }}>{it.label}</span>
+              <span style={{ color: "var(--text-helper)", font: "400 10px var(--m)" }}>{it.hint}</span>
             </div>
           ))}
           {sem.length > 0 && (
             <>
-              <div className="palette-sec"><Icon name="spark" size={11} color="var(--amber)" />Semantic search · Granite</div>
+              <div className="palette-sec"><Icon name="spark" size={11} color="var(--interactive)" />Semantic search · Granite</div>
               {sem.map((r) => (
                 <div key={"sem:" + r.id} className="palette-row" data-testid="palette-sem"
                   onClick={() => { onOpenNode(r.id); onClose(); }}>
                   <span className="tag" style={{ width: 24, textAlign: "center" }}>{({ pgm: "pgm", copy: "cpy" } as Record<string, string>)[r.id.split(":")[0]] || "·"}</span>
-                  <span style={{ flex: 1, color: "var(--tx)", font: "500 12.5px var(--s)" }}>{r.label}</span>
-                  <span style={{ color: "var(--faint)", font: "400 10px var(--m)" }}>{r.file} · {r.score}</span>
+                  <span style={{ flex: 1, color: "var(--text-primary)", font: "500 12.5px var(--s)" }}>{r.label}</span>
+                  <span style={{ color: "var(--text-helper)", font: "400 10px var(--m)" }}>{r.file} · {r.score}</span>
                 </div>
               ))}
             </>
           )}
-          {!items.length && sem.length === 0 && <div style={{ padding: 16, color: "var(--faint)", font: "400 12px var(--s)" }}>No result.</div>}
+          {!items.length && sem.length === 0 && <div style={{ padding: 16, color: "var(--text-helper)", font: "400 12px var(--s)" }}>No result.</div>}
         </div>
       </div>
     </div>

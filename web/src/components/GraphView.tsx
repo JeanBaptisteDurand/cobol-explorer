@@ -182,7 +182,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
       </ReactFlow>
 
       {/* Floating tool panel: legend, focus, kind filters, selected-node quick actions. */}
-      <div style={{ position: "absolute", top: 14, left: 14, width: 252, padding: 13, pointerEvents: "auto", background: "var(--panel)", border: "1px solid var(--line)", borderRadius: 8, boxShadow: "0 6px 22px rgba(8,9,11,.5)" }}>
+      <div style={{ position: "absolute", top: 14, left: 14, width: 252, padding: 13, pointerEvents: "auto", background: "var(--layer-01)", border: "1px solid var(--border-subtle)", borderRadius: 0, boxShadow: "0 6px 22px rgba(8,9,11,.5)" }}>
         <div className="ov-h1" style={{ fontSize: 12.5, marginBottom: 2 }}>Estate graph</div>
         {(agentActive || live) ? (
           <div style={{ margin: "6px 0 11px" }}>
@@ -199,8 +199,8 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
             )}
           </div>
         ) : (
-          <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--dim)", marginBottom: 11 }}>
-            Click: select · double-click or <Icon name="split" size={10} color="var(--dim)" /> : open code
+          <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--text-secondary)", marginBottom: 11 }}>
+            Click: select · double-click or <Icon name="split" size={10} color="var(--text-secondary)" /> : open code
           </div>
         )}
 
@@ -216,9 +216,9 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: sel ? 13 : 0 }}>
           {kindsPresent.map((k) => (
             <span key={k} className="tag" data-testid="graph-filter"
-              style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 5, opacity: vis.has(k) ? 1 : 0.4, borderColor: vis.has(k) ? "var(--line)" : "var(--line)", color: vis.has(k) ? "var(--tx)" : "var(--faint)" }}
+              style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 5, opacity: vis.has(k) ? 1 : 0.4, borderColor: vis.has(k) ? "var(--border-subtle)" : "var(--border-subtle)", color: vis.has(k) ? "var(--text-primary)" : "var(--text-helper)" }}
               onClick={() => toggle(k)}>
-              <span style={{ width: 7, height: 7, borderRadius: 2, background: kColor(k), flex: "none" }} />{KIND_LABEL[k]}</span>
+              <span style={{ width: 7, height: 7, borderRadius: 0, background: kColor(k), flex: "none" }} />{KIND_LABEL[k]}</span>
           ))}
         </div>
 
@@ -226,7 +226,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
           <div className="card" style={{ padding: 11, marginTop: 2 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9 }}>
               <span className="tag">{NT[sel.kind] || "?"}</span>
-              <span style={{ font: "600 12px var(--m)", color: "var(--tx)" }}>{sel.label}</span>
+              <span style={{ font: "600 12px var(--m)", color: "var(--text-primary)" }}>{sel.label}</span>
             </div>
             {sel.attrs?.path ? (
               <button className="btn-pri" style={{ width: "100%", justifyContent: "center", fontSize: 11, padding: "7px 0", border: "none" }}
@@ -234,7 +234,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
                 <Icon name="split" size={12} />Open source code
               </button>
             ) : (
-              <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--faint)" }}>
+              <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--text-helper)" }}>
                 Entity with no source file — see dependencies in the inspector.
               </div>
             )}

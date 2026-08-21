@@ -34,9 +34,9 @@ function VerifiedBanner() {
   const ok = state === "1";
   return (
     <div className="verified-banner" data-testid="verified-banner"
-      style={{ borderColor: ok ? "var(--green)" : "var(--red)", color: ok ? "var(--green)" : "var(--red)" }}>
+      style={{ borderColor: ok ? "var(--verified)" : "var(--danger)", color: ok ? "var(--verified)" : "var(--danger)" }}>
       {ok ? "✓ Address confirmed — you can sign in now." : "This confirmation link is invalid or has expired."}
-      <span onClick={() => setShown(false)} style={{ cursor: "pointer", marginLeft: 12, color: "var(--faint)" }}>✕</span>
+      <span onClick={() => setShown(false)} style={{ cursor: "pointer", marginLeft: 12, color: "var(--text-helper)" }}>✕</span>
     </div>
   );
 }
@@ -484,9 +484,9 @@ export default function App() {
         <div className="tabbar">
           {g.tabs.map((tab) => (
             <div key={tab.key} className={`tab ${g.activeKey === tab.key ? "on" : ""} ${tab.type === "diff" ? "ital" : ""}`} onClick={() => activateTab(g.id, tab.key)}>
-              {tab.type === "code" && <Icon name="file" size={13} color="var(--faint)" />}
-              {tab.type === "graph" && <Icon name="graph" size={13} color="var(--faint)" />}
-              {tab.type === "diff" && <Icon name="branch" size={13} color="var(--faint)" />}
+              {tab.type === "code" && <Icon name="file" size={13} color="var(--text-helper)" />}
+              {tab.type === "graph" && <Icon name="graph" size={13} color="var(--text-helper)" />}
+              {tab.type === "diff" && <Icon name="branch" size={13} color="var(--text-helper)" />}
               {tab.title}
               {tab.type !== "overview" && tab.type !== "graph" && (
                 <span className="x" onClick={(e) => { e.stopPropagation(); closeTab(g.id, tab.key); }}><Icon name="close" size={12} /></span>
@@ -504,34 +504,34 @@ export default function App() {
         {t?.type === "code" && t.path ? (
           <div className="editor-top">
             <span><span className="crumb">{t.path.split("/").slice(-2, -1)[0]} › </span>{t.path.split("/").pop()}</span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: editable ? "var(--amber)" : "var(--faint)", fontSize: 10.5 }}>
-              <span className="led" style={{ background: savedOk ? "var(--green)" : editable ? "var(--amber)" : "var(--faint)" }} />
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: editable ? "var(--interactive)" : "var(--text-helper)", fontSize: 10.5 }}>
+              <span className="led" style={{ background: savedOk ? "var(--verified)" : editable ? "var(--interactive)" : "var(--text-helper)" }} />
               {savedOk ? "Saved ✓" : versionClosed ? "Merged version · read-only" : editable ? (gDirty ? "Editing · unsaved" : "Editing") : "Read-only"}
             </span>
-            {saveErr && <span style={{ color: "var(--red)", fontSize: 10.5 }} data-testid="save-error" title={saveErr}>⚠ save failed</span>}
+            {saveErr && <span style={{ color: "var(--danger)", fontSize: 10.5 }} data-testid="save-error" title={saveErr}>⚠ save failed</span>}
             {sysReadonly ? (
-              <span style={{ marginLeft: "auto", fontSize: 10.5, color: "var(--faint)" }} title="This system is read-only (analysis). Versioning is on the main system.">system is read-only</span>
+              <span style={{ marginLeft: "auto", fontSize: 10.5, color: "var(--text-helper)" }} title="This system is read-only (analysis). Versioning is on the main system.">system is read-only</span>
             ) : versionClosed ? (
               <button className="btn" style={{ marginLeft: "auto", fontSize: 11, padding: "5px 10px" }} onClick={exitVersion} data-testid="exit-version">
-                <Icon name="branch" size={13} color="var(--faint)" />Back to main
+                <Icon name="branch" size={13} color="var(--text-helper)" />Back to main
               </button>
             ) : (
               <button className={editable ? "btn-pri" : "btn"} style={{ marginLeft: "auto", fontSize: 11, padding: "5px 10px", opacity: saving ? 0.6 : 1 }} disabled={saving} data-testid="save-file" onClick={() => saveFile(t.path!)}>
-                {!activeVersionId && <Icon name="branch" size={13} color="var(--amber)" />}
+                {!activeVersionId && <Icon name="branch" size={13} color="var(--interactive)" />}
                 {saving ? "Saving…" : activeVersionId ? "Save into version" : "Edit in a version"}
               </button>
             )}
           </div>
         ) : t?.type === "diff" && t.path ? (
           <div className="editor-top">
-            <Icon name="branch" size={13} color="var(--amber)" />
-            <span style={{ color: "var(--amber)" }}>{activeVersion?.title}</span>
+            <Icon name="branch" size={13} color="var(--interactive)" />
+            <span style={{ color: "var(--interactive)" }}>{activeVersion?.title}</span>
             <span className="crumb">›</span> {t.path.split("/").pop()}
           </div>
         ) : (
           <div className="breadcrumb">
-            <span className="crumb">genapp</span><Icon name="chev" size={11} color="var(--faint)" />
-            <span style={{ color: "var(--tx)" }}>{t?.title}</span>
+            <span className="crumb">genapp</span><Icon name="chev" size={11} color="var(--text-helper)" />
+            <span style={{ color: "var(--text-primary)" }}>{t?.title}</span>
           </div>
         )}
 
@@ -562,14 +562,14 @@ export default function App() {
         <div className="brand">
           <span className="sq" />
           <span className="nm">COBOL Explorer</span>
-          <span style={{ color: "var(--faint)" }}>—</span>
+          <span style={{ color: "var(--text-helper)" }}>—</span>
           {/* System selector: analyze a different mainframe estate */}
           <div style={{ position: "relative" }}>
             <button className="sysbtn" onClick={() => setSysMenu((v) => !v)} data-testid="system-btn" title="Switch analyzed system" disabled={switching}>
-              <Icon name="graph" size={12} color="var(--amber)" />
-              <b style={{ color: "var(--tx)" }}>{systems.find((s) => s.id === activeSys)?.label || "GenApp"}</b>
-              <span style={{ color: "var(--faint)", fontSize: 11 }}>{systems.find((s) => s.id === activeSys)?.detail}</span>
-              <span style={{ color: "var(--faint)", fontSize: 9 }}>▾</span>
+              <Icon name="graph" size={12} color="var(--interactive)" />
+              <b style={{ color: "var(--text-primary)" }}>{systems.find((s) => s.id === activeSys)?.label || "GenApp"}</b>
+              <span style={{ color: "var(--text-helper)", fontSize: 11 }}>{systems.find((s) => s.id === activeSys)?.detail}</span>
+              <span style={{ color: "var(--text-helper)", fontSize: 9 }}>▾</span>
             </button>
             {sysMenu && (
               <>
@@ -579,12 +579,12 @@ export default function App() {
                   {systems.map((s) => (
                     <div key={s.id} className={`sysmenu-item ${s.id === activeSys ? "on" : ""}`} onClick={() => switchSystem(s.id)} data-testid={`system-${s.id}`}>
                       <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                        <Icon name="graph" size={12} color={s.id === activeSys ? "var(--amber)" : "var(--faint)"} />
-                        <b style={{ color: "var(--tx)" }}>{s.label}</b>
-                        {s.id === activeSys && <span style={{ color: "var(--amber)", fontSize: 10 }}>● active</span>}
+                        <Icon name="graph" size={12} color={s.id === activeSys ? "var(--interactive)" : "var(--text-helper)"} />
+                        <b style={{ color: "var(--text-primary)" }}>{s.label}</b>
+                        {s.id === activeSys && <span style={{ color: "var(--interactive)", fontSize: 10 }}>● active</span>}
                       </div>
-                      <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--faint)", marginTop: 3 }}>{s.detail}</div>
-                      <div style={{ font: "500 9.5px var(--m)", color: "var(--dim)", marginTop: 2 }}>{s.nodes} nodes · {s.edges} links</div>
+                      <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--text-helper)", marginTop: 3 }}>{s.detail}</div>
+                      <div style={{ font: "500 9.5px var(--m)", color: "var(--text-secondary)", marginTop: 2 }}>{s.nodes} nodes · {s.edges} links</div>
                     </div>
                   ))}
                 </div>
@@ -593,8 +593,8 @@ export default function App() {
           </div>
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-          <div className="cmdk" style={searchMiss ? { borderColor: "var(--red)" } : undefined}>
-            <Icon name="search" size={13} color={searchMiss ? "var(--red)" : "var(--faint)"} />
+          <div className="cmdk" style={searchMiss ? { borderColor: "var(--danger)" } : undefined}>
+            <Icon name="search" size={13} color={searchMiss ? "var(--danger)" : "var(--text-helper)"} />
             <input
               value={search}
               data-testid="search"
@@ -658,7 +658,7 @@ export default function App() {
               <div key={rt} className={`tab ${rightTab === rt ? "on" : ""}`} style={{ flex: 1, justifyContent: "center", padding: "0 8px" }} onClick={() => setRightTab(rt)} data-testid={`rp-${rt}`}>
                 {label}
                 {rt === "changes" && activeVersion && activeVersion.edits.length > 0 && (
-                  <span style={{ background: "var(--amber)", color: "#111", font: "600 9px var(--m)", padding: "0 5px", borderRadius: 99 }}>{activeVersion.edits.length}</span>
+                  <span style={{ background: "var(--interactive)", color: "#111", font: "600 9px var(--m)", padding: "0 5px", borderRadius: 99 }}>{activeVersion.edits.length}</span>
                 )}
               </div>
             ))}
@@ -687,18 +687,18 @@ export default function App() {
       {/* STATUS BAR */}
       <div className="statusbar">
         {activeVersionId ? (
-          <div className="status" style={{ color: "var(--amber)", cursor: "pointer" }} onClick={exitVersion} data-testid="statusbar-version"
+          <div className="status" style={{ color: "var(--interactive)", cursor: "pointer" }} onClick={exitVersion} data-testid="statusbar-version"
             title="You are working in a version — click to go back to main (read-only)">
-            <Icon name="branch" size={12} />{activeVersion?.title} <span style={{ color: "var(--faint)" }}>✕ main</span>
+            <Icon name="branch" size={12} />{activeVersion?.title} <span style={{ color: "var(--text-helper)" }}>✕ main</span>
           </div>
         ) : (
-          <div className="status" style={{ color: "var(--amber)" }}><Icon name="branch" size={12} />main</div>
+          <div className="status" style={{ color: "var(--interactive)" }}><Icon name="branch" size={12} />main</div>
         )}
-        <div className="status"><span className="led" style={{ background: editable ? "var(--amber)" : "var(--faint)" }} />{versionClosed ? "Merged · read-only" : editable ? "Editing" : "Read-only"}</div>
+        <div className="status"><span className="led" style={{ background: editable ? "var(--interactive)" : "var(--text-helper)" }} />{versionClosed ? "Merged · read-only" : editable ? "Editing" : "Read-only"}</div>
         <div style={{ flex: 1 }} />
         <div className="status">{c.PGM || 0} prog · {graph.stats.edges} links</div>
         <div className="status">COBOL · CICS · DB2</div>
-        <div className="status" style={{ color: "var(--dim)" }}>{identity?.role || "Agent ready"}</div>
+        <div className="status" style={{ color: "var(--text-secondary)" }}>{identity?.role || "Agent ready"}</div>
       </div>
 
       {paletteOpen && <CommandPalette graph={graph} onClose={() => setPaletteOpen(false)} onOpenNode={openNode} onCommand={onCommand} />}

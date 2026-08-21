@@ -10,12 +10,12 @@ export default function Onboarding({ initial, onDone }: { initial: Identity | nu
     <div className="scrim">
       <div className="modal" style={{ width: 470 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 15 }}>
-          <div style={{ width: 16, height: 16, borderRadius: 4, background: "var(--amber)" }} />
-          <span style={{ font: "600 13px var(--s)", color: "var(--tx)" }}>Welcome to COBOL Explorer</span>
+          <div style={{ width: 16, height: 16, borderRadius: 0, background: "var(--interactive)" }} />
+          <span style={{ font: "600 13px var(--s)", color: "var(--text-primary)" }}>Welcome to COBOL Explorer</span>
         </div>
-        <p style={{ font: "400 12.5px/1.65 var(--s)", color: "var(--dim)", margin: "0 0 18px" }}>
-          Two gestures, kept separate. <b style={{ color: "var(--tx)" }}>Understand</b> — browse and query the codebase
-          read-only; the agent cites its source. <b style={{ color: "var(--amber)" }}>Change</b> — every change lives in an
+        <p style={{ font: "400 12.5px/1.65 var(--s)", color: "var(--text-secondary)", margin: "0 0 18px" }}>
+          Two gestures, kept separate. <b style={{ color: "var(--text-primary)" }}>Understand</b> — browse and query the codebase
+          read-only; the agent cites its source. <b style={{ color: "var(--interactive)" }}>Change</b> — every change lives in an
           isolated version, reviewed then approved.
         </p>
         <div className="klabel" style={{ marginBottom: 7 }}>Your name</div>
@@ -23,10 +23,10 @@ export default function Onboarding({ initial, onDone }: { initial: Identity | nu
         <div className="klabel" style={{ marginBottom: 8 }}>Role</div>
         <div style={{ display: "flex", gap: 8, marginBottom: 22 }}>
           {ROLES.map((r) => (
-            <span key={r} className="btn" style={role === r ? { borderColor: "var(--amber-d)", color: "var(--amber)", background: "rgba(15, 98, 254, .16)" } : {}} onClick={() => setRole(r)}>{r}</span>
+            <span key={r} className="btn" style={role === r ? { borderColor: "var(--interactive)", color: "var(--interactive)", background: "rgba(15, 98, 254, .16)" } : {}} onClick={() => setRole(r)}>{r}</span>
           ))}
         </div>
-        <button className="btn-pri" style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 6, border: "none" }} onClick={start} data-testid="onb-start">Enter the workshop →</button>
+        <button className="btn-pri" style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 11, borderRadius: 0, border: "none" }} onClick={start} data-testid="onb-start">Enter the workshop →</button>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default function Navigator({
   const FileRow = ({ n, ext }: { n: GNode; ext?: string }) => (
     <div className={`row ${selectedPath === n.attrs?.path ? "sel" : ""}`} onClick={() => onOpenFile(n)}
       title="Open source code" data-testid="tree-file">
-      <Icon name="file" size={14} color="var(--faint)" />
+      <Icon name="file" size={14} color="var(--text-helper)" />
       {n.label}{ext}
       <span className="tag" style={{ marginLeft: "auto" }}>{TAG[n.kind]}</span>
     </div>
@@ -59,8 +59,8 @@ export default function Navigator({
         {groups.map((d) => (
           <div key={d.id}>
             <div className="row folder" onClick={() => toggle(d.id)}>
-              <Icon name="chev" size={12} style={{ transform: open[d.id] ? "rotate(90deg)" : "none", transition: "transform .12s" }} color="var(--dim)" />
-              <Icon name="folder" size={15} color={open[d.id] ? "var(--amber)" : "var(--dim)"} />
+              <Icon name="chev" size={12} style={{ transform: open[d.id] ? "rotate(90deg)" : "none", transition: "transform .12s" }} color="var(--text-secondary)" />
+              <Icon name="folder" size={15} color={open[d.id] ? "var(--interactive)" : "var(--text-secondary)"} />
               {d.label.toUpperCase()}
               <span className="cnt">{d.programs.length}</span>
             </div>
@@ -74,7 +74,7 @@ export default function Navigator({
       </div>
 
       {/* ── Mainframe entities referenced by the code (mostly no source) ── */}
-      <div style={{ height: 1, background: "var(--line)", margin: "0 0 6px" }} />
+      <div style={{ height: 1, background: "var(--border-subtle)", margin: "0 0 6px" }} />
       <div style={{ padding: "0 8px 10px" }}>
         <div style={{ padding: "4px 8px 6px", display: "flex", flexDirection: "column", gap: 2 }}>
           <span className="klabel">Mainframe resources</span>
@@ -83,7 +83,7 @@ export default function Navigator({
         {resources.filter((r) => r.nodes.length).map((r) => (
           <div key={r.id}>
             <div className="row" onClick={() => toggle(r.id)} title={r.hint}>
-              <Icon name="chev" size={12} style={{ transform: open[r.id] ? "rotate(90deg)" : "none", transition: "transform .12s" }} color="var(--faint)" />
+              <Icon name="chev" size={12} style={{ transform: open[r.id] ? "rotate(90deg)" : "none", transition: "transform .12s" }} color="var(--text-helper)" />
               {r.label}
               <span className="cnt">{r.nodes.length}</span>
             </div>
@@ -93,7 +93,7 @@ export default function Navigator({
                   <div key={n.id} className={`row ${selectedId === n.id || (n.attrs?.path && selectedPath === n.attrs?.path) ? "sel" : ""}`}
                     onClick={() => onOpenResource(n)} data-testid="tree-file"
                     title={n.attrs?.path ? "Open source code" : "See context in the graph"}>
-                    <Icon name={n.attrs?.path ? "file" : "graph"} size={12} color="var(--faint)" />
+                    <Icon name={n.attrs?.path ? "file" : "graph"} size={12} color="var(--text-helper)" />
                     {n.label}
                     <span className="tag" style={{ marginLeft: "auto" }}>{TAG[n.kind]}</span>
                   </div>
@@ -107,7 +107,7 @@ export default function Navigator({
       {/* ── Batch / scheduler (JCL) — jobs, datasets, procs ─────────────── */}
       {batch.some((b) => b.nodes.length) && (
         <>
-          <div style={{ height: 1, background: "var(--line)", margin: "0 0 6px" }} />
+          <div style={{ height: 1, background: "var(--border-subtle)", margin: "0 0 6px" }} />
           <div style={{ padding: "0 8px 10px" }}>
             <div style={{ padding: "4px 8px 6px", display: "flex", flexDirection: "column", gap: 2 }}>
               <span className="klabel">Batch · scheduler</span>
@@ -116,7 +116,7 @@ export default function Navigator({
             {batch.filter((r) => r.nodes.length).map((r) => (
               <div key={r.id}>
                 <div className="row" onClick={() => toggle(r.id)} title={r.hint}>
-                  <Icon name="chev" size={12} style={{ transform: open[r.id] ? "rotate(90deg)" : "none", transition: "transform .12s" }} color="var(--faint)" />
+                  <Icon name="chev" size={12} style={{ transform: open[r.id] ? "rotate(90deg)" : "none", transition: "transform .12s" }} color="var(--text-helper)" />
                   {r.label}
                   <span className="cnt">{r.nodes.length}</span>
                 </div>
@@ -126,7 +126,7 @@ export default function Navigator({
                       <div key={n.id} className={`row ${selectedId === n.id ? "sel" : ""}`}
                         onClick={() => onOpenResource(n)} data-testid="tree-file"
                         title="See context in the graph">
-                        <Icon name="graph" size={12} color="var(--faint)" />
+                        <Icon name="graph" size={12} color="var(--text-helper)" />
                         {n.label}
                         <span className="tag" style={{ marginLeft: "auto" }}>{TAG[n.kind]}</span>
                       </div>
@@ -140,7 +140,7 @@ export default function Navigator({
       )}
 
       {/* ── Change-sets ──────────────────────────────────────────────────── */}
-      <div style={{ height: 1, background: "var(--line)", margin: "0 0 6px" }} />
+      <div style={{ height: 1, background: "var(--border-subtle)", margin: "0 0 6px" }} />
       <div style={{ padding: "0 8px 12px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 8px" }}>
           <span className="klabel">Versions</span>
@@ -149,15 +149,15 @@ export default function Navigator({
         <div className="sidehint" style={{ padding: "0 8px 6px" }}>
           {readonly ? "read-only system — versioning on the main system" : "isolated changes, reviewed before merge"}
         </div>
-        {versions.length === 0 && !readonly && <div style={{ padding: "4px 8px", font: "400 11px var(--s)", color: "var(--faint)" }}>No version.</div>}
+        {versions.length === 0 && !readonly && <div style={{ padding: "4px 8px", font: "400 11px var(--s)", color: "var(--text-helper)" }}>No version.</div>}
         {versions.map((v) => (
           <div key={v.id} className={`row ${activeVersion === v.id ? "sel" : ""}`} style={{ alignItems: "flex-start", flexDirection: "column", gap: 3, padding: "6px 8px" }} onClick={() => onOpenVersion(v)} data-testid="version-row">
             <div style={{ display: "flex", alignItems: "center", gap: 6, width: "100%" }}>
-              <Icon name="branch" size={12} color="var(--amber)" />
-              <span style={{ font: "500 11.5px var(--m)", color: "var(--tx)" }}>{v.title}</span>
+              <Icon name="branch" size={12} color="var(--interactive)" />
+              <span style={{ font: "500 11.5px var(--m)", color: "var(--text-primary)" }}>{v.title}</span>
               <span className={`badge b-${v.status}`} style={{ marginLeft: "auto" }}>{v.status}</span>
             </div>
-            <span style={{ font: "400 10px var(--s)", color: "var(--faint)", paddingLeft: 18 }}>
+            <span style={{ font: "400 10px var(--s)", color: "var(--text-helper)", paddingLeft: 18 }}>
               {v.author}{v.impact?.programs ? ` · ${v.impact.programs.length} impacted` : ""}
             </span>
           </div>

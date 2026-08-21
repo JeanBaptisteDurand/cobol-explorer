@@ -24,12 +24,12 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
   if (!node)
     return (
       <div className="emptypane">
-        <Icon name="graph" size={24} color="var(--faint)" />
+        <Icon name="graph" size={24} color="var(--text-helper)" />
         <div className="t">Inspector</div>
         <div className="d" style={{ textAlign: "left" }}>
-          <b style={{ color: "var(--tx)" }}>1.</b> Click a program (Source code) or an entity (Resources) on the left.<br />
-          <b style={{ color: "var(--tx)" }}>2.</b> Its context appears here: dependencies, uses, impact.<br />
-          <b style={{ color: "var(--tx)" }}>3.</b> From there: view the code, view the graph, or ask the agent.
+          <b style={{ color: "var(--text-primary)" }}>1.</b> Click a program (Source code) or an entity (Resources) on the left.<br />
+          <b style={{ color: "var(--text-primary)" }}>2.</b> Its context appears here: dependencies, uses, impact.<br />
+          <b style={{ color: "var(--text-primary)" }}>3.</b> From there: view the code, view the graph, or ask the agent.
         </div>
       </div>
     );
@@ -47,11 +47,11 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
         <div className="card">
           {deps.map((d, i) => (
             <div key={i} className="row" style={{ borderRadius: 0, justifyContent: "space-between", padding: "7px 12px" }} onClick={() => onOpenNode(d.id)}>
-              <span style={{ font: "500 11.5px var(--m)", color: "var(--tx)" }}>
+              <span style={{ font: "500 11.5px var(--m)", color: "var(--text-primary)" }}>
                 <span className="tag" style={{ marginRight: 8 }}>{tagOf(d.id)}</span>{d.label}
-                {note ? <span style={{ color: "var(--faint)", fontSize: 9, marginLeft: 6 }}>{note}</span> : null}
+                {note ? <span style={{ color: "var(--text-helper)", fontSize: 9, marginLeft: 6 }}>{note}</span> : null}
               </span>
-              {d.line ? <span style={{ font: "400 10px var(--m)", color: "var(--amber)" }}>L.{d.line}</span> : null}
+              {d.line ? <span style={{ font: "400 10px var(--m)", color: "var(--interactive)" }}>L.{d.line}</span> : null}
             </div>
           ))}
         </div>
@@ -64,17 +64,17 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <span className="badge b-proposed">{TAG[node.kind] || node.kind}</span>
         </div>
-        <div style={{ font: "600 17px var(--m)", color: "var(--tx)", marginTop: 8 }}>{node.label}</div>
+        <div style={{ font: "600 17px var(--m)", color: "var(--text-primary)", marginTop: 8 }}>{node.label}</div>
       </div>
 
       {node.kind === "DB2_TABLE" && (
-        <div style={{ font: "400 11px/1.55 var(--s)", color: "var(--dim)", background: "var(--soft)", border: "1px solid var(--line)", borderRadius: 7, padding: "9px 11px" }}>
-          DB2 table. Its <b style={{ color: "var(--tx)" }}>columns</b> are defined in the <b style={{ color: "var(--tx)" }}>DDL</b> (outside the COBOL corpus) — what is computed here is the <b style={{ color: "var(--tx)" }}>programs that read and write it</b>, extracted from the <span className="mono" style={{ fontSize: 10.5 }}>EXEC SQL</span>.
+        <div style={{ font: "400 11px/1.55 var(--s)", color: "var(--text-secondary)", background: "var(--layer-02)", border: "1px solid var(--border-subtle)", borderRadius: 0, padding: "9px 11px" }}>
+          DB2 table. Its <b style={{ color: "var(--text-primary)" }}>columns</b> are defined in the <b style={{ color: "var(--text-primary)" }}>DDL</b> (outside the COBOL corpus) — what is computed here is the <b style={{ color: "var(--text-primary)" }}>programs that read and write it</b>, extracted from the <span className="mono" style={{ fontSize: 10.5 }}>EXEC SQL</span>.
         </div>
       )}
       {node.kind === "CICS_FILE" && (
-        <div style={{ font: "400 11px/1.55 var(--s)", color: "var(--dim)", background: "var(--soft)", border: "1px solid var(--line)", borderRadius: 7, padding: "9px 11px" }}>
-          <b style={{ color: "var(--tx)" }}>VSAM</b> file (CICS). Its structure lives in the record's copybook; here the <b style={{ color: "var(--tx)" }}>programs that access it</b> are computed, extracted from the <span className="mono" style={{ fontSize: 10.5 }}>EXEC CICS READ/WRITE</span>.
+        <div style={{ font: "400 11px/1.55 var(--s)", color: "var(--text-secondary)", background: "var(--layer-02)", border: "1px solid var(--border-subtle)", borderRadius: 0, padding: "9px 11px" }}>
+          <b style={{ color: "var(--text-primary)" }}>VSAM</b> file (CICS). Its structure lives in the record's copybook; here the <b style={{ color: "var(--text-primary)" }}>programs that access it</b> are computed, extracted from the <span className="mono" style={{ fontSize: 10.5 }}>EXEC CICS READ/WRITE</span>.
         </div>
       )}
 
@@ -82,21 +82,21 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
       <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
         {node.attrs?.path && activePath !== node.attrs.path && (
           <button className="btn" style={{ fontSize: 11 }} onClick={() => onOpenNode(node.id)} title="Open the source file in the editor">
-            <Icon name="file" size={13} color="var(--faint)" />View code
+            <Icon name="file" size={13} color="var(--text-helper)" />View code
           </button>
         )}
         <button className="btn" style={{ fontSize: 11 }} onClick={() => onShowInGraph(node.id)} data-testid="insp-graph"
           title="Open the graph, centered on this entity and its neighborhood">
-          <Icon name="graph" size={13} color="var(--faint)" />Show in graph
+          <Icon name="graph" size={13} color="var(--text-helper)" />Show in graph
         </button>
-        {analysable && <button className="btn" style={{ fontSize: 11 }} title="What breaks if this entity is modified?" onClick={() => { const at = node.id; getImpact(node.label).then((r) => { if (node.id === at) setImpact(r); }).catch(() => setImpact({ answer: "Impact analysis unavailable." })); }}><Icon name="spark" size={13} color="var(--amber)" />See impact</button>}
+        {analysable && <button className="btn" style={{ fontSize: 11 }} title="What breaks if this entity is modified?" onClick={() => { const at = node.id; getImpact(node.label).then((r) => { if (node.id === at) setImpact(r); }).catch(() => setImpact({ answer: "Impact analysis unavailable." })); }}><Icon name="spark" size={13} color="var(--interactive)" />See impact</button>}
         {editable && <button className="btn-pri" style={{ fontSize: 11, padding: "6px 11px" }} onClick={() => onEdit(node)} data-testid="insp-edit"
           title="Open the file and start an edit in an isolated version">Edit…</button>}
       </div>
 
       {impact && (
-        <div className="card" style={{ padding: "11px 13px", font: "400 11.5px/1.6 var(--s)", color: "var(--dim)" }}>
-          <span style={{ color: "var(--amber)" }}>Impact</span> — {impact.answer}
+        <div className="card" style={{ padding: "11px 13px", font: "400 11.5px/1.6 var(--s)", color: "var(--text-secondary)" }}>
+          <span style={{ color: "var(--interactive)" }}>Impact</span> — {impact.answer}
         </div>
       )}
 
@@ -111,13 +111,13 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
             <div className="card">
               {shown.slice(0, 40).map((f) => (
                 <div key={f.name} className="row" style={{ borderRadius: 0, justifyContent: "space-between", padding: "6px 12px", cursor: "default" }}>
-                  <span style={{ font: "500 11px var(--m)", color: f.used_by.length ? "var(--tx)" : "var(--faint)" }}>
-                    <span style={{ color: "var(--faint)", marginRight: 6 }}>{String(f.level).padStart(2, "0")}</span>{f.name}
+                  <span style={{ font: "500 11px var(--m)", color: f.used_by.length ? "var(--text-primary)" : "var(--text-helper)" }}>
+                    <span style={{ color: "var(--text-helper)", marginRight: 6 }}>{String(f.level).padStart(2, "0")}</span>{f.name}
                   </span>
                   {f.used_by.length > 0 ? (
-                    <span style={{ font: "400 10px var(--m)", color: "var(--blue)" }} title={f.used_by.join(", ")}>{f.used_by.length} prog</span>
+                    <span style={{ font: "400 10px var(--m)", color: "var(--graph)" }} title={f.used_by.join(", ")}>{f.used_by.length} prog</span>
                   ) : (
-                    <span style={{ font: "400 9px var(--m)", color: "var(--faint)" }}>—</span>
+                    <span style={{ font: "400 9px var(--m)", color: "var(--text-helper)" }}>—</span>
                   )}
                 </div>
               ))}
