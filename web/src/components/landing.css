@@ -572,7 +572,10 @@
    them at rest, and the measured numbers come after the fold rather than
    competing inside it. Everything the page has to prove happens further down.
    ═════════════════════════════════════════════════════════════════════════ */
-.ce-hero { padding: 104px 0 0; border-bottom: 0; }
+/* 64, not 104. The long silence above the headline is Resend's move and it reads
+   as confidence on their page, where the header is a thin transparent bar. Under
+   a solid 48px Carbon shell the same gap just reads as a hole. */
+.ce-hero { padding: 64px 0 0; border-bottom: 0; }
 
 .ce-hero h1 {
   font-family: var(--d);
@@ -604,7 +607,7 @@
 .ce-estate svg { display: block; width: 100%; height: 100%; }
 
 @media (max-width: 720px) {
-  .ce-hero { padding-top: 64px; }
+  .ce-hero { padding-top: 40px; }
 }
 
 /* ── Sections that used to be a fourth and fifth copy of the row table ─────
