@@ -62,14 +62,14 @@ test("the tour plays on a first visit and opens what it describes", async ({ pag
   // because their target only exists once an entity is selected, and the filter
   // ran before React had painted — the count is what caught it.
   const total = Number((await pop.locator(".driver-popover-progress-text").innerText()).match(/of (\d+)/)?.[1]);
-  expect(total).toBe(15);
+  expect(total).toBe(16);
 
   const titles: string[] = [];
   for (let i = 0; i < total; i++) {
     titles.push(await page.locator(".driver-popover-title").innerText());
     if (i === 5) await expect(page.getByTestId("rp-chat")).toHaveClass(/on/);   // the agent step opened it
     if (i === 6) await expect(page.locator(".panel")).toContainText("LGPOLICY"); // the inspector step filled it
-    if (i === 11) await expect(page.getByTestId("bob-panel")).toBeVisible();     // the MCP step opened it
+    if (i === 12) await expect(page.getByTestId("bob-panel")).toBeVisible();     // the MCP step opened it
     if (i < total - 1) { await page.locator(".driver-popover-next-btn").click(); await page.waitForTimeout(300); }
   }
   expect(new Set(titles).size).toBe(total);   // no step shown twice

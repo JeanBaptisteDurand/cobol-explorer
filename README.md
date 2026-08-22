@@ -180,7 +180,7 @@ An IDE-style cowork workshop, in three columns:
 | **Command bar** (top) | Global search, ⌘P palette (exact + semantic), statistics, active version, guided tour |
 | **Status bar** (bottom) | The branch you are in and whether you are Read-only or Editing — always visible |
 
-A **guided tour** (driver.js, 15 steps) runs on first sign-in and can be replayed from the header. The public
+A **guided tour** (driver.js, 16 steps) runs on first sign-in and can be replayed from the header. The public
 argument lives at **`/presentation`**, reachable from inside the workshop.
 
 ---

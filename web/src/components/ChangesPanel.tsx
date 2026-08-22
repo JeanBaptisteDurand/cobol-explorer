@@ -44,8 +44,33 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       .finally(() => setBusy(false));
   };
 
+  const stage = version.status; // draft | proposed | merged
+  const GUIDE: Record<string, string> = {
+    draft:
+      "Yours to edit. Save as often as you like — every save is a commit on your branch and recomputes the impact below. Nothing reaches the estate. When the change is ready, Propose it.",
+    proposed:
+      "Submitted for review. The team reads the diff, the impact and the record below; a developer or an architect accepts it with Merge — the gate states the blast radius first. You can still edit and save; the review sees the latest state.",
+    merged:
+      "Accepted and applied to main. This version is closed and read-only — open a new version for the next change.",
+  };
+
   return (
     <div style={{ padding: 15, display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
+      {/* Where this version stands in its life, at a glance. */}
+      <div className="card" style={{ padding: "11px 13px" }} data-testid="cs-lifecycle">
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+          {(["draft", "proposed", "merged"] as const).map((st, i) => (
+            <span key={st} style={{ display: "flex", alignItems: "center", gap: 6, flex: st === "merged" ? "none" : 1 }}>
+              <span className={`badge b-${st}`} style={stage === st ? {} : { opacity: 0.32, borderColor: "var(--border-subtle)", color: "var(--text-helper)", background: "transparent" }}>
+                {st}
+              </span>
+              {i < 2 && <span style={{ flex: 1, height: 1, background: "var(--border-subtle)" }} />}
+            </span>
+          ))}
+          <Help wide text="A version is one change, reviewed as one — like a pull request. draft: edit and save freely, it is your branch. proposed: you asked the team to review it. merged: a developer or architect accepted it and main moved. For an unrelated change, open another version." />
+        </div>
+        <p style={{ font: "400 11px/1.6 var(--s)", color: "var(--text-secondary)", margin: 0 }}>{GUIDE[stage] ?? ""}</p>
+      </div>
       {/* The written record: what this version changes, what it puts at risk, what to
           check. Generated at merge time, and on demand before it — because the diff of
           a merged version against main is empty, and by then it is too late to write. */}

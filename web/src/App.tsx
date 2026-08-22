@@ -813,7 +813,19 @@ export default function App() {
 
       {paletteOpen && <CommandPalette graph={graph} onClose={() => setPaletteOpen(false)} onOpenNode={openNode} onCommand={onCommand} />}
       {newVer && <NewVersionModal defaultTitle={newVer.defaultTitle} onCreate={createVersion} onClose={() => setNewVer(null)} />}
-      {(!identity || showOnb) && <Onboarding initial={identity} onDone={(id) => { setIdent(id); setShowOnb(false); }} />}
+      {(!identity || showOnb) && (
+        <Onboarding
+          initial={identity}
+          // With a signed session the role lives in the token: the picker would
+          // change the label in the corner and nothing the server enforces.
+          locked={authRequired === true && !!token}
+          onDone={(id) => { setIdent(id); setShowOnb(false); }}
+          onSignOut={() => {
+            clearSession(); setToken(null); setIdent(null); setShowOnb(false);
+            setGraph(null); setVersions([]); setActiveVersionId(null);
+          }}
+        />
+      )}
     </div>
   );
 }

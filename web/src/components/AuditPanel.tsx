@@ -65,8 +65,13 @@ export default function AuditPanel() {
         {err === "denied" && (
           <div className="emptypane" data-testid="audit-denied">
             <div className="d" style={{ color: "var(--danger)" }}>
-              Reading the audit log is reserved to the compliance and auditor roles. Your role may
+              Reading the audit log is a right of the compliance and auditor roles, and the server
+              decides from your signed account — not from the label in the corner. Your account may
               read the estate, ask the agent and propose changes, but not review who did what.
+            </div>
+            <div className="d" style={{ marginTop: 10 }}>
+              To read the trail, sign out (click your badge, top right) and sign in with an account
+              whose role is auditor or compliance.
             </div>
             <div className="d" style={{ marginTop: 10, color: "var(--text-helper)" }}>
               This refusal was itself written to the log.
