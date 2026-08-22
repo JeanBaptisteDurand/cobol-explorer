@@ -89,3 +89,57 @@ test("plate: the audit trail", async ({ page }) => {
   await expect(page.getByTestId("audit-chain")).toBeVisible();
   await page.screenshot({ path: `${OUT}/sc-audit.png` });
 });
+
+// ── The three further plates the slide deck carries ─────────────────────────
+// They used to live in a second copy under docs/shots/, which `make shots` did
+// not regenerate — so the deck kept showing an interface from before the
+// redesign. One source, one target, regenerated together.
+
+test("plate: split view", async ({ page }) => {
+  await workshop(page);
+  await page.getByTestId("search").fill("LGIPOL01");
+  await page.getByTestId("search").press("Enter");
+  await expect(page.locator(".editorwrap .editor")).toHaveCount(1);
+  await page.getByTestId("split-editor").click();
+  await expect(page.locator(".editorwrap .editor")).toHaveCount(2);
+  await page.getByTestId("search").fill("LGPOLICY");
+  await page.getByTestId("search").press("Enter");
+  await expect(page.locator(".editorwrap .editor").nth(1)).toContainText("LGPOLICY");
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: `${OUT}/sc-split.png` });
+});
+
+test("plate: field-level impact", async ({ page }) => {
+  await workshop(page);
+  await page.getByTestId("search").fill("LGPOLICY");
+  await page.getByTestId("search").press("Enter");
+  await expect(page.getByTestId("field-impact")).toContainText("WS-CUSTOMER-LEN");
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${OUT}/sc-champs.png` });
+});
+
+test("plate: the command palette", async ({ page }) => {
+  await workshop(page);
+  await page.locator(".kbd").click();
+  await page.getByTestId("palette-input").fill("LGPOLIC");
+  await expect(page.getByTestId("palette-row").first()).toContainText("LGPOLICY");
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${OUT}/sc-palette.png` });
+});
+
+// Like sc-agent, this one needs a model behind it: it is a picture of the graph
+// lighting up as the RAG walks it. Skipped with PWTEST_SKIP_LLM=1, which leaves
+// the existing PNG untouched rather than writing a picture of an idle graph.
+test("plate: the graph lighting up as it reasons", async ({ page }) => {
+  test.skip(!!process.env.PWTEST_SKIP_LLM, "no LLM configured — sc-live.png left untouched");
+  test.setTimeout(180_000);
+  await workshop(page);
+  await page.locator('[data-ab="graph"]').click();
+  await expect(page.locator(".rf-node").first()).toBeVisible({ timeout: 30_000 });
+  await page.getByTestId("rp-chat").click();
+  await page.getByTestId("chat-input").fill("What breaks if I change LGPOLICY?");
+  await page.getByTestId("chat-send").click();
+  await expect(page.getByTestId("trace")).toContainText("graph_lookup", { timeout: 150_000 });
+  await page.waitForTimeout(600);
+  await page.screenshot({ path: `${OUT}/sc-live.png` });
+});

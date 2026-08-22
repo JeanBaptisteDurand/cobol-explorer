@@ -264,7 +264,7 @@
 <section class="slide tight" data-title="The workshop">
   <div class="kicker"><span class="num">05</span> Real product screenshot</div>
   <h2>The workshop, <b>for real</b>.</h2>
-  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="shots/sc-apercu.png" alt="Estate overview" /></div>
+  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="../web/public/shots/sc-apercu.png" alt="Estate overview" /></div>
   <div class="cap"><i></i><b>Estate overview</b> — stats, critical copybooks by fan-in (LGCMAREA ×25), scheduler batch chains,
     a “Quality” card (0 orphans · 11 dead copybooks), starter questions. On the right: Agent · Inspector · Changes · Audit.</div>
   <div class="foot"><span>COBOL Explorer</span><span>05 / 20</span></div>
@@ -516,7 +516,7 @@
 <section class="slide tight" data-title="Live reasoning">
   <div class="kicker"><span class="num">11</span> Real screenshot · during a query</div>
   <h2>The graph <b>lights up</b> as the agent reasons.</h2>
-  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="shots/sc-live.png" alt="Live graph during a query" /></div>
+  <div class="shot" style="margin-top:24px;max-width:1180px"><img src="../web/public/shots/sc-live.png" alt="Live graph during a query" /></div>
   <div class="cap"><i></i><b>Live</b> — the estate greys out, “agent path · 12 entities”: the nodes the RAG touches light up one by one.
     On the right, the <span style="color:var(--purple)">💭 think</span> step explains <b>why</b> it picks
     graph_lookup(op=impact) → 11 programs, 2 chains. In the centre: split view, code + graph.</div>
@@ -610,17 +610,17 @@
   <div class="kicker"><span class="num">15</span> Real screenshots</div>
   <h2>Every view, <b>in pictures</b>.</h2>
   <div class="gallery">
-    <div><div class="shot"><img src="shots/sc-impact.png" alt="Impact radius" /></div>
+    <div><div class="shot"><img src="../web/public/shots/sc-impact.png" alt="Impact radius" /></div>
       <div class="cap"><i style="background:var(--red)"></i><b>Impact radius</b> — LGPOLICY: 11 impacted nodes highlighted in red, minimap included</div></div>
-    <div><div class="shot"><img src="shots/sc-split.png" alt="Split view" /></div>
+    <div><div class="shot"><img src="../web/public/shots/sc-split.png" alt="Split view" /></div>
       <div class="cap"><i style="background:var(--blue)"></i><b>Split view</b> — program on the left, its copybook on the right, VS Code style</div></div>
-    <div><div class="shot"><img src="shots/sc-champs.png" alt="Field-level impact" /></div>
+    <div><div class="shot"><img src="../web/public/shots/sc-champs.png" alt="Field-level impact" /></div>
       <div class="cap"><i style="background:var(--amber)"></i><b>Field-level impact</b> — 85 fields, 62 referenced, program by program</div></div>
-    <div><div class="shot"><img src="shots/sc-palette.png" alt="Semantic palette" /></div>
+    <div><div class="shot"><img src="../web/public/shots/sc-palette.png" alt="Semantic palette" /></div>
       <div class="cap"><i style="background:var(--teal)"></i><b>⌘P palette</b> — fuzzy + Granite semantic search (“logging queue” → LGSTSQ)</div></div>
-    <div><div class="shot"><img src="shots/sc-agent.png" alt="Agent answer" /></div>
+    <div><div class="shot"><img src="../web/public/shots/sc-agent.png" alt="Agent answer" /></div>
       <div class="cap"><i style="background:var(--purple)"></i><b>Traced answer</b> — Markdown, clickable citations, 💭 reasoning, ✓ verified badge</div></div>
-    <div><div class="shot"><img src="shots/sc-audit.png" alt="Audit log" /></div>
+    <div><div class="shot"><img src="../web/public/shots/sc-audit.png" alt="Audit log" /></div>
       <div class="cap"><i style="background:var(--green)"></i><b>Audit log</b> — HMAC chain intact, who asked for and changed what</div></div>
   </div>
   <div class="foot"><span>COBOL Explorer</span><span>15 / 20</span></div>
@@ -666,7 +666,7 @@
       <li><b>Real sign-in</b> (signed token) or <b>enforce</b> mode behind an SSO proxy</li>
       <li>Source access confined to the corpus (path-traversal proof) + strict CORS</li>
       <li>Copybook resolver: SYSLIB, COPY REPLACING, nested</li>
-      <li>123 backend tests · 31 Playwright e2e · multi-agent adversarial audits</li>
+      <li>151 backend tests · 49 Playwright e2e · multi-agent adversarial audits</li>
     </ul></div>
   </div>
   <div class="foot"><span>COBOL Explorer</span><span>16 / 20</span></div>
@@ -716,8 +716,8 @@
     </div>
   </div>
   <div class="grid g4" style="margin-top:20px">
-    <div class="stat"><div class="num-big green">123</div><div class="klabel">backend tests</div></div>
-    <div class="stat"><div class="num-big green">31</div><div class="klabel">Playwright e2e tests</div></div>
+    <div class="stat"><div class="num-big green">151</div><div class="klabel">backend tests</div></div>
+    <div class="stat"><div class="num-big green">49</div><div class="klabel">Playwright e2e tests</div></div>
     <div class="stat"><div class="num-big green">3/3</div><div class="klabel">golden Q/A quality</div></div>
     <div class="stat"><div class="num-big amber">2</div><div class="klabel">estates analysed (GenApp · CardDemo)</div></div>
   </div>
@@ -735,7 +735,7 @@
     <div class="card"><h3>Plan before code</h3><p>A brainstorming skill forces the requirements and the design to be
       settled <b>before</b> a line is written — the spec is the artefact, the code follows it.</p></div>
     <div class="card"><h3>Test before implementation</h3><p>A TDD skill writes the failing test first. It is why the
-      repository carries <b>123 backend tests</b> instead of a demo that only works on the happy path.</p></div>
+      repository carries <b>151 backend tests</b> instead of a demo that only works on the happy path.</p></div>
     <div class="card"><h3>Simplify after</h3><p>A cleanup skill re-reads the diff for duplication, dead code and
       over-engineering. Dead helpers, an unused MCP parameter and copy-pasted logic were removed that way.</p></div>
   </div>
