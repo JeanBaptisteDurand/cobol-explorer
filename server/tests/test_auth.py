@@ -358,3 +358,21 @@ def test_ibm_sign_in_grants_a_least_privileged_role(ibm):
     assert oidc.ROLE == "risk"
     assert not rbac.allowed(oidc.ROLE, "merge")
     assert rbac.allowed(oidc.ROLE, "propose")
+
+
+# --- one-click role switching (demo accounts in the auth config) ---------------
+def test_config_lists_verified_demo_accounts_in_jwt_mode(client):
+    """The switcher in the profile dialog is fed by the server, not hardcoded in
+    the UI — and only accounts that REALLY open with the demo password appear."""
+    cfg = client.get("/api/auth/config").json()
+    got = {d["user"]: d["role"] for d in cfg["demo_accounts"]}
+    assert got == {"amine": "dev", "claire": "architect", "sofia": "risk", "marc": "auditor"}
+    # Every advertised account must actually authenticate: the UI logs in with it.
+    for d in cfg["demo_accounts"]:
+        assert client.post("/api/login", json={"username": d["user"], "password": "demo"}).status_code == 200
+
+
+def test_config_hides_demo_accounts_in_open_mode():
+    import api.app as appmod
+    cfg = TestClient(appmod.app).get("/api/auth/config").json()
+    assert cfg["demo_accounts"] == []

@@ -73,3 +73,51 @@ test("an expired token ends the session instead of rejecting in silence", async 
   expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))).toBeNull();
   expect(rejections, rejections.join(" | ")).toHaveLength(0);
 });
+
+// ── One-click role switching ─────────────────────────────────────────────────
+// The profile dialog under the badge: with a signed session the role picker is
+// gone (it changed a label, never a right), and switching means a REAL login as
+// a published demo account — new token, server re-arbitrates.
+test("the profile dialog switches role through a real login, not a label", async ({ page }) => {
+  // Init scripts re-run on every navigation — the switch ends in a reload, so
+  // seeding unconditionally would overwrite the very session the test asserts.
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("cobol-explorer-token")) {
+      localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "Jean-Baptiste Durand", role: "risk" }));
+      localStorage.setItem("cobol-explorer-token", "signed.jwt.token");
+    }
+    localStorage.setItem("cobol-explorer-tour-seen", "1");
+  });
+  await page.unrouteAll();
+  await page.route("**/api/auth/config", (route) =>
+    route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: false, ibm_sign_in: false,
+      demo_accounts: [
+        { user: "amine", display: "Amine", role: "dev" },
+        { user: "marc", display: "Marc", role: "auditor" },
+      ] } }));
+  const logins: any[] = [];
+  await page.route("**/api/login", (route) => {
+    logins.push(JSON.parse(route.request().postData() || "{}"));
+    return route.fulfill({ json: { token: "marc.jwt.token", name: "Marc", role: "auditor", expires_in: 28800 } });
+  });
+
+  await page.goto("/");
+  await expect(page.locator(".ov-stats")).toContainText(/programs/i, { timeout: 30_000 });
+  await page.getByTestId("identity").click();
+
+  // No self-served role picker under a signed session — the facts, and accounts.
+  await expect(page.getByTestId("onb-locked-note")).toBeVisible();
+  await expect(page.getByTestId("onb-name")).toHaveCount(0);
+
+  await page.getByTestId("onb-switch-auditor").click();
+  // The click fires an async login, THEN a reload — poll the stored session
+  // rather than racing the navigation.
+  // The reload destroys the evaluation context mid-poll — swallow that and retry.
+  await expect.poll(async () => {
+    try { return await page.evaluate(() => localStorage.getItem("cobol-explorer-token")); }
+    catch { return null; }
+  }).toBe("marc.jwt.token");
+  expect(logins).toEqual([{ username: "marc", password: "demo" }]);
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem("cobol-explorer-identity") || "{}"));
+  expect(stored).toEqual({ name: "Marc", role: "auditor" });
+});

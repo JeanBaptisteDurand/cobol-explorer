@@ -179,15 +179,49 @@ class LoginBody(BaseModel):
     password: str
 
 
+_DEMO_ACCOUNTS: list[dict] | None = None
+
+
+def _demo_accounts() -> list[dict]:
+    """The documented demo accounts that really open with the password "demo".
+
+    A juror or reader wants to SEE each role bite — an auditor reading the trail,
+    a risk officer refused the merge — without five sign-out/sign-in round trips.
+    So the UI offers one-click switching between these accounts. It stays honest
+    security: each switch is a real login minting a new signed token, the role
+    still travels inside it, and the server still arbitrates. Verified against
+    the account store (not assumed), computed once: four PBKDF2 checks.
+
+    This is a demo affordance by construction. In a real deployment roles are
+    bound to accounts and managed by an administrator or the corporate IdP —
+    the UI says so next to the switcher — and any password change makes an
+    account silently drop off this list.
+    """
+    global _DEMO_ACCOUNTS
+    if _DEMO_ACCOUNTS is None:
+        found = []
+        for login_name in ("amine", "claire", "sofia", "marc"):
+            try:
+                actor = users.authenticate(login_name, "demo")
+            except users.UnverifiedAccount:
+                actor = None
+            if actor:
+                found.append({"user": login_name, "display": actor["name"], "role": actor["role"]})
+        _DEMO_ACCOUNTS = found
+    return _DEMO_ACCOUNTS
+
+
 @app.get("/api/auth/config")
 def auth_config() -> dict:
     """What the front end needs to know before showing anything: is a login required?
 
-    Ungated on purpose — it carries no user data, only the mode the server runs in.
+    Ungated on purpose — it carries no user data, only the mode the server runs in
+    and the demo accounts whose credentials the README already publishes.
     """
     return {
         "mode": AUTH_MODE, "required": JWT_MODE, "roles": list(users.SIGNUP_ROLES),
         "email_verification": mailer.ready(), "ibm_sign_in": oidc.ready(),
+        "demo_accounts": _demo_accounts() if JWT_MODE else [],
     }
 
 

@@ -172,3 +172,4 @@ test("federated return: the session arrives in the fragment and the URL is clean
   // The token must not linger in the address bar.
   expect(await page.evaluate(() => window.location.hash)).toBe("");
 });
+

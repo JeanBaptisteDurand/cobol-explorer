@@ -109,9 +109,15 @@ const STEPS = (h: TourHooks): Step[] => [
     before: () => h.openTab("changes"),
   },
   {
+    el: '[data-testid="identity"]',
+    title: "Roles: who may do what",
+    text: "Your badge. Six roles, and the server — never the interface — decides what each may do: dev and architect review and MERGE, risk may propose but is refused the merge, auditor and compliance READ THE AUDIT TRAIL, and a guest only reads. On the signed deployment your role travels inside your token, so relabeling yourself changes nothing — click the badge to switch to a demo account instead: a real login, a new token, every right re-decided. In production there is no switcher; an administrator or the corporate IdP assigns roles.",
+    side: "bottom",
+  },
+  {
     el: '[data-testid="rp-audit"]',
     title: "Everything, including the refusals",
-    text: "Every query, read, change and denial is appended to an HMAC-chained log. Altering one line breaks the chain, and the panel says so. Reading it is itself a right — not every role has it.",
+    text: "Every query, read, change and denial is appended to an HMAC-chained log. Altering one line breaks the chain, and the panel says so. Reading it is a right of the auditor and compliance roles — try it as Marc from your badge; if your role lacks it, the panel offers the switch and your refusal itself is written to the log.",
     side: "left",
     before: () => h.openTab("audit"),
   },

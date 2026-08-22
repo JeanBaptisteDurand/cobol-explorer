@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { createChangeSet, editCsFile, getAuthConfig, getCsDiff, getCsFile, getFileFull, getGraph, getSystems, listChangeSets, SESSION_ENDED, setSystem, type SystemInfo } from "./api";
+import { createChangeSet, type DemoAccount, editCsFile, getAuthConfig, getCsDiff, getCsFile, getFileFull, getGraph, getSystems, listChangeSets, login, SESSION_ENDED, setSystem, type SystemInfo } from "./api";
 import AuditPanel from "./components/AuditPanel";
 import ChangesPanel from "./components/ChangesPanel";
 import ChatPanel from "./components/ChatPanel";
@@ -17,7 +17,7 @@ import Logo from "./components/Logo";
 import Tour, { tourWasSeen } from "./components/Tour";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
-import { clearSession, consumeFragmentSession, getIdentity, getToken, type Identity } from "./identity";
+import { clearSession, consumeFragmentSession, getIdentity, getToken, saveSession, type Identity } from "./identity";
 import { VISIBLE_DEFAULT } from "./layout";
 import { kindCount, nodeIndex } from "./model";
 import type { ChangeSet, GNode, Graph } from "./types";
@@ -110,6 +110,7 @@ export default function App() {
   const [signupRoles, setSignupRoles] = useState<string[]>([]);
   const [emailVerification, setEmailVerification] = useState(false);
   const [ibmSignIn, setIbmSignIn] = useState(false);
+  const [demoAccounts, setDemoAccounts] = useState<DemoAccount[]>([]);
   const [token, setToken] = useState<string | null>(getToken());
   // Not signed in on a protected server: the landing page is the front door,
   // and the auth panel opens on top of it (null = panel closed).
@@ -158,7 +159,7 @@ export default function App() {
   // touching any gated endpoint — otherwise the first paint is a wall of 401s.
   useEffect(() => {
     getAuthConfig()
-      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); setIbmSignIn(!!c.ibm_sign_in); })
+      .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); setIbmSignIn(!!c.ibm_sign_in); setDemoAccounts(c.demo_accounts || []); })
       .catch(() => setAuthRequired(false));
   }, []);
   // First visit: run the tour once the estate is on screen. Before that, half its
@@ -813,6 +814,10 @@ export default function App() {
 
       {paletteOpen && <CommandPalette graph={graph} onClose={() => setPaletteOpen(false)} onOpenNode={openNode} onCommand={onCommand} />}
       {newVer && <NewVersionModal defaultTitle={newVer.defaultTitle} onCreate={createVersion} onClose={() => setNewVer(null)} />}
+      {/* One-click role switching, demo affordance: a REAL login as one of the
+          published demo accounts — new signed token, server re-arbitrates
+          everything. The reload is deliberate: every panel re-opens under the
+          new role's rights, nothing carries over. */}
       {(!identity || showOnb) && (
         <Onboarding
           initial={identity}
@@ -824,6 +829,13 @@ export default function App() {
             clearSession(); setToken(null); setIdent(null); setShowOnb(false);
             setGraph(null); setVersions([]); setActiveVersionId(null);
           }}
+          demoAccounts={demoAccounts}
+          onSwitchAccount={(user) =>
+            login(user, "demo").then((r) => {
+              saveSession({ name: r.name, role: r.role }, r.token);
+              window.location.reload();
+            })
+          }
         />
       )}
     </div>

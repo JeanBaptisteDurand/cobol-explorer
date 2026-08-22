@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ROLES, saveIdentity, type Identity } from "../identity";
+import type { DemoAccount } from "../api";
 
 /** First-run welcome, and the profile panel behind the user badge.
  *
@@ -12,15 +13,20 @@ import { ROLES, saveIdentity, type Identity } from "../identity";
  *    picker used to render anyway, so someone set their profile to Auditor,
  *    opened the audit panel, and was refused by a server that still saw their
  *    account's real role. The UI was offering a control it did not have.
- *    In that regime this dialog is read-only about the facts, and the one
- *    honest control is signing out to switch accounts.
+ *    In that regime this dialog is read-only about the facts, and the honest
+ *    controls are switching to a published demo account (a real login) or
+ *    signing out.
  */
-export default function Onboarding({ initial, locked, onDone, onSignOut }: {
+
+export default function Onboarding({ initial, locked, onDone, onSignOut, demoAccounts = [], onSwitchAccount }: {
   initial: Identity | null;
   /** True when a signed session decides the role (jwt/enforce) — the picker would lie. */
   locked?: boolean;
   onDone: (id: Identity) => void;
   onSignOut?: () => void;
+  /** Published demo accounts (password "demo"), verified server-side — one-click role switching. */
+  demoAccounts?: DemoAccount[];
+  onSwitchAccount?: (user: string) => void;
 }) {
   const [name, setName] = useState(initial?.name || "");
   const [role, setRole] = useState(initial?.role || ROLES[1]);
@@ -54,6 +60,27 @@ export default function Onboarding({ initial, locked, onDone, onSignOut }: {
               (an auditor reading the trail, a developer merging), sign out and use an account
               that holds it.
             </p>
+            {demoAccounts.length > 0 && (
+              <>
+                <div className="klabel" style={{ marginBottom: 7 }}>Try another role — demo accounts</div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }} data-testid="onb-switch">
+                  {demoAccounts.map((d) => (
+                    <button key={d.user} className="btn" style={{ flex: 1, justifyContent: "center", gap: 6, minWidth: 96 }}
+                      data-testid={`onb-switch-${d.role}`}
+                      disabled={initial?.name?.toLowerCase() === d.display.toLowerCase()}
+                      onClick={() => onSwitchAccount?.(d.user)}>
+                      {d.display} <span className="tag">{d.role}</span>
+                    </button>
+                  ))}
+                </div>
+                <p style={{ font: "400 10.5px/1.55 var(--s)", color: "var(--text-helper)", margin: "0 0 16px" }}>
+                  One click signs you in as that account — a real login, a new signed token, and the
+                  server re-arbitrates every right. This switcher is a demo affordance: in a real
+                  deployment your role is locked to your account and managed by an administrator or
+                  the corporate identity provider, never self-served.
+                </p>
+              </>
+            )}
             <div style={{ display: "flex", gap: 8 }}>
               <button className="btn" style={{ flex: 1, justifyContent: "center", padding: 10 }}
                 onClick={onSignOut} data-testid="onb-signout">Sign out</button>

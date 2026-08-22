@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getAudit } from "../api";
+import { type DemoAccount, getAudit, getAuthConfig, login } from "../api";
+import { saveSession } from "../identity";
 import Help from "./Help";
 
 interface Entry { ts: string; actor: string; role: string; action: string; target: string; result?: string; }
@@ -11,11 +12,22 @@ export default function AuditPanel() {
   // compliance signal. Surface the error honestly instead, and say which kind it
   // is: a refusal is the access control working, not the server being down, and
   // only one of the two is worth retrying.
+  // On a refusal, offer the honest exit: a real login as the demo auditor. The
+  // switch is a new signed token — the server re-decides, this panel included.
+  const [auditorAccount, setAuditorAccount] = useState<DemoAccount | null>(null);
   const load = () => {
     setErr(null);
     getAudit(150)
       .then(setData)
-      .catch((e: any) => { setData(null); setErr(e?.status === 403 ? "denied" : "unreachable"); });
+      .catch((e: any) => {
+        setData(null);
+        if (e?.status === 403) {
+          setErr("denied");
+          getAuthConfig()
+            .then((c) => setAuditorAccount((c.demo_accounts || []).find((d) => d.role === "auditor" || d.role === "compliance") || null))
+            .catch(() => {});
+        } else setErr("unreachable");
+      });
   };
   useEffect(() => { load(); }, []);
 
@@ -70,9 +82,18 @@ export default function AuditPanel() {
               read the estate, ask the agent and propose changes, but not review who did what.
             </div>
             <div className="d" style={{ marginTop: 10 }}>
-              To read the trail, sign out (click your badge, top right) and sign in with an account
-              whose role is auditor or compliance.
+              To read the trail, switch to an account whose role is auditor or compliance — your
+              badge (top right) lists the demo accounts, one click each.
             </div>
+            {auditorAccount && (
+              <button className="btn" style={{ marginTop: 12 }} data-testid="audit-switch"
+                onClick={() => login(auditorAccount.user, "demo").then((r) => {
+                  saveSession({ name: r.name, role: r.role }, r.token);
+                  window.location.reload();
+                })}>
+                Continue as {auditorAccount.display} <span className="tag">{auditorAccount.role}</span>
+              </button>
+            )}
             <div className="d" style={{ marginTop: 10, color: "var(--text-helper)" }}>
               This refusal was itself written to the log.
             </div>
