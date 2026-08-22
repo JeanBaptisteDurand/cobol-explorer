@@ -62,12 +62,21 @@ const CLONE = `git clone https://github.com/JeanBaptisteDurand/cobol-explorer
 cd cobol-explorer
 make setup`;
 
+/** Verbatim .bob/mcp.json — including `env`. The abridged version published here
+ *  first was not a shorter way of saying the same thing: without PYTHONPATH the
+ *  server module is not importable and `python -m mcp_server.server` exits before
+ *  it speaks. A snippet a reader pastes has to be the one that works. */
 const MCP_JSON = `{
   "mcpServers": {
     "cobol-explorer": {
       "command": "\${workspaceFolder}/.venv/bin/python",
       "args": ["-m", "mcp_server.server"],
-      "cwd": "\${workspaceFolder}"
+      "cwd": "\${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "\${workspaceFolder}/packages/core:\${workspaceFolder}/ingestion:\${workspaceFolder}/server",
+        "COBOL_EXPLORER_GRAPH": "\${workspaceFolder}/graph.json",
+        "COBOL_EXPLORER_CORPUS": "\${workspaceFolder}/corpora"
+      }
     }
   }
 }`;
@@ -485,9 +494,16 @@ export default function Landing({
                   calls <span className="ce-mono-sm">graph_lookup</span> instead of guessing from the
                   files it happened to open.
                 </p>
-                <pre className="ce-code">{MCP_JSON}</pre>
               </div>
             </div>
+          </div>
+          {/* Full width, below the three steps rather than inside the third: the
+              real entry carries an env block, and in a 380px column every path in
+              it wrapped mid-token. A configuration has to be readable to be
+              trusted, and this one is what actually starts the server. */}
+          <div className="ce-setup-foot">
+            <div className="ce-setup-t">Only if your client keeps its MCP servers elsewhere</div>
+            <pre className="ce-code">{MCP_JSON}</pre>
           </div>
         </div>
         <div className="ce-note">

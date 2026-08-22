@@ -91,7 +91,10 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
       <div>
         <h1 className="ov-h1">COBOL estate — <b>{systemLabel || "GenApp"}</b></h1>
         <p className="ov-p">
-          {systemDetail || "Mainframe core."} Read-only by default — the agent cites the source
+          {/* The detail comes from the estate registry and carries no final stop,
+              so it needs its own sentence — concatenated it read "…claims,
+              policies Read-only by default". */}
+          {systemDetail || "Mainframe core"}. Read-only by default — the agent cites the source
           line. Every change lives in an isolated version, reviewed before it is applied.
         </p>
       </div>

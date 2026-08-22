@@ -30,12 +30,21 @@ const TOOLS = [
   },
 ];
 
+/** Verbatim .bob/mcp.json, `env` included. Dropping that block to save four
+ *  lines shipped a configuration that cannot start: without PYTHONPATH the
+ *  server module is not importable and `python -m mcp_server.server` exits
+ *  immediately. */
 const MCP_JSON = `{
   "mcpServers": {
     "cobol-explorer": {
       "command": "\${workspaceFolder}/.venv/bin/python",
       "args": ["-m", "mcp_server.server"],
-      "cwd": "\${workspaceFolder}"
+      "cwd": "\${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "\${workspaceFolder}/packages/core:\${workspaceFolder}/ingestion:\${workspaceFolder}/server",
+        "COBOL_EXPLORER_GRAPH": "\${workspaceFolder}/graph.json",
+        "COBOL_EXPLORER_CORPUS": "\${workspaceFolder}/corpora"
+      }
     }
   }
 }`;

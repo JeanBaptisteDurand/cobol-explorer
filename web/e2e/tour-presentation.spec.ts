@@ -1,4 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// The project is ESM, so there is no __dirname here.
+const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 const asDeveloper = (page: Page, tourSeen: boolean) =>
   page.addInitScript((seen) => {
@@ -108,8 +114,12 @@ test("le panneau MCP donne la configuration réelle, copiable", async ({ page, c
 
   await page.getByTestId("bob-copy-config").click();
   const clip = await page.evaluate(() => navigator.clipboard.readText());
-  expect(clip).toContain("mcpServers");
-  expect(clip).toContain("mcp_server.server");
+  // Compared against .bob/mcp.json itself, not against a couple of substrings a
+  // broken config also contains. The published snippet had silently dropped the
+  // `env` block, and without PYTHONPATH `python -m mcp_server.server` exits with
+  // ModuleNotFoundError — so what the panel handed a reader could not start.
+  const real = JSON.parse(readFileSync(path.resolve(HERE, "../../.bob/mcp.json"), "utf8"));
+  expect(JSON.parse(clip)).toEqual(real);
 
   await page.locator('[data-ab="plug"]').click();
   await expect(panel).toHaveCount(0);
