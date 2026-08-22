@@ -424,12 +424,10 @@ docs/             design, coverage, industrialisation, demo guide
 |---|---|
 | [docs/DESIGN.md](docs/DESIGN.md) | The design language: IBM Carbon tokens, typography, the rules the interface follows |
 | [docs/COUVERTURE-UNIVERS-MAINFRAME.md](docs/COUVERTURE-UNIVERS-MAINFRAME.md) | What is mapped versus IMS/MQ/PL-I/Assembler/RACF, and the roadmap |
-| [docs/CONCURRENCE-ET-GAPS.md](docs/CONCURRENCE-ET-GAPS.md) | Competitors, and where this product does and does not stand up |
 | [docs/INDUSTRIALISATION.md](docs/INDUSTRIALISATION.md) | What moving from demo to production would take |
 | [docs/GUIDE_DEMO.md](docs/GUIDE_DEMO.md) | How to run the demo |
 | [docs/VIDEO-SCRIPT.md](docs/VIDEO-SCRIPT.md) | The script for the submission video |
 | [docs/IBM-APPID-BRANDING.md](docs/IBM-APPID-BRANDING.md) | Branding the IBM Cloud App ID sign-in widget |
-| [docs/RENDU-CHECKLIST.md](docs/RENDU-CHECKLIST.md) | The submission checklist |
 
 ## 11. Positioning
 
