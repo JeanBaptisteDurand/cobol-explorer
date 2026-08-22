@@ -150,7 +150,7 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
       <Card title="Entry point · transactions" deps={inDeps(graph, node.id, ["TXN_INVOKES"])} />
       <Card title="Invokes the program" deps={outDeps(graph, node.id, ["TXN_INVOKES"])} />
       <Card title="Accessed by (programs)" deps={inDeps(graph, node.id, ["PGM_READS_FILE", "PGM_WRITES_FILE"])} />
-      {/* Batch / JCL drill-down: job -> étapes -> programme + datasets */}
+      {/* Batch / JCL drill-down: job -> steps -> program + datasets */}
       <Card title="Job steps" deps={outDeps(graph, node.id, ["JOB_CONTAINS"])} />
       <Card title="In the job" deps={inDeps(graph, node.id, ["JOB_CONTAINS"])} />
       <Card title="Runs the program" deps={outDeps(graph, node.id, ["STEP_EXECUTES"])} />

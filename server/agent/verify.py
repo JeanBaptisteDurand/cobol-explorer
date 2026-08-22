@@ -1,6 +1,6 @@
 """Citation guardrail (anti-hallucination): re-verify that every ``file:line`` the
 agent cites actually exists in the corpus, and that the line is in range. The UI
-shows a "sources vérifiées" badge; unresolved citations are flagged, so a plausible
+shows a "sources verified" badge; unresolved citations are flagged, so a plausible
 but ungrounded answer cannot pass silently.
 """
 from __future__ import annotations

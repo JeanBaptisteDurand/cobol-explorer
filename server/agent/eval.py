@@ -50,4 +50,4 @@ if __name__ == "__main__":  # make eval
 
     report = evaluate()
     print(json.dumps(report, indent=2, ensure_ascii=False))
-    print(f"\nQualité : {report['passed']}/{report['total']} golden Q/A OK")
+    print(f"\nQuality: {report['passed']}/{report['total']} golden Q/A OK")

@@ -13,7 +13,7 @@ def test_deterministic_fallback_on_llm_error(tmp_path, monkeypatch):
 
     monkeypatch.setattr(ag, "_arun", boom)
     res = ag.run_agent(
-        "Quel est l'impact du copybook LGPOLICY ?",
+        "What is the impact of copybook LGPOLICY?",
         str(graph),
         "corpora",
         str(tmp_path / "versions"),
@@ -23,7 +23,7 @@ def test_deterministic_fallback_on_llm_error(tmp_path, monkeypatch):
 
 
 def test_fallback_answers_program_questions_too(tmp_path, monkeypatch):
-    """Without the LLM, 'que fait le programme X' still gets a structural answer."""
+    """Without the LLM, 'what does program X do' still gets a structural answer."""
     import agent.agent as ag
 
     graph = tmp_path / "g.json"

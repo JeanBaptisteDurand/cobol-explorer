@@ -40,20 +40,26 @@ INSTRUCTIONS = [
 
 
 def _summ(res: dict) -> str:
+    """One line per tool call, as shown in the visible reasoning trace.
+
+    In English like everything else the reader sees: this is the product's
+    signature surface, the thing a sceptic reads to decide whether the answer
+    was derived or invented.
+    """
     if "copybooks" in res and "calls" in res:  # summary/profile
         return (
-            f"profil {res.get('label')}: {len(res.get('copybooks', []))} copybooks, "
+            f"profile {res.get('label')}: {len(res.get('copybooks', []))} copybooks, "
             f"{len(res.get('tables_read', [])) + len(res.get('tables_written', []))} tables, "
-            f"{len(res.get('screens', []))} ecrans, {len(res.get('calls', []))} appels"
+            f"{len(res.get('screens', []))} screens, {len(res.get('calls', []))} calls"
         )
     if "programs" in res:
-        return f"{len(res['programs'])} programmes, {len(res.get('chains', []))} chaines"
+        return f"{len(res['programs'])} programs, {len(res.get('chains', []))} batch chains"
     if "callers" in res:
-        return f"{len(res['callers'])} appelants"
+        return f"{len(res['callers'])} callers"
     if "callees" in res:
-        return f"{len(res['callees'])} appeles"
+        return f"{len(res['callees'])} callees"
     if "in" in res and "out" in res:  # neighbors
-        return f"{len(res['in'])} entrants, {len(res['out'])} sortants"
+        return f"{len(res['in'])} inbound, {len(res['out'])} outbound"
     return "ok"
 
 
@@ -64,11 +70,14 @@ def _corpus_rel(gt: GraphTools, file: str) -> str:
 
 def build_tools(gt: GraphTools, store: VersionStore, trace: Trace):
     def think(thoughts: str) -> str:
-        """Réfléchis à voix haute AVANT d'agir : décris ton raisonnement, et surtout POURQUOI
-        tu choisis tel outil — RAG graphe (structure exacte : impact, lignée, appels, cite les
-        lignes) vs RAG vectoriel search_code (sémantique : trouver par concept quand le nom est inconnu)."""
+        """Think out loud BEFORE acting: state your reasoning, and above all WHY you pick
+        this tool — the graph RAG (exact structure: impact, lineage, calls, cites lines) or
+        the vector RAG search_code (semantic: find by concept when the name is unknown)."""
+        # A tool description is part of the prompt: written in French it pulled the
+        # model into answering in French, against the instruction two lines above
+        # telling it to answer in English.
         trace.record("think", {}, thoughts[:500], sources=[])
-        return "Raisonnement enregistré. Poursuis avec l'outil choisi."
+        return "Reasoning recorded. Continue with the tool you chose."
 
     def graph_lookup(op: str, node: str) -> str:
         """Query the mainframe dependency graph. op in {summary, impact, lineage, callers, callees, neighbors}; node like LGIPOL01, LGPOLICY or copy:LGPOLICY. Use op=summary to describe what a program does."""
@@ -80,20 +89,20 @@ def build_tools(gt: GraphTools, store: VersionStore, trace: Trace):
         """Read exact source lines from a COBOL/JCL/copybook file, for citation."""
         res = gt.read_source_lines(file, start, end)
         cite = f'{res.get("file")}:{res.get("start")}' if "file" in res else file
-        trace.record("read_source_lines", {"file": file, "start": start, "end": end}, "lignes source", sources=[cite])
+        trace.record("read_source_lines", {"file": file, "start": start, "end": end}, "source lines", sources=[cite])
         return json.dumps(res)
 
     def search_code(query: str) -> str:
         """Semantic search over the COBOL code: find programs/copybooks by concept (IBM Granite embeddings)."""
         res = gt.search_code(query)
         hits = res.get("results", [])
-        trace.record("search_code", {"query": query}, f"{len(hits)} resultats", sources=[h["file"] for h in hits[:3]])
+        trace.record("search_code", {"query": query}, f"{len(hits)} results", sources=[h["file"] for h in hits[:3]])
         return json.dumps(res)[:3000]
 
     def web_search(query: str) -> str:
         """Search the web for external context such as an insurance regulation or definition."""
         res = _web_search(query)
-        trace.record("web_search", {"query": query}, f"{len(res)} resultats", sources=[r.get("url", "") for r in res[:3]])
+        trace.record("web_search", {"query": query}, f"{len(res)} results", sources=[r.get("url", "") for r in res[:3]])
         return json.dumps(res)[:3000]
 
     def propose_change(title: str, file: str, note: str) -> str:
@@ -105,7 +114,7 @@ def build_tools(gt: GraphTools, store: VersionStore, trace: Trace):
         trace.record(
             "propose_change",
             {"title": title, "file": file},
-            f"version {cs.id}: {len(imp['programs'])} programmes impactes",
+            f"version {cs.id}: {len(imp['programs'])} programs impacted",
             sources=[f"changeset:{cs.id}"],
         )
         return json.dumps({"changeset": cs.id, "impact": imp})
@@ -130,7 +139,7 @@ async def _arun(question: str, tools):
     agent = RequirementAgent(
         llm=ChatModel.from_name(MODEL),
         tools=tools,
-        role="analyste COBOL/mainframe pour les equipes risque & conformite",
+        role="COBOL/mainframe analyst for development, risk and compliance teams",
         instructions=INSTRUCTIONS,
         name="CobolExplorer",
     )
@@ -138,8 +147,8 @@ async def _arun(question: str, tools):
 
 
 def _compose(question: str, history: list[dict] | None) -> str:
-    """Prefix the recent conversation so follow-ups ('sur quelle ligne ?', 'et ce
-    programme ?') resolve their references. Only the LLM path sees this; the
+    """Prefix the recent conversation so follow-ups ('on which line?', 'and that
+    program?') resolve their references. Only the LLM path sees this; the
     deterministic fallback keeps parsing the raw latest question."""
     if not history:
         return question
@@ -147,7 +156,7 @@ def _compose(question: str, history: list[dict] | None) -> str:
     for h in history[-4:]:
         if not isinstance(h, dict):
             continue
-        who = "Utilisateur" if h.get("role") == "user" else "Assistant"
+        who = "User" if h.get("role") == "user" else "Assistant"
         # Coerce defensively: history comes from a loosely-typed API field (list[dict]),
         # so a non-string 'text' must not raise (it would look like an LLM outage).
         txt = str(h.get("text") or "").strip().replace("\n", " ")
@@ -157,9 +166,9 @@ def _compose(question: str, history: list[dict] | None) -> str:
         return question
     ctx = "\n".join(lines)
     return (
-        "Historique récent de la conversation (pour résoudre les références comme "
-        "« ce programme » ou « cette ligne ») :\n" + ctx +
-        "\n\nNouvelle question de l'utilisateur : " + question
+        "Recent conversation history (to resolve references such as "
+        "'that program' or 'that line'):\n" + ctx +
+        "\n\nThe user's new question: " + question
     )
 
 
@@ -212,7 +221,7 @@ def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Ex
 
     from agent.responder import answer_copybook_impact
 
-    note = f"\n\n_(réponse déterministe — agent LLM indisponible : {type(exc).__name__})_"
+    note = f"\n\n_(deterministic answer — the LLM agent is unavailable: {type(exc).__name__})_"
     # Allow underscores so table names like CUSTOMER_SECURE resolve as one token.
     for tok in re.findall(r"\b[A-Za-z][A-Za-z0-9_]{2,}\b", question):
         nid = gt.resolve(tok.upper())
@@ -227,4 +236,4 @@ def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Ex
             trace.record("graph_lookup", {"op": "summary", "node": tok.upper()},
                          _summ(prof), sources=[prof.get("node", nid)])
             return {"answer": _format_profile(prof) + note, "trace": trace}
-    return {"answer": f"[Agent LLM indisponible ({type(exc).__name__}). Nomme un programme, un copybook ou une table pour une analyse structurelle sans LLM.]", "trace": trace}
+    return {"answer": f"[The LLM agent is unavailable ({type(exc).__name__}). Name a program, a copybook or a table for a structural analysis that needs no LLM.]", "trace": trace}

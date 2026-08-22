@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 
 // Scroll hijacked into a div breaks anchor restoration, sticky positioning, the
 // browser's own scroll indicator and full-page capture.
-test("la page publique scrolle dans le document", async ({ page }) => {
+test("the public page scrolls in the document", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByTestId("landing")).toBeVisible();
 
@@ -39,7 +39,7 @@ test("la page publique scrolle dans le document", async ({ page }) => {
 
 // The number came from a string typed into the kicker prop, and had drifted to
 // 00 01 02 03 04 05 06 10 07 08 09 11. Derived from position, it cannot drift.
-test("les numéros de section se suivent sans trou", async ({ page }) => {
+test("the section numbers run in order with no gap", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByTestId("landing")).toBeVisible();
 
@@ -64,7 +64,7 @@ test("les numéros de section se suivent sans trou", async ({ page }) => {
 
 // A hand-written citation is a claim nobody re-checks. Every product fact on the
 // page must come from one source.
-test("le fold ne porte aucune donnée produit écrite à la main", async ({ page }) => {
+test("the fold carries no hand-written product data", async ({ page }) => {
   await page.goto("/");
   const hero = page.getByTestId("hero-section");
   await expect(hero).toBeVisible();
@@ -76,7 +76,7 @@ test("le fold ne porte aucune donnée produit écrite à la main", async ({ page
 // measured numbers come after it. Asserted structurally rather than against a
 // pixel, so the guarantee survives a change of viewport or of hero height: the
 // metrics must begin at or below the bottom edge of the hero.
-test("les chiffres commencent après le bloc d'argument", async ({ page }) => {
+test("the metrics start after the argument block", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   await expect(page.getByTestId("landing")).toBeVisible();
@@ -90,7 +90,7 @@ test("les chiffres commencent après le bloc d'argument", async ({ page }) => {
 
 // The fold holds four things: badge, headline, one lead, two actions. Anything
 // more and it stops being an argument and becomes a summary of the whole page.
-test("le fold ne contient que les quatre éléments prévus", async ({ page }) => {
+test("the fold holds only the four intended elements", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   const hero = page.getByTestId("hero-section");

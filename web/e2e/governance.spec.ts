@@ -60,12 +60,12 @@ async function signIn(page: Page, a: typeof ACTORS.sofia) {
   await expect(page.getByTestId("identity")).toContainText(a.display, { timeout: 30000 });
 }
 
-test("1. Sofia (risk) propose une modification isolée et en voit l'impact", async ({ browser }) => {
+test("1. Sofia (risk) proposes an isolated change and sees its impact", async ({ browser }) => {
   const page = await browser.newPage();
   await signUp(page, ACTORS.sofia);
 
-  // Ouvrir un copybook. Hors version, l'éditeur est en lecture seule : c'est le geste
-  // « nouvelle version » qui ouvre le droit d'écrire.
+  // Open a copybook. Outside a version the editor is read-only: it is the
+  // "new version" gesture that opens the right to write.
   await page.getByTestId("search").fill("LGPOLICY");
   await page.getByTestId("search").press("Enter");
   await expect(page.locator(".cm-editor")).toContainText("POLICY");
@@ -79,7 +79,7 @@ test("1. Sofia (risk) propose une modification isolée et en voit l'impact", asy
   await page.getByTestId("nv-create").click();
   await expect(page.getByTestId("statusbar-version")).toContainText(VERSION_TITLE.slice(0, 12), { timeout: 15000 });
 
-  // Le corpus source n'est jamais muté : la modification vit dans la version.
+  // The source corpus is never mutated: the change lives inside the version.
   await page.locator(".cm-content").click();
   await page.keyboard.press("End");
   await page.keyboard.type("      *> widened by risk review");
@@ -92,7 +92,7 @@ test("1. Sofia (risk) propose une modification isolée et en voit l'impact", asy
   await page.close();
 });
 
-test("2. Sofia (risk) est autorisée à proposer, mais REFUSÉE à la fusion", async ({ browser }) => {
+test("2. Sofia (risk) may propose, but is REFUSED the merge", async ({ browser }) => {
   const page = await browser.newPage();
   await signIn(page, ACTORS.sofia);
   await page.getByTestId("rp-changes").click();
@@ -100,7 +100,7 @@ test("2. Sofia (risk) est autorisée à proposer, mais REFUSÉE à la fusion", a
   await page.getByRole("button", { name: "Propose", exact: true }).click();
   await expect(page.getByTestId("rp-changes-panel")).toContainText("proposed", { timeout: 15000 });
 
-  // RBAC : 'merge' n'est ouvert qu'à dev et architect. Le serveur tranche, pas l'UI.
+  // RBAC: 'merge' is open to dev and architect only. The server decides, not the UI.
   const merge = page.getByTestId("merge-btn");
   if (await merge.count()) {
     await merge.click();
@@ -110,7 +110,7 @@ test("2. Sofia (risk) est autorisée à proposer, mais REFUSÉE à la fusion", a
   await page.close();
 });
 
-test("3. Amine (dev) relit, commente et fusionne la version de Sofia", async ({ browser }) => {
+test("3. Amine (dev) reviews, comments and merges Sofia's version", async ({ browser }) => {
   const page = await browser.newPage();
   await signUp(page, ACTORS.amine);
   await page.getByTestId("rp-changes").click();
@@ -131,11 +131,11 @@ test("3. Amine (dev) relit, commente et fusionne la version de Sofia", async ({ 
   await page.close();
 });
 
-test("4. Marc (auditeur) ne peut rien proposer, mais lit la piste d'audit complète", async ({ browser }) => {
+test("4. Marc (auditor) can propose nothing, and reads the whole audit trail", async ({ browser }) => {
   const page = await browser.newPage();
   await signUp(page, ACTORS.marc);
 
-  // Refus côté serveur : un auditeur ne crée pas de version.
+  // Refused server-side: an auditor does not create versions.
   const refused = await page.request.post("/api/changesets", {
     data: { title: "audit attempt", author: "Marc" },
     headers: { Authorization: `Bearer ${await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))}` },
@@ -147,7 +147,7 @@ test("4. Marc (auditeur) ne peut rien proposer, mais lit la piste d'audit compl�
   await expect(list).toContainText("Sofia", { timeout: 20000 });
   await expect(list).toContainText("Amine");
   await expect(list).toContainText("Marc");
-  // Le journal chaîné se déclare intact : aucune ligne altérée ni tronquée.
+  // The chained log declares itself intact: no line altered or truncated.
   await expect(page.getByTestId("audit-chain")).toContainText(/intact|ok|verified/i);
   await page.close();
 });

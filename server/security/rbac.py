@@ -12,7 +12,8 @@ ROLES = ("guest", "dev", "architect", "risk", "compliance", "auditor")
 
 
 def _norm(s: str) -> str:
-    """Lower + strip accents, so 'Risk & Conformité' and 'risk & conformite' match."""
+    """Lower + strip accents, so a label like 'Risk & Conformite' matches whatever
+    casing or accent a deployment happens to use."""
     return "".join(c for c in unicodedata.normalize("NFD", s.strip().lower()) if unicodedata.category(c) != "Mn")
 
 # action -> roles allowed to perform it

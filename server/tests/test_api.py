@@ -111,7 +111,7 @@ def test_compose_tolerates_malformed_history():
     # A non-string history 'text' must not raise (loose list[dict] from the API).
     from agent.agent import _compose
 
-    out = _compose("Que fait LGIPOL01 ?", [{"role": "user", "text": 123}, "pas un dict", {"role": "ai"}])
+    out = _compose("What does LGIPOL01 do?", [{"role": "user", "text": 123}, "not a dict", {"role": "ai"}])
     assert "LGIPOL01" in out  # composed without crashing
     assert _compose("q", None) == "q"  # no history -> passthrough
 

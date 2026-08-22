@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Situation de démo : tu es JB, ta version est EN RETARD sur main (Léa a fusionné
-# après que tu aies créé la tienne). À toi de cliquer "Importer main".
-# Léa a modifié un AUTRE champ que toi -> l'import est propre (pas de conflit).
+# Demo situation: you are JB and your version is BEHIND main (Lea merged after you
+# created yours). Your move is to click "Import main".
+# Lea edited a DIFFERENT field, so the import is clean (no conflict).
 # Usage : bash scripts/demo-behind.sh
 set -e
 cd "$(dirname "$0")/.."
 PY=.venv/bin/python
 
-echo "→ restauration du corpus + purge des versions"
+echo "-> restoring the corpus + purging versions"
 git -C corpora/genapp-src checkout -- . 2>/dev/null || true
 pkill -f "uvicorn api.app:app" 2>/dev/null || true
 sleep 1
@@ -21,7 +21,7 @@ cp docs/presentation.html web/dist/ 2>/dev/null; cp -r docs/shots web/dist/ 2>/d
 echo "→ reconstruction du graphe"
 PYTHONPATH=packages/core:ingestion $PY -m run_ingest --corpus corpora --out graph.json | grep Wrote
 
-echo "→ démarrage du serveur"
+echo "-> starting the server"
 COBOL_EXPLORER_GRAPH_BACKEND=neo4j COBOL_EXPLORER_VECTOR=pgvector \
   COBOL_EXPLORER_WEB=web/dist PYTHONPATH=packages/core:ingestion:server \
   nohup $PY -m uvicorn api.app:app --host 127.0.0.1 --port 8000 >/tmp/cobol-server.log 2>&1 &
@@ -34,13 +34,13 @@ def H(u): return {"Content-Type": "application/json", "X-Cobol-User": u, "X-Cobo
 def call(p, d, u): return json.load(urllib.request.urlopen(urllib.request.Request(B+p, json.dumps(d).encode(), H(u))))
 F = "genapp-src/base/src/lgpolicy.cpy"
 
-# 1) TA version (JB), créée sur main propre. Tu modifies le plafond MOTEUR (+65 -> +72).
+# 1) YOUR version (JB), created off a clean main. You raise the MOTOR cap (+65 -> +72).
 jb = call("/changesets", {"title": "Raise motor cover limit (JB)", "author": "JB"}, "JB")["id"]
 base = json.load(urllib.request.urlopen(f"{B}/changesets/{jb}/file?path={F}"))["content"]
 call(f"/changesets/{jb}/edit", {"path": F, "content": base.replace("VALUE +65", "VALUE +72", 1), "note": "JB: moteur +65 -> +72"}, "JB")
 
-# 2) Version de Léa, créée sur le MÊME main. Elle modifie un champ LOIN du tien
-#    (WS-SUMRY-ENDOW-LEN, ~8 lignes plus bas) pour que l'import soit PROPRE (hunks
+# 2) Lea's version, created off the SAME main. She edits a field FAR from yours
+#    (WS-SUMRY-ENDOW-LEN, ~8 lines below) so the import stays CLEAN (the hunks
 #    git non chevauchants) ; puis elle FUSIONNE -> main avance -> ta version "en retard".
 lea = call("/changesets", {"title": "Fix field length (Lea)", "author": "Lea"}, "Lea")["id"]
 lea_lines = base.split("\n")
@@ -55,8 +55,8 @@ print(f"   ta version 'Raise motor cover limit (JB)' -> {st}")
 PY
 
 echo ""
-echo "✓ Prêt. Toi = JB. Ta version est EN RETARD sur main (Léa a fusionné après toi)."
-echo "  → dans l'app : pastille en haut à droite -> nom 'JB' -> Entrer"
-echo "  → barre latérale Versions -> clic 'Raise motor cover limit (JB)'"
+echo "OK. You are JB. Your version is BEHIND main (Lea merged after you)."
+echo "  -> in the app: the badge at the top right -> name 'JB' -> Enter"
+echo "  -> Versions sidebar -> click 'Raise motor cover limit (JB)'"
 echo "  → panneau Modifs : « en retard de N commits » -> clique « ↓ Importer main »"
-echo "  (Léa a touché un autre champ -> l'import est PROPRE, pas de conflit -> « à jour ».)"
+echo "  (Lea touched another field -> the import is CLEAN, no conflict -> up to date.)"

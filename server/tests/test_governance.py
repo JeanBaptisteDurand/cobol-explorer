@@ -41,7 +41,7 @@ def test_audit_chain_is_tamper_evident(tmp_path):
 
 
 def test_citation_guardrail_flags_hallucinations():
-    ok = verify_answer("preuve lgipol01.cbl:55", ["lgipol01.cbl:55"], "corpora")
+    ok = verify_answer("proof at lgipol01.cbl:55", ["lgipol01.cbl:55"], "corpora")
     assert ok["count"] >= 1 and ok["all_grounded"]
-    bad = verify_answer("d'après fantome.cbl:999", [], "corpora")
+    bad = verify_answer("according to fantome.cbl:999", [], "corpora")
     assert not bad["all_grounded"]

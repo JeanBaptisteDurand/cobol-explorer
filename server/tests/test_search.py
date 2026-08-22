@@ -39,5 +39,5 @@ def test_search_code_without_index(tmp_path):
     g = tmp_path / "g.json"
     ingest("corpora", str(g))
     gt = GraphTools(str(g), "corpora", str(tmp_path / "missing.json"))
-    r = gt.search_code("ajouter une police")
+    r = gt.search_code("add a policy")
     assert r["results"] == [] and "index" in r["note"]

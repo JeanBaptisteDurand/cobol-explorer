@@ -468,7 +468,7 @@ export default function App() {
   async function createVersion(title: string) {
     const cs = await createChangeSet(title, identity?.name || "guest");
     // Carry any edits already typed on main INTO the new version — creating a version
-    // to capture the current change is the whole point of "Modifier dans une version",
+    // to capture the current change is the whole point of "Edit in a version",
     // and the version-switch effect below would otherwise reload (discard) them.
     const dirtyPaths = [...new Set(allTabs.filter((t) => t.type === "code" && t.path && draft[t.path] !== undefined && draft[t.path] !== base[t.path]).map((t) => t.path!))];
     for (const p of dirtyPaths) {
@@ -484,7 +484,7 @@ export default function App() {
     setSaving(true); setSaveErr(null); setSavedOk(false);
     try {
       await editCsFile(activeVersionId, path, content, "edit via editor");
-      // Mark clean: base now equals the saved content, so the "non enregistré" flag clears.
+      // Mark clean: base now equals the saved content, so the "unsaved" flag clears.
       loadedVer.current[path] = activeVersionId;
       setBase((b) => ({ ...b, [path]: content }));
       await reloadVersions();

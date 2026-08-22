@@ -11,13 +11,13 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("l'aperçu oriente : stats + copybooks critiques (fan-in)", async ({ page }) => {
+test("the overview orients: statistics and the critical copybooks by fan-in", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".ov-stats")).toContainText(/programs/i);
   await expect(page.locator('[data-testid="fanin-row"]').first()).toBeVisible();
 });
 
-test("ouvrir un copybook : code affiché + inspecteur 'utilisé par'", async ({ page }) => {
+test("opening a copybook: the code shows and the inspector lists what uses it", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("search").fill("LGPOLICY");
   await page.getByTestId("search").press("Enter");
@@ -25,7 +25,7 @@ test("ouvrir un copybook : code affiché + inspecteur 'utilisé par'", async ({ 
   await expect(page.locator(".panel")).toContainText(/Used by/i);
 });
 
-test("l'inspecteur analyse l'impact (groundé + cité)", async ({ page }) => {
+test("the inspector analyses impact, grounded and cited", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("search").fill("LGPOLICY");
   await page.getByTestId("search").press("Enter");
@@ -34,7 +34,7 @@ test("l'inspecteur analyse l'impact (groundé + cité)", async ({ page }) => {
   await expect(page.locator(".panel")).toContainText(/COPY LGPOLICY/i);
 });
 
-test("version active -> panneau Modifs (cowork)", async ({ page }) => {
+test("an active version opens the Changes panel", async ({ page }) => {
   await page.goto("/");
   const v = page.locator('[data-testid="version-row"]').first();
   if ((await v.count()) > 0) {
@@ -44,13 +44,13 @@ test("version active -> panneau Modifs (cowork)", async ({ page }) => {
   }
 });
 
-test("gap : transactions CICS + fichiers VSAM dans l'arbre", async ({ page }) => {
+test("CICS transactions and VSAM files appear in the tree", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".sidebar")).toContainText("CICS Transactions");
   await expect(page.locator(".sidebar")).toContainText("VSAM Files");
 });
 
-test("graphe : clic node -> inspecteur, 'ouvrir le code' -> onglet code au centre", async ({ page }) => {
+test("graph: clicking a node fills the inspector, and opening the code adds a centre tab", async ({ page }) => {
   await page.goto("/");
   await page.locator('.tab:has-text("Graph")').click();
   // Single click selects the node (inspector populates, graph tab stays open).
@@ -62,34 +62,34 @@ test("graphe : clic node -> inspecteur, 'ouvrir le code' -> onglet code au centr
   await expect(page.locator(".cm-editor")).toContainText("POLICY");
 });
 
-test("barre d'activité : un seul bouton actif à la fois (jamais collé)", async ({ page }) => {
+test("activity bar: one button active at a time, never stuck", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".abtn.on")).toHaveCount(1); // Explorateur
   await page.locator('[data-ab="graph"]').click();
   await expect(page.locator(".abtn.on")).toHaveCount(1); // Graphe seul
   await expect(page.locator('[data-ab="graph"]')).toHaveClass(/on/);
-  await page.locator('[data-ab="spark"]').click(); // ouvre l'agent, n'ajoute pas d'état actif
+  await page.locator('[data-ab="spark"]').click(); // opens the agent; it adds no active state
   await expect(page.locator(".abtn.on")).toHaveCount(1);
 });
 
-test("bouton branche : ouvre les Modifs avec la version (pas un panneau vide)", async ({ page }) => {
+test("the branch button opens Changes on the version, not an empty panel", async ({ page }) => {
   await page.goto("/");
   await page.locator('[data-ab="branch"]').click();
   await expect(page.getByTestId("rp-changes")).toHaveClass(/on/);
   await expect(page.getByTestId("changes-impact")).toBeVisible();
 });
 
-test("agent : la conversation survit au changement de panneau (pas de re-seed)", async ({ page }) => {
+test("agent: the conversation survives a panel switch and is not re-seeded", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("rp-chat").click();
   await page.getByTestId("chat-input").fill("brouillon en cours de saisie");
   await page.getByTestId("rp-inspector").click(); // on quitte l'agent
   await page.getByTestId("rp-chat").click(); // on revient
-  // Si ChatPanel était démonté/remonté, la saisie serait perdue.
+  // If ChatPanel were unmounted and remounted, the typed input would be lost.
   await expect(page.getByTestId("chat-input")).toHaveValue("brouillon en cours de saisie");
 });
 
-test("split view : deux fichiers côte à côte (programme + copybook)", async ({ page }) => {
+test("split view: two files side by side, a program and a copybook", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("search").fill("LGIPOL01");
   await page.getByTestId("search").press("Enter");
@@ -104,7 +104,7 @@ test("split view : deux fichiers côte à côte (programme + copybook)", async (
   await expect(panes.nth(1)).toContainText("LGPOLICY");
 });
 
-test("graphe : le mode focus réduit au voisinage du nœud", async ({ page }) => {
+test("graph: focus mode reduces the view to the node's neighbourhood", async ({ page }) => {
   await page.goto("/");
   // Select through the search box rather than by clicking the canvas: node positions
   // depend on the layout, so a click target can end up under the floating panel.
@@ -118,7 +118,7 @@ test("graphe : le mode focus réduit au voisinage du nœud", async ({ page }) =>
   expect(after).toBeLessThan(before);
 });
 
-test("graphe : 'voir l'impact' d'un copybook surligne le rayon d'impact", async ({ page }) => {
+test("graph: asking for a copybook's impact lights up the impact radius", async ({ page }) => {
   await page.goto("/");
   await page.locator('.tab:has-text("Graph")').click();
   await page.locator('.rf-node:has-text("LGPOLICY")').first().click();
@@ -126,7 +126,7 @@ test("graphe : 'voir l'impact' d'un copybook surligne le rayon d'impact", async 
   await expect(page.getByTestId("graph-impact")).toContainText(/impacted — clear/);
 });
 
-test("palette ⌘P : recherche floue -> ouvre l'entité", async ({ page }) => {
+test("palette ⌘P: a fuzzy search opens the entity", async ({ page }) => {
   await page.goto("/");
   await page.locator(".kbd").click();
   await page.getByTestId("palette-input").fill("LGPOLIC");
@@ -135,7 +135,7 @@ test("palette ⌘P : recherche floue -> ouvre l'entité", async ({ page }) => {
   await expect(page.locator(".editorwrap .tabbar")).toContainText("LGPOLICY");
 });
 
-test("réponse de l'agent en Markdown avec citation cliquable (mock SSE)", async ({ page }) => {
+test("the agent's answer renders as Markdown with a clickable citation (mocked SSE)", async ({ page }) => {
   // Stub the SSE stream so this stays fast and deterministic (no LLM).
   await page.route("**/api/ask", async (route) => {
     const body = [
@@ -160,12 +160,12 @@ test("réponse de l'agent en Markdown avec citation cliquable (mock SSE)", async
   await expect(page.locator(".editorwrap .tabbar")).toContainText("LGIPOL01");
 });
 
-test("aperçu : carte qualité (détection de code mort)", async ({ page }) => {
+test("overview: the quality card reports dead code", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByTestId("quality-card")).toContainText(/unreferenced copybooks/i);
 });
 
-test("inspecteur : impact au niveau champ d'un copybook", async ({ page }) => {
+test("inspector: field-level impact of a copybook", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("search").fill("LGPOLICY");
   await page.getByTestId("search").press("Enter");
@@ -173,7 +173,7 @@ test("inspecteur : impact au niveau champ d'un copybook", async ({ page }) => {
   await expect(page.getByTestId("field-impact")).toContainText("WS-CUSTOMER-LEN");
 });
 
-test("palette : recherche sémantique Granite (mock)", async ({ page }) => {
+test("palette: Granite semantic search (mocked)", async ({ page }) => {
   await page.route("**/api/search**", (route) =>
     route.fulfill({
       status: 200, contentType: "application/json",
@@ -186,7 +186,7 @@ test("palette : recherche sémantique Granite (mock)", async ({ page }) => {
   await expect(page.getByTestId("palette-sem").first()).toContainText("LGSTSQ");
 });
 
-test("panneau audit : journal immuable + badge d'intégrité", async ({ page }) => {
+test("audit panel: the immutable log and its integrity badge", async ({ page }) => {
   await page.route("**/api/audit**", (route) =>
     route.fulfill({
       status: 200, contentType: "application/json",
@@ -199,26 +199,26 @@ test("panneau audit : journal immuable + badge d'intégrité", async ({ page }) 
   await expect(page.getByTestId("audit-list")).toContainText("Alice");
 });
 
-test("merge-gate : confirmation d'impact avant fusion", async ({ page }) => {
+test("merge gate: the impact is confirmed before merging", async ({ page }) => {
   await page.goto("/");
   await page.locator('[data-ab="branch"]').click(); // ouvre Modifs avec la version brouillon
   const btn = page.getByTestId("merge-btn");
   if ((await btn.count()) > 0) {
     await expect(btn).toContainText("Merge");
     if (await btn.isEnabled()) {
-      // branche à jour -> le merge-gate demande confirmation
+      // branch up to date -> the merge gate asks for confirmation
       await btn.click();
       await expect(page.getByTestId("merge-gate")).toBeVisible();
       await expect(btn).toContainText("Confirm");
     } else {
-      // branche en retard -> la fusion est bloquée avec l'explication
+      // branch behind -> the merge is blocked, with the reason
       await expect(btn).toContainText("import main");
       await expect(page.getByTestId("sync-btn")).toBeVisible();
     }
   }
 });
 
-test("onboarding au premier lancement -> identité", async ({ page }) => {
+test("first launch onboards into an identity", async ({ page }) => {
   await page.addInitScript(() => localStorage.removeItem("cobol-explorer-identity"));
   await page.goto("/");
   await page.getByTestId("onb-name").fill("Alice");
@@ -226,7 +226,7 @@ test("onboarding au premier lancement -> identité", async ({ page }) => {
   await expect(page.getByTestId("identity")).toContainText("Alice");
 });
 
-test("l'agent répond avec une trace @slow", async ({ page }) => {
+test("the agent answers with a trace @slow", async ({ page }) => {
   test.skip(!!process.env.PWTEST_SKIP_LLM, "LLM skipped");
   test.setTimeout(150_000);
   await page.goto("/");
@@ -236,12 +236,12 @@ test("l'agent répond avec une trace @slow", async ({ page }) => {
   await expect(page.getByTestId("trace")).toContainText("graph_lookup", { timeout: 130_000 });
 });
 
-test("registre de version : écrit à la demande, relisible ensuite", async ({ page }) => {
+test("the version registry is written on demand and readable afterwards", async ({ page }) => {
   await page.goto("/");
   await page.locator('[data-ab="branch"]').click();
   const card = page.getByTestId("cs-summary");
   await expect(card).toBeVisible();
   await page.getByTestId("cs-summarize").click();
-  // Le registre nomme le fichier et chiffre l'impact — jamais une phrase vide.
+  // The registry names the file and quantifies the impact — never an empty sentence.
   await expect(card).toContainText(/file\(s\) edited|program\(s\)|No file was edited/i, { timeout: 60000 });
 });

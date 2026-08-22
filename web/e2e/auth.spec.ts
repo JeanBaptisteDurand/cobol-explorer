@@ -24,12 +24,12 @@ const mockAuth = (page: any) => {
   return page.route("**/api/signup", async (route: any) => {
     const { username, password, display, role } = JSON.parse(route.request().postData() || "{}");
     if ((password || "").length < 8)
-      return route.fulfill({ status: 400, json: { detail: "mot de passe trop court : 8 caractères minimum" } });
+      return route.fulfill({ status: 400, json: { detail: "password too short: 8 characters minimum" } });
     return route.fulfill({ json: { token: "new.jwt.token", name: display || username, role, expires_in: 28800 } });
   });
 };
 
-test("la page d'accueil publique présente le produit sans rien exposer du patrimoine", async ({ page }) => {
+test("the public home page pitches the product without exposing any of the estate", async ({ page }) => {
   const estateCalls: string[] = [];
   await page.route("**/api/graph", (route) => { estateCalls.push(route.request().url()); return route.continue(); });
 
@@ -42,7 +42,7 @@ test("la page d'accueil publique présente le produit sans rien exposer du patri
   expect(estateCalls).toHaveLength(0);
 });
 
-test("la landing ouvre le panneau d'authentification sur le bon onglet", async ({ page }) => {
+test("the landing opens the auth panel on the right tab", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("hero-signup").click();
   await expect(page.getByTestId("auth-submit")).toContainText(/create account/i);
@@ -53,7 +53,7 @@ test("la landing ouvre le panneau d'authentification sur le bon onglet", async (
   await expect(page.getByTestId("auth-display")).toHaveCount(0);
 });
 
-test("mauvais identifiants : message d'erreur, pas de session", async ({ page }) => {
+test("wrong credentials: an error message, and no session", async ({ page }) => {
   await mockAuth(page);
   await page.goto("/");
   await page.getByTestId("nav-signin").click();
@@ -64,7 +64,7 @@ test("mauvais identifiants : message d'erreur, pas de session", async ({ page })
   expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))).toBeNull();
 });
 
-test("connexion : le jeton est stocké et accompagne les appels suivants", async ({ page }) => {
+test("sign-in: the token is stored and rides along on later calls", async ({ page }) => {
   await mockAuth(page);
   const authorized: (string | undefined)[] = [];
   await page.route("**/api/graph", (route) => {
@@ -84,18 +84,18 @@ test("connexion : le jeton est stocké et accompagne les appels suivants", async
   expect(authorized[0]).toBe("Bearer signed.jwt.token");
 });
 
-test("inscription : mot de passe refusé par le serveur, le motif est affiché", async ({ page }) => {
+test("sign-up: the server rejects the password and the reason is shown", async ({ page }) => {
   await mockAuth(page);
   await page.goto("/");
   await page.getByTestId("nav-signup").click();
   await page.getByTestId("auth-user").fill("nadia");
   await page.getByTestId("auth-password").fill("short");
   await page.getByTestId("auth-submit").click();
-  await expect(page.getByTestId("auth-error")).toContainText(/8 caractères/i);
+  await expect(page.getByTestId("auth-error")).toContainText(/8 characters/i);
   await expect(page.getByTestId("landing")).toBeVisible();
 });
 
-test("inscription : le rôle choisi part au serveur et ouvre l'atelier", async ({ page }) => {
+test("sign-up: the chosen role reaches the server and opens the workshop", async ({ page }) => {
   await mockAuth(page);
   let sent: any = null;
   await page.route("**/api/signup", async (route) => {
@@ -117,7 +117,7 @@ test("inscription : le rôle choisi part au serveur et ouvre l'atelier", async (
 });
 
 
-test("inscription avec vérification : l'e-mail est demandé et la session est retenue", async ({ page }) => {
+test("sign-up with verification: the email is asked for and the session is held back", async ({ page }) => {
   await page.route("**/api/auth/config", (route) =>
     route.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: true } })
   );
@@ -138,12 +138,12 @@ test("inscription avec vérification : l'e-mail est demandé et la session est r
 
   await expect(page.getByTestId("auth-sent")).toContainText("nadia@example.com");
   expect(sent.email).toBe("nadia@example.com");
-  // Aucune session tant que l'adresse n'est pas confirmée.
+  // No session until the address is confirmed.
   expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))).toBeNull();
   await expect(page.getByTestId("landing")).toBeVisible();
 });
 
-test("retour du lien de confirmation : la bannière annonce le résultat", async ({ page }) => {
+test("returning from the confirmation link: the banner states the outcome", async ({ page }) => {
   await page.goto("/?verified=1");
   await expect(page.getByTestId("verified-banner")).toContainText("confirmed");
   await page.goto("/?verified=expired");
@@ -151,7 +151,7 @@ test("retour du lien de confirmation : la bannière annonce le résultat", async
 });
 
 
-test("« Continue with IBM » n'apparaît que si le déploiement est câblé", async ({ page }) => {
+test("“Continue with IBM” only appears when the deployment is wired for it", async ({ page }) => {
   await page.route("**/api/auth/config", (r) =>
     r.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: false, ibm_sign_in: true } }));
   await page.goto("/");
@@ -161,7 +161,7 @@ test("« Continue with IBM » n'apparaît que si le déploiement est câblé", a
   await expect(ibm).toHaveAttribute("href", "/api/auth/ibm");
 });
 
-test("retour fédéré : la session arrive par le fragment et l'URL est nettoyée", async ({ page }) => {
+test("federated return: the session arrives in the fragment and the URL is cleaned", async ({ page }) => {
   await page.route("**/api/auth/config", (r) =>
     r.fulfill({ json: { mode: "jwt", required: true, roles: ["dev"], email_verification: false, ibm_sign_in: true } }));
   await page.goto("/#token=fragment.jwt.token&name=Jean-Baptiste&role=risk");
@@ -169,6 +169,6 @@ test("retour fédéré : la session arrive par le fragment et l'URL est nettoyé
   await expect(page.locator(".ov-stats")).toBeVisible({ timeout: 30000 });
   await expect(page.getByTestId("identity")).toContainText("Jean-Baptiste");
   expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-token"))).toBe("fragment.jwt.token");
-  // Le jeton ne doit pas rester dans la barre d'adresse.
+  // The token must not linger in the address bar.
   expect(await page.evaluate(() => window.location.hash)).toBe("");
 });

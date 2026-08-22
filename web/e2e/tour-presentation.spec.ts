@@ -20,7 +20,7 @@ const workshop = async (page: Page) => {
 
 // The argument page and the public home page are the same component, so they
 // cannot drift. Only the calls to action differ.
-test("/presentation sert la page d'arguments avec le retour vers l'atelier", async ({ page }) => {
+test("/presentation serves the argument page with a way back to the workshop", async ({ page }) => {
   await asDeveloper(page, true);
   await page.goto("/presentation");
 
@@ -37,7 +37,7 @@ test("/presentation sert la page d'arguments avec le retour vers l'atelier", asy
   expect(new URL(page.url()).pathname).toBe("/");
 });
 
-test("l'atelier offre le lien vers la présentation", async ({ page }) => {
+test("the workshop offers the link to the presentation", async ({ page }) => {
   await asDeveloper(page, true);
   await workshop(page);
   await page.getByTestId("open-presentation").click();
@@ -47,7 +47,7 @@ test("l'atelier offre le lien vers la présentation", async ({ page }) => {
 
 // The tour has to put the interface into the state each step describes, or it
 // teaches the wrong thing. Step 5 is the agent, so the agent panel must be open.
-test("le tour se joue au premier accès et ouvre ce qu'il décrit", async ({ page }) => {
+test("the tour plays on a first visit and opens what it describes", async ({ page }) => {
   const errs: string[] = [];
   page.on("pageerror", (e) => errs.push(String(e)));
 
@@ -83,7 +83,7 @@ test("le tour se joue au premier accès et ouvre ce qu'il décrit", async ({ pag
   expect(errs, errs.join(" | ")).toHaveLength(0);
 });
 
-test("le tour ne revient pas tout seul, mais le bouton le rejoue", async ({ page }) => {
+test("the tour does not come back on its own, but the button replays it", async ({ page }) => {
   await asDeveloper(page, true);
   await workshop(page);
   await page.waitForTimeout(800);
@@ -95,7 +95,7 @@ test("le tour ne revient pas tout seul, mais le bouton le rejoue", async ({ page
 
 // The sidebar panel is the answer to "how do I point my own Bob at this?", which
 // the product asserted in three places and answered in none.
-test("le panneau MCP donne la configuration réelle, copiable", async ({ page, context }) => {
+test("the MCP panel hands over the real configuration, ready to copy", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.addInitScript(() => {
     localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "JB", role: "Developer" }));

@@ -33,7 +33,7 @@ def test_branch_edit_diff_keeps_main_pristine(store):
 def test_revert_edit_restores_team_version(store):
     """The 'I accidentally emptied a file' scenario: revert drops the file from the version."""
     cs = store.create("oups", "alice")
-    store.add_edit(cs.id, "lgpolicy.cpy", "", "fichier vidé par erreur")
+    store.add_edit(cs.id, "lgpolicy.cpy", "", "file emptied by mistake")
     assert store.read_effective(cs.id, "lgpolicy.cpy") == ""
     store.revert_edit(cs.id, "lgpolicy.cpy")
     assert "PIC X." in store.read_effective(cs.id, "lgpolicy.cpy")  # back to main's content

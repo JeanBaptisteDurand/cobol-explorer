@@ -75,11 +75,11 @@ class GitVersionStore(VersionStore):
         crafted ``path`` like ``../../etc/x`` would let add_edit write ANY file the
         process can reach (arbitrary file write). Rejects absolute paths & traversal."""
         if not rel or os.path.isabs(rel):
-            raise ValueError(f"chemin invalide: {rel!r}")
+            raise ValueError(f"invalid path: {rel!r}")
         root = os.path.realpath(self.repo)
         full = os.path.realpath(os.path.join(root, rel))
         if full != root and not full.startswith(root + os.sep):
-            raise ValueError(f"chemin hors du dépôt: {rel!r}")
+            raise ValueError(f"path outside the repository: {rel!r}")
         return full
 
     # --- metadata (JSON, like the base store but under meta/) ---
@@ -178,7 +178,7 @@ class GitVersionStore(VersionStore):
                     self._git("rm", "-q", "-f", "--", rel, check=False)  # file is new here → drop it
                 if self._git("status", "--porcelain").strip():
                     self._git("add", "-A", "--", rel)
-                    self._git("commit", "-q", "-m", f"revert {rel} (retour à main)")
+                    self._git("commit", "-q", "-m", f"revert {rel} (back to main)")
             finally:
                 self._git("checkout", "-q", "main")
         cs.edits = [e for e in cs.edits if e["path"] != rel]
@@ -226,12 +226,12 @@ class GitVersionStore(VersionStore):
         with self._lock:
             behind = int((self._git("rev-list", "--count", f"{self._branch(cid)}..main").strip() or "0"))
             if behind:
-                raise ValueError(f"version en retard de {behind} commit(s) sur main — importez main d'abord")
+                raise ValueError(f"this version is {behind} commit(s) behind main — import main first")
             self._git("checkout", "-q", "main")
             r = subprocess.run(["git", "-C", self.repo, "merge", "--no-ff", "--no-edit", self._branch(cid)], capture_output=True, text=True)
             if r.returncode != 0:
                 subprocess.run(["git", "-C", self.repo, "merge", "--abort"], capture_output=True)
-                raise ValueError("échec de la fusion dans main")
+                raise ValueError("the merge into main failed")
         return self.set_status(cid, "merged")
 
     def export_main(self, dest: str) -> None:

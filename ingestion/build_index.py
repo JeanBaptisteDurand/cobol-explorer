@@ -33,7 +33,7 @@ def main() -> None:
     ap.add_argument("--out", default="index.json")
     args = ap.parse_args()
     n = build(args.graph, args.corpus, args.out)
-    print(f"Indexé {n} documents (IBM Granite embeddings) -> {args.out}")
+    print(f"Indexed {n} documents (IBM Granite embeddings) -> {args.out}")
 
 
 if __name__ == "__main__":

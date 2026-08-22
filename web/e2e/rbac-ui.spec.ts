@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
 // It used to take the whole application down: fetch does not reject on an HTTP
 // error, the shared GET helper returned the error body as if it were data, and
 // the panel reached into .entries of an object that had none.
-test("un refus d'audit s'affiche et ne fait pas tomber l'application", async ({ page }) => {
+test("a refused audit read is shown and does not take the app down", async ({ page }) => {
   const crashes: string[] = [];
   page.on("pageerror", (e) => crashes.push(String(e)));
 
@@ -30,7 +30,7 @@ test("un refus d'audit s'affiche et ne fait pas tomber l'application", async ({ 
 });
 
 // The same helper serves twelve endpoints, so the fix has to hold for any of them.
-test("un refus sur un autre endpoint ne fait pas tomber l'application non plus", async ({ page }) => {
+test("a refusal on another endpoint does not take the app down either", async ({ page }) => {
   const crashes: string[] = [];
   page.on("pageerror", (e) => crashes.push(String(e)));
 
@@ -50,7 +50,7 @@ test("un refus sur un autre endpoint ne fait pas tomber l'application non plus",
 // An expired token makes every gated call 401 at once. That must end the session
 // cleanly — back to the front door, with a reason — rather than reject into the
 // console and leave the workshop sitting on data it can no longer refresh.
-test("un jeton expiré termine la session au lieu de rejeter en silence", async ({ page }) => {
+test("an expired token ends the session instead of rejecting in silence", async ({ page }) => {
   const rejections: string[] = [];
   page.on("pageerror", (e) => rejections.push(String(e)));
 

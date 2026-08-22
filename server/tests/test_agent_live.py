@@ -25,7 +25,7 @@ def test_agent_answers_impact_grounded(tmp_path):
     graph = tmp_path / "g.json"
     ingest("corpora", str(graph))
     res = run_agent(
-        "Quels programmes sont impactes si je modifie le copybook LGPOLICY ?",
+        "Which programs are impacted if I change copybook LGPOLICY?",
         graph_path=str(graph),
         corpus_root="corpora",
         versions_root=str(tmp_path / "versions"),
