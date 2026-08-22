@@ -52,14 +52,28 @@ test("le tour se joue au premier accès et ouvre ce qu'il décrit", async ({ pag
   await expect(pop).toBeVisible({ timeout: 15_000 });
   await expect(pop).toContainText(/1 of \d+/);
 
-  for (let i = 0; i < 4; i++) {
-    await page.locator(".driver-popover-next-btn").click();
-    await page.waitForTimeout(350);
-  }
-  await expect(pop).toContainText("5 of");
-  // The agent tab is not merely outlined — it is open.
-  await expect(page.getByTestId("rp-chat")).toHaveClass(/on/);
+  // Every declared step must play. Two of them were being dropped silently
+  // because their target only exists once an entity is selected, and the filter
+  // ran before React had painted — the count is what caught it.
+  const total = Number((await pop.locator(".driver-popover-progress-text").innerText()).match(/of (\d+)/)?.[1]);
+  expect(total).toBe(15);
 
+  const titles: string[] = [];
+  for (let i = 0; i < total; i++) {
+    titles.push(await page.locator(".driver-popover-title").innerText());
+    if (i === 5) await expect(page.getByTestId("rp-chat")).toHaveClass(/on/);   // the agent step opened it
+    if (i === 6) await expect(page.locator(".panel")).toContainText("LGPOLICY"); // the inspector step filled it
+    if (i === 11) await expect(page.getByTestId("bob-panel")).toBeVisible();     // the MCP step opened it
+    if (i < total - 1) { await page.locator(".driver-popover-next-btn").click(); await page.waitForTimeout(300); }
+  }
+  expect(new Set(titles).size).toBe(total);   // no step shown twice
+
+  // The tour never writes into the reader's search box, and hands the sidebar
+  // back the way it found it.
+  expect(await page.getByTestId("search").inputValue()).toBe("");
+  await page.locator(".driver-popover-next-btn").click().catch(() => {});
+  await page.waitForTimeout(300);
+  await expect(page.getByTestId("bob-panel")).toHaveCount(0);
   expect(errs, errs.join(" | ")).toHaveLength(0);
 });
 
@@ -71,4 +85,32 @@ test("le tour ne revient pas tout seul, mais le bouton le rejoue", async ({ page
 
   await page.getByTestId("open-tour").click();
   await expect(page.locator(".driver-popover")).toBeVisible({ timeout: 15_000 });
+});
+
+// The sidebar panel is the answer to "how do I point my own Bob at this?", which
+// the product asserted in three places and answered in none.
+test("le panneau MCP donne la configuration réelle, copiable", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.addInitScript(() => {
+    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "JB", role: "Developer" }));
+    localStorage.setItem("cobol-explorer-tour-seen", "1");
+  });
+  await page.goto("/");
+  await expect(page.locator(".ov-stats")).toContainText(/programs/i, { timeout: 30_000 });
+
+  await page.locator('[data-ab="plug"]').click();
+  const panel = page.getByTestId("bob-panel");
+  await expect(panel).toBeVisible();
+  // The three tools, named as the server actually declares them.
+  for (const t of ["graph_lookup", "search_code", "read_source_lines"]) await expect(panel).toContainText(t);
+  // And the constraint stated rather than glossed over.
+  await expect(panel).toContainText(/stdio/i);
+
+  await page.getByTestId("bob-copy-config").click();
+  const clip = await page.evaluate(() => navigator.clipboard.readText());
+  expect(clip).toContain("mcpServers");
+  expect(clip).toContain("mcp_server.server");
+
+  await page.locator('[data-ab="plug"]').click();
+  await expect(panel).toHaveCount(0);
 });

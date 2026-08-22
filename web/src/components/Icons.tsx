@@ -47,6 +47,14 @@ const P: Record<string, ReactNode> = {
       <circle cx="5" cy="11" r="1.5" />
     </>
   ),
+  plug: (
+    <>
+      {/* A socket with two pins going in: the estate, and something plugging into it. */}
+      <path d="M5.4 2v3.1M10.6 2v3.1" />
+      <rect x="3.4" y="5.1" width="9.2" height="4.6" rx="0.6" />
+      <path d="M8 9.7V14" />
+    </>
+  ),
   split: (
     <>
       <rect x="2.2" y="3" width="11.6" height="10" rx="1" />

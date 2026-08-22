@@ -12,6 +12,7 @@ import Navigator from "./components/Navigator";
 import NewVersionModal from "./components/NewVersionModal";
 import Auth, { type AuthMode } from "./components/Auth";
 import Landing from "./components/Landing";
+import BobPanel from "./components/BobPanel";
 import Logo from "./components/Logo";
 import Tour, { tourWasSeen } from "./components/Tour";
 import Onboarding from "./components/Onboarding";
@@ -122,6 +123,8 @@ export default function App() {
   const [switching, setSwitching] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
   const [tourAt, setTourAt] = useState<number | null>(null);
+  // The sidebar shows the estate, or how to point your own Bob at it.
+  const [side, setSide] = useState<"explorer" | "bob">("explorer");
   // One client route. /presentation shows the same argument page the public sees,
   // so a signed-in reader can send it to a colleague instead of describing it.
   const [route, setRoute] = useState(() => window.location.pathname);
@@ -693,13 +696,15 @@ export default function App() {
           {/* Panel jumps — the panel's own tab bar (Agent/Inspecteur/Modifs) shows which is active. */}
           <AB name="branch" title="Versions / Changes" badge={versions.length || undefined} onClick={openChanges} />
           <AB name="spark" title="Agent" onClick={() => setRightTab("chat")} />
+          <AB name="plug" title="Connect your Bob (MCP)" on={side === "bob"}
+            onClick={() => setSide((v) => (v === "bob" ? "explorer" : "bob"))} />
           <div style={{ marginTop: "auto", marginBottom: 6 }}>
             <AB name="sliders" title="Settings" onClick={() => setShowOnb(true)} />
           </div>
         </div>
 
         <div className="sidebar sb">
-          <Navigator
+          {side === "bob" ? <BobPanel /> : <Navigator
             graph={graph}
             versions={versions}
             activeVersion={activeVersionId}
@@ -710,7 +715,7 @@ export default function App() {
             onNewVersion={() => newVersion()}
             selectedPath={activeTab?.path || null}
             selectedId={selectedId}
-          />
+          />}
         </div>
 
         {/* EDITOR — one or two panes side by side (split view) */}
@@ -779,6 +784,7 @@ export default function App() {
         hooks={{
           openTab: (t) => setRightTab(t),
           openGraph: () => focusTab(GRAPH_TAB),
+          openSide: (which) => setSide(which),
           openOverview: () => focusTab(OVERVIEW_TAB),
           // The tour shows rather than tells — but it does not type into the
           // search box on the reader's behalf. Writing into a live input leaves

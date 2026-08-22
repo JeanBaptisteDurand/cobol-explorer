@@ -19,6 +19,8 @@ import "./tour.css";
 export interface TourHooks {
   openTab: (tab: "chat" | "inspector" | "changes" | "audit") => void;
   openGraph: () => void;
+  /** Swap the sidebar to the estate tree, or to the Bob connection panel. */
+  openSide: (which: "explorer" | "bob") => void;
   openOverview: () => void;
   /** Select that entity, so the inspector is full rather than showing its placeholder. */
   selectExample: () => void;
@@ -44,6 +46,7 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: ".sidebar",
     title: "The estate, by business domain",
+    before: () => h.openSide("explorer"),
     text: "Not a file tree — the programs grouped the way the business thinks, with the mainframe resources underneath: copybooks, CICS transactions, VSAM files, BMS screens, DB2 tables, and the batch that runs at night.",
     side: "right",
   },
@@ -84,6 +87,7 @@ const STEPS = (h: TourHooks): Step[] => [
   },
   {
     el: '[data-testid="sidebar-versions"]',
+    before: () => h.openSide("explorer"),
     title: "Your work lives in versions",
     text: "Nothing is edited in place. “+ New version” opens a real git branch off the estate, and every version you or a teammate has open is listed here with its state — draft while you work, proposed once it is submitted, merged when it has been applied. Click one to work inside it; the status bar then tells you which version you are in.",
     side: "right",
@@ -103,7 +107,15 @@ const STEPS = (h: TourHooks): Step[] => [
     before: () => h.openTab("audit"),
   },
   {
+    el: '[data-testid="bob-panel"]',
+    title: "Take these tools into your own editor",
+    text: "The three the agent here runs on — graph_lookup, search_code, read_source_lines — are exposed over MCP, so IBM Bob can call them instead of reading files and guessing. Everything you need is in this panel: it runs over stdio on your own machine, beside your estate, and the configuration is one copy away.",
+    side: "right",
+    before: () => h.openSide("bob"),
+  },
+  {
     el: '[data-testid="statusbar-mode"]',
+    before: () => h.openSide("explorer"),
     title: "It always tells you where you stand",
     text: "Read-only on the main estate, Editing once you are inside a version — and the branch you are in is named to its left. You never have to wonder whether what you are typing can reach production.",
     side: "top",
@@ -130,43 +142,44 @@ export default function Tour({ run, hooks, onClose }: { run: boolean; hooks: Tou
     if (!run) return;
     let d: ReturnType<typeof driver> | null = null;
 
-    // A couple of targets only exist once an entity is selected — the Edit button
-    // among them. Select first, let React paint, and only then decide which steps
-    // have somewhere to point: filtering synchronously drops them before they can
-    // appear, which is how two steps went silently missing.
-    hooks.selectExample();
-    hooks.openOverview();
+    const all = STEPS(hooks);
+    // A step that declares `before` is responsible for its own target, so it is
+    // never filtered — that check is only for steps pointing at something that
+    // may genuinely be absent, like a panel a role cannot see. Filtering on the
+    // live DOM instead made steps vanish depending on which panel happened to be
+    // open, and cost two of them twice.
+    const steps = all.filter((s) => s.before || document.querySelector(s.el));
+    if (!steps.length) { onClose(); return; }
 
-    const t = window.setTimeout(() => {
-      const steps = STEPS(hooks).filter((s) => document.querySelector(s.el));
-      if (!steps.length) { onClose(); return; }
+    /** Prepare a step, then let React paint before driver measures its target. */
+    const goto = (i: number, move: () => void) => {
+      steps[i]?.before?.();
+      window.setTimeout(move, 70);
+    };
 
-      d = driver({
-        showProgress: true,
-        progressText: "{{current}} of {{total}}",
-        nextBtnText: "Next →",
-        prevBtnText: "← Back",
-        doneBtnText: "Start working",
-        popoverClass: "ce-tour",
-        stagePadding: 6,
-        stageRadius: 0,
-        overlayColor: "#000",
-        overlayOpacity: 0.72,
-        allowClose: true,
-        onDestroyed: () => { localStorage.setItem(TOUR_SEEN, "1"); onClose(); },
-        steps: steps.map<DriveStep>((s) => ({
-          element: s.el,
-          popover: { title: s.title, description: s.text, side: s.side ?? "bottom", align: "start" },
-        })),
-        // Each step puts the interface into the state it is about to describe.
-        onHighlightStarted: (_el, step) => {
-          steps.find((s) => s.el === (step as any).element)?.before?.();
-        },
-      });
-      d.drive();
-    }, 80);
+    d = driver({
+      showProgress: true,
+      progressText: "{{current}} of {{total}}",
+      nextBtnText: "Next →",
+      prevBtnText: "← Back",
+      doneBtnText: "Start working",
+      popoverClass: "ce-tour",
+      stagePadding: 6,
+      stageRadius: 0,
+      overlayColor: "#000",
+      overlayOpacity: 0.72,
+      allowClose: true,
+      onDestroyed: () => { localStorage.setItem(TOUR_SEEN, "1"); hooks.openSide("explorer"); onClose(); },
+      steps: steps.map<DriveStep>((s) => ({
+        element: s.el,
+        popover: { title: s.title, description: s.text, side: s.side ?? "bottom", align: "start" },
+      })),
+      onNextClick: (_e, _s, { state }) => goto((state.activeIndex ?? 0) + 1, () => d?.moveNext()),
+      onPrevClick: (_e, _s, { state }) => goto((state.activeIndex ?? 0) - 1, () => d?.movePrevious()),
+    });
 
-    return () => { window.clearTimeout(t); d?.destroy(); };
+    goto(0, () => d?.drive());
+    return () => { d?.destroy(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [run]);
 
