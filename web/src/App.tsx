@@ -26,6 +26,8 @@ interface Tab { key: string; type: "overview" | "graph" | "code" | "diff"; title
 interface TabGroup { id: string; tabs: Tab[]; activeKey: string; }
 const OVERVIEW_TAB: Tab = { key: "overview", type: "overview", title: "Overview" };
 const GRAPH_TAB: Tab = { key: "graph", type: "graph", title: "Graph" };
+// The copybook the whole page argues about: eleven programs copy it.
+const TOUR_EXAMPLE = "LGPOLICY";
 
 /** Feedback for the two redirects that land back on the public page: a confirmation
  *  link (?verified=1 or =expired) and a federated sign-in that did not complete
@@ -778,6 +780,14 @@ export default function App() {
           openTab: (t) => setRightTab(t),
           openGraph: () => focusTab(GRAPH_TAB),
           openOverview: () => focusTab(OVERVIEW_TAB),
+          // The tour does the thing rather than describing it: it types a real
+          // identifier into the search, and selects a real entity so the
+          // inspector has something in it when the step talks about its contents.
+          typeExample: () => setSearch(TOUR_EXAMPLE),
+          selectExample: () => {
+            const hit = graph?.nodes.find((n) => n.label === TOUR_EXAMPLE);
+            if (hit) setSelectedId(hit.id);
+          },
         }}
       />
 

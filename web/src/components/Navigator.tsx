@@ -141,7 +141,7 @@ export default function Navigator({
 
       {/* ── Change-sets ──────────────────────────────────────────────────── */}
       <div style={{ height: 1, background: "var(--border-subtle)", margin: "0 0 6px" }} />
-      <div style={{ padding: "0 8px 12px" }}>
+      <div style={{ padding: "0 8px 12px" }} data-testid="sidebar-versions">
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 8px" }}>
           <span className="klabel">Versions</span>
           {!readonly && <button className="btn" style={{ padding: "2px 8px", fontSize: 11 }} onClick={onNewVersion} data-testid="new-version">+ New version</button>}

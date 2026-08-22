@@ -20,6 +20,10 @@ export interface TourHooks {
   openTab: (tab: "chat" | "inspector" | "changes" | "audit") => void;
   openGraph: () => void;
   openOverview: () => void;
+  /** Put a real identifier in the search box, so the step has something to point at. */
+  typeExample: () => void;
+  /** Select that entity, so the inspector is full rather than showing its placeholder. */
+  selectExample: () => void;
 }
 
 /** `before` runs, then the DOM settles, then the step is shown. */
@@ -29,9 +33,9 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: '[data-testid="search"]',
     title: "Start by naming something",
-    text: "A program, a copybook, a DB2 table, a CICS transaction. Type it here, or press ⌘P for the palette — which also searches by intent, so “where is the premium calculated” finds the code without you knowing its name.",
+    text: "A program, a copybook, a DB2 table, a CICS transaction. We have put LGPOLICY in for you — the copybook eleven programs depend on. Press Enter to open it, or press ⌘P for the palette, which also searches by intent: “where is the premium calculated” finds the code without you knowing its name.",
     side: "bottom",
-    before: h.openOverview,
+    before: () => { h.openOverview(); h.typeExample(); },
   },
   {
     el: ".sidebar",
@@ -63,14 +67,20 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: '[data-testid="rp-inspector"]',
     title: "What one entity touches",
-    text: "Callers, callees, the tables it reads and writes, the screens and the batch steps that use it — and the field-level impact, down to which of its fields are actually referenced.",
+    text: "LGPOLICY is selected, so this is its real context: the programs that copy it, the tables and screens they reach, the batch steps that run them — and the field-level impact, down to which of its fields anything actually references.",
     side: "left",
-    before: () => h.openTab("inspector"),
+    before: () => { h.selectExample(); h.openTab("inspector"); },
+  },
+  {
+    el: '[data-testid="sidebar-versions"]',
+    title: "Your work lives in versions",
+    text: "Nothing is edited in place. “+ New version” opens a real git branch off the estate, and every version you or a teammate has open is listed here with its state — draft while you work, proposed once it is submitted, merged when it has been applied. Click one to work inside it; the status bar then tells you which version you are in.",
+    side: "right",
   },
   {
     el: '[data-testid="rp-changes"]',
     title: "A change is a proposal",
-    text: "Editing opens a real git branch off the estate. The impact is recomputed as you type, a teammate reviews the diff, and the merge gate states the blast radius out loud before anything touches main.",
+    text: "This is what happens to the version you picked: the files you touched, the diff against main, the impact recomputed at every edit, and the team's comments. Propose submits it for review; the merge gate then states the blast radius out loud and asks whoever is entitled to confirm it.",
     side: "left",
     before: () => h.openTab("changes"),
   },
