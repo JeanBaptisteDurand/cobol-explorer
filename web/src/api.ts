@@ -5,19 +5,28 @@ import type { ChangeSet, Graph } from "./types";
  *  perfectly good Response whose body is an error object. Returning that as data
  *  hands every caller a shape it never expects — a refused audit read resolved
  *  with {detail}, the panel reached for .entries.length, and the app unmounted
- *  into a black page. Throw like post() does, so the .catch already written at
- *  each call site is the thing that runs. */
+ *  into a black page. So both helpers throw, and share one error shape. */
+
+/** A session that has expired is not an error each caller should have to handle —
+ *  it is the end of the session, and there is exactly one right response: drop the
+ *  dead token and put the visitor back at the front door. Announced once here so
+ *  no call site has to remember. */
+export const SESSION_ENDED = "cobol-explorer:session-ended";
+
+const failed = (r: Response, d: unknown) => {
+  const detail = (d as any)?.detail;
+  const err: any = new Error(
+    (typeof detail === "string" ? detail : detail?.message) || `HTTP ${r.status}`,
+  );
+  err.status = r.status;
+  if (detail && typeof detail === "object") { err.code = detail.code; err.files = detail.files; }
+  if (r.status === 401) window.dispatchEvent(new CustomEvent(SESSION_ENDED));
+  return err;
+};
+
 const j = async (r: Response) => {
   const d = await r.json().catch(() => null);
-  if (!r.ok) {
-    const detail = (d as any)?.detail;
-    const err: any = new Error(
-      (typeof detail === "string" ? detail : detail?.message) || `HTTP ${r.status}`,
-    );
-    err.status = r.status;
-    if (detail && typeof detail === "object") err.code = detail.code;
-    throw err;
-  }
+  if (!r.ok) throw failed(r, d);
   return d;
 };
 // Attach the caller identity so the server can audit (who) and enforce RBAC (role).
@@ -38,17 +47,10 @@ const post = (url: string, body: any) =>
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(body),
   }).then(async (r) => {
-    const d = await r.json();
-    if (!r.ok) {
-      // A typed detail ({code, message}) lets the UI branch on the machine code —
-      // matching on the message text broke as soon as the wording changed.
-      const detail = d?.detail;
-      const err: any = new Error(
-        (typeof detail === "string" ? detail : detail?.message) || "server error"
-      );
-      if (detail && typeof detail === "object") { err.code = detail.code; err.files = detail.files; }
-      throw err;
-    }
+    const d = await r.json().catch(() => null);
+    // A typed detail ({code, message}) lets the UI branch on the machine code —
+    // matching on the message text broke as soon as the wording changed.
+    if (!r.ok) throw failed(r, d);
     return d;
   });
 

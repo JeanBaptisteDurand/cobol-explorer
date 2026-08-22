@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { createChangeSet, editCsFile, getAuthConfig, getCsDiff, getCsFile, getFileFull, getGraph, getSystems, listChangeSets, setSystem, type SystemInfo } from "./api";
+import { createChangeSet, editCsFile, getAuthConfig, getCsDiff, getCsFile, getFileFull, getGraph, getSystems, listChangeSets, SESSION_ENDED, setSystem, type SystemInfo } from "./api";
 import AuditPanel from "./components/AuditPanel";
 import ChangesPanel from "./components/ChangesPanel";
 import ChatPanel from "./components/ChatPanel";
@@ -14,7 +14,7 @@ import Auth, { type AuthMode } from "./components/Auth";
 import Landing from "./components/Landing";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
-import { consumeFragmentSession, getIdentity, getToken, type Identity } from "./identity";
+import { clearSession, consumeFragmentSession, getIdentity, getToken, type Identity } from "./identity";
 import { VISIBLE_DEFAULT } from "./layout";
 import { kindCount, nodeIndex } from "./model";
 import type { ChangeSet, GNode, Graph } from "./types";
@@ -33,26 +33,29 @@ const GRAPH_TAB: Tab = { key: "graph", type: "graph", title: "Graph" };
  *  failure — an expired state, a rejected code, a directory that refused the
  *  account — and the visitor was returned to the home page with no explanation,
  *  which is indistinguishable from a button that does nothing. */
-function ReturnBanner() {
+function ReturnBanner({ expired }: { expired?: boolean }) {
   const params = new URLSearchParams(window.location.search);
   const verified = params.get("verified");
   const ibm = params.get("ibm");
-  const [shown, setShown] = useState(!!(verified || ibm));
-  if (!shown || !(verified || ibm)) return null;
+  const [dismissed, setDismissed] = useState(false);
+  const shown = !dismissed && (expired || !!verified || !!ibm);
+  if (!shown) return null;
 
   const ok = verified === "1";
-  const message = ibm
-    ? "IBM sign-in did not complete. Use an account from this deployment's directory, or sign in with a password below."
-    : ok
-      ? "✓ Address confirmed — you can sign in now."
-      : "This confirmation link is invalid or has expired.";
-  const good = !ibm && ok;
+  const message = expired
+    ? "Your session expired — sign in again to reopen the estate. Nothing you proposed was lost; versions live on the server."
+    : ibm
+      ? "IBM sign-in did not complete. Use an account from this deployment's directory, or sign in with a password below."
+      : ok
+        ? "✓ Address confirmed — you can sign in now."
+        : "This confirmation link is invalid or has expired.";
+  const good = !expired && !ibm && ok;
 
   return (
     <div className="verified-banner" data-testid="verified-banner"
       style={{ borderColor: good ? "var(--verified)" : "var(--danger)", color: good ? "var(--verified)" : "var(--danger)" }}>
       {message}
-      <span onClick={() => setShown(false)} style={{ cursor: "pointer", marginLeft: 12, color: "var(--text-helper)" }}>✕</span>
+      <span onClick={() => setDismissed(true)} style={{ cursor: "pointer", marginLeft: 12, color: "var(--text-helper)" }}>✕</span>
     </div>
   );
 }
@@ -113,6 +116,24 @@ export default function App() {
   const [activeSys, setActiveSys] = useState("genapp");
   const [sysMenu, setSysMenu] = useState(false);
   const [switching, setSwitching] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
+
+  // A token that has expired makes every gated call 401 at once. Rather than let
+  // each of them fail on its own — which is how an expired session became a wall
+  // of unhandled rejections in the console and a workshop stuck on stale data —
+  // end the session once and return to the front door.
+  useEffect(() => {
+    const onEnded = () => {
+      clearSession();
+      setToken(null);
+      setIdent(null);
+      setGraph(null);
+      setVersions([]);
+      setSessionExpired(true);
+    };
+    window.addEventListener(SESSION_ENDED, onEnded);
+    return () => window.removeEventListener(SESSION_ENDED, onEnded);
+  }, []);
 
   // Ask the server whether it runs open (demo) or with real authentication, before
   // touching any gated endpoint — otherwise the first paint is a wall of 401s.
@@ -123,7 +144,12 @@ export default function App() {
   }, []);
   useEffect(() => {
     if (authRequired === null || needsLogin) return;
-    getGraph().then(setGraph); reloadVersions(); getSystems().then((d) => { setSystems(d.systems); setActiveSys(d.active); });
+    // Swallowed deliberately: a 401 is already handled by the session listener
+    // above, and anything else leaves the pane in its loading state rather than
+    // rejecting into the console.
+    getGraph().then(setGraph).catch(() => {});
+    reloadVersions();
+    getSystems().then((d) => { setSystems(d.systems); setActiveSys(d.active); }).catch(() => {});
   }, [authRequired, needsLogin]);
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
@@ -146,7 +172,7 @@ export default function App() {
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
   });
-  const reloadVersions = () => listChangeSets().then(setVersions);
+  const reloadVersions = () => listChangeSets().then(setVersions).catch(() => {});
   // Mirror activeVersionId into a ref so in-flight loadContent() can detect a
   // version switch that happened after it started.
   useEffect(() => { activeVersionIdRef.current = activeVersionId; }, [activeVersionId]);
@@ -467,7 +493,7 @@ export default function App() {
   if (needsLogin)
     return (
       <>
-        <ReturnBanner />
+        <ReturnBanner expired={sessionExpired} />
         <Landing onSignIn={() => setAuthPanel("login")} onSignUp={() => setAuthPanel("signup")} />
         {authPanel && (
           <Auth mode={authPanel} roles={signupRoles} emailVerification={emailVerification} ibmSignIn={ibmSignIn} onMode={setAuthPanel} onClose={() => setAuthPanel(null)}
