@@ -1,7 +1,8 @@
 <div align="center">
 
 # COBOL Explorer
-### The AI workshop for **understanding** and **safely changing** a mainframe estate
+### The AI co-worker for mainframe teams — it plans the blast radius of a change,
+### grounds every decision to the source line, and hands its tools to IBM Bob over MCP
 
 *Grounded agentic RAG + a mainframe-native graph — every answer traced back to the source line.*
 
@@ -19,7 +20,7 @@
 
 ## 🏆 AI Builders Challenge with IBM Bob — submission (Wildcard)
 
-> An **AI co-worker + decision-intelligence platform** that turns work on legacy mainframe code — today a set of disconnected, expert-dependent tasks — into an **intelligent, governed, outcome-driven system** for a whole team (developers · risk · compliance).
+> An **AI co-worker + decision-intelligence platform** that turns work on legacy mainframe code — today a set of disconnected, expert-dependent tasks — into an **intelligent, governed, outcome-driven system** for a whole team (developers · risk · compliance). Built with IBM Bob — and extending IBM Bob back, over MCP.
 
 ### Problem statement
 
@@ -38,11 +39,11 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 
 - **Agentic RAG** — a **BeeAI** `RequirementAgent` on **IBM Granite** (ReAct loop); the agent chooses which tool to call and logs *why* (a `think` step), so its reasoning is auditable.
 - **Two complementary RAGs** — a **graph RAG** (deterministic traversal → exact impact / lineage / call graph) and a **vector RAG** (**IBM Granite embeddings** → semantic search by intent). The agent routes between them.
-- **Grounding / anti-hallucination** — every answer cites `file:line`, re-verified against the corpus before it reaches the reader.
+- **Grounding / anti-hallucination** — every answer cites `file:line`; the server re-verifies each citation against the corpus and flags any that does not resolve.
 - **IBM Bob via MCP** — 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
 - **Governance** — git-backed team versioning, RBAC roles, merge gate, HMAC-chained immutable audit.
 - **Multi-estate** — analyses **two real codebases**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. 151 backend tests · 49 e2e.
+- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 151 backend tests · 49 e2e.
 
 ### Try it
 
@@ -70,6 +71,8 @@ Stated plainly, because a reviewer will find them anyway:
 ### Selected challenge theme
 
 **Wildcard — *Build Intelligent Systems for the Future of Work*.** COBOL Explorer is a **decision-intelligence platform** and **AI co-worker** for the millions of people who maintain the systems that run critical infrastructure: it uses AI to **reduce repetitive work** (manual impact hunting), **improve decision-making** (exhaustive grounded impact), and **help teams reach outcomes faster** (a governed collaboration workflow) — spanning technical and non-technical roles.
+
+Judged outside the Wildcard, the entry stands on its own merits: as a use of technology — the entire AI layer is IBM (Granite reasoning, Granite embeddings, BeeAI orchestration, watsonx.ai inference in production, and three MCP tools that extend IBM Bob itself) — and as an innovation: a deterministic graph RAG whose every model-written citation is re-verified against the source before a human relies on it.
 
 ### How IBM Bob was used
 
@@ -383,6 +386,10 @@ make serve-auth   # the same app, with real authentication enabled
 # demo accounts (password: demo) — one per gesture, so RBAC can be seen to bite:
 #   amine (dev) · claire (architect) · sofia (risk) · marc (auditor, read-only)
 ```
+
+The audit chain is keyed: set `COBOL_EXPLORER_AUDIT_SECRET` in any real deployment — with the
+demo default, tamper evidence holds against everyone except whoever can read this repository,
+and the server logs a warning when auth is on but the key is the demo one.
 
 For real accounts, point `COBOL_EXPLORER_USERS` at a JSON `{user: {display, role, password_hash}}`
 (hash through `security.users.hash_password`), and set `COBOL_EXPLORER_JWT_SECRET` so tokens survive a restart.

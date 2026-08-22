@@ -221,7 +221,9 @@ def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Ex
 
     from agent.responder import answer_copybook_impact
 
-    note = f"\n\n_(deterministic answer — the LLM agent is unavailable: {type(exc).__name__})_"
+    import logging
+    logging.getLogger("uvicorn.error").info("agent fallback: %s", type(exc).__name__)
+    note = "\n\n> Deterministic answer — no language model is configured, so this was derived from the graph alone."
     # Allow underscores so table names like CUSTOMER_SECURE resolve as one token.
     for tok in re.findall(r"\b[A-Za-z][A-Za-z0-9_]{2,}\b", question):
         nid = gt.resolve(tok.upper())
@@ -236,4 +238,4 @@ def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Ex
             trace.record("graph_lookup", {"op": "summary", "node": tok.upper()},
                          _summ(prof), sources=[prof.get("node", nid)])
             return {"answer": _format_profile(prof) + note, "trace": trace}
-    return {"answer": f"[The LLM agent is unavailable ({type(exc).__name__}). Name a program, a copybook or a table for a structural analysis that needs no LLM.]", "trace": trace}
+    return {"answer": "No language model is configured, and this question needs one. Name a program, a copybook or a table and the graph alone can answer — impact, callers, profile — with citations.", "trace": trace}

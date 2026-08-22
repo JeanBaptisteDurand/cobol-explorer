@@ -14,7 +14,7 @@
       "kind": "COPYBOOK",
       "label": "LGPOLICY",
       "attrs": {
-        "path": "genapp-src/base/src/lgpolicy.cpy",
+        "path": "lgpolicy.cpy",
         "file": "lgpolicy.cpy"
       }
     },

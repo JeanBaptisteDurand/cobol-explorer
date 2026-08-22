@@ -24,6 +24,8 @@ export interface TourHooks {
   openOverview: () => void;
   /** Select that entity, so the inspector is full rather than showing its placeholder. */
   selectExample: () => void;
+  /** Restore the pre-tour state: leave any version the tour entered, back to the overview. */
+  finish: () => void;
 }
 
 /** `before` runs, then the DOM settles, then the step is shown. */
@@ -169,7 +171,7 @@ export default function Tour({ run, hooks, onClose }: { run: boolean; hooks: Tou
       overlayColor: "#000",
       overlayOpacity: 0.72,
       allowClose: true,
-      onDestroyed: () => { localStorage.setItem(TOUR_SEEN, "1"); hooks.openSide("explorer"); onClose(); },
+      onDestroyed: () => { localStorage.setItem(TOUR_SEEN, "1"); hooks.openSide("explorer"); hooks.finish(); onClose(); },
       steps: steps.map<DriveStep>((s) => ({
         element: s.el,
         popover: { title: s.title, description: s.text, side: s.side ?? "bottom", align: "start" },

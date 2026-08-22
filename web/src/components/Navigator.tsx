@@ -52,7 +52,11 @@ export default function Navigator({
       {/* ── Source code, one folder per business domain ─────────────────── */}
       <div className="sidehead" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
         <span className="klabel">Source code</span>
-        <span className="sidehint">COBOL programs, by business domain — click: opens the code</span>
+        {/* "with source in the corpus" is doing real work: the graph also knows
+            programs that are only ever CALLed (18 of CardDemo's 62), so the
+            tree count and the estate statistic legitimately differ — unstated,
+            that difference read as a bug. */}
+        <span className="sidehint">COBOL programs with source in the corpus, by business domain — click: opens the code</span>
       </div>
 
       <div style={{ padding: "0 8px 10px" }}>

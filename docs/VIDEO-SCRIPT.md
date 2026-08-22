@@ -15,7 +15,7 @@
 > were born — and it still runs, untouched, because nobody dares.
 >
 > Here is what 'nobody dares' actually means. A developer needs to widen one field, in one shared file. They search,
-> they ask around, they find eight programs. There were fourteen. The other six fail at 3 a.m., in batch, in
+> they ask around, they find eight programs. There were eleven. The other three fail at 3 a.m., in batch, in
 > production."
 
 *Action: scroll the landing slowly, stop on the four proof numbers.*

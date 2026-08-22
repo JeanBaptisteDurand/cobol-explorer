@@ -19,6 +19,27 @@ cd "$(dirname "$0")/.."
 PY=.venv/bin/python
 say() { printf '\n\033[1m%s\033[0m\n' "$1"; }
 
+# --- 0. the two tools we cannot install for you ------------------------------
+# Checked up front with a sentence each, because the alternative is `uv: command
+# not found` from three layers down in make.
+for tool in uv pnpm; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    case "$tool" in
+      uv)   hint="curl -LsSf https://astral.sh/uv/install.sh | sh   (or: brew install uv)";;
+      pnpm) hint="npm install -g pnpm   (or: brew install pnpm)";;
+    esac
+    echo "This demo needs '$tool', which is not installed. Get it with:" >&2
+    echo "  $hint" >&2
+    exit 1
+  fi
+done
+PORT="${PORT:-8000}"
+if command -v lsof >/dev/null 2>&1 && lsof -ti:"$PORT" >/dev/null 2>&1; then
+  echo "Port $PORT is already in use — either that IS this demo (open http://127.0.0.1:$PORT)," >&2
+  echo "or pick another port: PORT=8001 make demo" >&2
+  exit 1
+fi
+
 # --- 1. dependencies ---------------------------------------------------------
 if [ ! -x "$PY" ]; then
   say "No virtualenv yet — running make setup (a few minutes, once)."

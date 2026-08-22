@@ -35,6 +35,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
   // A merged version is done: no sync warnings, no further actions.
   const sync = merged ? null : version.sync;
   const behind = sync ? !sync.up_to_date : false;
+  const empty = !version.edits?.length;
 
   const run = (p: Promise<any>, after?: () => void) => {
     setBusy(true); setError(null);
@@ -173,7 +174,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
           )}
         </div>
       )}
-      {confirmMerge && (
+      {confirmMerge && !empty && (
         <div className="card" style={{ padding: "10px 12px", borderColor: "var(--interactive)", background: "rgba(15, 98, 254, .12)", font: "400 11px/1.5 var(--s)", color: "var(--text-secondary)" }} data-testid="merge-gate">
           <span style={{ color: "var(--interactive)" }}>⚠ Merge-gate</span> — this merge applies the change to the estate and touches <b style={{ color: "var(--text-primary)" }}>{nProg} program{nProg > 1 ? "s" : ""}</b>. Confirm?
         </div>
@@ -184,11 +185,11 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       <div style={{ display: merged ? "none" : "flex", gap: 8 }}>
         <button className="btn-pri" style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8 }} disabled={busy}
           onClick={() => run(csStatus(version.id, "proposed"))}>Propose</button>
-        <button className={confirmMerge ? "btn-pri" : "btn"} style={{ flex: 1, justifyContent: "center", border: confirmMerge ? "none" : undefined, opacity: behind ? 0.5 : 1 }}
-          data-testid="merge-btn" disabled={busy || behind}
-          title={behind ? "Your branch is behind main — import main first" : "Apply this version onto main (git merge)"}
+        <button className={confirmMerge && !empty ? "btn-pri" : "btn"} style={{ flex: 1, justifyContent: "center", border: confirmMerge && !empty ? "none" : undefined, opacity: behind || empty ? 0.5 : 1 }}
+          data-testid="merge-btn" disabled={busy || behind || empty}
+          title={behind ? "Your branch is behind main — import main first" : empty ? "Nothing to merge — this version has no changed file" : "Apply this version onto main (git merge)"}
           onClick={() => (confirmMerge ? run(csStatus(version.id, "merged"), () => setConfirmMerge(false)) : setConfirmMerge(true))}>
-          {behind ? "Merge (import main first)" : confirmMerge ? "Confirm merge" : "Merge"}
+          {behind ? "Merge (import main first)" : empty ? "Nothing to merge" : confirmMerge ? "Confirm merge" : "Merge"}
         </button>
       </div>
 

@@ -3,7 +3,7 @@ import { cobol } from "@codemirror/legacy-modes/mode/cobol";
 import { StateEffect, StateField } from "@codemirror/state";
 import { Decoration, type DecorationSet, EditorView } from "@codemirror/view";
 import CodeMirror, { type ReactCodeMirrorRef } from "@uiw/react-codemirror";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const cobolExt = StreamLanguage.define(cobol);
 
@@ -39,6 +39,12 @@ export default function CodeView({
   highlight?: { line: number; nonce: number };
 }) {
   const ref = useRef<ReactCodeMirrorRef>(null);
+  // Flips once the editor exists. The flash effect used to depend on the nonce
+  // alone, so when a citation opened a file that was NOT already open, the
+  // effect fired while the view was still null, returned early, and never fired
+  // again — the one gesture the product is named for landed on line 1 with no
+  // flash. Re-running on `ready` covers the fresh-tab case.
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const view = ref.current?.view;
@@ -48,7 +54,7 @@ export default function CodeView({
     view.dispatch({ effects: [flashLine.of(ln), EditorView.scrollIntoView(at, { y: "center" })] });
     const t = setTimeout(() => view.dispatch({ effects: flashLine.of(null) }), 2000);
     return () => clearTimeout(t);
-  }, [highlight?.nonce]);
+  }, [highlight?.nonce, ready]);
 
   return (
     <CodeMirror
@@ -65,6 +71,7 @@ export default function CodeView({
         highlightActiveLine: editable,
         highlightActiveLineGutter: editable,
       }}
+      onCreateEditor={() => setReady(true)}
       height="100%"
       className="cm-theme"
     />

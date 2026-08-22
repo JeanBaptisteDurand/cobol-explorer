@@ -3,10 +3,19 @@ PP := PYTHONPATH=packages/core:ingestion:server
 
 .PHONY: setup deps web ingest index test e2e demo serve mcp clean pgvector-up pgvector-load serve-pg neo4j-load serve-scale
 
-setup: ## create venv (standalone python via uv) + install everything
+# requirements.lock is a freeze of the environment every number in the README was
+# measured in. Installing from it means a clone on judging day gets the versions
+# that are known to work, not whatever beeai-framework or mcp released that week.
+setup: ## create venv (standalone python via uv) + install everything, pinned
+	uv venv --python 3.12 .venv
+	VIRTUAL_ENV=.venv uv pip install -r requirements.lock
+	cd web && pnpm install
+
+setup-latest: ## same, unpinned — for refreshing requirements.lock deliberately
 	uv venv --python 3.12 .venv
 	VIRTUAL_ENV=.venv uv pip install networkx pyyaml pytest fastapi "uvicorn[standard]" \
 		sse-starlette requests beeai-framework ollama httpx "mcp[cli]" ibm-watsonx-ai
+	VIRTUAL_ENV=.venv uv pip freeze > requirements.lock
 	cd web && pnpm install
 
 ingest: ## parse corpus -> graph.json

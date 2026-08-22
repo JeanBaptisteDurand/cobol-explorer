@@ -123,6 +123,8 @@ export default function App() {
   const [switching, setSwitching] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
   const [tourAt, setTourAt] = useState<number | null>(null);
+  const tourBaseVersion = useRef<string | null>(null);
+  useEffect(() => { if (tourAt !== null) tourBaseVersion.current = activeVersionIdRef.current; }, [tourAt]);
   // The sidebar shows the estate, or how to point your own Bob at it.
   const [side, setSide] = useState<"explorer" | "bob">("explorer");
   // One client route. /presentation shows the same argument page the public sees,
@@ -601,7 +603,9 @@ export default function App() {
           </div>
         ) : (
           <div className="breadcrumb">
-            <span className="crumb">genapp</span><Icon name="chev" size={11} color="var(--text-helper)" />
+            {/* Hardcoded "genapp" survived the second estate: on CardDemo every
+                surface switched except this one word. */}
+            <span className="crumb">{activeSys}</span><Icon name="chev" size={11} color="var(--text-helper)" />
             <span style={{ color: "var(--text-primary)" }}>{t?.title}</span>
           </div>
         )}
@@ -793,6 +797,16 @@ export default function App() {
           selectExample: () => {
             const hit = graph?.nodes.find((n) => n.label === TOUR_EXAMPLE);
             if (hit) setSelectedId(hit.id);
+          },
+          // Hand the workshop back the way the tour found it. Its changes step
+          // auto-enters the first draft version (that is the panel's normal
+          // behaviour), so without this a first-time reader finished the tour
+          // INSIDE somebody's draft, status bar reading "Editing" — right after
+          // being told they never have to wonder where what they type lands.
+          finish: () => {
+            if (!tourBaseVersion.current && activeVersionIdRef.current) switchVersion(null);
+            setRightTab("inspector");
+            focusTab(OVERVIEW_TAB);
           },
         }}
       />

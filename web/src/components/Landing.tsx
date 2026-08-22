@@ -99,7 +99,7 @@ const MCP_ADDS: ReactNode[] = [
 const GOVERNANCE = [
   { tag: "Verified", c: "var(--verified)", t: "Anti-hallucination guardrail", d: "After every answer the server re-verifies each citation against the corpus: does the file exist, is the line in range. An ungrounded answer never passes silently — the panel labels it." },
   { tag: "Audited", c: "var(--graph)", t: "Tamper-evident audit log", d: "Every action, and every refusal, is appended to an HMAC-SHA256 chain. Altering one line breaks the chain, and the panel says so." },
-  { tag: "Scoped", c: "var(--reason)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights. Passwords are never stored — PBKDF2-HMAC-SHA256, 120,000 iterations, per-account salt." },
+  { tag: "Scoped", c: "var(--reason)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights." },
   { tag: "Measured", c: "var(--danger)", t: "Quality, not assumption", d: "A golden question set scored on entity recall, citation grounding and impact coverage, run in CI — so a quality regression breaks the build rather than reaching a demo." },
 ];
 
@@ -109,14 +109,6 @@ const STACK = [
   { l: "Orchestration", t: "BeeAI", d: "The ReAct loop: the agent picks its own tools and logs why, which is what makes the reasoning auditable." },
   { l: "Inference", t: "IBM watsonx.ai", d: "granite-4-h-small in Dallas, the hosted backend serving this deployment. 6.5 s per answer against 30-40 s on CPU." },
 ];
-
-const VERBS = [
-  { v: "Plan", t: "Exhaustive impact", d: "A deterministic traversal, not a plausible sample." },
-  { v: "Coordinate", t: "Team versioning", d: "Isolated branches, affected owners, review, merge gate." },
-  { v: "Decide", t: "Grounded answers", d: "Every fact cited to file:line and re-verified at the source." },
-  { v: "Execute", t: "Governed merge", d: "Propose, measure, approve, merge — on a chained audit trail." },
-];
-
 
 const FIT = [
   { t: "Plan", d: "Exhaustive impact: “this copybook breaks these 11 programs and these 2 batch chains” — a deterministic traversal, never a plausible sample." },
@@ -285,8 +277,8 @@ export default function Landing({
             <p>Browse, ask, analyse without ever altering the estate. Read-only by construction, not by policy.</p>
             <div className="ce-code">
               <span style={{ color: "var(--reason)" }}>think</span> “where is the premium computed?”<br />
-              <span style={{ color: "var(--vector)" }}>search_code</span> → MAJORER-PRIME{" "}
-              <span style={{ color: "var(--interactive)" }}>lgipol01.cbl:50</span><br />
+              <span style={{ color: "var(--vector)" }}>search_code</span> → DB2-M-PREMIUM{" "}
+              <span style={{ color: "var(--interactive)" }}>lgapdb01.cbl:100</span><br />
               <span style={{ color: "var(--verified)" }}>✓ 3 sources verified</span>
             </div>
           </div>
@@ -551,15 +543,6 @@ export default function Landing({
             </div>
           ))}
         </div>
-        <div className="ce-grid4 ce-stack" style={{ marginTop: 34 }}>
-          {VERBS.map((v) => (
-            <div key={v.v}>
-              <div className="ce-stack-l is-accent">{v.v}</div>
-              <div className="ce-stack-t">{v.t}</div>
-              <p className="ce-stack-d">{v.d}</p>
-            </div>
-          ))}
-        </div>
       </Section>
 
       <Section id="fit-section"
@@ -599,7 +582,7 @@ export default function Landing({
 
       <Section id="built-section"
         title="Built with IBM Bob — spec first, not vibes."
-        lead="The July lab teaches spec-driven development with Bob rather than vibe coding: describe the intent, let the agent plan, review the plan, then implement. Reusable skills kept that discipline on every unit of work.">
+        lead="The loop closes here: Bob helped build the tool that now extends Bob over MCP. The July lab teaches spec-driven development rather than vibe coding — describe the intent, let the agent plan, review the plan, then implement — and reusable skills kept that discipline on every unit of work.">
         <div className="ce-grid3 ce-verbs">
           {BUILT.map((f) => (
             <div className="ce-verb" key={f.t}>
@@ -609,13 +592,13 @@ export default function Landing({
           ))}
         </div>
         <p className="ce-fine">
-          The loop closes: Bob helped build the tool that now extends Bob. The same three tools are exposed back to it
-          over MCP, so a developer inside Bob can ask what breaks and get an exhaustive, grounded answer.
+          The same three tools this page describes are exposed back to Bob, so a developer inside it can ask what
+          breaks and get an exhaustive, grounded answer instead of a plausible one.
         </p>
       </Section>
 
       <Section id="access-section" alt
-        title="Days of manual hunting, down to 6.5 seconds — with line-level proof."
+        title="Days of manual hunting, down to 30 seconds — with line-level proof."
         lead="Your role travels inside a signed token: it decides what you may read, propose and merge, and every action is written to the tamper-evident audit trail under your name.">
         <div className="ce-access-actions">
           {inside ? (

@@ -15,7 +15,19 @@ import json
 import os
 import threading
 
+# The chain key. It must survive restarts — old entries are verified against it —
+# so unlike the JWT secret it cannot default to a random per-process value. The
+# demo default is repo-visible, which means: with it, someone who can WRITE the
+# log file can also re-link the chain. Tamper evidence is real against everyone
+# else; against the key holder it is exactly as strong as the key is secret.
+# Deployments set COBOL_EXPLORER_AUDIT_SECRET (documented in the README), and the
+# server says so out loud below instead of letting the default pass silently.
 _SECRET = os.environ.get("COBOL_EXPLORER_AUDIT_SECRET", "dev-audit-secret-change-in-prod").encode()
+if _SECRET == b"dev-audit-secret-change-in-prod" and os.environ.get("COBOL_EXPLORER_AUTH") in ("jwt", "enforce"):
+    import logging
+    logging.getLogger("uvicorn.error").warning(
+        "audit: running with the demo chain key — set COBOL_EXPLORER_AUDIT_SECRET "
+        "or the tamper evidence is only as secret as this repository")
 
 
 def _mac(prev: str, payload: str) -> str:

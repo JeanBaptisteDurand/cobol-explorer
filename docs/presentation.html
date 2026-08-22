@@ -537,7 +537,7 @@
       <b>HMAC-SHA256</b> chain: altering one line breaks the chain. An Audit tab in the UI shows
       <span class="badge-ok">✓ chain intact</span>.</p></div>
     <div class="card"><h3>👥 Role-based access control</h3>
-      <p>Five roles: <b>dev · architect · risk · compliance · auditor</b>. Proposing ≠ merging ≠ auditing.
+      <p>Six roles — guest included; five can sign in: <b>dev · architect · risk · compliance · auditor</b>. Proposing ≠ merging ≠ auditing.
       Sign-in issues a <b>signed token</b> carrying the role, so a forged header promotes nobody; an
       <span class="mono">enforce</span> mode delegates identity to a corporate SSO proxy (OIDC/SAML) instead.</p></div>
     <div class="card"><h3>📊 Quality measured, not assumed</h3>
@@ -666,7 +666,7 @@
       <li><b>Real sign-in</b> (signed token) or <b>enforce</b> mode behind an SSO proxy</li>
       <li>Source access confined to the corpus (path-traversal proof) + strict CORS</li>
       <li>Copybook resolver: SYSLIB, COPY REPLACING, nested</li>
-      <li>151 backend tests · 49 Playwright e2e · multi-agent adversarial audits</li>
+      <li>151 backend tests · 49 Playwright e2e · a golden Q/A gate in CI</li>
     </ul></div>
   </div>
   <div class="foot"><span>COBOL Explorer</span><span>16 / 20</span></div>

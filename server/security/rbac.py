@@ -1,4 +1,4 @@
-"""Role-based access control for the two gestures (comprendre vs modifier).
+"""Role-based access control for the two gestures (understand vs change).
 
 Roles map to the mainframe org: dev (change), risk/compliance (read + govern),
 auditor (read + audit). Enforcement is opt-in via ``COBOL_EXPLORER_AUTH=enforce``

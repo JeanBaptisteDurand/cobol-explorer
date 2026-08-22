@@ -18,12 +18,12 @@ def main() -> None:
 
     res = answer_copybook_impact(args.copybook, args.graph, args.corpus)
     print("=" * 70)
-    print("REPONSE")
+    print("ANSWER")
     print("=" * 70)
     print(res["answer"])
     print()
     print("=" * 70)
-    print("TRACE DES APPELS D'OUTILS (grounding auditable)")
+    print("TOOL-CALL TRACE (auditable grounding)")
     print("=" * 70)
     print(res["trace"].render())
 

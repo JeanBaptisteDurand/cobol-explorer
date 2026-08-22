@@ -49,7 +49,13 @@ export default function AuditPanel() {
       <div className="sb" style={{ flex: 1, overflow: "auto", padding: "6px 8px" }} data-testid="audit-list">
         {data?.entries?.slice().reverse().map((e, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 6px", borderBottom: "1px solid var(--layer-02)", font: "400 11px var(--m)" }}>
-            <span style={{ color: "var(--text-helper)", flex: "none", width: 52 }}>{e.ts.slice(11, 19)}</span>
+            {/* The server records ISO-8601 UTC. Shown bare ("20:44:33") in an
+                evidence panel, two hours off the reader's wall clock, the
+                timestamp read as wrong — label the zone, carry the date in the
+                tooltip. */}
+            <span style={{ color: "var(--text-helper)", flex: "none", width: 74 }} title={e.ts}>
+              {e.ts.slice(11, 19)} <span style={{ fontSize: 8.5 }}>UTC</span>
+            </span>
             <span style={{ color: "var(--text-primary)", flex: "none", width: 88, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={`${e.actor} · ${e.role}`}>{e.actor}</span>
             <span className="tag" style={{ flex: "none" }}>{e.action}</span>
             <span style={{ color: "var(--text-secondary)", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={e.target}>{e.target}</span>
