@@ -20,8 +20,6 @@ export interface TourHooks {
   openTab: (tab: "chat" | "inspector" | "changes" | "audit") => void;
   openGraph: () => void;
   openOverview: () => void;
-  /** Put a real identifier in the search box, so the step has something to point at. */
-  typeExample: () => void;
   /** Select that entity, so the inspector is full rather than showing its placeholder. */
   selectExample: () => void;
 }
@@ -33,9 +31,15 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: '[data-testid="search"]',
     title: "Start by naming something",
-    text: "A program, a copybook, a DB2 table, a CICS transaction. We have put LGPOLICY in for you — the copybook eleven programs depend on. Press Enter to open it, or press ⌘P for the palette, which also searches by intent: “where is the premium calculated” finds the code without you knowing its name.",
+    text: "A program, a copybook, a DB2 table, a CICS transaction — type its name and press Enter. Try LGPOLICY: the copybook eleven programs depend on, and the one the rest of this tour follows.",
     side: "bottom",
-    before: () => { h.openOverview(); h.typeExample(); },
+    before: h.openOverview,
+  },
+  {
+    el: ".cmdk .kbd",
+    title: "Or describe it, if you do not know the name",
+    text: "⌘P opens the palette. Beside the exact matches it runs a semantic search over the estate — IBM Granite embeddings — so “where is the premium calculated” finds the code when nobody remembers which program holds it. On an estate this old, nobody knows the names; that is the whole point.",
+    side: "bottom",
   },
   {
     el: ".sidebar",
@@ -72,6 +76,13 @@ const STEPS = (h: TourHooks): Step[] => [
     before: () => { h.selectExample(); h.openTab("inspector"); },
   },
   {
+    el: '[data-testid="insp-edit"]',
+    title: "The one bridge from reading to changing",
+    text: "Everything so far was read-only by construction, not by policy. This is the single button that crosses over — and it does not edit the estate: it opens an isolated version and puts you inside it. There is no other way to change anything here.",
+    side: "left",
+    before: () => { h.selectExample(); h.openTab("inspector"); },
+  },
+  {
     el: '[data-testid="sidebar-versions"]',
     title: "Your work lives in versions",
     text: "Nothing is edited in place. “+ New version” opens a real git branch off the estate, and every version you or a teammate has open is listed here with its state — draft while you work, proposed once it is submitted, merged when it has been applied. Click one to work inside it; the status bar then tells you which version you are in.",
@@ -90,6 +101,12 @@ const STEPS = (h: TourHooks): Step[] => [
     text: "Every query, read, change and denial is appended to an HMAC-chained log. Altering one line breaks the chain, and the panel says so. Reading it is itself a right — not every role has it.",
     side: "left",
     before: () => h.openTab("audit"),
+  },
+  {
+    el: '[data-testid="statusbar-mode"]',
+    title: "It always tells you where you stand",
+    text: "Read-only on the main estate, Editing once you are inside a version — and the branch you are in is named to its left. You never have to wonder whether what you are typing can reach production.",
+    side: "top",
   },
   {
     el: '[data-testid="system-btn"]',
@@ -111,45 +128,45 @@ export const tourWasSeen = () => localStorage.getItem(TOUR_SEEN) === "1";
 export default function Tour({ run, hooks, onClose }: { run: boolean; hooks: TourHooks; onClose: () => void }) {
   useEffect(() => {
     if (!run) return;
+    let d: ReturnType<typeof driver> | null = null;
 
-    const steps = STEPS(hooks).filter((s) => document.querySelector(s.el));
-    if (!steps.length) { onClose(); return; }
+    // A couple of targets only exist once an entity is selected — the Edit button
+    // among them. Select first, let React paint, and only then decide which steps
+    // have somewhere to point: filtering synchronously drops them before they can
+    // appear, which is how two steps went silently missing.
+    hooks.selectExample();
+    hooks.openOverview();
 
-    const d = driver({
-      showProgress: true,
-      progressText: "{{current}} of {{total}}",
-      nextBtnText: "Next →",
-      prevBtnText: "← Back",
-      doneBtnText: "Start working",
-      popoverClass: "ce-tour",
-      stagePadding: 6,
-      stageRadius: 0,
-      overlayColor: "#000",
-      overlayOpacity: 0.72,
-      allowClose: true,
-      onDestroyed: () => { localStorage.setItem(TOUR_SEEN, "1"); onClose(); },
-      steps: steps.map<DriveStep>((s, i) => ({
-        element: s.el,
-        popover: {
-          title: s.title,
-          description: s.text,
-          side: s.side ?? "bottom",
-          align: "start",
-          // Put the interface in the state the step talks about, then let React
-          // paint before driver measures the target.
-          onPopoverRender: () => { if (i === 0) s.before?.(); },
+    const t = window.setTimeout(() => {
+      const steps = STEPS(hooks).filter((s) => document.querySelector(s.el));
+      if (!steps.length) { onClose(); return; }
+
+      d = driver({
+        showProgress: true,
+        progressText: "{{current}} of {{total}}",
+        nextBtnText: "Next →",
+        prevBtnText: "← Back",
+        doneBtnText: "Start working",
+        popoverClass: "ce-tour",
+        stagePadding: 6,
+        stageRadius: 0,
+        overlayColor: "#000",
+        overlayOpacity: 0.72,
+        allowClose: true,
+        onDestroyed: () => { localStorage.setItem(TOUR_SEEN, "1"); onClose(); },
+        steps: steps.map<DriveStep>((s) => ({
+          element: s.el,
+          popover: { title: s.title, description: s.text, side: s.side ?? "bottom", align: "start" },
+        })),
+        // Each step puts the interface into the state it is about to describe.
+        onHighlightStarted: (_el, step) => {
+          steps.find((s) => s.el === (step as any).element)?.before?.();
         },
-      })),
-      onHighlightStarted: (_el, step) => {
-        const found = steps.find((s) => s.el === (step as any).element);
-        found?.before?.();
-      },
-    });
+      });
+      d.drive();
+    }, 80);
 
-    // The first target may need a tab opened too; give React one frame.
-    steps[0].before?.();
-    const t = window.setTimeout(() => d.drive(), 60);
-    return () => { window.clearTimeout(t); d.destroy(); };
+    return () => { window.clearTimeout(t); d?.destroy(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [run]);
 

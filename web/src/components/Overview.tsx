@@ -129,9 +129,12 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
             <b>MCP server</b>, so Bob answers about this estate with the same source-line proof.
           </div>
         </div>
-        <div style={{ font: "600 11px var(--m)", color: "#6cb2ff", border: "1px solid rgba(108,178,255,.4)", borderRadius: 0, padding: "6px 12px", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 7 }}>
-          <span style={{ width: 7, height: 7, borderRadius: 99, background: "var(--graph)" }} />MCP exposed
-        </div>
+        {/* Was a decorative badge announcing a capability with no way to reach it. */}
+        <a href="/presentation#connect-bob" data-testid="mcp-connect"
+          title="How to connect your own Bob to this estate over MCP"
+          style={{ font: "600 11px var(--m)", color: "var(--graph)", border: "1px solid var(--graph)", borderRadius: 0, padding: "6px 12px", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 7, textDecoration: "none" }}>
+          <span style={{ width: 7, height: 7, borderRadius: 99, background: "var(--graph)" }} />MCP exposed — connect Bob →
+        </a>
       </div>
 
       <div className="ov-grid">

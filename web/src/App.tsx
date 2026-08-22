@@ -766,7 +766,7 @@ export default function App() {
         ) : (
           <div className="status" style={{ color: "var(--interactive)" }}><Icon name="branch" size={12} />main</div>
         )}
-        <div className="status"><span className="led" style={{ background: editable ? "var(--interactive)" : "var(--text-helper)" }} />{versionClosed ? "Merged · read-only" : editable ? "Editing" : "Read-only"}</div>
+        <div className="status" data-testid="statusbar-mode"><span className="led" style={{ background: editable ? "var(--interactive)" : "var(--text-helper)" }} />{versionClosed ? "Merged · read-only" : editable ? "Editing" : "Read-only"}</div>
         <div style={{ flex: 1 }} />
         <div className="status">{c.PGM || 0} prog · {graph.stats.edges} links</div>
         <div className="status">COBOL · CICS · DB2</div>
@@ -780,10 +780,10 @@ export default function App() {
           openTab: (t) => setRightTab(t),
           openGraph: () => focusTab(GRAPH_TAB),
           openOverview: () => focusTab(OVERVIEW_TAB),
-          // The tour does the thing rather than describing it: it types a real
-          // identifier into the search, and selects a real entity so the
-          // inspector has something in it when the step talks about its contents.
-          typeExample: () => setSearch(TOUR_EXAMPLE),
+          // The tour shows rather than tells — but it does not type into the
+          // search box on the reader's behalf. Writing into a live input leaves
+          // text behind after the tour ends, and the field is theirs, not ours.
+          // The example is named in the popover instead.
           selectExample: () => {
             const hit = graph?.nodes.find((n) => n.label === TOUR_EXAMPLE);
             if (hit) setSelectedId(hit.id);

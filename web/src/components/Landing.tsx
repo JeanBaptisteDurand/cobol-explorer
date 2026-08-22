@@ -57,6 +57,21 @@ const TOOLS = [
   { n: "propose_change", c: "var(--interactive)", cls: "write", d: "Creates a git version and computes its impact — the single bridge from understanding to changing." },
 ];
 
+/** Verbatim from .bob/mcp.json — a config a reader copies has to be the real one. */
+const CLONE = `git clone https://github.com/JeanBaptisteDurand/cobol-explorer
+cd cobol-explorer
+make setup`;
+
+const MCP_JSON = `{
+  "mcpServers": {
+    "cobol-explorer": {
+      "command": "\${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "mcp_server.server"],
+      "cwd": "\${workspaceFolder}"
+    }
+  }
+}`;
+
 const BOB_HAS = [
   "reads, greps, opens, follows a CALL or a COPY on demand",
   "understands COBOL and reasons about what it reads",
@@ -426,7 +441,54 @@ export default function Landing({
           <span className="ce-chip">graph_lookup</span>
           <span className="ce-chip">search_code</span>
           <span className="ce-chip">read_source_lines</span>
-          <span>drop <span className="ce-mono-sm">.bob/mcp.json</span> into the workspace and the tools appear inside Bob.</span>
+        </div>
+
+        {/* The page claimed three tools were exposed and never said how to reach
+            them. It is a stdio server, so it runs beside the estate on your own
+            machine — which is the constraint and also the point. */}
+        <div id="connect-bob" className="ce-setup">
+          <div className="ce-setup-head">
+            <span className="ce-kicker">Connect your own Bob</span>
+            <p className="ce-setup-lead">
+              The server speaks MCP over stdio, so it runs on your machine, beside the estate it
+              reads. Nothing about your code leaves it — which is why a bank can run this at all.
+              Three commands, and the tools are inside Bob.
+            </p>
+          </div>
+          <div className="ce-setup-steps">
+            <div>
+              <span className="ce-setup-n">01</span>
+              <div>
+                <div className="ce-setup-t">Clone it beside your estate</div>
+                <pre className="ce-code">{CLONE}</pre>
+              </div>
+            </div>
+            <div>
+              <span className="ce-setup-n">02</span>
+              <div>
+                <div className="ce-setup-t">Point it at your COBOL</div>
+                <p>
+                  Drop your sources under <span className="ce-mono-sm">corpora/</span> and run{" "}
+                  <span className="ce-mono-sm">make ingest</span>. It parses COBOL, JCL, CICS, DB2 and
+                  the scheduler export into the graph the tools traverse. The two demo estates are
+                  already there if you would rather try it first.
+                </p>
+              </div>
+            </div>
+            <div>
+              <span className="ce-setup-n">03</span>
+              <div>
+                <div className="ce-setup-t">Open the folder in Bob</div>
+                <p>
+                  <span className="ce-mono-sm">.bob/mcp.json</span> is already in the repository, so
+                  Bob finds the server on its own. Ask it what breaks if you change a copybook and it
+                  calls <span className="ce-mono-sm">graph_lookup</span> instead of guessing from the
+                  files it happened to open.
+                </p>
+                <pre className="ce-code">{MCP_JSON}</pre>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="ce-note">
           <div className="ce-kicker">The LSP analogy</div>
