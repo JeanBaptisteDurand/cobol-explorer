@@ -29,7 +29,7 @@ def test_fallback_answers_program_questions_too(tmp_path, monkeypatch):
     graph = tmp_path / "g.json"
     ingest("corpora", str(graph))
     monkeypatch.setattr(ag, "_arun", lambda *_a, **_k: (_ for _ in ()).throw(RuntimeError("ollama down")))
-    res = ag.run_agent("Que fait le programme LGIPOL01 ?", str(graph), "corpora", str(tmp_path / "versions"))
+    res = ag.run_agent("What does program LGIPOL01 do?", str(graph), "corpora", str(tmp_path / "versions"))
     assert "LGIPOL01" in res["answer"].upper()
     # the fallback recorded a graph_lookup step (so the live trace still streams)
     assert any(s.tool == "graph_lookup" for s in res["trace"].steps)

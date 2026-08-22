@@ -28,7 +28,7 @@ def test_callers_on_copybook_falls_back_to_impact(tmp_path):
 
 
 def test_summary_profiles_a_program(tmp_path):
-    # "Que fait le programme X ?" -> a full functional profile, not just calls.
+    # "What does program X do?" -> a full functional profile, not just the calls.
     tools = GraphTools(_graph(tmp_path), "corpora")
     r = tools.graph_lookup("summary", "LGIPOL01")
     assert r["found"] is True

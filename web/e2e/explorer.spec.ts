@@ -143,7 +143,7 @@ test("the agent's answer renders as Markdown with a clickable citation (mocked S
       'data: {"tool":"read_source_lines","input":{"file":"lgipol01.cbl"},"output_summary":"1 ligne","sources":["lgipol01.cbl:55"]}',
       "",
       "event: answer",
-      'data: {"text":"Le programme lit **LGPOLICY**.\\n- copie: lgpolicy.cpy\\n- preuve: lgipol01.cbl:55"}',
+      'data: {"text":"The program reads **LGPOLICY**.\\n- copies: lgpolicy.cpy\\n- proof: lgipol01.cbl:55"}',
       "",
     ].join("\r\n");
     await route.fulfill({ status: 200, headers: { "Content-Type": "text/event-stream" }, body });
@@ -231,7 +231,7 @@ test("the agent answers with a trace @slow", async ({ page }) => {
   test.setTimeout(150_000);
   await page.goto("/");
   await page.getByTestId("rp-chat").click();
-  await page.getByTestId("chat-input").fill("Qui appelle le programme LGIPDB01 ?");
+  await page.getByTestId("chat-input").fill("Who calls program LGIPDB01?");
   await page.getByTestId("chat-send").click();
   await expect(page.getByTestId("trace")).toContainText("graph_lookup", { timeout: 130_000 });
 });
