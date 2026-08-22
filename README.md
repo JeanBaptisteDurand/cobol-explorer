@@ -376,7 +376,7 @@ The server runs in one of three modes, through `COBOL_EXPLORER_AUTH`:
 
 In `jwt` mode the **role travels inside the signed token**: a client cannot promote itself by changing a header,
 RBAC arbitrates from the claims, and every attempt — allowed, refused or rejected — goes into the chained audit log.
-Passwords are never stored (PBKDF2-HMAC-SHA256, 120 000 iterations, per-account salt).
+Passwords are never stored (PBKDF2-HMAC-SHA256, 120,000 iterations, per-account salt).
 
 ```bash
 make serve-auth   # the same app, with real authentication enabled

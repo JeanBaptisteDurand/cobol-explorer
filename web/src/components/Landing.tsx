@@ -15,7 +15,10 @@ import "./landing.css";
 
 const METRICS = [
   { n: "6.5 s", l: "per grounded answer\ngranite-4-h-small · watsonx.ai" },
-  { n: "1 496", l: "entities mapped\n1 715 typed edges" },
+  // Comma, not the French thin space: the page is in English, and "1 496" reads
+  // as two numbers to the reader it is written for. 339 + 1157 and 421 + 1294,
+  // the two estates added.
+  { n: "1,496", l: "entities mapped\n1,715 typed edges" },
   { n: "200", l: "automated tests\n151 backend · 49 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
 ];
@@ -96,7 +99,7 @@ const MCP_ADDS: ReactNode[] = [
 const GOVERNANCE = [
   { tag: "Verified", c: "var(--verified)", t: "Anti-hallucination guardrail", d: "After every answer the server re-verifies each citation against the corpus: does the file exist, is the line in range. An ungrounded answer never passes silently — the panel labels it." },
   { tag: "Audited", c: "var(--graph)", t: "Tamper-evident audit log", d: "Every action, and every refusal, is appended to an HMAC-SHA256 chain. Altering one line breaks the chain, and the panel says so." },
-  { tag: "Scoped", c: "var(--reason)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights. Passwords are never stored — PBKDF2-HMAC-SHA256, 120 000 iterations, per-account salt." },
+  { tag: "Scoped", c: "var(--reason)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights. Passwords are never stored — PBKDF2-HMAC-SHA256, 120,000 iterations, per-account salt." },
   { tag: "Measured", c: "var(--danger)", t: "Quality, not assumption", d: "A golden question set scored on entity recall, citation grounding and impact coverage, run in CI — so a quality regression breaks the build rather than reaching a demo." },
 ];
 
@@ -123,7 +126,7 @@ const FIT = [
 ];
 
 const IDENTITY = [
-  { t: "Signed sessions", d: "Sign-in mints an HS256 token carrying the role; PBKDF2 password hashing, 120 000 iterations, salted per account. The demo headers stop being trusted the moment real auth is on." },
+  { t: "Signed sessions", d: "Sign-in mints an HS256 token carrying the role; PBKDF2 password hashing, 120,000 iterations, salted per account. The demo headers stop being trusted the moment real auth is on." },
   { t: "Confirmed addresses", d: "Sign-up sends a single-use link over plain SMTP from the estate's own domain — no third-party mail service. Until it is clicked, signing in is refused." },
   { t: "Continue with IBM", d: "An OIDC authorization-code flow through IBM Cloud App ID. The token comes back in the URL fragment, so it never reaches a server log, and a federated sign-in gets the least privileged role that is still useful." },
   { t: "Roles that bite", d: "Seven actions across six roles. An auditor reads and audits; only dev and architect may merge — and the refusal is written to the log like everything else." },
