@@ -1,7 +1,7 @@
 PY := .venv/bin/python
 PP := PYTHONPATH=packages/core:ingestion:server
 
-.PHONY: setup deps web ingest index test e2e serve mcp clean pgvector-up pgvector-load serve-pg neo4j-load serve-scale
+.PHONY: setup deps web ingest index test e2e demo serve mcp clean pgvector-up pgvector-load serve-pg neo4j-load serve-scale
 
 setup: ## create venv (standalone python via uv) + install everything
 	uv venv --python 3.12 .venv
@@ -26,6 +26,9 @@ web: ## build the frontend
 
 shots: ## re-capture the five product plates the public page carries (needs `make serve`)
 	cd web && SHOTS=1 pnpm exec playwright test e2e/shots.spec.ts --reporter=list
+
+demo: ## ONE command, zero infrastructure: no Docker, no API key, no account
+	scripts/demo.sh
 
 serve: ## serve API + built frontend on :8000
 	COBOL_EXPLORER_WEB=web/dist $(PP) $(PY) -m uvicorn api.app:app --host 127.0.0.1 --port 8000

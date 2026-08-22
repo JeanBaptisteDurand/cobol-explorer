@@ -38,7 +38,7 @@ def chunk_corpus(graph: dict, corpus_root: str) -> list[dict]:
             continue
         with open(full, errors="replace") as fh:
             source = fh.read()
-        header = f"{n['kind']} {n['label']}\nfichier: {path}\n" + _deps_header(graph, n["id"])
+        header = f"{n['kind']} {n['label']}\nfile: {path}\n" + _deps_header(graph, n["id"])
         chunks.append(
             {
                 "id": n["id"],

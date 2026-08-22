@@ -153,7 +153,7 @@ and **impact analysis by copybook** ("changing this copybook breaks these N prog
 Two real estates are ingested: **GenApp** (339 nodes / 421 edges) and **CardDemo** (1157 nodes / 1294 edges).
 
 > 📐 **Coverage of the mainframe universe** (what is mapped versus IMS/MQ/CICS resources/PL-I/Assembler/RACF… and
-> the roadmap): see [docs/COUVERTURE-UNIVERS-MAINFRAME.md](docs/COUVERTURE-UNIVERS-MAINFRAME.md). The schema (typed
+> the roadmap): see [docs/MAINFRAME-COVERAGE.md](docs/MAINFRAME-COVERAGE.md). The schema (typed
 > nodes and edges) is **agnostic of language and subsystem**: extending it means adding a `kind` and a parser, not a
 > rewrite.
 
@@ -423,7 +423,7 @@ docs/             design, coverage, industrialisation, demo guide
 | Document | What is in it |
 |---|---|
 | [docs/DESIGN.md](docs/DESIGN.md) | The design language: IBM Carbon tokens, typography, the rules the interface follows |
-| [docs/COUVERTURE-UNIVERS-MAINFRAME.md](docs/COUVERTURE-UNIVERS-MAINFRAME.md) | What is mapped versus IMS/MQ/PL-I/Assembler/RACF, and the roadmap |
+| [docs/MAINFRAME-COVERAGE.md](docs/MAINFRAME-COVERAGE.md) | What is mapped versus IMS/MQ/PL-I/Assembler/RACF, and the roadmap |
 | [docs/INDUSTRIALISATION.md](docs/INDUSTRIALISATION.md) | What moving from demo to production would take |
 | [docs/GUIDE_DEMO.md](docs/GUIDE_DEMO.md) | How to run the demo |
 | [docs/VIDEO-SCRIPT.md](docs/VIDEO-SCRIPT.md) | The script for the submission video |

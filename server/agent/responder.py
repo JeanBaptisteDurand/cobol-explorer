@@ -23,7 +23,7 @@ def answer_copybook_impact(
     trace.record(
         "graph_lookup",
         {"op": "impact", "node": copybook},
-        f"{len(programs)} programme(s), {len(r['chains'])} chaine(s) batch",
+        f"{len(programs)} program(s), {len(r['chains'])} batch chain(s)",
         sources=[r["node"]],
     )
 

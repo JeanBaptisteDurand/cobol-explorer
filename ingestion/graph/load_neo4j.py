@@ -14,7 +14,7 @@ def main(graph_path: str = "graph.json", uri: str | None = None) -> None:
     with open(graph_path) as fh:
         g = json.load(fh)
     n = Neo4jGraph(uri).load(g)
-    print(f"neo4j: {n} noeuds charges ({len(g['edges'])} aretes)")
+    print(f"neo4j: {n} nodes loaded ({len(g['edges'])} edges)")
 
 
 if __name__ == "__main__":

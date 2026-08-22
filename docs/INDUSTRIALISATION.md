@@ -1,137 +1,145 @@
-# Industrialisation — du POC au produit vendable
+# Industrialisation — from proof of concept to a sellable product
 
-> État actuel : POC honnête sur ~47 programmes (parsing regex, graphe NetworkX en mémoire,
-> versioning JSON maison, RAG vectoriel cosinus in-process). Ce document trace le chemin
-> réaliste vers un produit d'entreprise, avec des **outils réels** et un **phasage**.
-> Rien ici n'est « fake » : les briques recommandées existent et sont éprouvées.
+> Where this stands: an honest proof of concept over ~47 programs (regex parsing, an in-memory
+> NetworkX graph, git-backed versioning, and a vector RAG that can run in-process or on pgvector).
+> This document traces a realistic path to an enterprise product, with **real tools** and a
+> **phasing**. Nothing here is invented: every brick recommended exists and is proven.
+>
+> Throughout, "the enterprise buyer" means a large insurer or bank — the kind of organisation whose
+> estate this product is aimed at.
 
 ---
 
-## 1. Parsing de qualité industrielle
+## 1. Industrial-grade parsing
 
-### Le problème
-Le parsing actuel (`ingestion/parsers/*.py`) est **regex**. Il tient sur GenApp mais casse sur du
-COBOL réel : `COPY ... REPLACING`, programmes imbriqués (`nested programs`), `PERFORM THRU`,
-`GO TO`, `CALL` dynamiques (`CALL identifier`), préprocesseurs `EXEC CICS/SQL/DLI/MQ`, colonnes
-72/80, `CONTINUATION`, dialectes (IBM Enterprise COBOL vs GnuCOBOL vs MF).
+### The problem
 
-### Recommandation : un vrai AST, pas des regex
-**COBOL → [ProLeap COBOL Parser](https://github.com/uwol/proleap-cobol-parser) (ANTLR4, open source)**
-ou **[Koopa](https://github.com/krisds/koopa)**. ProLeap fournit un AST + une couche ASG
-(semantic graph) et gère préprocesseur COPY/REPLACE et EXEC CICS/SQL. JVM déjà présente
-(cobol-rekt/JDK 21 est un prérequis optionnel du repo).
+The current parsing (`ingestion/parsers/*.py`) is **regex-based**. It holds on GenApp but breaks on
+real COBOL: `COPY ... REPLACING`, nested programs, `PERFORM THRU`, `GO TO`, dynamic calls
+(`CALL identifier`), the `EXEC CICS/SQL/DLI/MQ` preprocessors, columns 72/80, `CONTINUATION`, and
+dialects (IBM Enterprise COBOL versus GnuCOBOL versus Micro Focus).
 
-Architecture cible (déjà amorcée : les parsers sont derrière une interface) :
+### Recommendation: a real AST, not regular expressions
+
+**COBOL → [ProLeap COBOL Parser](https://github.com/uwol/proleap-cobol-parser) (ANTLR4, open
+source)** or **[Koopa](https://github.com/krisds/koopa)**. ProLeap gives an AST plus an ASG
+(semantic graph) layer, and handles the COPY/REPLACE preprocessor as well as EXEC CICS/SQL. A JVM is
+already in the picture (cobol-rekt with JDK 21 is an optional prerequisite of this repository).
+
+The target architecture, already begun — the parsers sit behind an interface:
+
 ```
 ingestion/parsers/
   base.py            # interface Parser: parse(path) -> list[Node], list[Edge]
-  cobol_antlr.py     # NOUVEAU: bridge vers ProLeap (JVM via py4j/subprocess) -> AST -> extraction
-  cobol.py           # regex actuel = FALLBACK rapide / mode dégradé sans JVM
+  cobol_antlr.py     # NEW: a bridge to ProLeap (JVM through py4j/subprocess) -> AST -> extraction
+  cobol.py           # today's regex = the fast FALLBACK, the degraded mode with no JVM
 ```
-On garde le regex comme **fallback** (mode démo sans JVM) et on bascule sur l'AST quand la JVM
-est dispo — sélection par variable d'env, comme pour l'index vectoriel.
 
-### Résolveur de copybooks (multi-bibliothèques)
-Aujourd'hui : un copybook devient un nœud **uniquement s'il est référencé** (les 11 `.cpy` non
-COPY'd du corpus sont invisibles — c'est pour ça que la détection de code mort les liste).
-Cible :
-- **Concaténation SYSLIB** : liste ordonnée de bibliothèques de copy, résolution first-match.
-- **`COPY ... REPLACING`** : appliquer les substitutions avant extraction (sinon les champs sont faux).
-- **COPY imbriqués** : expansion récursive (un copybook qui en COPY un autre).
-- **Copybooks de tous les niveaux** : DATA, PROCEDURE, `EXEC SQL INCLUDE`.
+The regex parser stays as a **fallback** (the demo mode with no JVM) and the AST takes over when a
+JVM is available — selected by environment variable, exactly as the vector index already is.
 
-### Multi-langages (au-delà du COBOL)
-| Langage | Approche | Priorité |
+### A copybook resolver across libraries
+
+Today a copybook becomes a node **only if something references it** — the 11 `.cpy` files in the
+corpus that nobody COPYs are invisible, which is precisely why the dead-code detection lists them.
+The target:
+
+- **SYSLIB concatenation**: an ordered list of copy libraries, resolved first-match.
+- **`COPY ... REPLACING`**: apply the substitutions before extraction, or the fields are wrong.
+- **Nested COPY**: recursive expansion, for a copybook that COPYs another.
+- **Copybooks at every level**: DATA, PROCEDURE, `EXEC SQL INCLUDE`.
+
+### Beyond COBOL
+
+| Language | Approach | Priority |
 |---|---|---|
-| **JCL** | Expansion **PROC** (le `JclParser` crée 4 nœuds PROC mais **n'ouvre jamais le corps** → 0 `PROC_CONTAINS`). Ajouter : résolution des membres PROC, **substitution symbolique** (`&VAR`), `INCLUDE`, `DD *`/GDG. | Haute (batch = cœur assurance) |
-| **PL/I** | Parser dédié (grammaire ANTLR PL/I) — `%INCLUDE`, procédures. | Moyenne |
-| **Assembleur** | Macros/CSECT/CALL — analyse plus grossière (appels + DSECT). | Basse |
-| **REXX / CLIST** | Extraction des `CALL`/`ADDRESS`/EXEC. | Basse |
+| **JCL** | **PROC expansion**. `JclParser` creates four PROC nodes but **never opens their body**, so it emits no `PROC_CONTAINS`. Add: PROC member resolution, **symbolic substitution** (`&VAR`), `INCLUDE`, `DD *`/GDG. | High — batch is the heart of insurance |
+| **PL/I** | A dedicated parser (an ANTLR PL/I grammar) — `%INCLUDE`, procedures. | Medium |
+| **Assembler** | Macros/CSECT/CALL — a coarser analysis (calls plus DSECT). | Low |
+| **REXX / CLIST** | Extract the `CALL`/`ADDRESS`/EXEC statements. | Low |
 
-### Phasage parsing
-1. **P1** : bridge ProLeap COBOL (AST) + résolveur copybook SYSLIB/REPLACING/nested — bascule env.
-2. **P2** : JCL PROC expansion + symboliques + INCLUDE (émettre `PROC_CONTAINS`, tuer le cul-de-sac).
-3. **P3** : PL/I ; **P4** : Assembleur/REXX.
-4. Transverse : **ingestion incrémentale** (par membre modifié, pas de reparse total).
+### Parsing phases
 
----
-
-## 2. Versioning : un vrai git interne, pas un système maison
-
-### Constat
-`server/versioning/changeset.py` réimplémente à la main branches/edits/diff en JSON. C'est
-un **liability** face à AXA (« vous avez réécrit git en moins bien »). L'idée de l'utilisateur
-est la bonne : **s'appuyer sur git/Gitea**.
-
-### Recommandation
-- **Embarqué / simple** : backend **git plain** (CLI ou `pygit2`/libgit2) sur un dépôt du corpus.
-  - `change-set` = **branche** ; `edit` = **commit** ; `diff` = `git diff` (vrai, coloré) ;
-    `merge` = merge/fast-forward ; historique/blame gratuits.
-- **Collaboratif / entreprise** : **[Gitea](https://about.gitea.com/)** auto-hébergé (ou GitLab).
-  - Vraies **pull requests**, revue de code, permissions RBAC, webhooks, API — on **branche
-    l'UI dessus** au lieu de refaire l'atelier de review.
-  - Intégration au **vrai processus de change** (relier à Endevor/ChangeMan côté z/OS).
-
-### Architecture cible (API inchangée pour le front)
-```
-server/versioning/
-  changeset.py       # actuel (JSON) = fallback / mode démo
-  git_store.py       # NOUVEAU: GitVersionStore, MÊME interface (create/add_edit/diff/list/status)
-                     #   -> branche par change-set, commit par edit, git diff, compute_impact via graphe
-```
-Sélection par env `COBOL_EXPLORER_VCS=git|gitea|json`. Le front (`ChangesPanel`) ne change pas ;
-il gagne juste des vrais diffs et, en mode Gitea, un lien « ouvrir la PR ».
-
-### Phasage versioning
-1. **P1** : `GitVersionStore` local (branche/commit/diff réels) derrière l'API existante.
-2. **P2** : diff **côte à côte** (MergeView) dans l'UI.
-3. **P3** : intégration **Gitea** (PR, review, permissions) ; **P4** : pont vers le SCM mainframe.
+1. **P1**: the ProLeap COBOL bridge (AST) plus the SYSLIB/REPLACING/nested copybook resolver, switched by environment.
+2. **P2**: JCL PROC expansion, symbolics and INCLUDE — emit `PROC_CONTAINS` and kill the dead end.
+3. **P3**: PL/I. **P4**: Assembler and REXX.
+4. Across all of them: **incremental ingestion**, by changed member rather than a full reparse.
 
 ---
 
-## 3. Productionisation LLM / RAG
+## 2. Versioning: real git rather than a home-made system
 
-### Déjà fait (cette itération)
-- ✅ **Streaming réel** : la trace d'outils est émise **en direct** (file thread-safe dans
-  `/api/ask`, `Trace.on_record`) — plus de burst final ; l'animation live du graphe est désormais fidèle.
-- ✅ **Fix clé d'erreur** SSE (`message`), fallback déterministe assumé.
+### Done
 
-### Déjà fait (cette itération, suite)
-- ✅ **pgvector implémenté** (`agent/pgvector_index.py`) : PostgreSQL + pgvector (index HNSW,
-  cosine), même API que le backend JSON, sélectionné par `COBOL_EXPLORER_VECTOR=pgvector`.
-  `docker compose up -d` + `make pgvector-load`. Vérifié : résultats **identiques** au cosinus
-  in-process, exposé via l'agent, `/api/search` et le MCP. Reste : index **incrémental** (upsert
-  par membre modifié) + montée à 100k docs (batch load, tuning HNSW `ef_search`).
+`server/versioning/git_store.py` ships a **`GitVersionStore`** and it is **the default**
+(`COBOL_EXPLORER_VCS=git`). A change-set is a **branch**, an edit is a **commit**, the diff is a real
+`git diff`, and merging is a real merge — with history and blame for free. The JSON implementation in
+`changeset.py` remains as the fallback (`COBOL_EXPLORER_VCS=json`) for a demo with no git binary.
 
-- ✅ **Neo4j implémenté** (`agent/neo4j_store.py`) : le RAG graphe tourne sur un **vrai graph DB
-  self-hosted** (Cypher), backend sélectionnable par `COBOL_EXPLORER_GRAPH_BACKEND=neo4j`,
-  requêtes impact/lignée/callers/summary réexprimées en Cypher, **vérifiées identiques** à
-  NetworkX. `docker compose up -d` + `make neo4j-load`. **`make serve-scale`** lance le duo
-  **Neo4j (graphe) + pgvector (vecteur)**, tous deux self-hosted, tous deux dans l'agent.
+That closes what used to be the honest objection here: "you rewrote git, only worse."
 
-### À faire
-| Chantier | Cible | Pourquoi AXA |
+### What comes next
+
+- **Collaborative / enterprise**: self-hosted **[Gitea](https://about.gitea.com/)** (or GitLab).
+  Real **pull requests**, code review, RBAC permissions, webhooks, an API — the UI plugs into that
+  instead of re-building a review workshop.
+- **Integration with the real change process**: bridge to Endevor or ChangeMan on the z/OS side.
+
+Selected by `COBOL_EXPLORER_VCS=git|gitea|json`. The frontend (`ChangesPanel`) does not change; in
+Gitea mode it simply gains an "open the PR" link.
+
+### Versioning phases
+
+1. ~~**P1**: a local `GitVersionStore` behind the existing API.~~ ✅ done, and it is the default.
+2. **P2**: a **side-by-side** diff (MergeView) in the UI.
+3. **P3**: **Gitea** integration (PRs, review, permissions). **P4**: the bridge to the mainframe SCM.
+
+---
+
+## 3. Productionising the LLM and the RAG
+
+### Already done
+
+- ✅ **Real streaming**: the tool trace is emitted **live** (a thread-safe queue in `/api/ask`,
+  `Trace.on_record`), so there is no final burst and the graph animation is faithful to what happened.
+- ✅ **SSE error-key fix** (`message`), with an explicit deterministic fallback.
+- ✅ **pgvector** (`agent/pgvector_index.py`): PostgreSQL with an HNSW cosine index, the same API as
+  the JSON backend, selected by `COBOL_EXPLORER_VECTOR=pgvector`. `docker compose up -d` plus
+  `make pgvector-load`. Verified to return results **identical** to the in-process cosine, and
+  exposed through the agent, `/api/search` and MCP. What remains: an **incremental** index (upsert by
+  changed member) and the climb to 100k documents (batch load, HNSW `ef_search` tuning).
+- ✅ **Neo4j** (`agent/neo4j_store.py`): the graph RAG runs on a **real self-hosted graph database**
+  (Cypher), selected by `COBOL_EXPLORER_GRAPH_BACKEND=neo4j`, with impact, lineage, callers and
+  summary re-expressed in Cypher and **verified identical** to NetworkX. `docker compose up -d` plus
+  `make neo4j-load`. **`make serve-scale`** brings up the pair — **Neo4j for the graph, pgvector for
+  the vectors** — both self-hosted, both wired into the agent.
+
+### Still to do
+
+| Work | Target | Why an enterprise buyer cares |
 |---|---|---|
-| **Graphe incrémental** | MERGE par membre modifié (au lieu du reload complet) ; index Neo4j | Ingestion continue |
-| **Base vectorielle managée** | Option **watsonx**/Milvus (self-host ou managé) | Latence, exploitation |
-| **Retrieval hybride** | ✅ recherche sémantique **branchée à l'UI** (palette ⌘P) + consigne agent search_code→graph_lookup ; reste : **reranking** + fusion de scores graphe/vecteur | Qualité de réponse |
-| **LLM on-prem / souverain** | **watsonx.ai privé** ou Ollama on-prem ; le code (IP métier) **ne sort pas** | Conformité, RGPD/DORA, IP |
-| **Gouvernance** | **watsonx.governance** : traçabilité modèle, versions, biais | Audit assureur |
-| **Garde-fous** | Vérification que **chaque citation existe vraiment** (fichier:ligne re-vérifié), score de confiance, refus si non ancré | Anti-hallucination sur du critique |
-| **Évaluation** | Jeu de **Q/R golden** sur COBOL réel + non-régression + red-team | Preuve de fiabilité |
-| **Feedback** | 👍/👎 + corrections humaines (human-in-the-loop) réinjectées | Amélioration continue |
-| **Ops LLM** | Cache, rate-limit, coût/latence, quotas par équipe | Coût maîtrisé |
+| **Incremental graph** | MERGE by changed member rather than a full reload; Neo4j indexes | Continuous ingestion |
+| **Managed vector store** | A **watsonx**/Milvus option, self-hosted or managed | Latency, operability |
+| **Hybrid retrieval** | ✅ semantic search is **wired into the UI** (the ⌘P palette) and the agent is instructed to run search_code→graph_lookup; what remains is **reranking** and fusing the graph and vector scores | Answer quality |
+| **On-premise / sovereign LLM** | **Private watsonx.ai** or on-premise Ollama; the code, which is the business IP, **never leaves** | Compliance, GDPR/DORA, IP |
+| **Governance** | **watsonx.governance**: model traceability, versions, bias | Insurer-grade audit |
+| **Guardrails** | Verify that **every citation genuinely exists** (file:line re-checked), a confidence score, refusal when ungrounded | Anti-hallucination on critical systems |
+| **Evaluation** | A **golden Q/A** set on real COBOL, plus non-regression and red-teaming | Evidence of reliability |
+| **Feedback** | 👍/👎 and human corrections fed back in (human in the loop) | Continuous improvement |
+| **LLM ops** | Caching, rate limiting, cost and latency, per-team quotas | Cost under control |
 
-### Phasage RAG
-1. **P1** : brancher la recherche sémantique à l'UI + `try/except` embeddings (ne pas crasher si Ollama down).
-2. **P2** : **pgvector** persistant + retrieval hybride graphe+vecteur.
-3. **P3** : LLM on-prem/watsonx + gouvernance + garde-fous citations + éval golden.
+### RAG phases
+
+1. ~~**P1**: wire semantic search into the UI and guard the embeddings so a downed Ollama cannot crash the app.~~ ✅ done.
+2. ~~**P2**: persistent **pgvector** and hybrid graph+vector retrieval.~~ ✅ pgvector done; hybrid fusion still to come.
+3. **P3**: on-premise/watsonx LLM, governance, citation guardrails, golden evaluation.
 
 ---
 
-## Récapitulatif — ordre de valeur pour un pitch AXA
-1. **Connexion mainframe réelle + parsing industriel** (ProLeap + SYSLIB + JCL PROC) — le vrai fossé.
-2. **Sécurité/gouvernance d'entreprise** (auth serveur/RBAC, LLM on-prem, audit, RGPD/DORA).
-3. **Scale** (graph DB + pgvector, ingestion incrémentale).
-4. **Git réel (Gitea)** pour le change-management, branché au SCM z/OS.
-5. Le reste = fonctionnalités (déjà bien avancées : impact champ, code mort, lignée, graphe live).
+## Summary — in order of value for an enterprise pitch
+
+1. **A real mainframe connection and industrial parsing** (ProLeap, SYSLIB, JCL PROC) — the actual moat.
+2. **Enterprise security and governance** (server-side auth and RBAC, on-premise LLM, audit, GDPR/DORA).
+3. **Scale** (graph database, pgvector, incremental ingestion).
+4. **Gitea** for change management, bridged to the z/OS SCM.
+5. Everything else is features — and those are already well advanced: field-level impact, dead code, lineage, the live graph.

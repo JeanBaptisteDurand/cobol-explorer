@@ -201,7 +201,7 @@ test("audit panel: the immutable log and its integrity badge", async ({ page }) 
 
 test("merge gate: the impact is confirmed before merging", async ({ page }) => {
   await page.goto("/");
-  await page.locator('[data-ab="branch"]').click(); // ouvre Modifs avec la version brouillon
+  await page.locator('[data-ab="branch"]').click(); // opens Changes on the draft version
   const btn = page.getByTestId("merge-btn");
   if ((await btn.count()) > 0) {
     await expect(btn).toContainText("Merge");
