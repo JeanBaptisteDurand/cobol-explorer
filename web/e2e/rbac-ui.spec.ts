@@ -11,8 +11,10 @@ test("un refus d'audit s'affiche et ne fait pas tomber l'application", async ({ 
   const crashes: string[] = [];
   page.on("pageerror", (e) => crashes.push(String(e)));
 
-  await page.addInitScript(() =>
-    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "jb", role: "Risk" })));
+  await page.addInitScript(() => {
+    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "jb", role: "Risk" }));
+    localStorage.setItem("cobol-explorer-tour-seen", "1");   // the tour's overlay would eat the clicks
+  });
   await page.route("**/api/audit**", (r) =>
     r.fulfill({ status: 403, contentType: "application/json", body: JSON.stringify({ detail: "forbidden" }) }));
 
@@ -32,8 +34,10 @@ test("un refus sur un autre endpoint ne fait pas tomber l'application non plus",
   const crashes: string[] = [];
   page.on("pageerror", (e) => crashes.push(String(e)));
 
-  await page.addInitScript(() =>
-    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "jb", role: "Risk" })));
+  await page.addInitScript(() => {
+    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "jb", role: "Risk" }));
+    localStorage.setItem("cobol-explorer-tour-seen", "1");   // the tour's overlay would eat the clicks
+  });
   await page.route("**/api/quality**", (r) =>
     r.fulfill({ status: 403, contentType: "application/json", body: JSON.stringify({ detail: "forbidden" }) }));
 

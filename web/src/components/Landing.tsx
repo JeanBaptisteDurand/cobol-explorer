@@ -16,7 +16,7 @@ import "./landing.css";
 const METRICS = [
   { n: "6.5 s", l: "per grounded answer\ngranite-4-h-small · watsonx.ai" },
   { n: "1 496", l: "entities mapped\n1 715 typed edges" },
-  { n: "195", l: "automated tests\n151 backend · 44 e2e" },
+  { n: "199", l: "automated tests\n151 backend · 48 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
 ];
 
@@ -146,17 +146,42 @@ function Figure({ src, alt, caption }: { src: string; alt: string; caption: stri
   );
 }
 
-export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; onSignUp: () => void }) {
+/** The public front door and /presentation are the same page.
+ *
+ *  Someone already inside the workshop who wants the argument — to send it to a
+ *  colleague, or to remind themselves what the thing claims — should not meet a
+ *  second, drifting copy of it. Only the two calls to action change: a visitor is
+ *  asked to sign in, a signed-in reader is offered the way back. */
+export default function Landing({
+  onSignIn,
+  onSignUp,
+  mode = "public",
+  onBack,
+}: {
+  onSignIn: () => void;
+  onSignUp: () => void;
+  mode?: "public" | "presentation";
+  onBack?: () => void;
+}) {
+  const inside = mode === "presentation";
   return (
-    <div className="ce-landing" data-testid="landing">
+    <div className="ce-landing" data-testid={inside ? "presentation" : "landing"}>
       <header className="ce-nav">
         <a className="ce-mark" href="#top" aria-label="COBOL Explorer — top of page">
           <Logo size={26} title="COBOL Explorer" />
         </a>
         <span className="ce-spacer" />
         <SectionIndex />
-        <button className="ce-btn" data-testid="nav-signin" onClick={onSignIn}>Sign in</button>
-        <button className="ce-btn-pri ce-nav-cta" data-testid="nav-signup" onClick={onSignUp}>Create account</button>
+        {inside ? (
+          <button className="ce-btn-pri ce-nav-cta" data-testid="back-to-workshop" onClick={onBack}>
+            Back to the workshop
+          </button>
+        ) : (
+          <>
+            <button className="ce-btn" data-testid="nav-signin" onClick={onSignIn}>Sign in</button>
+            <button className="ce-btn-pri ce-nav-cta" data-testid="nav-signup" onClick={onSignUp}>Create account</button>
+          </>
+        )}
       </header>
 
       {/* HERO — four elements and nothing else. Everything the page has to prove
@@ -172,7 +197,11 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
             Every answer cited to the exact source line, across COBOL, JCL, CICS, DB2 and the scheduler.
           </p>
           <div className="ce-hero-actions">
-            <button className="ce-btn-pri" data-testid="hero-signup" onClick={onSignUp}>Enter the workshop</button>
+            {inside ? (
+              <button className="ce-btn-pri" data-testid="hero-back" onClick={onBack}>Back to the workshop</button>
+            ) : (
+              <button className="ce-btn-pri" data-testid="hero-signup" onClick={onSignUp}>Enter the workshop</button>
+            )}
             <a className="ce-btn" href="#fig01">Watch it reason</a>
           </div>
         </div>
@@ -508,9 +537,18 @@ export default function Landing({ onSignIn, onSignUp }: { onSignIn: () => void; 
         title="Days of manual hunting, down to 6.5 seconds — with line-level proof."
         lead="Your role travels inside a signed token: it decides what you may read, propose and merge, and every action is written to the tamper-evident audit trail under your name.">
         <div className="ce-access-actions">
-          <button className="ce-btn-pri" data-testid="foot-signup" onClick={onSignUp}>Create account</button>
-          <button className="ce-btn" data-testid="hero-signin" onClick={onSignIn}>Sign in</button>
-          <span className="ce-demo">demo account: amine / demo · roles dev · architect · risk · auditor</span>
+          {inside ? (
+            <>
+              <button className="ce-btn-pri" onClick={onBack}>Back to the workshop</button>
+              <span className="ce-demo">you are signed in — this page is the argument, not the door</span>
+            </>
+          ) : (
+            <>
+              <button className="ce-btn-pri" data-testid="foot-signup" onClick={onSignUp}>Create account</button>
+              <button className="ce-btn" data-testid="hero-signin" onClick={onSignIn}>Sign in</button>
+              <span className="ce-demo">demo account: amine / demo · roles dev · architect · risk · auditor</span>
+            </>
+          )}
         </div>
       </Section>
 

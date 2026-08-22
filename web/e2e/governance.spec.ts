@@ -31,7 +31,15 @@ test.beforeEach(async ({ page }) => {
   test.skip(!cfg?.required, "server is in open mode — start it with COBOL_EXPLORER_AUTH=jwt");
 });
 
+/** These three sign in for real, so they land on a genuine first visit and the
+ *  guided tour would open over the workshop and swallow every click. The scenario
+ *  under test is the collaboration, not the tour. */
+async function skipTour(page: Page) {
+  await page.addInitScript(() => localStorage.setItem("cobol-explorer-tour-seen", "1"));
+}
+
 async function signUp(page: Page, a: typeof ACTORS.sofia) {
+  await skipTour(page);
   await page.goto("/");
   await page.getByTestId("nav-signup").click();
   await page.getByTestId("auth-user").fill(a.user);
@@ -43,6 +51,7 @@ async function signUp(page: Page, a: typeof ACTORS.sofia) {
 }
 
 async function signIn(page: Page, a: typeof ACTORS.sofia) {
+  await skipTour(page);
   await page.goto("/");
   await page.getByTestId("nav-signin").click();
   await page.getByTestId("auth-user").fill(a.user);

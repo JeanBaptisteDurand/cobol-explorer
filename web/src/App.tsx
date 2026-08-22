@@ -12,6 +12,8 @@ import Navigator from "./components/Navigator";
 import NewVersionModal from "./components/NewVersionModal";
 import Auth, { type AuthMode } from "./components/Auth";
 import Landing from "./components/Landing";
+import Logo from "./components/Logo";
+import Tour, { tourWasSeen } from "./components/Tour";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
 import { clearSession, consumeFragmentSession, getIdentity, getToken, type Identity } from "./identity";
@@ -117,6 +119,16 @@ export default function App() {
   const [sysMenu, setSysMenu] = useState(false);
   const [switching, setSwitching] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [tourAt, setTourAt] = useState<number | null>(null);
+  // One client route. /presentation shows the same argument page the public sees,
+  // so a signed-in reader can send it to a colleague instead of describing it.
+  const [route, setRoute] = useState(() => window.location.pathname);
+  useEffect(() => {
+    const onPop = () => setRoute(window.location.pathname);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  const goto = (path: string) => { history.pushState(null, "", path); setRoute(path); window.scrollTo(0, 0); };
 
   // A token that has expired makes every gated call 401 at once. Rather than let
   // each of them fail on its own — which is how an expired session became a wall
@@ -142,6 +154,13 @@ export default function App() {
       .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); setIbmSignIn(!!c.ibm_sign_in); })
       .catch(() => setAuthRequired(false));
   }, []);
+  // First visit: run the tour once the estate is on screen. Before that, half its
+  // targets do not exist yet and it would silently skip them.
+  useEffect(() => {
+    if (graph && !tourWasSeen() && tourAt === null) setTourAt(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graph]);
+
   useEffect(() => {
     if (authRequired === null || needsLogin) return;
     // Swallowed deliberately: a 401 is already handled by the session listener
@@ -490,6 +509,11 @@ export default function App() {
 
   // Real-auth mode: nothing of the estate is fetched — let alone painted — before
   // sign-in. Visitors get the public landing page instead.
+  if (route === "/presentation")
+    return (
+      <Landing mode="presentation" onSignIn={() => {}} onSignUp={() => {}} onBack={() => goto("/")} />
+    );
+
   if (needsLogin)
     return (
       <>
@@ -503,7 +527,7 @@ export default function App() {
     );
 
   if (!graph)
-    return <div className="app"><div className="titlebar"><div className="brand"><span className="sq" /><span className="nm">COBOL Explorer</span></div></div><div className="emptypane">Loading estate…</div></div>;
+    return <div className="app"><div className="titlebar"><div className="brand"><Logo size={18} /><span className="nm">COBOL Explorer</span></div></div><div className="emptypane">Loading estate…</div></div>;
 
   const c = kindCount(graph);
   const init = (identity?.name || "?").trim().charAt(0).toUpperCase();
@@ -602,7 +626,7 @@ export default function App() {
       {/* TITLE BAR */}
       <div className="titlebar">
         <div className="brand">
-          <span className="sq" />
+          <Logo size={18} title="COBOL Explorer" />
           <span className="nm">COBOL Explorer</span>
           <span style={{ color: "var(--text-helper)" }}>—</span>
           {/* System selector: analyze a different mainframe estate */}
@@ -647,6 +671,10 @@ export default function App() {
             <span className="kbd" style={{ cursor: "pointer" }} onClick={() => setPaletteOpen(true)}>⌘P</span>
           </div>
         </div>
+        <button className="tbtn" data-testid="open-tour" title="Replay the guided tour"
+          onClick={() => setTourAt(0)}>Tour</button>
+        <a className="tbtn" data-testid="open-presentation" href="/presentation" title="What this product argues, on one page"
+          onClick={(e) => { e.preventDefault(); goto("/presentation"); }}>Presentation</a>
         <div className="userpill" onClick={() => setShowOnb(true)} data-testid="identity">
           <span className="av">{init}</span>
           <span className="un">{identity?.name || "guest"}</span>
@@ -742,6 +770,16 @@ export default function App() {
         <div className="status">COBOL · CICS · DB2</div>
         <div className="status" style={{ color: "var(--text-secondary)" }}>{identity?.role || "Agent ready"}</div>
       </div>
+
+      <Tour
+        run={tourAt !== null}
+        onClose={() => setTourAt(null)}
+        hooks={{
+          openTab: (t) => setRightTab(t),
+          openGraph: () => focusTab(GRAPH_TAB),
+          openOverview: () => focusTab(OVERVIEW_TAB),
+        }}
+      />
 
       {paletteOpen && <CommandPalette graph={graph} onClose={() => setPaletteOpen(false)} onOpenNode={openNode} onCommand={onCommand} />}
       {newVer && <NewVersionModal defaultTitle={newVer.defaultTitle} onCreate={createVersion} onClose={() => setNewVer(null)} />}

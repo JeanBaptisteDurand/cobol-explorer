@@ -2,9 +2,13 @@ import { expect, test } from "@playwright/test";
 
 // Seed an identity so the onboarding modal doesn't block the workspace.
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() =>
-    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "test", role: "Developer" }))
-  );
+  await page.addInitScript(() => {
+    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "test", role: "Developer" }));
+    // The guided tour runs on a first visit and its overlay swallows clicks.
+    // These tests are about the workshop, not the first run, so they arrive as
+    // someone who has already seen it. tour-presentation.spec.ts covers the tour.
+    localStorage.setItem("cobol-explorer-tour-seen", "1");
+  });
 });
 
 test("l'aperçu oriente : stats + copybooks critiques (fan-in)", async ({ page }) => {

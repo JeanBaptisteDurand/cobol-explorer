@@ -26,7 +26,7 @@ import urllib.parse
 from dataclasses import asdict
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -705,4 +705,11 @@ def cs_status(cid: str, body: StatusBody, request: Request) -> dict:
 
 # --- static frontend (built) ---
 if os.path.isdir(WEB_DIST):
+    # The argument page lives at its own URL so it can be linked, bookmarked and
+    # sent to someone. StaticFiles has no SPA fallback, and a catch-all would
+    # swallow genuine 404s, so the one client route is named explicitly.
+    @app.get("/presentation", include_in_schema=False)
+    def presentation():
+        return FileResponse(os.path.join(WEB_DIST, "index.html"))
+
     app.mount("/", StaticFiles(directory=WEB_DIST, html=True), name="web")

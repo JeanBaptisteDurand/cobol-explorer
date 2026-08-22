@@ -91,9 +91,10 @@ input, textarea { font-family: var(--s); }
 .app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .titlebar { height: 40px; display: flex; align-items: center; gap: 14px; padding: 0 12px;
   background: var(--layer-01); border-bottom: 1px solid var(--border-subtle); flex: none; }
+/* The wordmark is monospace, as the brand sheet draws it — the machine voice is
+   the point, and the mark beside it is the product's own, not a blue square. */
 .brand { display: flex; align-items: center; gap: 9px; }
-.brand .sq { width: 15px; height: 15px; border-radius: 0; background: var(--interactive); }
-.brand .nm { font: 600 12.5px var(--s); color: var(--text-primary); letter-spacing: .01em; }
+.brand .nm { font: 600 13px var(--m); color: var(--text-primary); letter-spacing: -.01em; }
 .brand .sub { font: 400 12px var(--s); color: var(--text-secondary); }
 .sysbtn { display: inline-flex; align-items: center; gap: 7px; background: var(--layer-02); border: 1px solid var(--border-subtle);
   border-radius: 0; padding: 4px 9px; cursor: pointer; font: 500 12px var(--s); color: var(--text-primary); }
@@ -340,3 +341,13 @@ input, textarea { font-family: var(--s); }
 .auth-or { display: flex; align-items: center; gap: 10px; margin: 14px 0 16px; }
 .auth-or::before, .auth-or::after { content: ""; flex: 1; height: 1px; background: var(--border-subtle); }
 .auth-or span { font: 500 10px var(--m); color: var(--text-helper); text-transform: uppercase; letter-spacing: .1em; }
+
+/* Titlebar text actions — the presentation link and the tour replay. Quiet until
+   hovered: they are always available and rarely the thing you came for. */
+.tbtn {
+  font: 400 12px var(--s); color: var(--text-secondary); background: transparent;
+  border: 1px solid transparent; border-radius: 0; padding: 4px 10px; cursor: pointer;
+  text-decoration: none; white-space: nowrap;
+  transition: color var(--fast) var(--ease-productive), border-color var(--fast) var(--ease-productive);
+}
+.tbtn:hover { color: var(--text-primary); border-color: var(--border-subtle); }

@@ -23,12 +23,11 @@ test.use({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
 // Same seeding as explorer.spec.ts: the workshop renders straight from a stored
 // identity, with no sign-in step. Keep the two in step.
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() =>
-    localStorage.setItem(
-      "cobol-explorer-identity",
-      JSON.stringify({ name: "test", role: "Developer" }),
-    ),
-  );
+  await page.addInitScript(() => {
+    localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "test", role: "Developer" }));
+    // A plate of the product must not be a plate of the tour standing in front of it.
+    localStorage.setItem("cobol-explorer-tour-seen", "1");
+  });
 });
 
 /** Waits for the estate AND the version list, not merely for the shell to be
