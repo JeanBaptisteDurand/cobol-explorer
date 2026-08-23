@@ -57,14 +57,14 @@ AUDIT = AuditLog()
 # --- Multi-system: analyze several mainframe estates, switch between them ---
 # Each system has its own graph + corpus + semantic index + version store. The
 # default (genapp) keeps the existing paths so nothing changes for it. CardDemo
-# (AWS, Apache-2.0) is a second, richer estate — real batch/JCL/VSAM.
+# (AWS, Apache-2.0) is a second, richer estate - real batch/JCL/VSAM.
 SYSTEMS: dict[str, dict] = {
     "genapp": {
-        "label": "GenApp", "detail": "insurance — underwriting, claims, policies",
+        "label": "GenApp", "detail": "insurance · underwriting, claims, policies",
         "graph": GRAPH, "corpus": CORPUS, "index": INDEX, "versions": VERSIONS, "vector": VECTOR,
     },
     "carddemo": {
-        "label": "CardDemo", "detail": "AWS · credit cards — batch + CICS + VSAM",
+        "label": "CardDemo", "detail": "AWS · credit cards · batch + CICS + VSAM",
         "graph": "systems/carddemo/graph.json", "corpus": "systems/carddemo/corpus",
         "index": "systems/carddemo/index.json", "versions": "systems/carddemo/versions",
         "vector": "json", "readonly": True,  # analyze-only second estate
@@ -98,9 +98,9 @@ def gate(request: Request, action: str, target: str = "") -> dict:
     if (ENFORCE or JWT_MODE) and not rbac.allowed(actor["role"], action):
         AUDIT.record(actor["name"], actor["role"], action, target, result="denied")
         # Name the roles that hold the right: a refusal that says only "no" leaves
-        # the reader guessing who to ask — "ask a dev or an architect" is the answer.
+        # the reader guessing who to ask - "ask a dev or an architect" is the answer.
         holders = ", ".join(r for r in rbac.ROLES if r in rbac.POLICY.get(action, set()) and r != "guest")
-        raise HTTPException(403, f"role '{actor['role']}' is not allowed to '{action}' — that right belongs to: {holders}")
+        raise HTTPException(403, f"role '{actor['role']}' is not allowed to '{action}'. That right belongs to: {holders}")
     AUDIT.record(actor["name"], actor["role"], action, target)
     return actor
 
@@ -142,7 +142,7 @@ def store() -> VersionStore:
 
     Critical for team concurrency: the git store serialises its (shared, mutable)
     working tree with one ``threading.Lock``. If we built a NEW store per request
-    the lock would be per-instance and useless — two requests would run ``git
+    the lock would be per-instance and useless - two requests would run ``git
     checkout`` on the same tree at once and cross-contaminate branches. So each
     system's store is a singleton; its lock is the process-wide mutex for that tree.
     """
@@ -188,16 +188,16 @@ _DEMO_ACCOUNTS: list[dict] | None = None
 def _demo_accounts() -> list[dict]:
     """The documented demo accounts that really open with the password "demo".
 
-    A juror or reader wants to SEE each role bite — an auditor reading the trail,
-    a risk officer refused the merge — without five sign-out/sign-in round trips.
+    A juror or reader wants to SEE each role bite - an auditor reading the trail,
+    a risk officer refused the merge - without five sign-out/sign-in round trips.
     So the UI offers one-click switching between these accounts. It stays honest
     security: each switch is a real login minting a new signed token, the role
     still travels inside it, and the server still arbitrates. Verified against
     the account store (not assumed), computed once: four PBKDF2 checks.
 
     This is a demo affordance by construction. In a real deployment roles are
-    bound to accounts and managed by an administrator or the corporate IdP —
-    the UI says so next to the switcher — and any password change makes an
+    bound to accounts and managed by an administrator or the corporate IdP -
+    the UI says so next to the switcher - and any password change makes an
     account silently drop off this list.
     """
     global _DEMO_ACCOUNTS
@@ -218,7 +218,7 @@ def _demo_accounts() -> list[dict]:
 def auth_config() -> dict:
     """What the front end needs to know before showing anything: is a login required?
 
-    Ungated on purpose — it carries no user data, only the mode the server runs in
+    Ungated on purpose - it carries no user data, only the mode the server runs in
     and the demo accounts whose credentials the README already publishes.
     """
     return {
@@ -235,7 +235,7 @@ def login(body: LoginBody) -> dict:
         actor = users.authenticate(body.username, body.password)
     except users.UnverifiedAccount:
         AUDIT.record(body.username, "guest", "login", target="unverified", result="denied")
-        raise HTTPException(403, {"code": "unverified", "message": "confirm your e-mail address first — check your inbox"})
+        raise HTTPException(403, {"code": "unverified", "message": "confirm your e-mail address first: check your inbox"})
     if not actor:
         AUDIT.record(body.username or "?", "guest", "login", target="", result="denied")
         raise HTTPException(401, "invalid credentials")
@@ -280,13 +280,13 @@ def signup(body: SignupBody) -> dict:
     sent = mailer.send_verification(body.email, actor["name"], actor["token"])
     AUDIT.record(actor["name"], actor["role"], "signup", target=f"verification sent={sent}")
     if not sent:
-        raise HTTPException(502, "account created, but the confirmation e-mail could not be sent — try signing in later to receive a new link")
+        raise HTTPException(502, "account created, but the confirmation e-mail could not be sent. Try signing in later to receive a new link")
     return {"verification_required": True, "email": body.email, "name": actor["name"], "role": actor["role"]}
 
 
 @app.get("/api/auth/ibm")
 def ibm_sign_in():
-    """Start “Sign in with IBM” — hand the browser to IBM Cloud App ID."""
+    """Start “Sign in with IBM” - hand the browser to IBM Cloud App ID."""
     if not oidc.ready():
         raise HTTPException(503, "IBM sign-in is not configured on this deployment")
     return RedirectResponse(oidc.authorization_url(oidc.new_state()), status_code=303)
@@ -330,7 +330,7 @@ def verify_email(token: str):
 
 @app.get("/api/me")
 def me(request: Request) -> dict:
-    """Who the server thinks you are — the identity every audit line will carry."""
+    """Who the server thinks you are - the identity every audit line will carry."""
     actor = identify(request.headers)
     return {**actor, "authenticated": bool(tokens.read(tokens.bearer(request.headers)))}
 
@@ -367,12 +367,12 @@ def system_set(body: SystemBody) -> dict:
 
 @app.get("/api/graph")
 def graph(request: Request) -> dict:
-    # health() advertises graph:false as a normal state (pre-ingest) — so a missing
+    # health() advertises graph:false as a normal state (pre-ingest) - so a missing
     # graph is a 503 (not built yet), not an opaque 500.
     gate(request, "read", target="graph")
     gp = active_cfg()["graph"]
     if not os.path.exists(gp):
-        raise HTTPException(503, "graph not built — run the ingestion (make ingest)")
+        raise HTTPException(503, "graph not built: run the ingestion (make ingest)")
     with open(gp) as fh:
         return json.load(fh)
 
@@ -479,7 +479,7 @@ async def ask(body: AskBody, request: Request):
                 q.put(("error", {"message": str(exc)}))
                 q.put(("__done__", None))
                 return
-            # Citation guardrail runs in its own try — it must never clobber the answer.
+            # Citation guardrail runs in its own try - it must never clobber the answer.
             try:
                 q.put(("verify", verify_answer(res["answer"], sources, cfg["corpus"])))
             except Exception:
@@ -521,9 +521,9 @@ class StatusBody(BaseModel):
 
 
 def _writable() -> None:
-    """Guard: some systems (e.g. CardDemo) are analyze-only — no versioning."""
+    """Guard: some systems (e.g. CardDemo) are analyze-only - no versioning."""
     if active_cfg().get("readonly"):
-        raise HTTPException(409, "read-only system — versioning is reserved for the primary estate")
+        raise HTTPException(409, "read-only system: versioning is reserved for the primary estate")
 
 
 @app.get("/api/changesets")
@@ -558,7 +558,7 @@ def _resolve_rel(path: str) -> str | None:
 
     /api/file has resolved basenames since the beginning; the changeset
     endpoints did not, so the same "lgacdb01.cbl" that worked on one endpoint
-    was a raw 500 on the other — and an EDIT under a bare name would have
+    was a raw 500 on the other - and an EDIT under a bare name would have
     created a ghost duplicate at the corpus root instead of touching the real
     file. The UI always sends full paths; Bob and curl deserve the same
     forgiveness everywhere.
@@ -605,7 +605,7 @@ def _editable(s: VersionStore, cid: str) -> ChangeSet:
         raise HTTPException(404, "changeset not found")
     cs = s.get(cid)
     if cs.status == "merged":
-        raise HTTPException(409, "version already merged into main — it is read-only")
+        raise HTTPException(409, "version already merged into main: it is read-only")
     return cs
 
 
@@ -631,7 +631,7 @@ class RevertBody(BaseModel):
 
 @app.post("/api/changesets/{cid}/revert")
 def cs_revert(cid: str, body: RevertBody, request: Request) -> dict:
-    """Drop a file from the version — its content returns to the team version (main)."""
+    """Drop a file from the version - its content returns to the team version (main)."""
     gate(request, "edit", target=f"revert:{cid}:{body.path}")
     _safe_rel(body.path)
     s = store()
@@ -703,7 +703,7 @@ def cs_comment(cid: str, body: CommentBody, request: Request) -> dict:
 def _refresh_from_main(s: VersionStore) -> None:
     """After a merge, propagate main into the read paths: rewrite the served corpus,
     then rebuild the dependency graph so impact/search reflect the new dependencies.
-    Best-effort — a merge already succeeded in git, so failure here only logs."""
+    Best-effort - a merge already succeeded in git, so failure here only logs."""
     if not hasattr(s, "export_main"):
         return
     c = active_cfg()
@@ -715,7 +715,7 @@ def _refresh_from_main(s: VersionStore) -> None:
             from run_ingest import ingest
 
             ingest(c["corpus"], c["graph"])
-    except Exception as exc:  # noqa: BLE001 — never fail the merge on a refresh hiccup
+    except Exception as exc:  # noqa: BLE001 - never fail the merge on a refresh hiccup
         print(f"[warn] refresh after merge failed: {exc}")
 
 
@@ -756,13 +756,13 @@ def cs_status(cid: str, body: StatusBody, request: Request) -> dict:
         raise HTTPException(404, "changeset not found")
     # A merged version is closed: no re-proposing, re-merging or status flip-flop.
     if cs.status == "merged":
-        raise HTTPException(409, "version already merged into main — it is closed")
+        raise HTTPException(409, "version already merged into main: it is closed")
     if body.status == "merged":
         # Write the record BEFORE merging: once main carries the change, the diff of the
         # version against main is empty and there is nothing left to summarise.
         if not cs.summary:
             _write_summary(s, cid)
-        # Real git merge onto main — refused (409) if the branch is behind main.
+        # Real git merge onto main - refused (409) if the branch is behind main.
         try:
             s.merge_to_main(cid)
         except ValueError as e:

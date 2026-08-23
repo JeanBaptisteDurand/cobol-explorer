@@ -113,12 +113,12 @@ export default function ChatPanel({ seed, onCite, onOpenNode, onQueryStart, onTr
                 </div>
                 {m.verify && m.verify.count > 0 && (
                   <div className={`grounded ${m.verify.all_grounded ? "ok" : "warn"}`} data-testid="grounded">
-                    {m.verify.all_grounded ? "✓" : "⚠"} {m.verify.count} source{m.verify.count > 1 ? "s" : ""} {m.verify.all_grounded ? "verified" : "— a citation does not resolve"}
+                    {m.verify.all_grounded ? "✓" : "⚠"} {m.verify.count} source{m.verify.count > 1 ? "s" : ""} {m.verify.all_grounded ? "verified" : ": a citation does not resolve"}
                   </div>
                 )}
                 {m.verify && m.verify.count === 0 && !m.loading && !m.error && (
                   <div className="grounded warn" data-testid="grounded-none" title="A reliable answer must rely on a precise line of code.">
-                    ⚠ unsourced answer — ask « which line? »
+                    ⚠ unsourced answer · ask « which line? »
                   </div>
                 )}
                 {!m.loading && !m.error && i === msgs.length - 1 && (

@@ -1,4 +1,4 @@
-"""Immutable, append-only, tamper-evident audit trail — who asked / changed what.
+"""Immutable, append-only, tamper-evident audit trail - who asked / changed what.
 
 Each line is chained with an **HMAC-SHA256** keyed by a server-held secret
 (``COBOL_EXPLORER_AUDIT_SECRET``), so re-linking an altered log requires the key,
@@ -15,7 +15,7 @@ import json
 import os
 import threading
 
-# The chain key. It must survive restarts — old entries are verified against it —
+# The chain key. It must survive restarts - old entries are verified against it -
 # so unlike the JWT secret it cannot default to a random per-process value. The
 # demo default is repo-visible, which means: with it, someone who can WRITE the
 # log file can also re-link the chain. Tamper evidence is real against everyone
@@ -26,7 +26,7 @@ _SECRET = os.environ.get("COBOL_EXPLORER_AUDIT_SECRET", "dev-audit-secret-change
 if _SECRET == b"dev-audit-secret-change-in-prod" and os.environ.get("COBOL_EXPLORER_AUTH") in ("jwt", "enforce"):
     import logging
     logging.getLogger("uvicorn.error").warning(
-        "audit: running with the demo chain key — set COBOL_EXPLORER_AUDIT_SECRET "
+        "audit: running with the demo chain key. Set COBOL_EXPLORER_AUDIT_SECRET "
         "or the tamper evidence is only as secret as this repository")
 
 
@@ -61,7 +61,7 @@ class AuditLog:
                 entry["hash"] = _mac(entry["prev"], json.dumps(_base(entry), sort_keys=True))
                 fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
             # Head anchor: persist the latest hash to a sidecar so deleting TRAILING
-            # lines (log truncation) is detectable — a forward-only chain check alone
+            # lines (log truncation) is detectable - a forward-only chain check alone
             # can't see a chopped tail (the surviving prefix stays self-consistent).
             with open(self._head_path(), "w") as hf:
                 hf.write(entry["hash"])
@@ -86,7 +86,7 @@ class AuditLog:
         return out
 
     def verify_chain(self) -> bool:
-        """True iff the HMAC chain is intact — no line inserted, altered, or removed
+        """True iff the HMAC chain is intact - no line inserted, altered, or removed
         (including a chopped tail, caught via the persisted head anchor)."""
         prev = "genesis"
         for x in self._raw_lines():
@@ -121,5 +121,5 @@ def _flock(fh) -> None:
         import fcntl
 
         fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
-    except Exception:  # non-POSIX / unsupported FS — in-process lock still applies
+    except Exception:  # non-POSIX / unsupported FS - in-process lock still applies
         pass

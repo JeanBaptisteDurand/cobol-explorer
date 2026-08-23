@@ -4,7 +4,7 @@ A ChangeSet is a named, authored branch off ``main`` (or another change-set). It
 holds file edits (e.g. modify a copybook because an insurance value changed),
 the computed impact (which programs / batch chains are affected), comments (team
 collaboration) and a status (draft/proposed/merged). Stored as JSON + edited
-file copies under a versions dir — no database needed.
+file copies under a versions dir - no database needed.
 
 This is the "operations" layer: a risk/compliance user proposes a change, the
 system shows what it breaks (via the impact engine), edits happen in an isolated
@@ -40,7 +40,7 @@ class ChangeSet:
     comments: list[dict] = field(default_factory=list)  # {author, text, at}
     impact: dict = field(default_factory=dict)  # {programs, chains}
     # Written when the version is merged (or on demand): what changed, what it put at
-    # risk, what to check. {text, grounded, at} — grounded=False means no model wrote it.
+    # risk, what to check. {text, grounded, at} - grounded=False means no model wrote it.
     summary: dict = field(default_factory=dict)
 
 

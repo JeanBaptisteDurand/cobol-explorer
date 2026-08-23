@@ -1,12 +1,12 @@
-# Mainframe universe coverage — what is mapped, and what is missing
+# Mainframe universe coverage - what is mapped, and what is missing
 
-> The analysis: the mainframe universe (everything an *application understanding* tool can map — reference: IBM ADDI) set against what our graph model covers today. Sources at the bottom.
+> The analysis: the mainframe universe (everything an *application understanding* tool can map - reference: IBM ADDI) set against what our graph model covers today. Sources at the bottom.
 >
 > Legend: ✅ covered · ⚠️ partial · ❌ not covered (but the schema accepts it).
 
 ## The verdict in one sentence
 
-For a **COBOL + CICS + DB2 + JCL** application (GenApp/insurance in kind), we cover **the core and, above all, the relationships that differentiate** — impact, data lineage, batch chains. To claim we map **the whole mainframe universe**, what is missing is **entire subsystems** (IMS, MQ), the **CICS resource layer** (transactions and maps), the **other languages** (PL/I, Assembler, REXX, Natural) and a **richer DB2**. The good news: our schema (typed nodes and typed edges carrying evidence) is **generic and extensible** — adding those means "a node/edge type plus a parser", not a rewrite.
+For a **COBOL + CICS + DB2 + JCL** application (GenApp/insurance in kind), we cover **the core and, above all, the relationships that differentiate** - impact, data lineage, batch chains. To claim we map **the whole mainframe universe**, what is missing is **entire subsystems** (IMS, MQ), the **CICS resource layer** (transactions and maps), the **other languages** (PL/I, Assembler, REXX, Natural) and a **richer DB2**. The good news: our schema (typed nodes and typed edges carrying evidence) is **generic and extensible** - adding those means "a node/edge type plus a parser", not a rewrite.
 
 ---
 
@@ -59,7 +59,7 @@ For a **COBOL + CICS + DB2 + JCL** application (GenApp/insurance in kind), we co
 | Element | Covered | Detail / gap |
 |---|---|---|
 | `EXEC CICS LINK/XCTL PROGRAM` calls → the call graph | ✅ | |
-| **Transactions** (CSD `Define Transaction...Program`) → transaction→program | ✅ | **gap closed**: 25 transactions extracted from the `cdef*.jcl` files (`CICS_TXN` node, `TXN_INVOKES` edge) — the online entry points |
+| **Transactions** (CSD `Define Transaction...Program`) → transaction→program | ✅ | **gap closed**: 25 transactions extracted from the `cdef*.jcl` files (`CICS_TXN` node, `TXN_INVOKES` edge) - the online entry points |
 | **BMS mapsets/maps** (DFHMSD/MDI) and `SEND/RECEIVE MAP` → screen↔program | ✅ | **gap closed**: 6 maps (`BMS_MAP` node, `PGM_USES_MAP` edge) |
 | TDQ / TSQ (data queues) | ❌ | |
 | CICS files (FCT) `READ/WRITE/REWRITE/DELETE FILE` → VSAM | ✅ | **gap closed**: 2 files (KSDSCUST, KSDSPOLY), `CICS_FILE` node, `PGM_READS_FILE`/`PGM_WRITES_FILE` edges (evidence.op) |
@@ -84,7 +84,7 @@ For a **COBOL + CICS + DB2 + JCL** application (GenApp/insurance in kind), we co
 
 | Element | Covered | Detail / gap |
 |---|---|---|
-| Chains (SCHED_JOB, `triggers`, `runs` a JOB) | ⚠️ | **synthetic** (`scheduler.json`) — the schema itself is right |
+| Chains (SCHED_JOB, `triggers`, `runs` a JOB) | ⚠️ | **synthetic** (`scheduler.json`) - the schema itself is right |
 | Calendars, special resources, real predecessors | ❌ | through an **IWS / CA7 / Control-M** export (sketched) |
 
 ## 9. Security and governance
@@ -104,16 +104,16 @@ For a **COBOL + CICS + DB2 + JCL** application (GenApp/insurance in kind), we co
 
 ## What is *enough* today, versus for "the whole universe"
 
-**Enough for the demo and the proof of concept** (a COBOL/CICS/DB2/JCL application): yes. We have the call graph (CALL and CICS LINK), the copybooks (impact), the DB2 tables, the JCL, batch lineage, scheduler chains and business domains. The **three differentiating arguments** — lineage, chains, copybook impact — work on real data.
+**Enough for the demo and the proof of concept** (a COBOL/CICS/DB2/JCL application): yes. We have the call graph (CALL and CICS LINK), the copybooks (impact), the DB2 tables, the JCL, batch lineage, scheduler chains and business domains. The **three differentiating arguments** - lineage, chains, copybook impact - work on real data.
 
 **To map the *whole* universe**, in order of value over effort:
 
 1. ~~**BMS + CSD (transactions and screens)**~~ ✅ **done** (25 transactions, 6 maps). What remains is **DCLGEN** (the copybook↔table link), absent from GenApp because its copybooks are hand-written; it needs a corpus that has some.
 2. **A real scheduler** (IWS `PLAN_JOB_PREDECESSORS_V`, CA7 or Control-M export) to replace the synthetic one; the schema is ready.
-3. **IMS** (DBD/PSB/segments and `CBLTDLI`) — an entire subsystem, and a strong one in banking and insurance.
+3. **IMS** (DBD/PSB/segments and `CBLTDLI`) - an entire subsystem, and a strong one in banking and insurance.
 4. **The other languages** (PL/I first, then Assembler, REXX, Natural) through the `Parser` interface: each language is one implementation feeding the **same** schema. This is where the extensibility pays for itself.
-5. **MQ** (queues, MQPUT/MQGET) — cross-system integration.
-6. **RACF** — `PROFILE`/`USER` nodes and a "can access" edge; very legible to a compliance audience.
+5. **MQ** (queues, MQPUT/MQGET) - cross-system integration.
+6. **RACF** - `PROFILE`/`USER` nodes and a "can access" edge; very legible to a compliance audience.
 
 **The architectural point.** The model `Node(id, kind, label, attrs)` + `Edge(src, dst, kind, evidence)` is **agnostic of language and subsystem**. Adding PL/I, IMS, a CICS transaction or an MQ queue means **new `kind` values plus a parser**, not a rewrite. The graph, the UI (tree, inspector, graph view), the agent (`graph_lookup`) and the RAG **work as they are** on the new types. The architecture is therefore **sufficient to map the universe**; it is the **parsers** that have to grow.
 

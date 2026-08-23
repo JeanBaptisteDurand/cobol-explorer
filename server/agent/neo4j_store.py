@@ -4,7 +4,7 @@ Same interface as ``graph.backend.NetworkxBackend`` (impact / lineage / callers 
 callees / neighbors / summary / copy_evidence), reimplemented in Cypher, so the
 agent's ``graph_lookup`` is identical whether it runs on NetworkX or Neo4j.
 Selected with ``COBOL_EXPLORER_GRAPH_BACKEND=neo4j``. Nodes are ``(:Entity {id})``;
-edges are ``[:REL {kind, line}]`` (generic type + kind property — no APOC needed).
+edges are ``[:REL {kind, line}]`` (generic type + kind property - no APOC needed).
 """
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from core.schema import split_id
 
 DEFAULT_URI = "bolt://127.0.0.1:7687"
 
-# One driver per (uri,user) shared across all Neo4jGraph instances — the Neo4j driver
+# One driver per (uri,user) shared across all Neo4jGraph instances - the Neo4j driver
 # is thread-safe and pools connections. GraphTools is recreated per API request, so a
 # per-instance driver would leak a connection pool on every call.
 _DRIVERS: dict = {}
@@ -52,7 +52,7 @@ class Neo4jGraph:
             for e in graph_dict["edges"]
         ]
         with self._drv().session() as s:
-            # Only wipe the nodes THIS backend owns (:Entity) — never `MATCH (n)`,
+            # Only wipe the nodes THIS backend owns (:Entity) - never `MATCH (n)`,
             # which would delete every node in a shared/target database.
             s.run("MATCH (n:Entity) DETACH DELETE n")
             s.run("CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (n:Entity) REQUIRE n.id IS UNIQUE")

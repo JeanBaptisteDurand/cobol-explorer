@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-/** The 3-minute demo, in the hero — as a facade, not an embed.
+/** The 3-minute demo, in the hero - as a facade, not an embed.
  *
  *  Nothing is requested from YouTube until the visitor clicks: no iframe, no cookie,
  *  no third-party script on first paint. That keeps the promise the rest of the page
@@ -24,7 +24,7 @@ export default function HeroVideo() {
       {playing ? (
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0`}
-          title="COBOL Explorer — 3-minute demo"
+          title="COBOL Explorer · 3-minute demo"
           allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
         />

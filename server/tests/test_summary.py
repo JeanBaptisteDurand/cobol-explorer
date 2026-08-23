@@ -2,7 +2,7 @@
 
 The point of this feature is retrieval six months later: the title and the diff do not
 say that eleven programs were downstream. These tests pin the two guarantees that make
-the record trustworthy — it always exists, and it never invents an impact figure.
+the record trustworthy - it always exists, and it never invents an impact figure.
 """
 import importlib
 import re

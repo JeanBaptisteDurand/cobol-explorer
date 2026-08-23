@@ -1,7 +1,7 @@
 """The citation guardrail: what the "sources verified" badge is allowed to claim.
 
 These are regressions from production. The badge read "unsourced answer" under an
-answer that was, in fact, fully cited — twice, for two different reasons:
+answer that was, in fact, fully cited - twice, for two different reasons:
   1. the model cited the entity (`LGACDB01`) or wrote the line as "(line 88)" rather
      than the `file:line` the parser expected;
   2. file lookup was case-sensitive, so `LGACDB01.cbl` resolved on macOS (where the

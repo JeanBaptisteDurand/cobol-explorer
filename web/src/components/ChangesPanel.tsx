@@ -24,7 +24,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
         <div className="d" style={{ textAlign: "left" }}>
           Everyone works on <b style={{ color: "var(--text-primary)" }}>their own version</b> (a git branch);
           <b style={{ color: "var(--interactive)" }}> main</b> is the team's version.<br /><br />
-          Create a version (« + New version » on the left) or click « Edit… » on a file —
+          Create a version (« + New version » on the left) or click « Edit… » on a file:
           the changed files, their diff and impact will appear here, like a PR review.
         </div>
       </div>
@@ -47,11 +47,11 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
   const stage = version.status; // draft | proposed | merged
   const GUIDE: Record<string, string> = {
     draft:
-      "Yours to edit. Save as often as you like — every save is a commit on your branch and recomputes the impact below. Nothing reaches the estate. When the change is ready, Propose it.",
+      "Yours to edit. Save as often as you like: every save is a commit on your branch and recomputes the impact below. Nothing reaches the estate. When the change is ready, Propose it.",
     proposed:
-      "Submitted for review. The team reads the diff, the impact and the record below; a developer or an architect accepts it with Merge — the gate states the blast radius first. You can still edit and save; the review sees the latest state.",
+      "Submitted for review. The team reads the diff, the impact and the record below; a developer or an architect accepts it with Merge; the gate states the blast radius first. You can still edit and save; the review sees the latest state.",
     merged:
-      "Accepted and applied to main. This version is closed and read-only — open a new version for the next change.",
+      "Accepted and applied to main. This version is closed and read-only. Open a new version for the next change.",
   };
 
   return (
@@ -67,19 +67,19 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
               {i < 2 && <span style={{ flex: 1, height: 1, background: "var(--border-subtle)" }} />}
             </span>
           ))}
-          <Help wide text="A version is one change, reviewed as one — like a pull request. draft: edit and save freely, it is your branch. proposed: you asked the team to review it. merged: a developer or architect accepted it and main moved. For an unrelated change, open another version." />
+          <Help wide text="A version is one change, reviewed as one, like a pull request. draft: edit and save freely, it is your branch. proposed: you asked the team to review it. merged: a developer or architect accepted it and main moved. For an unrelated change, open another version." />
         </div>
         <p style={{ font: "400 11px/1.6 var(--s)", color: "var(--text-secondary)", margin: 0 }}>{GUIDE[stage] ?? ""}</p>
       </div>
       {/* The written record: what this version changes, what it puts at risk, what to
-          check. Generated at merge time, and on demand before it — because the diff of
+          check. Generated at merge time, and on demand before it - because the diff of
           a merged version against main is empty, and by then it is too late to write. */}
       <div className="card" style={{ padding: "12px 13px" }} data-testid="cs-summary">
         <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: version.summary?.text ? 8 : 0 }}>
           <Icon name="spark" size={12} color="var(--interactive)" />
           <span className="klabel" style={{ margin: 0 }}>Change record</span>
           {version.summary?.grounded === false && (
-            <span className="tag" title="No model was reachable — the facts were written without prose">facts only</span>
+            <span className="tag" title="No model was reachable, so the facts were written without prose">facts only</span>
           )}
           <span style={{ flex: 1 }} />
           <button className="btn" style={{ fontSize: 9.5, padding: "2px 8px" }} disabled={busy}
@@ -92,7 +92,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
           <p style={{ font: "400 11.5px/1.65 var(--s)", color: "var(--text-secondary)", margin: 0 }}>{version.summary.text}</p>
         ) : (
           <p style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--text-helper)", margin: 0 }}>
-            Written automatically when the version is merged — or now, so reviewers read it before they approve.
+            Written automatically when the version is merged, or now, so reviewers read it before they approve.
           </p>
         )}
       </div>
@@ -105,7 +105,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
           <span className={`badge b-${version.status}`} style={{ marginLeft: "auto" }}>{version.status}</span>
           {onExit && (
             <button className="btn" style={{ fontSize: 9.5, padding: "2px 7px" }} onClick={onExit} data-testid="cp-exit"
-              title="Back to main (read-only) — leave this version without deleting it">✕ main</button>
+              title="Back to main (read-only). Leaves this version without deleting it">✕ main</button>
           )}
         </div>
         <div style={{ font: "400 10.5px var(--s)", color: "var(--text-helper)", marginTop: 6 }}>
@@ -143,7 +143,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       )}
 
       <div>
-        <div className="klabel" style={{ marginBottom: 6 }}>Changed files · {version.edits.length}<Help text="diff: compare your file with the main version. revert: undo your change to this file — it returns exactly to the main version (useful after a mistake)." /></div>
+        <div className="klabel" style={{ marginBottom: 6 }}>Changed files · {version.edits.length}<Help text="diff: compare your file with the main version. revert: undo your change to this file, it returns exactly to the main version (useful after a mistake)." /></div>
         {version.edits.length === 0 && <div style={{ font: "400 11px var(--s)", color: "var(--text-helper)" }}>No changed files.</div>}
         {version.edits.length > 0 && (
           <div className="card">
@@ -162,7 +162,7 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
                   </button>
                 ) : (
                   <button className="btn" style={{ fontSize: 9.5, padding: "2px 7px" }} data-testid="revert-btn"
-                    title="Revert this file — its content returns to main's (undoes your change, e.g. an accidental deletion)"
+                    title="Revert this file: its content returns to main's (undoes your change, e.g. an accidental deletion)"
                     onClick={(ev) => { ev.stopPropagation(); setConfirmRevert(e.path); setTimeout(() => setConfirmRevert((c) => (c === e.path ? null : c)), 4000); }}>
                     revert
                   </button>
@@ -174,15 +174,15 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       </div>
 
       <div style={{ height: 1, background: "var(--border-subtle)" }} />
-      <div className="klabel">Team review<Help wide text="Team work functions like pull requests: everyone has their branch (their version), main is the team's branch. « Import main » brings the others' merged work into your branch (git merge). « Merge » applies your branch onto main — accepted only if you are up to date, so you never overwrite a colleague's work." /></div>
+      <div className="klabel">Team review<Help wide text="Team work functions like pull requests: everyone has their branch (their version), main is the team's branch. « Import main » brings the others' merged work into your branch (git merge). « Merge » applies your branch onto main, accepted only if you are up to date, so you never overwrite a colleague's work." /></div>
       <div style={{ font: "400 10.5px/1.55 var(--s)", color: "var(--text-helper)" }}>
-        Propose = submit for review. Merge = apply onto <b style={{ color: "var(--interactive)" }}>main</b> —
+        Propose = submit for review. Merge = apply onto <b style={{ color: "var(--interactive)" }}>main</b>,
         only possible if your branch is <b style={{ color: "var(--text-primary)" }}>up to date with main</b>.
       </div>
       {error && (
         <div className="card" style={{ padding: "10px 12px", borderColor: "var(--danger)", font: "400 11px/1.5 var(--s)", color: "var(--danger)" }} data-testid="cs-error">
           {error.message}
-          {/* Conflict resolution: both sides touched the same lines — the user decides. */}
+          {/* Conflict resolution: both sides touched the same lines - the user decides. */}
           {error.code === "conflict" && (
             <div style={{ display: "flex", gap: 7, marginTop: 9 }}>
               <button className="btn" style={{ flex: 1, fontSize: 10.5, justifyContent: "center" }} disabled={busy} data-testid="resolve-mine"
@@ -201,18 +201,18 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       )}
       {confirmMerge && !empty && (
         <div className="card" style={{ padding: "10px 12px", borderColor: "var(--interactive)", background: "rgba(15, 98, 254, .12)", font: "400 11px/1.5 var(--s)", color: "var(--text-secondary)" }} data-testid="merge-gate">
-          <span style={{ color: "var(--interactive)" }}>⚠ Merge-gate</span> — this merge applies the change to the estate and touches <b style={{ color: "var(--text-primary)" }}>{nProg} program{nProg > 1 ? "s" : ""}</b>. Confirm?
+          <span style={{ color: "var(--interactive)" }}>⚠ Merge-gate</span>: this merge applies the change to the estate and touches <b style={{ color: "var(--text-primary)" }}>{nProg} program{nProg > 1 ? "s" : ""}</b>. Confirm?
         </div>
       )}
       {merged && (
-        <div className="grounded ok" style={{ alignSelf: "flex-start" }}>✓ merged into main — version closed</div>
+        <div className="grounded ok" style={{ alignSelf: "flex-start" }}>✓ merged into main · version closed</div>
       )}
       <div style={{ display: merged ? "none" : "flex", gap: 8 }}>
         <button className="btn-pri" style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8 }} disabled={busy}
           onClick={() => run(csStatus(version.id, "proposed"))}>Propose</button>
         <button className={confirmMerge && !empty ? "btn-pri" : "btn"} style={{ flex: 1, justifyContent: "center", border: confirmMerge && !empty ? "none" : undefined, opacity: behind || empty ? 0.5 : 1 }}
           data-testid="merge-btn" disabled={busy || behind || empty}
-          title={behind ? "Your branch is behind main — import main first" : empty ? "Nothing to merge — this version has no changed file" : "Apply this version onto main (git merge)"}
+          title={behind ? "Your branch is behind main. Import main first" : empty ? "Nothing to merge: this version has no changed file" : "Apply this version onto main (git merge)"}
           onClick={() => (confirmMerge ? run(csStatus(version.id, "merged"), () => setConfirmMerge(false)) : setConfirmMerge(true))}>
           {behind ? "Merge (import main first)" : empty ? "Nothing to merge" : confirmMerge ? "Confirm merge" : "Merge"}
         </button>

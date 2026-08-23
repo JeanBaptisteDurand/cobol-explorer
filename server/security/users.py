@@ -3,7 +3,7 @@
 Demo-grade by design. Accounts come from ``COBOL_EXPLORER_USERS`` (a JSON file of
 ``{username: {display, role, password_hash}}``); when that file is absent the four
 demo accounts below are served from memory, so ``make demo`` needs no setup. A real
-deployment swaps this module for the corporate IdP — the contract the rest of the
+deployment swaps this module for the corporate IdP - the contract the rest of the
 app depends on stays ``authenticate(username, password) -> {name, role} | None``.
 
 Hashes are PBKDF2-HMAC-SHA256, ``pbkdf2_sha256$<iterations>$<salt>$<hash>``;
@@ -57,7 +57,7 @@ _demo_cache: dict[str, dict] | None = None
 
 
 def _demo_accounts() -> dict[str, dict]:
-    """Demo accounts, hashed once — PBKDF2 is deliberately slow, so never per request."""
+    """Demo accounts, hashed once - PBKDF2 is deliberately slow, so never per request."""
     global _demo_cache
     if _demo_cache is None:
         _demo_cache = {
@@ -88,7 +88,7 @@ def authenticate(username: str, password: str) -> dict | None:
     """The caller's identity if the credentials match, else ``None``.
 
     Raises :class:`UnverifiedAccount` when the password is correct but the e-mail was
-    never confirmed — so the UI can say "check your inbox" instead of "wrong password".
+    never confirmed - so the UI can say "check your inbox" instead of "wrong password".
     """
     account = accounts().get((username or "").strip().lower())
     if not account or not verify_password(password or "", account.get("password_hash", "")):
@@ -101,7 +101,7 @@ def authenticate(username: str, password: str) -> dict | None:
     }
 
 
-# Roles a visitor may take when signing up. Deliberately excludes nothing today —
+# Roles a visitor may take when signing up. Deliberately excludes nothing today -
 # this is a public demo of a governance workflow, and a signup that cannot reach
 # 'merge' would hide half of what the product does. A real deployment maps roles
 # from the corporate IdP instead and never lets a caller pick their own.
@@ -185,7 +185,7 @@ def verify(token: str) -> dict | None:
 
 
 def _write(all_accounts: dict[str, dict]) -> None:
-    """Persist the store atomically — a truncated users.json locks everyone out."""
+    """Persist the store atomically - a truncated users.json locks everyone out."""
     directory = os.path.dirname(os.path.abspath(STORE))
     os.makedirs(directory, exist_ok=True)
     tmp = f"{STORE}.tmp.{os.getpid()}"

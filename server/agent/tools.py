@@ -56,7 +56,7 @@ class GraphTools:
         """The graph node whose source file is ``rel``, or None.
 
         The graph already records each node's file in ``attrs.path``, so callers never
-        have to guess the node type from the extension — guessing sent every non-.cpy
+        have to guess the node type from the extension - guessing sent every non-.cpy
         edit to a ``pgm:`` node that often does not exist (a .jcl edit then reported an
         empty impact instead of the job's programs).
         """
@@ -103,7 +103,7 @@ class GraphTools:
         if op == "lineage":
             return gb.lineage(nid_)
         if op == "callers":
-            # A copybook or DB2 table has no CALL callers — the intent of "who calls
+            # A copybook or DB2 table has no CALL callers - the intent of "who calls
             # / uses this" is the impact set (programs that COPY it, or SQL on it).
             prefix, _ = split_id(nid_)
             if prefix in ("copy", "table"):
@@ -149,7 +149,7 @@ class GraphTools:
     # --- field-level copybook impact ------------------------------------
     def copybook_fields(self, node: str) -> dict:
         """Parse a copybook's data items and, for each field, which COPY'ing
-        programs reference it — field-level change impact."""
+        programs reference it - field-level change impact."""
         import re
 
         from safe import safe_corpus_path

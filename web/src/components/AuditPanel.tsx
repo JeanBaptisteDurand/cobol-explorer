@@ -8,12 +8,12 @@ interface Entry { ts: string; actor: string; role: string; action: string; targe
 export default function AuditPanel() {
   const [data, setData] = useState<{ entries: Entry[]; chain_intact: boolean } | null>(null);
   const [err, setErr] = useState<"denied" | "unreachable" | null>(null);
-  // On fetch failure, DON'T fabricate "chain intact" — that would be a false
+  // On fetch failure, DON'T fabricate "chain intact" - that would be a false
   // compliance signal. Surface the error honestly instead, and say which kind it
   // is: a refusal is the access control working, not the server being down, and
   // only one of the two is worth retrying.
   // On a refusal, offer the honest exit: a real login as the demo auditor. The
-  // switch is a new signed token — the server re-decides, this panel included.
+  // switch is a new signed token - the server re-decides, this panel included.
   const [auditorAccount, setAuditorAccount] = useState<DemoAccount | null>(null);
   const load = () => {
     setErr(null);
@@ -45,7 +45,7 @@ export default function AuditPanel() {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 15px", borderBottom: "1px solid var(--border-subtle)", flex: "none" }}>
-        <span className="klabel" style={{ margin: 0 }}>Audit log<Help text="Every action (agent query, source read, change, merge — and every denial) is logged in an HMAC cryptographic chain: altering one line breaks the chain. This is the auditability proof for compliance." /></span>
+        <span className="klabel" style={{ margin: 0 }}>Audit log<Help text="Every action (agent query, source read, change, merge, and every denial) is logged in an HMAC cryptographic chain: altering one line breaks the chain. This is the auditability proof for compliance." /></span>
         {err && <span className="grounded warn" style={{ marginLeft: "auto" }} data-testid="audit-chain">
           {err === "denied" ? "⚠ not your role" : "⚠ log unavailable"}
         </span>}
@@ -63,7 +63,7 @@ export default function AuditPanel() {
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 6px", borderBottom: "1px solid var(--layer-02)", font: "400 11px var(--m)" }}>
             {/* The server records ISO-8601 UTC. Shown bare ("20:44:33") in an
                 evidence panel, two hours off the reader's wall clock, the
-                timestamp read as wrong — label the zone, carry the date in the
+                timestamp read as wrong - label the zone, carry the date in the
                 tooltip. */}
             <span style={{ color: "var(--text-helper)", flex: "none", width: 74 }} title={e.ts}>
               {e.ts.slice(11, 19)} <span style={{ fontSize: 8.5 }}>UTC</span>
@@ -78,11 +78,11 @@ export default function AuditPanel() {
           <div className="emptypane" data-testid="audit-denied">
             <div className="d" style={{ color: "var(--danger)" }}>
               Reading the audit log is a right of the compliance and auditor roles, and the server
-              decides from your signed account — not from the label in the corner. Your account may
+              decides from your signed account, not from the label in the corner. Your account may
               read the estate, ask the agent and propose changes, but not review who did what.
             </div>
             <div className="d" style={{ marginTop: 10 }}>
-              To read the trail, switch to an account whose role is auditor or compliance — your
+              To read the trail, switch to an account whose role is auditor or compliance: your
               badge (top right) lists the demo accounts, one click each.
             </div>
             {auditorAccount && (

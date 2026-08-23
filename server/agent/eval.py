@@ -1,4 +1,4 @@
-"""Answer-quality evaluation harness — a golden Q/A regression set the answers are
+"""Answer-quality evaluation harness - a golden Q/A regression set the answers are
 scored against, so quality is measured, not assumed.
 
 Each item scores three axes:
@@ -14,7 +14,7 @@ from __future__ import annotations
 from agent.responder import answer_copybook_impact
 from agent.verify import verify_answer
 
-# Golden set — expected structural facts about the GenApp patrimony.
+# Golden set - expected structural facts about the GenApp patrimony.
 GOLDEN = [
     {"node": "LGPOLICY", "min_programs": 8, "must_mention": ["LGACDB01", "LGIPOL01", "LGUPDB01"]},
     {"node": "LGCMAREA", "min_programs": 15, "must_mention": ["LGACDB01", "LGIPOL01"]},
@@ -32,7 +32,7 @@ def evaluate(graph_path: str = "graph.json", corpus_root: str = "corpora", golde
         recall_hits = [m for m in g["must_mention"] if m.upper() in up]
         recall = len(recall_hits) / len(g["must_mention"]) if g["must_mention"] else 1.0
         sources = [s for step in res["trace"].steps for s in step.sources]
-        # STRICT groundedness: an answer with zero citations must NOT pass — it has
+        # STRICT groundedness: an answer with zero citations must NOT pass - it has
         # to actually cite a resolving source line, not merely avoid a bad one.
         grounded = verify_answer(answer, sources, corpus_root)["grounded"]
         coverage_ok = len(programs) >= g["min_programs"]

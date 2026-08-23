@@ -35,8 +35,8 @@ const TOUR_EXAMPLE = "LGPOLICY";
  *  (?ibm=failed).
  *
  *  The IBM case used to say nothing at all. The server redirects here on any
- *  failure — an expired state, a rejected code, a directory that refused the
- *  account — and the visitor was returned to the home page with no explanation,
+ *  failure - an expired state, a rejected code, a directory that refused the
+ *  account - and the visitor was returned to the home page with no explanation,
  *  which is indistinguishable from a button that does nothing. */
 function ReturnBanner({ expired }: { expired?: boolean }) {
   const params = new URLSearchParams(window.location.search);
@@ -48,11 +48,11 @@ function ReturnBanner({ expired }: { expired?: boolean }) {
 
   const ok = verified === "1";
   const message = expired
-    ? "Your session expired — sign in again to reopen the estate. Nothing you proposed was lost; versions live on the server."
+    ? "Your session expired. Sign in again to reopen the estate. Nothing you proposed was lost; versions live on the server."
     : ibm
       ? "IBM sign-in did not complete. Use an account from this deployment's directory, or sign in with a password below."
       : ok
-        ? "✓ Address confirmed — you can sign in now."
+        ? "✓ Address confirmed. You can sign in now."
         : "This confirmation link is invalid or has expired.";
   const good = !expired && !ibm && ok;
 
@@ -88,7 +88,7 @@ export default function App() {
   const [base, setBase] = useState<Record<string, string>>({});
   const [draft, setDraft] = useState<Record<string, string>>({});
   const [diffs, setDiffs] = useState<Record<string, string>>({});
-  // Which version each open file's content was loaded under — so opening a file
+  // Which version each open file's content was loaded under - so opening a file
   // already cached under a DIFFERENT version reloads it (path-keyed cache alone
   // would show one version's bytes while claiming to be on another).
   const loadedVer = useRef<Record<string, string | null>>({});
@@ -139,8 +139,8 @@ export default function App() {
   const goto = (path: string) => { history.pushState(null, "", path); setRoute(path); window.scrollTo(0, 0); };
 
   // A token that has expired makes every gated call 401 at once. Rather than let
-  // each of them fail on its own — which is how an expired session became a wall
-  // of unhandled rejections in the console and a workshop stuck on stale data —
+  // each of them fail on its own - which is how an expired session became a wall
+  // of unhandled rejections in the console and a workshop stuck on stale data -
   // end the session once and return to the front door.
   useEffect(() => {
     const onEnded = () => {
@@ -156,7 +156,7 @@ export default function App() {
   }, []);
 
   // Ask the server whether it runs open (demo) or with real authentication, before
-  // touching any gated endpoint — otherwise the first paint is a wall of 401s.
+  // touching any gated endpoint - otherwise the first paint is a wall of 401s.
   useEffect(() => {
     getAuthConfig()
       .then((c) => { setAuthRequired(c.required); setSignupRoles(c.roles || []); setEmailVerification(!!c.email_verification); setIbmSignIn(!!c.ibm_sign_in); setDemoAccounts(c.demo_accounts || []); })
@@ -209,7 +209,7 @@ export default function App() {
   useEffect(() => {
     // Switching version reloads every open file to that version's copy. Callers
     // route through switchVersion(), which already warned about unsaved edits, so
-    // discarding drafts here is intentional — the file must match the active version.
+    // discarding drafts here is intentional - the file must match the active version.
     const seen = new Set<string>();
     allTabs.filter((t) => t.type === "code" && t.path).forEach((t) => {
       const p = t.path!;
@@ -225,7 +225,7 @@ export default function App() {
     return allTabs.some((t) => t.type === "code" && t.path && draft[t.path] !== undefined && draft[t.path] !== base[t.path]);
   }
   // Every change of the active version goes through here so unsaved work is never
-  // silently lost — and never saved into the wrong version.
+  // silently lost - and never saved into the wrong version.
   function switchVersion(id: string | null) {
     if (id === activeVersionId) return;
     if (hasUnsaved() && !window.confirm("Unsaved changes will be lost when switching version. Continue?")) return;
@@ -257,7 +257,7 @@ export default function App() {
   }
 
   // When the Modifs panel is open with no active version, auto-select one (draft
-  // first) — even if versions arrive after the panel was opened, so the branch
+  // first) - even if versions arrive after the panel was opened, so the branch
   // button never leaves a dead-empty panel on a fast click.
   useEffect(() => {
     if (rightTab === "changes" && !activeVersionId && versions.length) {
@@ -268,10 +268,10 @@ export default function App() {
   }, [versions, rightTab]);
 
   const idx = useMemo(() => (graph ? nodeIndex(graph) : new Map<string, GNode>()), [graph]);
-  // Stable Set — a fresh Set() each render would reset GraphView's kind filters on every re-render.
+  // Stable Set - a fresh Set() each render would reset GraphView's kind filters on every re-render.
   const visibleKinds = useMemo(() => new Set(VISIBLE_DEFAULT), []);
   const activeVersion = versions.find((v) => v.id === activeVersionId) || null;
-  // A merged version is closed — its files are read-only even though it's "active".
+  // A merged version is closed - its files are read-only even though it's "active".
   const versionClosed = activeVersion?.status === "merged";
   const sysReadonly = systems.find((s) => s.id === activeSys)?.readonly ?? false;
   const editable = !!activeVersionId && !versionClosed;
@@ -331,7 +331,7 @@ export default function App() {
   async function loadContent(path: string) {
     const ver = activeVersionId;
     // Staleness guard: if the active version changed (or a newer load for this path
-    // started) while this fetch was in flight, drop the result — otherwise an
+    // started) while this fetch was in flight, drop the result - otherwise an
     // out-of-order response overwrites the editor with the wrong version's bytes.
     const token = (loadSeq.current[path] = (loadSeq.current[path] || 0) + 1);
     const f = ver ? await getCsFile(ver, path) : await getFileFull(path);
@@ -374,10 +374,10 @@ export default function App() {
     setImpactReq({ id, label: n.label, nonce: impactSeq.current++ });
     focusTab(GRAPH_TAB);
   }
-  // Sidebar "Ressources": entities usually have no source file — the useful view is
+  // Sidebar "Ressources": entities usually have no source file - the useful view is
   // their neighbourhood in the graph; copybooks (which do have source) open as code.
   const openResource = (n: GNode) => openNode(n.id);
-  // Inspector "Modifier…": open the file AND start the modification gesture —
+  // Inspector "Modifier…": open the file AND start the modification gesture -
   // if no version is active yet, propose creating one (was a silent no-op before).
   function editNode(n: GNode) {
     openFile(n);
@@ -470,7 +470,7 @@ export default function App() {
   function newVersion(defaultTitle = "New change-set") { setNewVer({ defaultTitle }); }
   async function createVersion(title: string) {
     const cs = await createChangeSet(title, identity?.name || "guest");
-    // Carry any edits already typed on main INTO the new version — creating a version
+    // Carry any edits already typed on main INTO the new version - creating a version
     // to capture the current change is the whole point of "Edit in a version",
     // and the version-switch effect below would otherwise reload (discard) them.
     const dirtyPaths = [...new Set(allTabs.filter((t) => t.type === "code" && t.path && draft[t.path] !== undefined && draft[t.path] !== base[t.path]).map((t) => t.path!))];
@@ -504,7 +504,7 @@ export default function App() {
     try {
       const d = await getCsDiff(activeVersionId, path); setDiffs((x) => ({ ...x, [path]: d.diff }));
       focusTab({ key: "diff:" + path, type: "diff", title: "Diff · " + path.split("/").pop(), path });
-    } catch { /* diff fetch failed — leave the current view intact */ }
+    } catch { /* diff fetch failed - leave the current view intact */ }
   }
   function ask(q: string) { setChatSeed({ q, nonce: (chatSeed?.nonce || 0) + 1 }); setRightTab("chat"); }
   function doSearch() {
@@ -515,7 +515,7 @@ export default function App() {
     else { setSearchMiss(true); setTimeout(() => setSearchMiss(false), 2200); }
   }
 
-  // Real-auth mode: nothing of the estate is fetched — let alone painted — before
+  // Real-auth mode: nothing of the estate is fetched - let alone painted - before
   // sign-in. Visitors get the public landing page instead.
   if (route === "/presentation")
     return (
@@ -638,7 +638,7 @@ export default function App() {
         <div className="brand">
           <Logo size={18} title="COBOL Explorer" />
           <span className="nm">COBOL Explorer</span>
-          <span style={{ color: "var(--text-helper)" }}>—</span>
+          <span style={{ color: "var(--text-helper)" }}>·</span>
           {/* System selector: analyze a different mainframe estate */}
           <div style={{ position: "relative" }}>
             <button className="sysbtn" onClick={() => setSysMenu((v) => !v)} data-testid="system-btn" title="Switch analyzed system" disabled={switching}>
@@ -694,11 +694,11 @@ export default function App() {
       {/* BODY */}
       <div className="body">
         <div className="activitybar">
-          {/* Editor axis — exactly one is lit (Explorateur = tout sauf le graphe). */}
+          {/* Editor axis - exactly one is lit (Explorateur = tout sauf le graphe). */}
           <AB name="files" title="Explorer" on={activeTab?.type !== "graph"} onClick={() => focusTab(OVERVIEW_TAB)} />
           <AB name="search" title="Search" onClick={() => (document.querySelector('[data-testid="search"]') as HTMLInputElement)?.focus()} />
           <AB name="graph" title="Estate graph" on={activeTab?.type === "graph"} onClick={() => focusTab(GRAPH_TAB)} />
-          {/* Panel jumps — the panel's own tab bar (Agent/Inspecteur/Modifs) shows which is active. */}
+          {/* Panel jumps - the panel's own tab bar (Agent/Inspecteur/Modifs) shows which is active. */}
           <AB name="branch" title="Versions / Changes" badge={versions.length || undefined} onClick={openChanges} />
           <AB name="spark" title="Agent" onClick={() => setRightTab("chat")} />
           <AB name="plug" title="Connect your Bob (MCP)" on={side === "bob"}
@@ -723,7 +723,7 @@ export default function App() {
           />}
         </div>
 
-        {/* EDITOR — one or two panes side by side (split view) */}
+        {/* EDITOR - one or two panes side by side (split view) */}
         <div className="editorwrap">
           {groups.map((g, gi) => (
             <Fragment key={g.id}>
@@ -746,7 +746,7 @@ export default function App() {
             ))}
           </div>
           {/* All three stay mounted; we toggle visibility so the agent conversation
-              (and any in-progress input) survives switching panels — no re-seeding. */}
+              (and any in-progress input) survives switching panels - no re-seeding. */}
           <div className="tabcontent sb" style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: rightTab === "chat" ? "flex" : "none", flexDirection: "column", flex: 1, minHeight: 0 }}>
               <ChatPanel seed={chatSeed} onCite={openFileAt} onOpenNode={openNode} onQueryStart={onAgentStart} onTrace={onAgentTrace} onQueryEnd={onAgentEnd} />
@@ -770,7 +770,7 @@ export default function App() {
       <div className="statusbar">
         {activeVersionId ? (
           <div className="status" style={{ color: "var(--interactive)", cursor: "pointer" }} onClick={exitVersion} data-testid="statusbar-version"
-            title="You are working in a version — click to go back to main (read-only)">
+            title="You are working in a version. Click to go back to main (read-only)">
             <Icon name="branch" size={12} />{activeVersion?.title} <span style={{ color: "var(--text-helper)" }}>✕ main</span>
           </div>
         ) : (
@@ -791,7 +791,7 @@ export default function App() {
           openGraph: () => focusTab(GRAPH_TAB),
           openSide: (which) => setSide(which),
           openOverview: () => focusTab(OVERVIEW_TAB),
-          // The tour shows rather than tells — but it does not type into the
+          // The tour shows rather than tells - but it does not type into the
           // search box on the reader's behalf. Writing into a live input leaves
           // text behind after the tour ends, and the field is theirs, not ours.
           // The example is named in the popover instead.
@@ -802,7 +802,7 @@ export default function App() {
           // Hand the workshop back the way the tour found it. Its changes step
           // auto-enters the first draft version (that is the panel's normal
           // behaviour), so without this a first-time reader finished the tour
-          // INSIDE somebody's draft, status bar reading "Editing" — right after
+          // INSIDE somebody's draft, status bar reading "Editing" - right after
           // being told they never have to wonder where what they type lands.
           finish: () => {
             if (!tourBaseVersion.current && activeVersionIdRef.current) switchVersion(null);
@@ -815,7 +815,7 @@ export default function App() {
       {paletteOpen && <CommandPalette graph={graph} onClose={() => setPaletteOpen(false)} onOpenNode={openNode} onCommand={onCommand} />}
       {newVer && <NewVersionModal defaultTitle={newVer.defaultTitle} onCreate={createVersion} onClose={() => setNewVer(null)} />}
       {/* One-click role switching, demo affordance: a REAL login as one of the
-          published demo accounts — new signed token, server re-arbitrates
+          published demo accounts - new signed token, server re-arbitrates
           everything. The reload is deliberate: every panel re-opens under the
           new role's rights, nothing carries over. */}
       {(!identity || showOnb) && (

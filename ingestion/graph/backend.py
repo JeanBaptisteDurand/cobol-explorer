@@ -1,4 +1,4 @@
-"""Graph-query backend abstraction — lets ``graph_lookup`` run on NetworkX
+"""Graph-query backend abstraction - lets ``graph_lookup`` run on NetworkX
 (in-process, default) or on Neo4j (self-hosted graph DB, the scale path) behind
 one interface. Both return identical shapes so the agent is unaffected.
 """

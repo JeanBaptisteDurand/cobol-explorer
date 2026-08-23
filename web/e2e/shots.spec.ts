@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
  *
  * Run it after any change to the workshop's appearance. The plates were taken by
  * hand until now, so a retint silently turned them into pictures of a product
- * that no longer exists — a juror comparing the page to the live app would have
+ * that no longer exists - a juror comparing the page to the live app would have
  * found the mismatch before we did.
  *
  * Excluded from the ordinary suite (see playwright.config.ts) so a normal run
@@ -49,7 +49,7 @@ test("plate: impact radius", async ({ page }) => {
   await workshop(page);
   // The Overview hero CTA fires the deterministic ripple on the estate's most
   // critical copybook. Focus mode then reduces the graph to that closure and
-  // re-frames onto it — without it the whole estate stays in view and the
+  // re-frames onto it - without it the whole estate stays in view and the
   // impacted nodes are specks, which proves nothing.
   await page.getByTestId("impact-hero-cta").click();
   await expect(page.locator(".rf-node").first()).toBeVisible({ timeout: 30_000 });
@@ -71,7 +71,7 @@ test("plate: the diff and the merge gate", async ({ page }) => {
 // empty panel captioned "a grounded answer, its trace and its citations".
 // Skip it deliberately with PWTEST_SKIP_LLM=1; the existing PNG is then left alone.
 test("plate: a grounded answer and its trace", async ({ page }) => {
-  test.skip(!!process.env.PWTEST_SKIP_LLM, "no LLM configured — sc-agent.png left untouched");
+  test.skip(!!process.env.PWTEST_SKIP_LLM, "no LLM configured - sc-agent.png left untouched");
   test.setTimeout(180_000);
   await workshop(page);
   await page.getByTestId("rp-chat").click();
@@ -92,7 +92,7 @@ test("plate: the audit trail", async ({ page }) => {
 
 // ── The three further plates the slide deck carries ─────────────────────────
 // They used to live in a second copy under docs/shots/, which `make shots` did
-// not regenerate — so the deck kept showing an interface from before the
+// not regenerate - so the deck kept showing an interface from before the
 // redesign. One source, one target, regenerated together.
 
 test("plate: split view", async ({ page }) => {
@@ -131,7 +131,7 @@ test("plate: the command palette", async ({ page }) => {
 // lighting up as the RAG walks it. Skipped with PWTEST_SKIP_LLM=1, which leaves
 // the existing PNG untouched rather than writing a picture of an idle graph.
 test("plate: the graph lighting up as it reasons", async ({ page }) => {
-  test.skip(!!process.env.PWTEST_SKIP_LLM, "no LLM configured — sc-live.png left untouched");
+  test.skip(!!process.env.PWTEST_SKIP_LLM, "no LLM configured - sc-live.png left untouched");
   test.setTimeout(180_000);
   await workshop(page);
   await page.locator('[data-ab="graph"]').click();

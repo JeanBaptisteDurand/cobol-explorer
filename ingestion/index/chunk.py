@@ -1,7 +1,7 @@
 """Chunk the corpus for semantic search.
 
 One chunk per program / copybook, with a metadata header (name, kind,
-copybooks used, tables, calls) BEFORE the source — this lifts retrieval by
+copybooks used, tables, calls) BEFORE the source - this lifts retrieval by
 name/concept, mirroring the header trick from mature RAG code indexers.
 """
 from __future__ import annotations

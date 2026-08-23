@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generate the "How IBM Bob was used" attribution table — from git, not from memory.
+# Generate the "How IBM Bob was used" attribution table - from git, not from memory.
 #
 # Why this exists: a jury can verify a dated, quantified claim ("Bob authored 4,900
 # lines between these two timestamps") and cannot verify "Bob helped a lot". The only
@@ -37,7 +37,7 @@ count=$(echo "$COMMITS" | wc -l | tr -d ' ')
 first=$(echo "$COMMITS" | tail -1)
 last=$(echo "$COMMITS" | head -1)
 
-echo "### How IBM Bob was used — measured from git"
+echo "### How IBM Bob was used - measured from git"
 echo
 echo "| | |"
 echo "|---|---|"
@@ -58,11 +58,11 @@ echo
 for c in $COMMITS; do
   git show --name-only --format="" "$c"
 done | grep -v '^$' | sort -u | awk -F/ '{print $1"/"($2==""?"":$2)}' | sort | uniq -c | sort -rn |
-  awk '{printf "- `%s` — %d file(s)\n", $2, $1}'
+  awk '{printf "- `%s` - %d file(s)\n", $2, $1}'
 
 echo
 echo "**Commits:**"
 echo
 for c in $COMMITS; do
-  printf -- "- \`%s\` %s — %s\n" "$(git show -s --format=%h "$c")" "$(git show -s --format=%cs "$c")" "$(git show -s --format=%s "$c")"
+  printf -- "- \`%s\` %s - %s\n" "$(git show -s --format=%h "$c")" "$(git show -s --format=%cs "$c")" "$(git show -s --format=%s "$c")"
 done

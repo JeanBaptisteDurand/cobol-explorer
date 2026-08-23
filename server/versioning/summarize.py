@@ -1,16 +1,16 @@
 """A written record of what a version actually changed, and what it put at risk.
 
 Six months after a merge, the title says "Raise motor cover limit" and the diff says
-`+72` — neither tells you that eleven programs and two nightly chains were downstream.
+`+72` - neither tells you that eleven programs and two nightly chains were downstream.
 This module writes that down at the moment it is known, so the audit trail carries the
 reasoning and not just the bytes.
 
 Two paths, one contract:
 
-- **Grounded summary** — the model reads the real diff and the computed impact, and
+- **Grounded summary** - the model reads the real diff and the computed impact, and
   writes three sentences. It never invents a program name: the impact list is passed
   in and quoted back.
-- **Deterministic summary** — when no model is reachable (offline, quota, or a
+- **Deterministic summary** - when no model is reachable (offline, quota, or a
   deployment that deliberately runs without one), the facts are still written, just
   without prose. A missing LLM must degrade the wording, never the record.
 
@@ -54,7 +54,7 @@ def deterministic(cs, diffs: dict[str, str]) -> str:
     if f["programs"]:
         shown = ", ".join(f["programs"][:6])
         more = f" and {len(f['programs']) - 6} more" if len(f["programs"]) > 6 else ""
-        out.append(f"Impact: {len(f['programs'])} program(s) — {shown}{more}.")
+        out.append(f"Impact: {len(f['programs'])} program(s): {shown}{more}.")
     if f["chains"]:
         out.append(f"Batch chains affected: {', '.join(f['chains'])}.")
     if f["notes"]:
@@ -70,7 +70,7 @@ def _prompt(cs, diffs: dict[str, str], f: dict) -> str:
         "You are writing the permanent record of a change to a COBOL mainframe estate.\n"
         "Write THREE short sentences, no bullet points, no preamble:\n"
         "  1. what was changed, in business terms, from the diff;\n"
-        "  2. why it matters — quote the impact figures given below, never invent one;\n"
+        "  2. why it matters - quote the impact figures given below, never invent one;\n"
         "  3. what a reviewer should check before trusting it.\n"
         "Only use program and chain names from the IMPACT list. If the diff is unclear, "
         "say so plainly rather than guessing.\n\n"
@@ -83,7 +83,7 @@ def _prompt(cs, diffs: dict[str, str], f: dict) -> str:
 
 
 def summarize(cs, diffs: dict[str, str]) -> dict:
-    """Return ``{"text", "grounded"}`` — grounded=False means no model was involved.
+    """Return ``{"text", "grounded"}`` - grounded=False means no model was involved.
 
     Never raises: a summary is a nice-to-have on the merge path, and a model timeout
     must not stop a change from being applied.
@@ -108,5 +108,5 @@ def summarize(cs, diffs: dict[str, str]) -> dict:
         if text:
             return {"text": text, "grounded": True}
     except Exception:
-        pass  # offline, no quota, or no backend — the record is still written below
+        pass  # offline, no quota, or no backend - the record is still written below
     return {"text": deterministic(cs, diffs), "grounded": False}

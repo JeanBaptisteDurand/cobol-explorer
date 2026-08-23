@@ -1,4 +1,4 @@
-# cobol-rekt fixtures — shape & extraction decision
+# cobol-rekt fixtures - shape & extraction decision
 
 Captured by running (Phase 0.5):
 
@@ -11,13 +11,13 @@ java -jar smojol-cli.jar run lgipol01.cbl \
 **De-risk result: PASS.** cobol-rekt parses GenApp's CICS + DB2 COBOL. It even
 surfaces `EXEC CICS LINK PROGRAM('LGSTSQ')` as dialect nodes in the AST.
 
-Note: the CLI file search is **STRICT by default** — pass the exact filename
+Note: the CLI file search is **STRICT by default** - pass the exact filename
 (`lgipol01.cbl`, lowercase), or add `-p/--permissiveSearch`.
 
 ## Files
-- `lgipol01.ast.json`  — full parse tree, nested `{nodeType, text, children[]}` (~1.6 MB).
-- `lgipol01.cfg.json`  — control-flow graph (~34 KB).
-- `lgipol01.data.json` — DATA DIVISION item hierarchy / copybook layouts (~112 KB).
+- `lgipol01.ast.json`  - full parse tree, nested `{nodeType, text, children[]}` (~1.6 MB).
+- `lgipol01.cfg.json`  - control-flow graph (~34 KB).
+- `lgipol01.data.json` - DATA DIVISION item hierarchy / copybook layouts (~112 KB).
 
 ## Extraction decision (hybrid)
 cobol-rekt **expands** copybooks and folds EXEC blocks into dialect nodes, so
@@ -26,7 +26,7 @@ source** (unambiguous COBOL/CICS syntax, not free-form regex):
 
 | Graph fact | Source of truth |
 |---|---|
-| PGM identity, paragraphs, PERFORM | source scan (cheap, exact) — cobol-rekt AST/CFG available for enrichment |
+| PGM identity, paragraphs, PERFORM | source scan (cheap, exact) - cobol-rekt AST/CFG available for enrichment |
 | PGM_COPIES (copybook, data/proc, REPLACING) | `COPY name` in source (cobol-rekt expands these away) |
 | PGM_CALLS (CICS LINK/XCTL) | `EXEC CICS LINK/XCTL PROGRAM(x)` block scan |
 | PGM_SQL_READS/WRITES (DB2 tables) | `EXEC SQL` block scan |

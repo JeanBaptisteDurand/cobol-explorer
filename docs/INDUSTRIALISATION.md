@@ -1,11 +1,11 @@
-# Industrialisation — from proof of concept to a sellable product
+# Industrialisation - from proof of concept to a sellable product
 
 > Where this stands: an honest proof of concept over ~47 programs (regex parsing, an in-memory
 > NetworkX graph, git-backed versioning, and a vector RAG that can run in-process or on pgvector).
 > This document traces a realistic path to an enterprise product, with **real tools** and a
 > **phasing**. Nothing here is invented: every brick recommended exists and is proven.
 >
-> Throughout, "the enterprise buyer" means a large insurer or bank — the kind of organisation whose
+> Throughout, "the enterprise buyer" means a large insurer or bank - the kind of organisation whose
 > estate this product is aimed at.
 
 ---
@@ -26,7 +26,7 @@ source)** or **[Koopa](https://github.com/krisds/koopa)**. ProLeap gives an AST 
 (semantic graph) layer, and handles the COPY/REPLACE preprocessor as well as EXEC CICS/SQL. A JVM is
 already in the picture (cobol-rekt with JDK 21 is an optional prerequisite of this repository).
 
-The target architecture, already begun — the parsers sit behind an interface:
+The target architecture, already begun - the parsers sit behind an interface:
 
 ```
 ingestion/parsers/
@@ -36,11 +36,11 @@ ingestion/parsers/
 ```
 
 The regex parser stays as a **fallback** (the demo mode with no JVM) and the AST takes over when a
-JVM is available — selected by environment variable, exactly as the vector index already is.
+JVM is available - selected by environment variable, exactly as the vector index already is.
 
 ### A copybook resolver across libraries
 
-Today a copybook becomes a node **only if something references it** — the 11 `.cpy` files in the
+Today a copybook becomes a node **only if something references it** - the 11 `.cpy` files in the
 corpus that nobody COPYs are invisible, which is precisely why the dead-code detection lists them.
 The target:
 
@@ -53,15 +53,15 @@ The target:
 
 | Language | Approach | Priority |
 |---|---|---|
-| **JCL** | **PROC expansion**. `JclParser` creates four PROC nodes but **never opens their body**, so it emits no `PROC_CONTAINS`. Add: PROC member resolution, **symbolic substitution** (`&VAR`), `INCLUDE`, `DD *`/GDG. | High — batch is the heart of insurance |
-| **PL/I** | A dedicated parser (an ANTLR PL/I grammar) — `%INCLUDE`, procedures. | Medium |
-| **Assembler** | Macros/CSECT/CALL — a coarser analysis (calls plus DSECT). | Low |
+| **JCL** | **PROC expansion**. `JclParser` creates four PROC nodes but **never opens their body**, so it emits no `PROC_CONTAINS`. Add: PROC member resolution, **symbolic substitution** (`&VAR`), `INCLUDE`, `DD *`/GDG. | High - batch is the heart of insurance |
+| **PL/I** | A dedicated parser (an ANTLR PL/I grammar) - `%INCLUDE`, procedures. | Medium |
+| **Assembler** | Macros/CSECT/CALL - a coarser analysis (calls plus DSECT). | Low |
 | **REXX / CLIST** | Extract the `CALL`/`ADDRESS`/EXEC statements. | Low |
 
 ### Parsing phases
 
 1. **P1**: the ProLeap COBOL bridge (AST) plus the SYSLIB/REPLACING/nested copybook resolver, switched by environment.
-2. **P2**: JCL PROC expansion, symbolics and INCLUDE — emit `PROC_CONTAINS` and kill the dead end.
+2. **P2**: JCL PROC expansion, symbolics and INCLUDE - emit `PROC_CONTAINS` and kill the dead end.
 3. **P3**: PL/I. **P4**: Assembler and REXX.
 4. Across all of them: **incremental ingestion**, by changed member rather than a full reparse.
 
@@ -73,7 +73,7 @@ The target:
 
 `server/versioning/git_store.py` ships a **`GitVersionStore`** and it is **the default**
 (`COBOL_EXPLORER_VCS=git`). A change-set is a **branch**, an edit is a **commit**, the diff is a real
-`git diff`, and merging is a real merge — with history and blame for free. The JSON implementation in
+`git diff`, and merging is a real merge - with history and blame for free. The JSON implementation in
 `changeset.py` remains as the fallback (`COBOL_EXPLORER_VCS=json`) for a demo with no git binary.
 
 That closes what used to be the honest objection here: "you rewrote git, only worse."
@@ -81,7 +81,7 @@ That closes what used to be the honest objection here: "you rewrote git, only wo
 ### What comes next
 
 - **Collaborative / enterprise**: self-hosted **[Gitea](https://about.gitea.com/)** (or GitLab).
-  Real **pull requests**, code review, RBAC permissions, webhooks, an API — the UI plugs into that
+  Real **pull requests**, code review, RBAC permissions, webhooks, an API - the UI plugs into that
   instead of re-building a review workshop.
 - **Integration with the real change process**: bridge to Endevor or ChangeMan on the z/OS side.
 
@@ -111,8 +111,8 @@ Gitea mode it simply gains an "open the PR" link.
 - ✅ **Neo4j** (`agent/neo4j_store.py`): the graph RAG runs on a **real self-hosted graph database**
   (Cypher), selected by `COBOL_EXPLORER_GRAPH_BACKEND=neo4j`, with impact, lineage, callers and
   summary re-expressed in Cypher and **verified identical** to NetworkX. `docker compose up -d` plus
-  `make neo4j-load`. **`make serve-scale`** brings up the pair — **Neo4j for the graph, pgvector for
-  the vectors** — both self-hosted, both wired into the agent.
+  `make neo4j-load`. **`make serve-scale`** brings up the pair - **Neo4j for the graph, pgvector for
+  the vectors** - both self-hosted, both wired into the agent.
 
 ### Still to do
 
@@ -136,10 +136,10 @@ Gitea mode it simply gains an "open the PR" link.
 
 ---
 
-## Summary — in order of value for an enterprise pitch
+## Summary - in order of value for an enterprise pitch
 
-1. **A real mainframe connection and industrial parsing** (ProLeap, SYSLIB, JCL PROC) — the actual moat.
+1. **A real mainframe connection and industrial parsing** (ProLeap, SYSLIB, JCL PROC) - the actual moat.
 2. **Enterprise security and governance** (server-side auth and RBAC, on-premise LLM, audit, GDPR/DORA).
 3. **Scale** (graph database, pgvector, incremental ingestion).
 4. **Gitea** for change management, bridged to the z/OS SCM.
-5. Everything else is features — and those are already well advanced: field-level impact, dead code, lineage, the live graph.
+5. Everything else is features - and those are already well advanced: field-level impact, dead code, lineage, the live graph.

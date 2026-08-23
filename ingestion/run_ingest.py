@@ -70,7 +70,7 @@ def ingest(corpus_dir: str, out_path: str, rekt: bool = False, rekt_out: str = "
         except Exception as exc:
             print(f"[warn] JCL parse failed for {f}: {exc}")
             continue
-        # The parser knows which file it read, so the JOB gets its source path here —
+        # The parser knows which file it read, so the JOB gets its source path here -
         # matching by name would miss every job whose JCL member is named differently.
         rel = os.path.relpath(f, corpus_dir)
         for n in pu.nodes:
@@ -131,7 +131,7 @@ def ingest(corpus_dir: str, out_path: str, rekt: bool = False, rekt_out: str = "
     g = build_graph(nodes, edges)
     data = to_json(g)
     # Atomic write: a concurrent reader (e.g. /api/graph during a post-merge rebuild)
-    # must never observe a truncated/half-written file — write a temp then rename.
+    # must never observe a truncated/half-written file - write a temp then rename.
     tmp = f"{out_path}.tmp.{os.getpid()}"
     with open(tmp, "w") as fh:
         json.dump(data, fh, indent=2)

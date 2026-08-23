@@ -31,7 +31,7 @@ INSTRUCTIONS = [
     "For a copybook or a DB2 table ('who uses', 'impacted by', 'what a change breaks'), use op=impact (the programs that COPY/SQL it). Use callers/callees only for CALL relationships between programs.",
     "HYBRID search: when you do not know the exact name (a question by concept or intent, e.g. 'where is the premium computed', 'the logging'), use search_code FIRST (semantic, Granite) to find the right program, THEN graph_lookup (op=summary/impact) on it for the structure. Combine semantic and graph.",
     "Use read_source_lines to quote EXACT source lines.",
-    "CITATION FORMAT — cite every fact as `file.ext:line` (for example `lgacdb01.cbl:88`), never as the entity name alone. The tool results give you the file for each entity; use it. An answer whose citations cannot be resolved is flagged as unsourced.",
+    "CITATION FORMAT: cite every fact as `file.ext:line` (for example `lgacdb01.cbl:88`), never as the entity name alone. The tool results give you the file for each entity; use it. An answer whose citations cannot be resolved is flagged as unsourced.",
     "Use web_search only for external context (regulation, definitions).",
     "Use propose_change when the user wants to modify something: it creates a new version and reports the impact.",
     "If the request is ambiguous (e.g. 'change the insurance value' without saying which product or field), ASK a clarifying question instead of guessing.",
@@ -71,7 +71,7 @@ def _corpus_rel(gt: GraphTools, file: str) -> str:
 def build_tools(gt: GraphTools, store: VersionStore, trace: Trace):
     def think(thoughts: str) -> str:
         """Think out loud BEFORE acting: state your reasoning, and above all WHY you pick
-        this tool — the graph RAG (exact structure: impact, lineage, calls, cites lines) or
+        this tool - the graph RAG (exact structure: impact, lineage, calls, cites lines) or
         the vector RAG search_code (semantic: find by concept when the name is unknown)."""
         # A tool description is part of the prompt: written in French it pulled the
         # model into answering in French, against the instruction two lines above
@@ -196,7 +196,7 @@ def run_agent(
 def _format_profile(p: dict) -> str:
     if not p.get("found"):
         return f"Entity {p.get('node')} not found in the graph."
-    out = [f"**{p['label']}** — "]
+    out = [f"**{p['label']}**: "]
     tables = sorted(set(p.get("tables_read", []) + p.get("tables_written", [])))
     if p.get("copybooks"):
         out.append(f"copies {', '.join(p['copybooks'])}. ")
@@ -223,7 +223,7 @@ def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Ex
 
     import logging
     logging.getLogger("uvicorn.error").info("agent fallback: %s", type(exc).__name__)
-    note = "\n\n> Deterministic answer — no language model is configured, so this was derived from the graph alone."
+    note = "\n\n> Deterministic answer: no language model is configured, so this was derived from the graph alone."
     # Allow underscores so table names like CUSTOMER_SECURE resolve as one token.
     for tok in re.findall(r"\b[A-Za-z][A-Za-z0-9_]{2,}\b", question):
         nid = gt.resolve(tok.upper())
@@ -238,4 +238,4 @@ def _deterministic_fallback(question: str, gt: GraphTools, trace: Trace, exc: Ex
             trace.record("graph_lookup", {"op": "summary", "node": tok.upper()},
                          _summ(prof), sources=[prof.get("node", nid)])
             return {"answer": _format_profile(prof) + note, "trace": trace}
-    return {"answer": "No language model is configured, and this question needs one. Name a program, a copybook or a table and the graph alone can answer — impact, callers, profile — with citations.", "trace": trace}
+    return {"answer": "No language model is configured, and this question needs one. Name a program, a copybook or a table and the graph alone can answer (impact, callers, profile) with citations.", "trace": trace}

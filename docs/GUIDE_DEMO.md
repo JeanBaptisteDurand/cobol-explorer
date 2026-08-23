@@ -1,4 +1,4 @@
-# Usage and demo guide — COBOL Explorer
+# Usage and demo guide - COBOL Explorer
 
 ## 0. Starting it
 
@@ -26,10 +26,10 @@ On the **first launch** a welcome screen asks for **your name and your role** (s
 - **Activity bar** (icons down the left, one lit at a time): Source code · Search · **Graph** ·
   **Versions** (the badge is the count) · **Agent** · **Connect your Bob** · Settings at the bottom.
 - **Sidebar**:
-  - **Source code** — the COBOL programs by business domain (click opens the code).
-  - **Mainframe resources** — copybooks, CICS transactions, VSAM files, BMS screens, DB2 tables
+  - **Source code** - the COBOL programs by business domain (click opens the code).
+  - **Mainframe resources** - copybooks, CICS transactions, VSAM files, BMS screens, DB2 tables
     (click shows their context in the graph).
-  - **Versions** — your change branches.
+  - **Versions** - your change branches.
 - **Centre**: the **Overview** and **Graph** tabs, plus whatever code or diff tabs you open. The
   **split** button (top right of a pane) puts two files side by side.
 - **Right panel**: **Agent · Inspector · Changes · Audit**.
@@ -45,7 +45,7 @@ On the **first launch** a welcome screen asks for **your name and your role** (s
 ### Overview (the default centre tab)
 
 The estate on one screen: the statistics (47 programs, copybooks, DB2 tables, domains), the **most
-critical copybooks** (fan-in — how many programs depend on each), the **batch chains** from the
+critical copybooks** (fan-in - how many programs depend on each), the **batch chains** from the
 scheduler, **estate quality** (dead code: orphan programs and unreferenced copybooks), and three
 suggested **questions** that go straight to the agent.
 
@@ -53,7 +53,7 @@ suggested **questions** that go straight to the agent.
 
 - **Search** (title bar): type a name (`LGPOLICY`, `POLICY`, a transaction) and press Enter to open
   the entity. When nothing matches, the field says so.
-- **⌘P**: a fuzzy palette **plus Granite semantic search** — type an *intent* ("logging", "where the
+- **⌘P**: a fuzzy palette **plus Granite semantic search** - type an *intent* ("logging", "where the
   premium is calculated") and it finds the programs by meaning, without knowing the name.
 
 ### Source code versus Mainframe resources
@@ -65,10 +65,10 @@ suggested **questions** that go straight to the agent.
 ### Inspector (right panel)
 
 Select an entity and it shows its **computed context**: calls (CALL and CICS), copybooks, DB2 tables
-**read and written**, VSAM files, screens, "used by", "called by" — each line with its **source
+**read and written**, VSAM files, screens, "used by", "called by" - each line with its **source
 line** (L.xxx).
 
-- For a **copybook**: **field-level impact** — for each field, how many programs reference it.
+- For a **copybook**: **field-level impact** - for each field, how many programs reference it.
 - For a **DB2 table**: a note ("columns defined in the DDL, outside the corpus") plus the **programs
   that read and write it**.
 - Buttons: **See impact** · **Edit…** · and links into the code and the graph.
@@ -91,7 +91,7 @@ Ask a question in plain language. You watch, live:
    `read_source_lines`, with its input and its sources;
 3. the **answer** in Markdown with **clickable `file:line` citations** (a click opens the code at
    that line);
-4. a **"✓ N sources verified"** badge — the anti-hallucination guardrail.
+4. a **"✓ N sources verified"** badge - the anti-hallucination guardrail.
 
 The **conversation keeps its context**: you can follow up with "and who calls it?" without repeating
 the name.
@@ -100,20 +100,20 @@ the name.
 
 1. On a file, click **"Edit in a version"**, name the version, and the editor becomes editable.
 2. Edit, then **Cmd/Ctrl+S** or **"Save into version"**.
-3. The **impact is recomputed** — the Changes panel reports "N programs impacted".
+3. The **impact is recomputed** - the Changes panel reports "N programs impacted".
 4. **"See diff with main"** compares against main; reverting a file cancels your change on it and
    returns it to main, which is what you want after deleting something by mistake.
 5. **"✕ main"** (status bar or Changes panel) returns you to main, read-only.
 
 ### Audit (right panel → Audit)
 
-The **tamper-evident log**: every action — a question, a read, a change, a merge, and every refusal —
+The **tamper-evident log**: every action - a question, a read, a change, a merge, and every refusal -
 is chained with **HMAC**. The **"✓ chain verified"** badge detects alteration, insertion **and
 truncation**. The **↓ CSV** button exports it for a compliance file.
 
 ### Split view
 
-The **split** icon (top right of a pane) puts two files side by side — a program and the copybook it
+The **split** icon (top right of a pane) puts two files side by side - a program and the copybook it
 copies, for instance.
 
 ### Connect your Bob
@@ -132,29 +132,29 @@ browser; each person's name gives them their own branch.
 
 | Role (UI) | Read / Ask | Comment | New version / Edit | Merge | Read the audit |
 |---|:---:|:---:|:---:|:---:|:---:|
-| **Developer** | ✓ | ✓ | ✓ | ✓ | — |
-| **Architect** | ✓ | ✓ | ✓ | ✓ | — |
-| **Risk** | ✓ | ✓ | ✓ | *propose only* | — |
-| **Compliance** | ✓ | ✓ | — | — | ✓ |
-| **Auditor** | ✓ | — | — | — | ✓ |
+| **Developer** | ✓ | ✓ | ✓ | ✓ | - |
+| **Architect** | ✓ | ✓ | ✓ | ✓ | - |
+| **Risk** | ✓ | ✓ | ✓ | *propose only* | - |
+| **Compliance** | ✓ | ✓ | - | - | ✓ |
+| **Auditor** | ✓ | - | - | - | ✓ |
 
-> ⚠️ **In "open" mode** (the default, for demos) nobody is blocked — but **the audit records the role**
+> ⚠️ **In "open" mode** (the default, for demos) nobody is blocked - but **the audit records the role**
 > behind every action. The grid above is *enforced* in **jwt** mode (`make serve-auth`, the role
 > travels inside a signed token) and in **enforce** mode (behind an authenticating proxy). For a demo
-> in open mode, say it out loud: "under enforcement the Risk role could not merge, only propose — and
+> in open mode, say it out loud: "under enforcement the Risk role could not merge, only propose - and
 > all of it is traced."
 
 ---
 
 ## 4. Collaboration (the multi-user heart)
 
-Everyone works in **their own version** — a git branch `cs/<id>` — while **main** is the team's. It
+Everyone works in **their own version** - a git branch `cs/<id>` - while **main** is the team's. It
 behaves like pull requests.
 
 - **↓ Import main** brings the others' merged work into your branch (`git merge`).
 - **A conflict** (you touched the same lines) surfaces two buttons: **"Keep my changes"** or take the
   main version. Nothing merges silently.
-- **Propose** submits for review. **Merge** applies onto main — **only if your branch is up to date**,
+- **Propose** submits for review. **Merge** applies onto main - **only if your branch is up to date**,
   otherwise it says to import main first, so you never overwrite a colleague. Merging asks for an
   **impact confirmation** (the merge gate: "this touches N programs").
 - You can only propose or merge **your own** active version, just as you only push your own branch.
@@ -169,7 +169,7 @@ behaves like pull requests.
 
 ---
 
-## 5. A concrete example — the graph
+## 5. A concrete example - the graph
 
 **Goal: show the impact of changing a copybook.**
 
@@ -185,7 +185,7 @@ behaves like pull requests.
 
 ---
 
-## 6. A concrete example — the agent
+## 6. A concrete example - the agent
 
 **Goal: show a traced, sourced answer and the conversation memory.**
 
@@ -194,7 +194,7 @@ behaves like pull requests.
    The graph greys out and **re-lights** as it goes; the **trace** shows
    `think → graph_lookup(summary) → read_source_lines`; the answer arrives with **clickable
    `file:line` citations** and the **"✓ sources verified"** badge.
-3. Follow up, to show memory: **"And which programs are impacted if I change it?"** — it keeps the
+3. Follow up, to show memory: **"And which programs are impacted if I change it?"** - it keeps the
    LGIPOL01 context.
 4. Other good demo questions:
    - **"Who writes to the POLICY table?"** (shows the EXEC SQL and the DB2 lineage)
@@ -210,11 +210,11 @@ behaves like pull requests.
 | Time | Screen | The message |
 |---|---|---|
 | 0:00 | **Overview** | "The estate on one screen: 47 programs, the critical copybooks, the dead code found. The risk is visible immediately." |
-| 0:45 | **Agent** — "What does LGIPOL01 do?" | "The graph lights up as the reasoning proceeds, and every sentence is tied to a source line that was verified." |
-| 1:45 | **Graph** — LGPOLICY impact | "Here are the 11 programs and the 2 batch chains that break if I touch this copybook." |
-| 2:30 | **Edit** — a version, +65→+72 | "The change lives in an isolated branch, the impact is recomputed, and nothing is applied until it is merged." |
-| 3:30 | **Collaboration** — Bob, a conflict | "Two people on the same program: the conflict is detected, I choose, I merge — without overwriting anyone." |
-| 4:30 | **Audit** — the HMAC log and CSV | "Every action is traced, cryptographically chained, and exportable for compliance." |
+| 0:45 | **Agent** - "What does LGIPOL01 do?" | "The graph lights up as the reasoning proceeds, and every sentence is tied to a source line that was verified." |
+| 1:45 | **Graph** - LGPOLICY impact | "Here are the 11 programs and the 2 batch chains that break if I touch this copybook." |
+| 2:30 | **Edit** - a version, +65→+72 | "The change lives in an isolated branch, the impact is recomputed, and nothing is applied until it is merged." |
+| 3:30 | **Collaboration** - Bob, a conflict | "Two people on the same program: the conflict is detected, I choose, I merge - without overwriting anyone." |
+| 4:30 | **Audit** - the HMAC log and CSV | "Every action is traced, cryptographically chained, and exportable for compliance." |
 
 **The thread to repeat**: *understanding* (read-only, everything sourced) **is not** *changing*
 (an isolated branch, reviewed, traced). And: MCP hands IBM Bob this estate **already computed**.
@@ -247,7 +247,7 @@ code. *"The estate and its risk on one screen."*
 1. Right panel → **Agent**.
 2. Type `What does program LGIPOL01 do?` → **Enter**.
 3. The graph stays readable under "the agent is thinking", then lights up; the answer arrives with a
-   clickable citation and "✓ source verified". *(Allow about 30 s on a local model — narrate over it.)*
+   clickable citation and "✓ source verified". *(Allow about 30 s on a local model - narrate over it.)*
 
 **④ Edit** *(create the version FROM the file)*
 

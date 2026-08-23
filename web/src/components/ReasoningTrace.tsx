@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
  *
  *  The estate greys out and lights up entity by entity as the agent retrieves.
  *  Every identifier, path and evidence line below is read from graph.json and the
- *  GenApp corpus — nothing here is invented, and the clock stops at the measured
+ *  GenApp corpus - nothing here is invented, and the clock stops at the measured
  *  watsonx latency (6.5 s) rather than at a round number.
  *
  *  Timings are authored, not fetched: the landing page is public and must not hit
@@ -69,7 +69,7 @@ const EDGES: Array<[string, string]> = [
 
 interface Step { at: number; tool: string; args: string; out: string; c: string; italic?: boolean; }
 const TRACE: Step[] = [
-  { at: 0.1, tool: "think", args: "", out: "blast radius question — go to the graph first, and exhaustively", c: PURPLE, italic: true },
+  { at: 0.1, tool: "think", args: "", out: "blast radius question: go to the graph first, and exhaustively", c: PURPLE, italic: true },
   { at: 0.4, tool: "graph_lookup", args: "(op=summary, node=LGPOLICY)", out: "COPYBOOK · genapp-src/base/src/lgpolicy.cpy", c: BLUE },
   { at: 1.6, tool: "graph_lookup", args: "(op=impact, node=LGPOLICY)", out: "11 programs · 2 jobs · 3 steps", c: BLUE },
   { at: 3.2, tool: "graph_lookup", args: "(op=lineage, node=LGPOLICY)", out: "chains SDAILYPOL · SPOLRPT, from the scheduler export", c: BLUE },
@@ -116,7 +116,7 @@ function useField() {
 function litAt(t: number): Set<string> {
   const lit = new Set<string>();
   if (t >= 300) lit.add("LGPOLICY");
-  // The eleven impacted programs land one at a time, 110 ms apart — the beat that
+  // The eleven impacted programs land one at a time, 110 ms apart - the beat that
   // makes retrieval legible as retrieval rather than as a fade-in.
   NAMED.filter((n) => n.phase === 2).forEach((n, i) => { if (t >= 1600 + i * 110) lit.add(n.id); });
   if (t >= 2900) NAMED.filter((n) => n.phase === 3).forEach((n) => lit.add(n.id));

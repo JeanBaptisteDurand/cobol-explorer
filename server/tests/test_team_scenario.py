@@ -1,5 +1,5 @@
 """A full team scenario: three people work on the same program AT THE SAME TIME,
-making mistakes at different moments — the git workflow has to hold.
+making mistakes at different moments - the git workflow has to hold.
 
 Personas
 - Alice  (dev)  : edits lgpolicy.cpy and merges first.
@@ -41,7 +41,7 @@ def test_three_personas_one_file_with_mistakes(store):
     store.add_edit(bob.id, "lgpolicy.cpy", base.replace("+65", "+80"), "motor +65 -> +80 (rework)")
     store.add_edit(chloe.id, "regles.cpy", "       01 REGLES.\n         05 TAUX PIC 9(3) VALUE 110.\n", "rate 100 -> 110")
 
-    # -- t2: Bob's MISTAKE — he empties a file without meaning to ------------
+    # -- t2: Bob's MISTAKE - he empties a file without meaning to ------------
     store.add_edit(bob.id, "lgucdb01.cbl", "", "oops")
     assert store.read_effective(bob.id, "lgucdb01.cbl") == ""
     # ...he notices and REMOVES the file from his version -> back to main
@@ -49,7 +49,7 @@ def test_three_personas_one_file_with_mistakes(store):
     assert "LGUCDB01" in store.read_effective(bob.id, "lgucdb01.cbl")
     assert all(e["path"] != "lgucdb01.cbl" for e in store.get(bob.id).edits)
 
-    # -- t3: Alice merges first — main moves on ------------------------------
+    # -- t3: Alice merges first - main moves on ------------------------------
     store.merge_to_main(alice.id)
     assert "+72" in store._git("show", "main:lgpolicy.cpy")
 
@@ -67,12 +67,12 @@ def test_three_personas_one_file_with_mistakes(store):
     except ValueError as e:
         assert "lgpolicy.cpy" in str(e)
 
-    # -- t6: Bob decides — he keeps HIS changes (strategy 'mine') ------------
+    # -- t6: Bob decides - he keeps HIS changes (strategy 'mine') ------------
     st = store.sync_main(bob.id, strategy="mine")
     assert st["up_to_date"]
     assert "+80" in store.read_effective(bob.id, "lgpolicy.cpy")  # his choice survived
 
-    # -- t7: Bob merges — accepted now that he is up to date -----------------
+    # -- t7: Bob merges - accepted now that he is up to date -----------------
     store.merge_to_main(bob.id)
     assert "+80" in store._git("show", "main:lgpolicy.cpy")       # Bob's explicit decision
     assert "LGUCDB01" in store._git("show", "main:lgucdb01.cbl")  # his mistake did NOT reach main
@@ -82,7 +82,7 @@ def test_three_personas_one_file_with_mistakes(store):
     assert st["behind"] >= 2
     st = store.sync_main(chloe.id)  # no conflict: a different file
     assert st["up_to_date"]
-    store.set_status(chloe.id, "proposed")  # she proposes (RBAC denies merge to non-devs — tested at the API)
+    store.set_status(chloe.id, "proposed")  # she proposes (RBAC denies merge to non-devs - tested at the API)
     store.merge_to_main(chloe.id)  # a dev merges for her after review
     assert "110" in store._git("show", "main:regles.cpy")
 
@@ -93,7 +93,7 @@ def test_three_personas_one_file_with_mistakes(store):
 
 def test_editing_back_to_the_main_value_drops_the_file(store):
     """Editing a file and then re-editing it to exactly main's value must REMOVE it
-    from the version — no phantom entry carrying an empty diff."""
+    from the version - no phantom entry carrying an empty diff."""
     v = store.create("V", "alice")
     base = store.read_effective(v.id, "lgpolicy.cpy")
     store.add_edit(v.id, "lgpolicy.cpy", base.replace("+65", "+72"), "change")
@@ -130,7 +130,7 @@ def test_strategy_take_main(store):
 def test_concurrent_writes_on_one_working_tree(store):
     """The multi-user guarantee: two people writing AT THE SAME TIME to different
     files (so different branches, one single git working tree). The store's shared
-    lock has to serialise the checkouts — no commit may land on the wrong branch,
+    lock has to serialise the checkouts - no commit may land on the wrong branch,
     and none may be lost."""
     import threading
 

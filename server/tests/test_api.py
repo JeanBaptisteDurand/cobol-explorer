@@ -24,7 +24,7 @@ def client(tmp_path, monkeypatch):
 
 @pytest.fixture()
 def iso_client(tmp_path, monkeypatch):
-    """Client on an ISOLATED copy of the corpus — safe for tests that merge (which
+    """Client on an ISOLATED copy of the corpus - safe for tests that merge (which
     rewrite the served corpus). Never point a merging test at the real corpora/."""
     corpus = tmp_path / "corpus"
     shutil.copytree("corpora", corpus, ignore=shutil.ignore_patterns(".git"))
@@ -138,7 +138,7 @@ def test_merged_version_is_readonly(iso_client):
 
 def test_merge_propagates_to_read_paths(iso_client):
     """The core #2/#10 fix: after a merge, the change is visible in read-only
-    browsing and impact — not only inside the version's own diff."""
+    browsing and impact - not only inside the version's own diff."""
     client, _ = iso_client
     cid = client.post("/api/changesets", json={"title": "Propage", "author": "alice"}).json()["id"]
     content = client.get(f"/api/changesets/{cid}/file", params={"path": POLICY}).json()["content"]

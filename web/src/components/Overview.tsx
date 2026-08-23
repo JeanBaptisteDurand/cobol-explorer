@@ -14,7 +14,7 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
   const [quality, setQuality] = useState<{ orphan_programs: { label: string }[]; unused_copybooks: string[] } | null>(null);
   const [impacted, setImpacted] = useState<number | null>(null);
   useEffect(() => { getQuality().then(setQuality).catch(() => {}); }, []);
-  // Authoritative impacted-program count for the hero — the SAME deterministic
+  // Authoritative impacted-program count for the hero - the SAME deterministic
   // closure the graph highlights, so the headline number and the ripple agree.
   useEffect(() => {
     setImpacted(null);
@@ -63,7 +63,7 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
               <b style={{ color: "var(--danger)" }}>{impactN} program{impactN > 1 ? "s" : ""}</b>.
             </div>
             <div style={{ font: "400 12.5px/1.5 var(--s)", color: "var(--text-secondary)", marginTop: 7 }}>
-              See exactly which ones — every dependency proven to the source line — in one click.
+              See exactly which ones, every dependency proven to the source line, in one click.
             </div>
           </div>
           <button
@@ -89,12 +89,12 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
       </div>
 
       <div>
-        <h1 className="ov-h1">COBOL estate — <b>{systemLabel || "GenApp"}</b></h1>
+        <h1 className="ov-h1">COBOL estate · <b>{systemLabel || "GenApp"}</b></h1>
         <p className="ov-p">
           {/* The detail comes from the estate registry and carries no final stop,
-              so it needs its own sentence — concatenated it read "…claims,
+              so it needs its own sentence - concatenated it read "…claims,
               policies Read-only by default". */}
-          {systemDetail || "Mainframe core"}. Read-only by default — the agent cites the source
+          {systemDetail || "Mainframe core"}. Read-only by default: the agent cites the source
           line. Every change lives in an isolated version, reviewed before it is applied.
         </p>
       </div>
@@ -125,10 +125,10 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
             IBM Bob · Model Context Protocol
           </div>
           <div style={{ font: "500 13.5px/1.55 var(--s)", color: "var(--text-primary)" }}>
-            Also available to <b>IBM Bob</b>. The same grounded tools —{" "}
+            Also available to <b>IBM Bob</b>. The same grounded tools:{" "}
             <b style={{ font: "500 12px var(--m)", color: "#6cb2ff" }}>graph_lookup</b>,{" "}
             <b style={{ font: "500 12px var(--m)", color: "#6cb2ff" }}>search_code</b>,{" "}
-            <b style={{ font: "500 12px var(--m)", color: "#6cb2ff" }}>read_source_lines</b> — are exposed as an{" "}
+            <b style={{ font: "500 12px var(--m)", color: "#6cb2ff" }}>read_source_lines</b> are exposed as an{" "}
             <b>MCP server</b>, so Bob answers about this estate with the same source-line proof.
           </div>
         </div>
@@ -136,7 +136,7 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
         <a href="/presentation#connect-bob" data-testid="mcp-connect"
           title="How to connect your own Bob to this estate over MCP"
           style={{ font: "600 11px var(--m)", color: "var(--graph)", border: "1px solid var(--graph)", borderRadius: 0, padding: "6px 12px", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 7, textDecoration: "none" }}>
-          <span style={{ width: 7, height: 7, borderRadius: 99, background: "var(--graph)" }} />MCP exposed — connect Bob →
+          <span style={{ width: 7, height: 7, borderRadius: 99, background: "var(--graph)" }} />MCP exposed · connect Bob →
         </a>
       </div>
 
@@ -156,12 +156,12 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
         <div className="card">
           <div className="hd">Batch chains <span className="sub">· scheduler</span><Help text="The scheduler (Control-M, CA-7…) chains nightly batch jobs. A chain = an ordered sequence of jobs; each job runs programs. Changing a copybook can therefore break a whole chain." /></div>
           <div style={{ padding: "5px 0" }}>
-            {chains.length === 0 && <div style={{ padding: "7px 14px", color: "var(--text-helper)", font: "400 11px var(--s)" }}>—</div>}
+            {chains.length === 0 && <div style={{ padding: "7px 14px", color: "var(--text-helper)", font: "400 11px var(--s)" }}>·</div>}
             {chains.map((ch) => (
               <div key={ch.id} className="row" style={{ borderRadius: 0, padding: "8px 14px", gap: 8, font: "500 11.5px var(--m)" }}>
                 <span style={{ color: "var(--interactive)" }}>{ch.label}</span>
                 <Icon name="chev" size={12} color="var(--text-helper)" />
-                <span style={{ color: "var(--text-secondary)" }}>{ch.jobs.join(", ") || "—"}</span>
+                <span style={{ color: "var(--text-secondary)" }}>{ch.jobs.join(", ") || "·"}</span>
                 {ch.after.length > 0 && <span style={{ marginLeft: "auto", font: "400 10px var(--s)", color: "var(--text-helper)" }}>after {ch.after.join(",")}</span>}
               </div>
             ))}

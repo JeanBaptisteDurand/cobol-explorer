@@ -1,12 +1,12 @@
 <div align="center">
 
 # COBOL Explorer
-### The AI co-worker for mainframe teams — it plans the blast radius of a change,
+### The AI co-worker for mainframe teams - it plans the blast radius of a change,
 ### grounds every decision to the source line, and hands its tools to IBM Bob over MCP
 
-*Grounded agentic RAG + a mainframe-native graph — every answer traced back to the source line.*
+*Grounded agentic RAG + a mainframe-native graph - every answer traced back to the source line.*
 
-**IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge — Build Intelligent Systems for the Future of Work**
+**IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge - Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-0f62fe)](https://cobol-explorer.fr)
 [![tests](https://img.shields.io/badge/tests-153%20backend%20%C2%B7%2050%20e2e-42be65)](#8-tests)
@@ -18,36 +18,36 @@
 
 ---
 
-## 🏆 AI Builders Challenge with IBM Bob — submission (Wildcard)
+## 🏆 AI Builders Challenge with IBM Bob - submission (Wildcard)
 
-> An **AI co-worker + decision-intelligence platform** that turns work on legacy mainframe code — today a set of disconnected, expert-dependent tasks — into an **intelligent, governed, outcome-driven system** for a whole team (developers · risk · compliance). Built with IBM Bob — and extending IBM Bob back, over MCP.
+> An **AI co-worker + decision-intelligence platform** that turns work on legacy mainframe code - today a set of disconnected, expert-dependent tasks - into an **intelligent, governed, outcome-driven system** for a whole team (developers · risk · compliance). Built with IBM Bob - and extending IBM Bob back, over MCP.
 
 ### Problem statement
 
-Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers and public services — **200+ billion lines of COBOL in production**. But the *work* of understanding and safely changing them is stuck in the past: **disconnected, manual, expert-dependent tasks** — grep the files, ask a graybeard who is about to retire, then *guess* the blast radius of a change. Non-technical **risk and compliance** teams cannot read the code at all. Every change is a gamble, because its true impact is unknowable — and "found 8 of 14 impacted programs" is a production incident.
+Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers and public services - **200+ billion lines of COBOL in production**. But the *work* of understanding and safely changing them is stuck in the past: **disconnected, manual, expert-dependent tasks** - grep the files, ask a graybeard who is about to retire, then *guess* the blast radius of a change. Non-technical **risk and compliance** teams cannot read the code at all. Every change is a gamble, because its true impact is unknowable - and "found 8 of 14 impacted programs" is a production incident.
 
 ### Solution description
 
-**COBOL Explorer** ingests the whole estate (COBOL, JCL, CICS, DB2, BMS, scheduler) into a **dependency graph**, and lets anyone — developer or business — ask questions in natural language and get answers **grounded to the exact source line**. It turns disconnected tasks into an outcome-driven system across the four "Future of Work" verbs:
+**COBOL Explorer** ingests the whole estate (COBOL, JCL, CICS, DB2, BMS, scheduler) into a **dependency graph**, and lets anyone - developer or business - ask questions in natural language and get answers **grounded to the exact source line**. It turns disconnected tasks into an outcome-driven system across the four "Future of Work" verbs:
 
-- **Plan** — exhaustive, deterministic **impact analysis** ("changing this copybook breaks these N programs and these batch chains, with proof").
-- **Coordinate** — **team versioning**: isolated branches, affected owners, review, merge gate.
-- **Decide** — grounded, cited, exhaustive answers (decision support), not a plausible sample.
-- **Execute** — **propose** an isolated change → measure impact → **governed merge** → tamper-evident audit.
+- **Plan** - exhaustive, deterministic **impact analysis** ("changing this copybook breaks these N programs and these batch chains, with proof").
+- **Coordinate** - **team versioning**: isolated branches, affected owners, review, merge gate.
+- **Decide** - grounded, cited, exhaustive answers (decision support), not a plausible sample.
+- **Execute** - **propose** an isolated change → measure impact → **governed merge** → tamper-evident audit.
 
 ### AI approach and architecture
 
-- **Agentic RAG** — a **BeeAI** `RequirementAgent` on **IBM Granite** (ReAct loop); the agent chooses which tool to call and logs *why* (a `think` step), so its reasoning is auditable.
-- **Two complementary RAGs** — a **graph RAG** (deterministic traversal → exact impact / lineage / call graph) and a **vector RAG** (**IBM Granite embeddings** → semantic search by intent). The agent routes between them.
-- **Grounding / anti-hallucination** — every answer cites `file:line`; the server re-verifies each citation against the corpus and flags any that does not resolve.
-- **IBM Bob via MCP** — 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
-- **Governance** — git-backed team versioning, RBAC roles, merge gate, HMAC-chained immutable audit.
-- **Multi-estate** — analyses **two real codebases**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** — Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 153 backend tests · 50 e2e.
+- **Agentic RAG** - a **BeeAI** `RequirementAgent` on **IBM Granite** (ReAct loop); the agent chooses which tool to call and logs *why* (a `think` step), so its reasoning is auditable.
+- **Two complementary RAGs** - a **graph RAG** (deterministic traversal → exact impact / lineage / call graph) and a **vector RAG** (**IBM Granite embeddings** → semantic search by intent). The agent routes between them.
+- **Grounding / anti-hallucination** - every answer cites `file:line`; the server re-verifies each citation against the corpus and flags any that does not resolve.
+- **IBM Bob via MCP** - 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
+- **Governance** - git-backed team versioning, RBAC roles, merge gate, HMAC-chained immutable audit.
+- **Multi-estate** - analyses **two real codebases**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
+- **Stack** - Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 153 backend tests · 50 e2e.
 
 ### Try it
 
-**Live: [cobol-explorer.fr](https://cobol-explorer.fr)** — create an account, or sign in with the demo account
+**Live: [cobol-explorer.fr](https://cobol-explorer.fr)** - create an account, or sign in with the demo account
 `amine` / `demo`. The agent runs on `ibm/granite-4-h-small` hosted on watsonx.ai (Dallas).
 
 A **guided tour** starts on first sign-in and can be replayed from the header; the argument behind the
@@ -57,7 +57,7 @@ product is on **[/presentation](https://cobol-explorer.fr/presentation)**.
 
 Stated plainly, because a reviewer will find them anyway:
 
-- **Accounts are file-based** (demo grade). A real deployment plugs in the corporate IdP — the token and RBAC path
+- **Accounts are file-based** (demo grade). A real deployment plugs in the corporate IdP - the token and RBAC path
   is unchanged, only the account source moves.
 - **One active estate per process.** Switching between GenApp and CardDemo is a process-wide setting, so the public
   demo is effectively single-session.
@@ -65,49 +65,49 @@ Stated plainly, because a reviewer will find them anyway:
   index; full decoupling is a fast-follow.
 - **The scheduler chains for GenApp are synthetic** (a JSON export standing in for IWS/Control-M). CardDemo's batch
   is real.
-- **Embeddings are Granite through Ollama**, not watsonx — the corpus is not re-embedded when the chat backend
+- **Embeddings are Granite through Ollama**, not watsonx - the corpus is not re-embedded when the chat backend
   switches.
 
 ### Selected challenge theme
 
-**Wildcard — *Build Intelligent Systems for the Future of Work*.** COBOL Explorer is a **decision-intelligence platform** and **AI co-worker** for the millions of people who maintain the systems that run critical infrastructure: it uses AI to **reduce repetitive work** (manual impact hunting), **improve decision-making** (exhaustive grounded impact), and **help teams reach outcomes faster** (a governed collaboration workflow) — spanning technical and non-technical roles.
+**Wildcard - *Build Intelligent Systems for the Future of Work*.** COBOL Explorer is a **decision-intelligence platform** and **AI co-worker** for the millions of people who maintain the systems that run critical infrastructure: it uses AI to **reduce repetitive work** (manual impact hunting), **improve decision-making** (exhaustive grounded impact), and **help teams reach outcomes faster** (a governed collaboration workflow) - spanning technical and non-technical roles.
 
-Judged outside the Wildcard, the entry stands on its own merits: as a use of technology — the entire AI layer is IBM (Granite reasoning, Granite embeddings, BeeAI orchestration, watsonx.ai inference in production, and three MCP tools that extend IBM Bob itself) — and as an innovation: a deterministic graph RAG whose every model-written citation is re-verified against the source before a human relies on it.
+Judged outside the Wildcard, the entry stands on its own merits: as a use of technology - the entire AI layer is IBM (Granite reasoning, Granite embeddings, BeeAI orchestration, watsonx.ai inference in production, and three MCP tools that extend IBM Bob itself) - and as an innovation: a deterministic graph RAG whose every model-written citation is re-verified against the source before a human relies on it.
 
 ### How IBM Bob was used
 
 - **Bob as a runtime AI co-worker (integrated):** COBOL Explorer exposes its analysis tools to **IBM Bob over MCP**
   (`.bob/mcp.json`). A developer working inside Bob can ask *"what breaks if I change LGPOLICY?"* and Bob calls
-  `graph_lookup` — returning the exhaustive, grounded impact that a file-reading agent alone cannot guarantee.
-- **Bob as the development environment — spec-driven, with reusable skills.** The project was driven the way the
+  `graph_lookup` - returning the exhaustive, grounded impact that a file-reading agent alone cannot guarantee.
+- **Bob as the development environment - spec-driven, with reusable skills.** The project was driven the way the
   official July lab teaches: *spec-driven development* rather than vibe coding. Each unit of work started as an
   intent, became a written plan, and only then became code. On top of that, **reusable skills** were layered into
   Bob so the same discipline applied every time:
-  - a **brainstorming skill** — requirements and design settled *before* any implementation, so the spec is the
+  - a **brainstorming skill** - requirements and design settled *before* any implementation, so the spec is the
     artefact and the code follows it;
-  - a **test-driven skill** — the failing test first. It is the reason this repository ships **153 backend tests**
+  - a **test-driven skill** - the failing test first. It is the reason this repository ships **153 backend tests**
     rather than a happy-path demo;
-  - a **simplify skill** — a cleanup pass re-reading the diff for duplication, dead code and over-engineering.
+  - a **simplify skill** - a cleanup pass re-reading the diff for duplication, dead code and over-engineering.
     Concrete outcomes: a dead `_copy_evidence` helper removed, an MCP `domain` parameter that Bob could see but that
     filtered nothing removed from the tool signature, and a hard-coded `.bob/mcp.json` path made portable.
 - **The loop closes:** Bob helped build the tool that now extends Bob. The same three tools
   (`graph_lookup`, `search_code`, `read_source_lines`) are exposed back to Bob over MCP.
 - **IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed; certificate submitted with the entry.
 
-**Deliverables** — public GitHub repo (this) · demo/presentation video (≤ 3 min) · each member completes an IBM SkillsBuild "IBM Bob" activity.
+**Deliverables** - public GitHub repo (this) · demo/presentation video (≤ 3 min) · each member completes an IBM SkillsBuild "IBM Bob" activity.
 
 ---
 
 > "The AI does not talk to the mainframe. It talks to a graph and an index built from the code, the JCL and the
-> scheduler — and every answer is traced back to the exact source line."
+> scheduler - and every answer is traced back to the exact source line."
 
 ## Overview
 
-**The platform — a VS Code-style workshop (activity bar, explorer, tabbed editor, agent panel).**
+**The platform - a VS Code-style workshop (activity bar, explorer, tabbed editor, agent panel).**
 
 ![The workshop](web/public/shots/sc-apercu.png)
 
-| The estate graph — impact radius of a copybook | The governed change — diff, impact and merge gate |
+| The estate graph - impact radius of a copybook | The governed change - diff, impact and merge gate |
 |---|---|
 | ![graph](web/public/shots/sc-impact.png) | ![changes](web/public/shots/sc-merge.png) |
 
@@ -128,11 +128,11 @@ The product cleanly separates **understanding** (no side effects) from **changin
 Explore and question the estate **without ever touching it**: navigation, reading the code, dependencies, impact,
 and an **agent** that answers by citing source lines. All of it is read-only by construction, not by policy.
 
-### ✎ Change — through workflows (change-sets)
+### ✎ Change - through workflows (change-sets)
 
 Every modification lives in an **isolated version** (a change-set, like a branch or PR): you edit the code, you
 **see the impact** (programs and batch chains affected), you compare with a **diff**, you **comment** and you
-**review** (status *draft → proposed → merged*). **The source corpus is never mutated** — edits live in
+**review** (status *draft → proposed → merged*). **The source corpus is never mutated** - edits live in
 `versions/<id>/files/`. This is the workflow "propose a change (for instance an insurance value that moves) →
 measure its impact before applying it".
 
@@ -170,15 +170,15 @@ An IDE-style cowork workshop, in three columns:
 |---|---|
 | **Overview** (tab) | Orientation: estate statistics, **top copybooks by fan-in** (criticality), **batch chains** from the scheduler, questions to start from |
 | **Source code** (left) | The estate tree **by business domain** (programs, copybooks) + search + the list of **versions** |
-| **Connect your Bob** (left) | The three MCP tool signatures, where the server runs, and the configuration to paste — see [§7.2](#72-connect-your-own-ibm-bob-mcp) |
-| **Code editor** (tab) | COBOL inline — **CodeMirror**, highlighting, line numbers, multi-file tabs |
+| **Connect your Bob** (left) | The three MCP tool signatures, where the server runs, and the configuration to paste - see [§7.2](#72-connect-your-own-ibm-bob-mcp) |
+| **Code editor** (tab) | COBOL inline - **CodeMirror**, highlighting, line numbers, multi-file tabs |
 | **Graph** (tab) | Dependency graph **grouped by domain**, edges **coloured by semantics** (calls, copybooks, SQL, execution) |
 | **Inspector** (right) | The context of one entity: **clickable dependencies with line numbers** (calls, copybooks, tables, used-by, called-by) + grounded **impact analysis**, down to the field level |
 | **Agent** (right) | The agent: **grounded** answer, **tool-call trace**, `file:line` citations |
 | **Changes** (right) | The cowork review: the version's **changed files** + **diff** + impact + **Propose / Merge / comment** |
 | **Audit** (right) | The HMAC-chained log: every query, read, change **and refusal** |
 | **Command bar** (top) | Global search, ⌘P palette (exact + semantic), statistics, active version, guided tour |
-| **Status bar** (bottom) | The branch you are in and whether you are Read-only or Editing — always visible |
+| **Status bar** (bottom) | The branch you are in and whether you are Read-only or Editing - always visible |
 
 A **guided tour** (driver.js, 17 steps) runs on first sign-in and can be replayed from the header. The public
 argument lives at **`/presentation`**, reachable from inside the workshop.
@@ -193,10 +193,10 @@ over SSE). It is instructed to **ask a clarifying question** when the request is
 | Tool | What it does |
 |---|---|
 | `graph_lookup` | Queries the graph: **impact**, **lineage**, **callers**, **callees**, **neighbours** (deterministic) |
-| `search_code` | **Semantic search** over the code (IBM **Granite embeddings**) — combinable with `graph_lookup` (vector + graph) |
+| `search_code` | **Semantic search** over the code (IBM **Granite embeddings**) - combinable with `graph_lookup` (vector + graph) |
 | `read_source_lines` | Reads the **exact source lines** so an answer can cite `file:line` |
-| `web_search` | External context (regulation, definitions) — Tavily or DuckDuckGo |
-| `propose_change` | **Creates a version** (change-set) proposing an edit and **computes its impact** — from the chat |
+| `web_search` | External context (regulation, definitions) - Tavily or DuckDuckGo |
+| `propose_change` | **Creates a version** (change-set) proposing an edit and **computes its impact** - from the chat |
 
 The first three (`graph_lookup`, `search_code`, `read_source_lines`) are **exposed over MCP** and therefore usable
 directly from **IBM Bob**.
@@ -207,13 +207,13 @@ directly from **IBM Bob**.
 
 | Layer | IBM technology | Used for |
 |---|---|---|
-| **Reasoning (LLM)** | **IBM Granite** — `granite3.3:8b` self-hosted, or `ibm/granite-4-h-small` on **watsonx.ai** | the agent's brain |
+| **Reasoning (LLM)** | **IBM Granite** - `granite3.3:8b` self-hosted, or `ibm/granite-4-h-small` on **watsonx.ai** | the agent's brain |
 | **Embeddings / search** | **IBM Granite Embedding** (`granite-embedding:278m`) | the `search_code` semantic search |
 | **Agent framework** | **BeeAI** (`RequirementAgent`) | ReAct orchestration + trace |
-| **Identity** | **IBM Cloud App ID** (OIDC) | "Sign in with IBM" — see [§7.4](#74-sign-in-with-ibm-oidc--ibm-cloud-app-id) |
+| **Identity** | **IBM Cloud App ID** (OIDC) | "Sign in with IBM" - see [§7.4](#74-sign-in-with-ibm-oidc--ibm-cloud-app-id) |
 | **Dev assistant** | **IBM Bob** | (1) the build co-pilot; (2) an **MCP client** of our tools |
 
-**Tool protocol**: **MCP** — an *open* standard (Anthropic), **adopted by IBM Bob**. Our tools are exposed over MCP
+**Tool protocol**: **MCP** - an *open* standard (Anthropic), **adopted by IBM Bob**. Our tools are exposed over MCP
 and consumable by any MCP client.
 
 **Neutral (no relevant IBM equivalent)**: in-house targeted extraction (COBOL/JCL/CICS parsing), cobol-rekt
@@ -221,7 +221,7 @@ and consumable by any MCP client.
 **IBM options on the roadmap**: Docling (document ingestion), MCP **Context Forge** (MCP gateway),
 **watsonx.governance** (audit).
 
-> Everything runs **locally and for free** with Ollama — reproducible by a student — or against watsonx.ai for
+> Everything runs **locally and for free** with Ollama - reproducible by a student - or against watsonx.ai for
 > production latency.
 
 ---
@@ -240,7 +240,7 @@ SERVICE (Python)
      └─ MCP server ── the same tools, consumable by IBM Bob
      └─ Security: RBAC · signed tokens · HMAC-chained audit log
   Versioning: isolated change-sets + impact + diff + review (collaboration)
-FRONTEND (React + CodeMirror + React Flow) — IDE/cowork workshop
+FRONTEND (React + CodeMirror + React Flow) - IDE/cowork workshop
   left (tree · versions · Bob) · tabs (Overview / Code / Graph / Diff) · right (Agent / Inspector / Changes / Audit)
   public landing + /presentation, IBM Carbon design language
 ```
@@ -264,7 +264,7 @@ The model is **always IBM Granite**; only where it executes changes, through `CO
 
 | Value | Model | Execution | Measured agent latency |
 |---|---|---|---|
-| `ollama:granite3.3:8b` (default) | Granite 3.3 8B | **self-hosted**, on the machine — estate code never leaves it | ~30-40 s (CPU) |
+| `ollama:granite3.3:8b` (default) | Granite 3.3 8B | **self-hosted**, on the machine - estate code never leaves it | ~30-40 s (CPU) |
 | `watsonx:ibm/granite-4-h-small` | Granite 4.0 H Small | **IBM watsonx.ai** (Dallas region) | **~6.5 s** |
 
 ```bash
@@ -275,12 +275,12 @@ make serve-watsonx    # Granite hosted by IBM watsonx.ai
 For watsonx, set `WATSONX_API_KEY`, `WATSONX_PROJECT_ID` and
 `WATSONX_URL=https://us-south.ml.cloud.ibm.com` (in `.env`, not versioned). The watsonx project must have a
 **watsonx.ai Runtime** service associated with it, otherwise the call fails with a 403
-`no_associated_service_instance_error` — an error that does not mention the real cause.
+`no_associated_service_instance_error` - an error that does not mention the real cause.
 
 ### 7.2 Connect your own IBM Bob (MCP)
 
 The three analysis tools are exposed over the **Model Context Protocol**, so Bob calls them instead of reading files
-and guessing. The server speaks **MCP over stdio**: it runs on your machine, beside the estate it reads — nothing
+and guessing. The server speaks **MCP over stdio**: it runs on your machine, beside the estate it reads - nothing
 about your source leaves the box it is already on, which is the only reason a bank would let an agent near it.
 
 ```bash
@@ -290,7 +290,7 @@ make setup
 ```
 
 Point it at your own COBOL by dropping the sources under `corpora/` and running `make ingest`; skip that to try it
-on the two demo estates first. Then open the folder in Bob — **`.bob/mcp.json` ships with the repository**, so Bob
+on the two demo estates first. Then open the folder in Bob - **`.bob/mcp.json` ships with the repository**, so Bob
 finds the server on its own. Nothing to paste, unless your client keeps its MCP servers elsewhere, in which case
 this is the entry:
 
@@ -324,7 +324,7 @@ in.
 
 Sign-up is open (`POST /api/signup`). If an SMTP relay is configured, the account is created **unverified** and a
 single-use confirmation link (24 h) is emailed; sign-in is refused with a 403 until it is clicked. **Without a relay
-configured, verification is disabled** and the visitor goes straight in — and the API says so
+configured, verification is disabled** and the visitor goes straight in - and the API says so
 (`/api/auth/config` → `email_verification: false`), so the interface never claims to have sent an email it did not
 send.
 
@@ -350,7 +350,7 @@ Two OAuth 2.0 exchanges coexist in this project, and they should not be confused
 
 The role granted to an IBM sign-in is deliberately **the least privileged that is still useful**
 (`risk`: read and propose, never merge). Federating an identity says *who* someone is, not what they are allowed to
-do here — that stays a decision of this deployment.
+do here - that stays a decision of this deployment.
 
 The token comes back to the SPA **in the URL fragment**: a fragment is never sent to the server, so it appears in no
 access log and in no `Referer` header. It is read once and then erased from the address bar. The CSRF state is
@@ -373,21 +373,21 @@ The server runs in one of three modes, through `COBOL_EXPLORER_AUTH`:
 
 | Mode | Identity | For what |
 |---|---|---|
-| `open` (default) | declarative `X-Cobol-User` / `X-Cobol-Role` headers | demo — `make serve`, nothing to configure |
-| `jwt` | **login + HS256 signed token** issued by `/api/login` | standalone deployment — `make serve-auth` |
+| `open` (default) | declarative `X-Cobol-User` / `X-Cobol-Role` headers | demo - `make serve`, nothing to configure |
+| `jwt` | **login + HS256 signed token** issued by `/api/login` | standalone deployment - `make serve-auth` |
 | `enforce` | headers injected by a trusted SSO reverse proxy | the enterprise keeps authentication outside the app (OIDC/SAML) |
 
 In `jwt` mode the **role travels inside the signed token**: a client cannot promote itself by changing a header,
-RBAC arbitrates from the claims, and every attempt — allowed, refused or rejected — goes into the chained audit log.
+RBAC arbitrates from the claims, and every attempt - allowed, refused or rejected - goes into the chained audit log.
 Passwords are never stored (PBKDF2-HMAC-SHA256, 120,000 iterations, per-account salt).
 
 ```bash
 make serve-auth   # the same app, with real authentication enabled
-# demo accounts (password: demo) — one per gesture, so RBAC can be seen to bite:
+# demo accounts (password: demo) - one per gesture, so RBAC can be seen to bite:
 #   amine (dev) · claire (architect) · sofia (risk) · marc (auditor, read-only)
 ```
 
-The audit chain is keyed: set `COBOL_EXPLORER_AUDIT_SECRET` in any real deployment — with the
+The audit chain is keyed: set `COBOL_EXPLORER_AUDIT_SECRET` in any real deployment - with the
 demo default, tamper evidence holds against everyone except whoever can read this repository,
 and the server logs a warning when auth is on but the key is the demo one.
 
@@ -420,7 +420,7 @@ server/
   tests/          153 backend tests
 web/              React + TypeScript frontend (workshop, landing, /presentation)
   e2e/            50 Playwright tests
-versions/         isolated change-sets — the source corpus is never mutated
+versions/         isolated change-sets - the source corpus is never mutated
 docs/             design, coverage, industrialisation, demo guide
 .bob/mcp.json     the MCP entry IBM Bob reads
 ```

@@ -69,7 +69,7 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
 
       {node.kind === "DB2_TABLE" && (
         <div style={{ font: "400 11px/1.55 var(--s)", color: "var(--text-secondary)", background: "var(--layer-02)", border: "1px solid var(--border-subtle)", borderRadius: 0, padding: "9px 11px" }}>
-          DB2 table. Its <b style={{ color: "var(--text-primary)" }}>columns</b> are defined in the <b style={{ color: "var(--text-primary)" }}>DDL</b> (outside the COBOL corpus) — what is computed here is the <b style={{ color: "var(--text-primary)" }}>programs that read and write it</b>, extracted from the <span className="mono" style={{ fontSize: 10.5 }}>EXEC SQL</span>.
+          DB2 table. Its <b style={{ color: "var(--text-primary)" }}>columns</b> are defined in the <b style={{ color: "var(--text-primary)" }}>DDL</b> (outside the COBOL corpus): what is computed here is the <b style={{ color: "var(--text-primary)" }}>programs that read and write it</b>, extracted from the <span className="mono" style={{ fontSize: 10.5 }}>EXEC SQL</span>.
         </div>
       )}
       {node.kind === "CICS_FILE" && (
@@ -96,7 +96,7 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
 
       {impact && (
         <div className="card" style={{ padding: "11px 13px", font: "400 11.5px/1.6 var(--s)", color: "var(--text-secondary)" }}>
-          <span style={{ color: "var(--interactive)" }}>Impact</span> — {impact.answer}
+          <span style={{ color: "var(--interactive)" }}>Impact</span> · {impact.answer}
         </div>
       )}
 
@@ -106,7 +106,7 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
         return (
           <div data-testid="field-impact">
             <div className="klabel" style={{ marginBottom: 6 }}>
-              Field-level impact · {fields.length} fields, {referenced.length} referenced<Help text="For each field of the copybook: how many programs actually reference it in their code. '4 prog' = modifying this field affects 4 programs. Fields marked '—' are referenced nowhere." />
+              Field-level impact · {fields.length} fields, {referenced.length} referenced<Help text="For each field of the copybook: how many programs actually reference it in their code. '4 prog' = modifying this field affects 4 programs. Fields marked '·' are referenced nowhere." />
             </div>
             <div className="card">
               {shown.slice(0, 40).map((f) => (
@@ -117,7 +117,7 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
                   {f.used_by.length > 0 ? (
                     <span style={{ font: "400 10px var(--m)", color: "var(--graph)" }} title={f.used_by.join(", ")}>{f.used_by.length} prog</span>
                   ) : (
-                    <span style={{ font: "400 9px var(--m)", color: "var(--text-helper)" }}>—</span>
+                    <span style={{ font: "400 9px var(--m)", color: "var(--text-helper)" }}>·</span>
                   )}
                 </div>
               ))}

@@ -11,7 +11,7 @@ setup: ## create venv (standalone python via uv) + install everything, pinned
 	VIRTUAL_ENV=.venv uv pip install -r requirements.lock
 	cd web && pnpm install
 
-setup-latest: ## same, unpinned — for refreshing requirements.lock deliberately
+setup-latest: ## same, unpinned - for refreshing requirements.lock deliberately
 	uv venv --python 3.12 .venv
 	VIRTUAL_ENV=.venv uv pip install networkx pyyaml pytest fastapi "uvicorn[standard]" \
 		sse-starlette requests beeai-framework ollama httpx "mcp[cli]" ibm-watsonx-ai
@@ -52,7 +52,7 @@ serve-auth: ## same, with real authentication (login + signed token, RBAC from t
 serve-sandbox: ## serve with real auth on a THROWAWAY copy of the estate (merging rewrites the corpus)
 	PORT=$${PORT:-8000} scripts/serve-sandbox.sh
 
-e2e-governance: ## multi-account scenario (risk proposes, dev merges, auditor reads) — needs `make serve-sandbox`
+e2e-governance: ## multi-account scenario (risk proposes, dev merges, auditor reads) - needs `make serve-sandbox`
 	cd web && E2E_BASE_URL=$${E2E_BASE_URL:-http://127.0.0.1:8000} pnpm exec playwright test e2e/governance.spec.ts
 
 bob-attribution: ## generate the measured "How IBM Bob was used" table from git

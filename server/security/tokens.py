@@ -1,7 +1,7 @@
 """Bearer tokens: compact JWT (HS256) minted and verified in-process, stdlib only.
 
 The workshop authenticates its own users, so it signs a short-lived token instead
-of keeping server-side sessions — no session store, no extra dependency. The key
+of keeping server-side sessions - no session store, no extra dependency. The key
 comes from ``COBOL_EXPLORER_JWT_SECRET``; when unset a random one is drawn at
 import, which invalidates tokens on restart. That is deliberate: a constant
 shipped in the repo would let anyone forge a token against a deployed instance.
@@ -17,7 +17,7 @@ import secrets
 import time
 
 HEADER = {"alg": "HS256", "typ": "JWT"}
-TTL = int(os.environ.get("COBOL_EXPLORER_JWT_TTL", "28800"))  # 8 h — a working day
+TTL = int(os.environ.get("COBOL_EXPLORER_JWT_TTL", "28800"))  # 8 h - a working day
 _SECRET = (os.environ.get("COBOL_EXPLORER_JWT_SECRET") or secrets.token_hex(32)).encode()
 
 
@@ -47,7 +47,7 @@ def mint(name: str, role: str, ttl: int | None = None) -> str:
 
 
 def read(token: str | None) -> dict | None:
-    """Claims of a valid token, else ``None`` — bad shape, bad signature, or expired.
+    """Claims of a valid token, else ``None`` - bad shape, bad signature, or expired.
 
     Every failure mode collapses to ``None`` on purpose: the caller must not be
     able to tell a forged token from an expired one.

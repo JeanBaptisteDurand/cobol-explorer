@@ -10,14 +10,14 @@ import os
 import re
 
 SOURCE_EXT = ("cbl", "cpy", "jcl", "bms", "csd")
-# A citation is a file, optionally followed by its line — written either as
+# A citation is a file, optionally followed by its line - written either as
 # `lgacdb01.cbl:88` or as `LGACDB01.cbl (line 88)`. Both are the same claim, and
 # both must be verified: the badge describes the answer, not the model's phrasing.
 # ```?`` : in markdown the file is fenced, so the closing backtick sits between the
-# name and its line — "`lgacdb01.cbl` (line 88)".
+# name and its line - "`lgacdb01.cbl` (line 88)".
 _LINE = r"(?:\s*[:#]\s*(\d+)|`?\s*[(\[]\s*(?:ligne|line|l\.)\s*(\d+))"
 _CITE = re.compile(rf"([\w-]+\.(?:{'|'.join(SOURCE_EXT)}))(?:{_LINE})?", re.I)
-# An LLM often writes the *entity* rather than its file — "`LGACDB01` (line 88)".
+# An LLM often writes the *entity* rather than its file - "`LGACDB01` (line 88)".
 # That is a real citation and must be verified, not reported as unsourced: the badge
 # has to describe the answer, not the wording the model happened to pick.
 _ENTITY_CITE = re.compile(r"`?\b([A-Z][A-Z0-9$#@-]{2,9})\b`?\s*[(\[]\s*(?:ligne|line|l\.)\s*(\d+)", re.I)
@@ -31,7 +31,7 @@ def _corpus_index(corpus_root: str) -> dict[str, str]:
 
     Mainframe members are quoted in whatever case the reader feels like (LGACDB01.cbl
     on screen, lgacdb01.cbl on disk). Matching by glob is case-sensitive on Linux, so
-    every citation resolved on macOS and none did in production — this index removes
+    every citation resolved on macOS and none did in production - this index removes
     the difference.
     """
     root = os.path.realpath(corpus_root)
@@ -95,9 +95,9 @@ def verify_answer(text: str, trace_sources: list[str], corpus_root: str) -> dict
         "citations": results,
         "count": len(results),
         # all_grounded: of the citations present, do they all resolve? (True for zero,
-        # vacuously — used by the UI badge, which is only shown when count>0).
+        # vacuously - used by the UI badge, which is only shown when count>0).
         "all_grounded": all(r["ok"] for r in results) if results else True,
-        # grounded: STRICT — at least one citation AND all resolve. This is what an
+        # grounded: STRICT - at least one citation AND all resolve. This is what an
         # answer must satisfy to count as source-backed; an uncited answer is NOT
         # grounded (it gets no free pass in the eval).
         "grounded": bool(results) and all(r["ok"] for r in results),

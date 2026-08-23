@@ -5,7 +5,7 @@ import { expect, test, type Page } from "@playwright/test";
  * server running with real authentication (COBOL_EXPLORER_AUTH=jwt):
  *
  *   1. Sofia (risk)     signs up, edits a copybook in an isolated version, sees the
- *                       blast radius, submits it for review — and is REFUSED the merge.
+ *                       blast radius, submits it for review - and is REFUSED the merge.
  *   2. Amine (dev)      signs in, finds Sofia's version, comments, and merges it.
  *   3. Marc (auditor)   signs in, is REFUSED the right to propose, and reads the
  *                       tamper-evident trail where all three actors appear.
@@ -13,7 +13,7 @@ import { expect, test, type Page } from "@playwright/test";
  * Each actor gets a fresh browser context, so nobody inherits anyone's token.
  * Run with:  make serve-sandbox   then   make e2e-governance
  * The sandbox matters: step 3 merges into main, and merging writes the result back
- * into the corpus — against the repo's own corpora/ this scenario edits your sources.
+ * into the corpus - against the repo's own corpora/ this scenario edits your sources.
  */
 
 const RUN = Date.now().toString().slice(-6);
@@ -28,7 +28,7 @@ test.describe.configure({ mode: "serial" });
 
 test.beforeEach(async ({ page }) => {
   const cfg = await page.request.get("/api/auth/config").then((r) => r.json()).catch(() => ({}));
-  test.skip(!cfg?.required, "server is in open mode — start it with COBOL_EXPLORER_AUTH=jwt");
+  test.skip(!cfg?.required, "server is in open mode - start it with COBOL_EXPLORER_AUTH=jwt");
 });
 
 /** These three sign in for real, so they land on a genuine first visit and the
@@ -116,7 +116,7 @@ test("3. Amine (dev) reviews, comments and merges Sofia's version", async ({ bro
   await page.getByTestId("rp-changes").click();
   await expect(page.locator(".panel")).toContainText(VERSION_TITLE.slice(0, 12), { timeout: 20000 });
 
-  await page.getByPlaceholder("comment on the version…").fill("Impact reviewed — proceeding.");
+  await page.getByPlaceholder("comment on the version…").fill("Impact reviewed - proceeding.");
   await page.getByTestId("comment-send").click();
   await expect(page.locator(".comment").last()).toContainText("Impact reviewed", { timeout: 15000 });
 

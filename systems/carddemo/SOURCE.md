@@ -1,6 +1,6 @@
-# CardDemo — the second estate analysed
+# CardDemo - the second estate analysed
 
-Source: AWS Mainframe Modernization — CardDemo
+Source: AWS Mainframe Modernization - CardDemo
 https://github.com/aws-samples/aws-mainframe-modernization-carddemo
 Licence: Apache-2.0 (see LICENSE)
 

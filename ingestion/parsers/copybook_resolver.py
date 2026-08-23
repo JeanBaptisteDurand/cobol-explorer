@@ -1,4 +1,4 @@
-"""Industrial copybook resolution — the piece regex parsing skips.
+"""Industrial copybook resolution - the piece regex parsing skips.
 
 Handles what real Enterprise COBOL needs and GenApp happens not to use:
 - **SYSLIB concatenation**: an ordered list of copy libraries, first-match wins.

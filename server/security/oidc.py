@@ -1,4 +1,4 @@
-"""“Sign in with IBM” — OAuth 2.0 authorization-code flow against IBM Cloud App ID.
+"""“Sign in with IBM” - OAuth 2.0 authorization-code flow against IBM Cloud App ID.
 
 Two different OAuth2 exchanges live in this project and they are easy to confuse:
 
@@ -18,7 +18,7 @@ Configuration (all four required; without them the button simply is not offered)
 The role an IBM sign-in receives is deliberately the least privileged one that can
 still use the workshop (``COBOL_EXPLORER_OIDC_ROLE``, default ``risk``: read and
 propose, never merge). Federating an identity says who someone is, not what they are
-allowed to do here — that stays a decision of this deployment.
+allowed to do here - that stays a decision of this deployment.
 """
 from __future__ import annotations
 
@@ -94,7 +94,7 @@ def _claims_of(id_token: str) -> dict:
     """Read the claims of an id_token.
 
     Not a verification: the token was just fetched over TLS from the token endpoint,
-    authenticated with our client secret — it never passed through the browser. A
+    authenticated with our client secret - it never passed through the browser. A
     token arriving by any other route must not be trusted by this function.
     """
     try:

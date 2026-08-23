@@ -1,10 +1,10 @@
-"""Transactional e-mail over plain SMTP — no third-party API, no vendor lock-in.
+"""Transactional e-mail over plain SMTP - no third-party API, no vendor lock-in.
 
 The workshop only ever sends one kind of message: "confirm your address". That does
 not justify a service dependency, so it goes out through whatever SMTP relay the
 deployment already has (the domain's own mailbox, in our case IONOS).
 
-Configuration — all optional. With ``COBOL_EXPLORER_SMTP_HOST`` unset the mailer is
+Configuration - all optional. With ``COBOL_EXPLORER_SMTP_HOST`` unset the mailer is
 "not ready", and the sign-up flow degrades honestly: accounts are created verified
 and the UI says verification is disabled, rather than silently swallowing an e-mail
 nobody will ever receive.
@@ -32,7 +32,7 @@ PUBLIC_URL = os.environ.get("COBOL_EXPLORER_PUBLIC_URL", "http://127.0.0.1:8000"
 
 
 def ready() -> bool:
-    """True when a relay is configured — the only thing the API should branch on."""
+    """True when a relay is configured - the only thing the API should branch on."""
     return bool(HOST)
 
 
@@ -60,9 +60,9 @@ Confirm your e-mail address to activate your COBOL Explorer account:
     {link}
 
 The link is valid for 24 hours. If you did not create this account, ignore this
-message — nothing was activated.
+message - nothing was activated.
 
-COBOL Explorer — the AI workshop for mainframe estates
+COBOL Explorer · the AI workshop for mainframe estates
 {PUBLIC_URL}
 """
     )
@@ -73,8 +73,8 @@ COBOL Explorer — the AI workshop for mainframe estates
   <p><a href="{link}" style="display:inline-block;background:#ffb020;color:#191a1d;font-weight:600;
      text-decoration:none;padding:11px 20px;border-radius:6px">Confirm my address</a></p>
   <p style="color:#596069;font-size:13px">The link is valid for 24 hours. If you did not create this
-     account, ignore this message — nothing was activated.</p>
-  <p style="color:#596069;font-size:13px">COBOL Explorer — the AI workshop for mainframe estates<br />
+     account, ignore this message: nothing was activated.</p>
+  <p style="color:#596069;font-size:13px">COBOL Explorer · the AI workshop for mainframe estates<br />
      <a href="{PUBLIC_URL}" style="color:#b57d18">{PUBLIC_URL}</a></p>
 </body></html>""",
         subtype="html",

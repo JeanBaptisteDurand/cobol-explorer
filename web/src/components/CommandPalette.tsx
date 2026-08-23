@@ -34,7 +34,7 @@ export default function CommandPalette({ graph, onClose, onOpenNode, onCommand }
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => inputRef.current?.focus(), []);
 
-  // Semantic search (IBM Granite embeddings) — concept search, complements the fuzzy label match.
+  // Semantic search (IBM Granite embeddings) - concept search, complements the fuzzy label match.
   useEffect(() => {
     if (q.trim().length < 3) { setSem([]); return; }
     let alive = true; // ignore a resolved fetch whose query is already stale

@@ -3,11 +3,11 @@ import type { ChangeSet, Graph } from "./types";
 
 /** fetch() only rejects on a network failure, so a 403 or a 500 arrives here as a
  *  perfectly good Response whose body is an error object. Returning that as data
- *  hands every caller a shape it never expects — a refused audit read resolved
+ *  hands every caller a shape it never expects - a refused audit read resolved
  *  with {detail}, the panel reached for .entries.length, and the app unmounted
  *  into a black page. So both helpers throw, and share one error shape. */
 
-/** A session that has expired is not an error each caller should have to handle —
+/** A session that has expired is not an error each caller should have to handle -
  *  it is the end of the session, and there is exactly one right response: drop the
  *  dead token and put the visitor back at the front door. Announced once here so
  *  no call site has to remember. */
@@ -48,7 +48,7 @@ const post = (url: string, body: any) =>
     body: JSON.stringify(body),
   }).then(async (r) => {
     const d = await r.json().catch(() => null);
-    // A typed detail ({code, message}) lets the UI branch on the machine code —
+    // A typed detail ({code, message}) lets the UI branch on the machine code -
     // matching on the message text broke as soon as the wording changed.
     if (!r.ok) throw failed(r, d);
     return d;
@@ -111,7 +111,7 @@ export async function ask(
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ question, history }),
   });
-  // An error response (403 RBAC / 500) is JSON, not an SSE stream — surface it
+  // An error response (403 RBAC / 500) is JSON, not an SSE stream - surface it
   // instead of silently parsing an empty stream and showing "no answer".
   if (!res.ok || !res.body) {
     let detail = `erreur serveur (${res.status})`;

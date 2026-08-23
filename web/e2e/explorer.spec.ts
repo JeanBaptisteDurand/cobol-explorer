@@ -123,7 +123,7 @@ test("graph: asking for a copybook's impact lights up the impact radius", async 
   await page.locator('.tab:has-text("Graph")').click();
   await page.locator('.rf-node:has-text("LGPOLICY")').first().click();
   await page.getByTestId("graph-impact").click();
-  await expect(page.getByTestId("graph-impact")).toContainText(/impacted — clear/);
+  await expect(page.getByTestId("graph-impact")).toContainText(/impacted · clear/);
 });
 
 test("palette ⌘P: a fuzzy search opens the entity", async ({ page }) => {
@@ -242,6 +242,6 @@ test("the version registry is written on demand and readable afterwards", async 
   const card = page.getByTestId("cs-summary");
   await expect(card).toBeVisible();
   await page.getByTestId("cs-summarize").click();
-  // The registry names the file and quantifies the impact — never an empty sentence.
+  // The registry names the file and quantifies the impact - never an empty sentence.
   await expect(card).toContainText(/file\(s\) edited|program\(s\)|No file was edited/i, { timeout: 60000 });
 });

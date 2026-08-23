@@ -96,7 +96,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
       (imp.jobs ?? []).forEach((j: string) => ids.add(j));
       (imp.chains ?? []).forEach((c: string) => ids.add(c));
       setImpact({ set: ids, count: (imp.programs ?? []).length });
-    } catch { /* impact fetch failed — keep the current graph, no crash */ }
+    } catch { /* impact fetch failed - keep the current graph, no crash */ }
   }
 
   const kindsPresent = useMemo(() => {
@@ -116,7 +116,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
   }, [focus, selectedId, graph]);
 
   // Dimming/illumination kicks in only once nodes actually light up. During the
-  // agent's initial "thinking" (query sent, no trace yet — up to ~30s with an
+  // agent's initial "thinking" (query sent, no trace yet - up to ~30s with an
   // on-prem LLM) the graph stays fully readable, so the wait never looks like a
   // frozen, greyed-out screen. `agentActive` alone drives the spinner label.
   const live = !!(litNodes && litNodes.size > 0);
@@ -129,7 +129,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
     const shown = new Set(
       graph.nodes.filter((n) => {
         if (lit?.has(n.id) || impSet?.has(n.id)) return true;
-        // Focus reveals the FULL neighbourhood regardless of kind filters — so
+        // Focus reveals the FULL neighbourhood regardless of kind filters - so
         // focusing a batch job shows its steps/datasets even when those kinds
         // are hidden in the default landscape.
         if (!live && focusSet) return focusSet.has(n.id);
@@ -205,7 +205,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         )}
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 11 }}>
-          <span className="klabel" style={{ margin: 0 }}>Neighborhood focus<Help text="Shows only the selected entity and its direct neighbors — the rest of the estate is hidden. Ideal for answering 'what does this entity depend on, who uses it?'." /></span>
+          <span className="klabel" style={{ margin: 0 }}>Neighborhood focus<Help text="Shows only the selected entity and its direct neighbors; the rest of the estate is hidden. Ideal for answering 'what does this entity depend on, who uses it?'." /></span>
           <button className={focus ? "btn-pri" : "btn"} style={{ fontSize: 10.5, padding: "3px 9px", border: focus ? "none" : undefined }}
             data-testid="graph-focus" onClick={() => setFocus(!focus)} disabled={!selectedId && !focus}>
             {focus ? "enabled" : "enable"}
@@ -235,14 +235,14 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
               </button>
             ) : (
               <div style={{ font: "400 10.5px/1.5 var(--s)", color: "var(--text-helper)" }}>
-                Entity with no source file — see dependencies in the inspector.
+                Entity with no source file: see dependencies in the inspector.
               </div>
             )}
             {(sel.kind === "COPYBOOK" || sel.kind === "DB2_TABLE") && (
               <button className="btn" style={{ width: "100%", justifyContent: "center", fontSize: 11, padding: "7px 0", marginTop: 7, borderColor: impact ? IMPACT_COLOR : undefined, color: impact ? IMPACT_COLOR : undefined }}
                 data-testid="graph-impact" onClick={() => (impact ? setImpact(null) : showImpact(sel))}>
                 <Icon name="graph" size={12} color={impact ? IMPACT_COLOR : "var(--interactive)"} />
-                {impact ? `${impact.count} impacted — clear` : "See change impact"}
+                {impact ? `${impact.count} impacted · clear` : "See change impact"}
               </button>
             )}
           </div>

@@ -17,21 +17,21 @@ export default function Navigator({
   const byKind = (k: string) => graph.nodes.filter((n) => n.kind === k).sort((a, b) => a.label.localeCompare(b.label));
   const resources = useMemo(
     () => [
-      { id: "COPYBOOK", label: "Copybooks", hint: "shared structures — opens the code", nodes: byKind("COPYBOOK") },
-      { id: "CICS_TXN", label: "CICS Transactions", hint: "entry points — shows the graph", nodes: byKind("CICS_TXN") },
-      { id: "CICS_FILE", label: "VSAM Files", hint: "file data — shows the graph", nodes: byKind("CICS_FILE") },
-      { id: "BMS_MAP", label: "BMS Screens", hint: "3270 screens — shows the graph", nodes: byKind("BMS_MAP") },
-      { id: "DB2_TABLE", label: "DB2 Tables", hint: "SQL data — shows the graph", nodes: byKind("DB2_TABLE") },
+      { id: "COPYBOOK", label: "Copybooks", hint: "shared structures · opens the code", nodes: byKind("COPYBOOK") },
+      { id: "CICS_TXN", label: "CICS Transactions", hint: "entry points · shows the graph", nodes: byKind("CICS_TXN") },
+      { id: "CICS_FILE", label: "VSAM Files", hint: "file data · shows the graph", nodes: byKind("CICS_FILE") },
+      { id: "BMS_MAP", label: "BMS Screens", hint: "3270 screens · shows the graph", nodes: byKind("BMS_MAP") },
+      { id: "DB2_TABLE", label: "DB2 Tables", hint: "SQL data · shows the graph", nodes: byKind("DB2_TABLE") },
     ],
     [graph]
   );
-  // Batch / scheduler layer (JCL) — its own section so jobs, datasets and procs
+  // Batch / scheduler layer (JCL) - its own section so jobs, datasets and procs
   // are navigable, not just hidden in the raw graph.
   const batch = useMemo(
     () => [
-      { id: "JOB", label: "Batch jobs", hint: "JCL processing — shows the graph", nodes: byKind("JOB") },
-      { id: "DATASET", label: "Datasets", hint: "batch files / GDG — shows the graph", nodes: byKind("DATASET") },
-      { id: "PROC", label: "JCL Procedures", hint: "reusable procedures — shows the graph", nodes: byKind("PROC") },
+      { id: "JOB", label: "Batch jobs", hint: "JCL processing · shows the graph", nodes: byKind("JOB") },
+      { id: "DATASET", label: "Datasets", hint: "batch files / GDG · shows the graph", nodes: byKind("DATASET") },
+      { id: "PROC", label: "JCL Procedures", hint: "reusable procedures · shows the graph", nodes: byKind("PROC") },
     ],
     [graph]
   );
@@ -54,9 +54,9 @@ export default function Navigator({
         <span className="klabel">Source code</span>
         {/* "with source in the corpus" is doing real work: the graph also knows
             programs that are only ever CALLed (18 of CardDemo's 62), so the
-            tree count and the estate statistic legitimately differ — unstated,
+            tree count and the estate statistic legitimately differ - unstated,
             that difference read as a bug. */}
-        <span className="sidehint">COBOL programs with source in the corpus, by business domain — click: opens the code</span>
+        <span className="sidehint">COBOL programs with source in the corpus, by business domain · click: opens the code</span>
       </div>
 
       <div style={{ padding: "0 8px 10px" }}>
@@ -82,7 +82,7 @@ export default function Navigator({
       <div style={{ padding: "0 8px 10px" }}>
         <div style={{ padding: "4px 8px 6px", display: "flex", flexDirection: "column", gap: 2 }}>
           <span className="klabel">Mainframe resources</span>
-          <span className="sidehint">what the code uses — click: context in the graph</span>
+          <span className="sidehint">what the code uses · click: context in the graph</span>
         </div>
         {resources.filter((r) => r.nodes.length).map((r) => (
           <div key={r.id}>
@@ -108,14 +108,14 @@ export default function Navigator({
         ))}
       </div>
 
-      {/* ── Batch / scheduler (JCL) — jobs, datasets, procs ─────────────── */}
+      {/* ── Batch / scheduler (JCL) - jobs, datasets, procs ─────────────── */}
       {batch.some((b) => b.nodes.length) && (
         <>
           <div style={{ height: 1, background: "var(--border-subtle)", margin: "0 0 6px" }} />
           <div style={{ padding: "0 8px 10px" }}>
             <div style={{ padding: "4px 8px 6px", display: "flex", flexDirection: "column", gap: 2 }}>
               <span className="klabel">Batch · scheduler</span>
-              <span className="sidehint">JCL processing and batch data — click: context in the graph</span>
+              <span className="sidehint">JCL processing and batch data · click: context in the graph</span>
             </div>
             {batch.filter((r) => r.nodes.length).map((r) => (
               <div key={r.id}>
@@ -151,7 +151,7 @@ export default function Navigator({
           {!readonly && <button className="btn" style={{ padding: "2px 8px", fontSize: 11 }} onClick={onNewVersion} data-testid="new-version">+ New version</button>}
         </div>
         <div className="sidehint" style={{ padding: "0 8px 6px" }}>
-          {readonly ? "read-only system — versioning on the main system" : "isolated changes, reviewed before merge"}
+          {readonly ? "read-only system · versioning on the main system" : "isolated changes, reviewed before merge"}
         </div>
         {versions.length === 0 && !readonly && <div style={{ padding: "4px 8px", font: "400 11px var(--s)", color: "var(--text-helper)" }}>No version.</div>}
         {versions.map((v) => (

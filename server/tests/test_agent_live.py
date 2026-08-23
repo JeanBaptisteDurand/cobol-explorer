@@ -1,4 +1,4 @@
-"""Live agent test — skipped automatically if Ollama/Granite is unavailable."""
+"""Live agent test - skipped automatically if Ollama/Granite is unavailable."""
 import os
 
 import pytest

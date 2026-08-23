@@ -1,4 +1,4 @@
-# DESIGN.md — COBOL Explorer design system
+# DESIGN.md - COBOL Explorer design system
 
 > A single file a coding agent reads before touching the interface. Everything here is
 > prescriptive: exact tokens, exact rules, and an explicit list of what is forbidden.
@@ -6,7 +6,7 @@
 > inventing a new pattern.
 >
 > **Read this before writing any UI code. Re-read the “Forbidden” section before
-> shipping.** The most common failure mode is not ugliness — it is *genericness*, and
+> shipping.** The most common failure mode is not ugliness - it is *genericness*, and
 > genericness arrives at least as often through repetition as through decoration.
 
 ---
@@ -39,14 +39,14 @@ glyph* in a dense list is acceptable; emoji as ornament is not).
 
 **The reference points**, and why:
 
-- **IBM Carbon** — the grammar. The product runs on Granite, targets IBM mainframes and
+- **IBM Carbon** - the grammar. The product runs on Granite, targets IBM mainframes and
   is submitted to an IBM challenge; the interface speaks the same language as the stack
   underneath it. Square corners, a hairline grid, one interactive blue.
-- **Resend** — the restraint, and only at the fold. A badge, a headline, one line, two
+- **Resend** - the restraint, and only at the fold. A badge, a headline, one line, two
   actions, and a single very quiet object. Nothing else competes.
-- **Linear** — the discipline. One sentence, then a real product surface. Every section
+- **Linear** - the discipline. One sentence, then a real product surface. Every section
   earns its place.
-- **Stripe docs** — density without noise: how much information can sit on one screen
+- **Stripe docs** - density without noise: how much information can sit on one screen
   when the hierarchy is exact.
 
 What we take from all four: **the product itself is the best visual**. No abstract
@@ -54,7 +54,7 @@ illustration will ever beat a real trace with real line numbers.
 
 ---
 
-## 2. Forbidden — check this list before every commit
+## 2. Forbidden - check this list before every commit
 
 These are not preferences. Each one actively damages the positioning.
 
@@ -68,7 +68,7 @@ These are not preferences. Each one actively damages the positioning.
 - ❌ A semantic colour used decoratively. If you cannot say what a colour *asserts*,
   use `--text-primary`, `--text-secondary` or `--text-helper` (see §3.2).
 - ❌ Gradient text. Ever.
-- ❌ Colour on a headline. Display type is monochrome — colour on a headline is the
+- ❌ Colour on a headline. Display type is monochrome - colour on a headline is the
   single loudest template tell.
 - ❌ Rainbow borders, animated gradient borders, "aurora" backgrounds.
 
@@ -93,7 +93,7 @@ These are not preferences. Each one actively damages the positioning.
 **Typography**
 - ❌ Inter, Roboto, Open Sans, Lato, Poppins, Montserrat. Overexposed; they read as
   "template" to exactly the audience we want.
-- ❌ Serif anywhere except display type — H1 and H2. Never body, never labels, never UI.
+- ❌ Serif anywhere except display type - H1 and H2. Never body, never labels, never UI.
 - ❌ Letter-spacing on body text.
 - ❌ A reading column wider than 72ch. The grid is full-width; the text is not.
 
@@ -120,11 +120,11 @@ These are not preferences. Each one actively damages the positioning.
 
 Declare every colour once, as a CSS custom property on `:root` in `web/src/styles.css`.
 No hard-coded hex anywhere else in the codebase. **This block is shared by the public
-page and the workshop** — retinting here retints both, which is the point.
+page and the workshop** - retinting here retints both, which is the point.
 
 ```css
 :root {
-  /* surfaces — Carbon Gray 100 */
+  /* surfaces - Carbon Gray 100 */
   --bg:        #161616;
   --layer-01:  #262626;
   --layer-02:  #393939;
@@ -132,18 +132,18 @@ page and the workshop** — retinting here retints both, which is the point.
   --border-subtle: #393939;
   --border-strong: #6f6f6f;
 
-  /* text — four steps, never more */
+  /* text - four steps, never more */
   --text-primary:   #f4f4f4;
   --text-secondary: #c6c6c6;
   --text-helper:    #8d8d8d;
   --text-on-color:  #ffffff;
 
-  /* interaction — never a data colour */
+  /* interaction - never a data colour */
   --interactive: #0f62fe;
   --link:        #78a9ff;
   --focus:       #ffffff;
 
-  /* semantic — meaning only, never decoration */
+  /* semantic - meaning only, never decoration */
   --graph:    #33b1ff;
   --vector:   #08bdba;
   --reason:   #be95ff;
@@ -194,7 +194,7 @@ Consequences you must respect:
 - **Never colour a metric.** A number is not made important by tinting it; if it matters,
   it is large. Carbon's display weight for figures is 300.
 - Two accents never touch. If `--graph` and `--vector` sit side by side, they are
-  contrasting two retrieval paths — legitimate. Side by side for variety: delete one.
+  contrasting two retrieval paths - legitimate. Side by side for variety: delete one.
 
 ### 3.3 Contrast floors
 
@@ -216,7 +216,7 @@ On `--bg` (`#161616`):
 
 `--text-secondary` carries body copy and every section lead. `--text-helper` is for text
 that may be missed: labels, counters, metadata. **Never for a sentence the reader must
-read** — that was the previous system's most damaging habit.
+read** - that was the previous system's most damaging habit.
 
 ---
 
@@ -227,18 +227,18 @@ read** — that was the previous system's most damaging habit.
 Three, all IBM Plex. The typeface is an argument: the product runs on IBM Granite,
 targets IBM mainframes, and is submitted to an IBM challenge.
 
-- `--s` **IBM Plex Sans** — everything human, and every UI surface.
-- `--m` **IBM Plex Mono** — everything machine.
-- `--d` **IBM Plex Serif** — display type only: H1 and H2, nothing else.
+- `--s` **IBM Plex Sans** - everything human, and every UI surface.
+- `--m` **IBM Plex Mono** - everything machine.
+- `--d` **IBM Plex Serif** - display type only: H1 and H2, nothing else.
 
-**The mono rule** — mono is not a style, it is a signal. Use `--m` if and only if the
+**The mono rule** - mono is not a style, it is a signal. Use `--m` if and only if the
 string is *produced or consumed by a machine*:
 
 - ✅ identifiers (`LGPOLICY`, `lgacdb01.cbl:88`), tool names (`graph_lookup()`),
   commands, env vars, HTTP status, figure labels.
 - ❌ headings, body copy, button labels, card descriptions, section kickers.
 
-**The serif rule** — the serif is the display voice and appears nowhere else. A serif
+**The serif rule** - the serif is the display voice and appears nowhere else. A serif
 used once, on one line, reads as a header pasted in from another site; a serif that
 carries both heading levels reads as a decision.
 
@@ -257,8 +257,8 @@ carries both heading levels reads as a decision.
 | Code | 11.5–12 / 1.55 | 400 | `--m` | inside `--layer-02` |
 | Metric | 40 / 1 | **300** | `--s` | `letter-spacing: -.01em`, never coloured |
 
-**The ratio matters more than any single size.** H1÷H2 is **1.9×**. It was 3.9× — an 82px
-hero over 21px headings — and that single number is why every section below the fold
+**The ratio matters more than any single size.** H1÷H2 is **1.9×**. It was 3.9× - an 82px
+hero over 21px headings - and that single number is why every section below the fold
 read as a footnote regardless of what it said.
 
 Carbon uses light weights for display, so 300 is correct for figures. Weights in use:
@@ -283,7 +283,7 @@ Carbon uses light weights for display, so 300 is correct for figures. Weights in
 Carbon's steps: `2 · 4 · 8 · 12 · 16 · 24 · 32 · 40 · 48 · 64 · 80 · 96`.
 
 Section rhythm: `64px` vertical padding, `32px` horizontal gutter, content capped at
-`1440px`. The hero takes `104px` at the top — the silence above the headline is the
+`1440px`. The hero takes `104px` at the top - the silence above the headline is the
 single most Resend thing on the page, and confidence reads as space.
 
 `gap: 1px` is not spacing. It is how a hairline grid draws its rules: the container takes
@@ -310,7 +310,7 @@ There is no concentric radius rule any more, because there are no radii to nest.
   that floats gets a border and a higher layer, and that is enough.
 - A highlighted element takes `border-color: var(--interactive)` and a
   `rgba(15, 98, 254, .12)` fill. Nothing else.
-- A selected row takes `box-shadow: inset 3px 0 0 var(--interactive)` — a left rule, not
+- A selected row takes `box-shadow: inset 3px 0 0 var(--interactive)` - a left rule, not
   an elevation.
 - **Blue carries far less than amber did at the same alpha.** A tint below `.12` on
   `#161616` is invisible; do not copy alpha values from a warmer palette.
@@ -319,7 +319,7 @@ There is no concentric radius rule any more, because there are no radii to nest.
 
 ## 6. Motion
 
-Motion exists to explain causality — *this happened because of that*. Motion that exists
+Motion exists to explain causality - *this happened because of that*. Motion that exists
 to delight is noise here.
 
 Use the tokens; do not write a duration by hand. `--fast` for hover, focus and toggles;
@@ -330,7 +330,7 @@ a distance.
 Rules:
 
 - Only `opacity`, `transform`, `border-color`, `background-color` animate. Never `height`,
-  `width`, `top`, `left` — they jank and they read as cheap.
+  `width`, `top`, `left` - they jank and they read as cheap.
 - Nothing animates on page load except a single content fade.
 - Nothing loops except: the agent spinner, the caret, and the pulse on nodes the agent is
   currently touching. All stop the instant the work stops.
@@ -346,12 +346,12 @@ is **the single most valuable frame in the product**. No competitor has it.
 
 Design rules for it:
 
-- Un-touched nodes go to `opacity: .05` — nearly gone, still spatially present, so the
+- Un-touched nodes go to `opacity: .05` - nearly gone, still spatially present, so the
   reader keeps the map in their head.
 - Touched nodes return to full opacity with a ring: `box-shadow: 0 0 0 1px var(--interactive)`.
   The ring contracts once on arrival so the eye catches which node just lit up. **No glow.**
 - Edges between two lit nodes animate; everything else stays static.
-- The viewport re-frames to the lit set over `--slow`, once, at the end — not per node.
+- The viewport re-frames to the lit set over `--slow`, once, at the end - not per node.
 - During the initial wait (no nodes lit yet) the graph stays **fully readable**. A greyed
   screen during a six-second wait reads as a freeze, not as thinking. The public page's
   fold shows exactly this state.
@@ -394,7 +394,7 @@ cells on `background: var(--bg)`, one `1px` border around the whole. Padding `24
 Never more than one accent colour per cell.
 
 `grid-template-columns: repeat(N, 1fr)` with N ∈ {2, 3, 4}. Below 900px every grid
-collapses to a single column — no intermediate 2-up breakpoint, it always looks accidental.
+collapses to a single column - no intermediate 2-up breakpoint, it always looks accidental.
 
 ### 7.4 Code wells and traces
 
@@ -446,14 +446,14 @@ the first input on open and returns to the trigger on close.
 
 Four elements, and this is the one place the rule is a hard count:
 
-1. **Kicker** — a short topic, `--link`, 3px left rule.
-2. **H1** — two lines in `--d`, with a deliberate break.
-3. **Lead** — one sentence, two lines at most, 46ch.
-4. **Actions** — one `btn-pri`, one `btn`.
+1. **Kicker** - a short topic, `--link`, 3px left rule.
+2. **H1** - two lines in `--d`, with a deliberate break.
+3. **Lead** - one sentence, two lines at most, 46ch.
+4. **Actions** - one `btn-pri`, one `btn`.
 
 Then, still above the fold, **the estate at rest**: real entities, dim, wide, bleeding off
 the right edge. It is the product before the agent runs, not an illustration of it, and
-it is readable rather than greyed — the trace below is what greys and lights up, and the
+it is readable rather than greyed - the trace below is what greys and lights up, and the
 two states must not say the same thing.
 
 The measured numbers **leave the fold** and sit in a hairline strip immediately below it.
@@ -464,13 +464,13 @@ The real reasoning trace follows. Nothing else belongs in the first screen.
 Alternate `--bg` and `--layer-01` bands so the eye can count sections without scrolling
 back. Every section carries, in order:
 
-1. **Kicker** — `NN — Topic`. **The number is derived from the section's index**, never
+1. **Kicker** - `NN - Topic`. **The number is derived from the section's index**, never
    typed into a prop. It drifted to `00 01 02 03 04 05 06 10 07 08 09 11` when it was a
    string, and a reader following the page in order saw a bug before they saw the argument.
-2. **H2** — one assertion, not a noun phrase. *"Understanding ≠ changing."* beats
+2. **H2** - one assertion, not a noun phrase. *"Understanding ≠ changing."* beats
    *"Our approach"*.
-3. **Lead** — one paragraph, ≤ 62ch, that could stand alone as the section's summary.
-4. **Evidence** — a grid, a code well, a trace, a flow, or one full-width plate.
+3. **Lead** - one paragraph, ≤ 62ch, that could stand alone as the section's summary.
+4. **Evidence** - a grid, a code well, a trace, a flow, or one full-width plate.
    **Never the same evidence shape as either neighbour** (§2, Repetition).
 
 ### 8.3 Product plates
@@ -478,7 +478,7 @@ back. Every section carries, in order:
 - One per section, at full width. Never two side by side.
 - Regenerated with `make shots`, never by hand. A plate taken by hand becomes a picture
   of a product that no longer exists the moment anything is retinted.
-- **The caption must claim exactly what the image shows** — the entity, and the number.
+- **The caption must claim exactly what the image shows** - the entity, and the number.
   If the plate shows LGCMAREA reaching 25 programs, the caption does not say LGPOLICY
   and 11.
 
@@ -504,7 +504,7 @@ Non-negotiable, and cheap:
 - **React + Vite + TypeScript**, plain CSS custom properties. **No Tailwind**, no CSS-in-JS
   runtime, no component library. The existing system is small and hand-owned; keep it that way.
 - **No external network at runtime.** No CDN fonts, no remote images, no analytics. The
-  page must render identically behind a corporate proxy with no internet — that is the
+  page must render identically behind a corporate proxy with no internet - that is the
   actual deployment environment of our users.
 - Fonts: locally served IBM Plex, via `@fontsource`.
 - Icons: inline SVG, `currentColor`, no icon font, no sprite sheet.

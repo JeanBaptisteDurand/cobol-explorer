@@ -1,7 +1,7 @@
 """Assemble nodes/edges into a NetworkX MultiDiGraph and (de)serialise it.
 
 v1 keeps the whole graph in memory (corpus is curated). ``to_json`` /
-``from_json`` persist it as ``graph.json`` — the single artifact the API and
+``from_json`` persist it as ``graph.json`` - the single artifact the API and
 frontend load. Neo4j is the documented scale path (fast-follow).
 """
 from __future__ import annotations
@@ -16,7 +16,7 @@ from core.schema import Edge, Node, PREFIX_TO_KIND, split_id
 def _merge_evidence(existing: dict | None, new: dict | None) -> dict:
     """Fold a repeated occurrence of the SAME relationship (same src/dst/kind, e.g.
     a program that PERFORMs a paragraph or reads a table from several sites) into
-    one edge — WITHOUT losing any citation. ``evidence.line`` stays the first line
+    one edge - WITHOUT losing any citation. ``evidence.line`` stays the first line
     (backward compatible), and ``evidence.lines`` accumulates every occurrence, so
     no per-line evidence is dropped (the old key=kind add silently kept only the
     last)."""

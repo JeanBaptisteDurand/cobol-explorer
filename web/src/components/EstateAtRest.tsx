@@ -1,11 +1,11 @@
-/** The estate before the agent runs — the hero's one visual object.
+/** The estate before the agent runs - the hero's one visual object.
  *
  *  Every name and every edge below is read from graph.json: LGPOLICY is copied by
  *  exactly these eleven programs, which reach exactly these DB2 tables and these
  *  two batch jobs, which the scheduler triggers. Nothing here is arranged for
  *  looks; it is the closure the page spends the next twelve sections proving.
  *
- *  Drawn as one SVG with a viewBox, so it scales instead of clipping — the
+ *  Drawn as one SVG with a viewBox, so it scales instead of clipping - the
  *  previous version placed absolute divs at fixed pixels, which meant it clustered
  *  on a wide screen and fell off the edge on a narrow one.
  *

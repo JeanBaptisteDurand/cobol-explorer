@@ -5,7 +5,7 @@ import Logo from "./Logo";
 import ReasoningTrace from "./ReasoningTrace";
 import "./landing.css";
 
-/** Public home page — the argument, in the order a sceptical reader needs it:
+/** Public home page - the argument, in the order a sceptical reader needs it:
  *  the instrument first (a real reasoning trace), then the problem, the two
  *  gestures, the agent, the two RAGs, the Bob/MCP complementarity, governance,
  *  the IBM stack. A juror who never opens the deck still gets it.
@@ -35,37 +35,37 @@ const PIPELINE = [
   { n: "Step 2", t: "Edit", d: "one commit per change, author recorded" },
   { n: "Step 3", t: "Impact", d: "recomputed at every edit: programs, jobs, chains" },
   { n: "Step 4", t: "Diff & review", d: "a real git diff plus team comments" },
-  { n: "Step 5", t: "Merge gate", d: "“this touches 11 programs — confirm?” plus RBAC", gate: true },
+  { n: "Step 5", t: "Merge gate", d: "“this touches 11 programs, confirm?” plus RBAC", gate: true },
 ];
 
 /** The four acts of e2e/governance.spec.ts, which plays this scenario in a browser
  *  with three real accounts. Every claim below is a test that has to pass. */
 const COWORK = [
   { who: "Sofia", role: "risk", t: "proposes, in isolation",
-    d: "She opens a version — a real git branch off the estate — edits a copybook, and the impact of her change is recomputed as she types: the programs, the jobs, the chains." },
+    d: "She opens a version, a real git branch off the estate, edits a copybook, and the impact of her change is recomputed as she types: the programs, the jobs, the chains." },
   { who: "Sofia", role: "risk", t: "is refused the merge",
     d: "Her role may propose and may not apply. The refusal is not a disabled button: the server says no, and writes the attempt to the audit trail under her name." },
   { who: "Amine", role: "dev", t: "reviews, comments, merges",
-    d: "He reads the diff, leaves a comment on the version, and passes the merge gate — which states the blast radius out loud and asks him to confirm it before anything touches main." },
+    d: "He reads the diff, leaves a comment on the version, and passes the merge gate, which states the blast radius out loud and asks him to confirm it before anything touches main." },
   { who: "Marc", role: "auditor", t: "can change nothing, and sees everything",
     d: "He may propose no version at all, and he reads the complete chain: who asked what, who edited what, who was refused, and whether the chain is still intact." },
 ];
 
 const TOOLS = [
-  { n: "think", c: "var(--reason)", cls: "reason", d: "Reasons out loud before each action — the “why” behind the tool choice, captured in the trace." },
+  { n: "think", c: "var(--reason)", cls: "reason", d: "Reasons out loud before each action: the “why” behind the tool choice, captured in the trace." },
   { n: "graph_lookup", c: "var(--graph)", cls: "graph rag", d: "Summary, impact, lineage, callers, callees, neighbours. Deterministic traversal, no model in the loop." },
   { n: "search_code", c: "var(--vector)", cls: "vector rag", d: "Semantic search over the estate, 768-dimension IBM Granite embeddings, for when the name is unknown." },
   { n: "read_source_lines", c: "var(--text-primary)", cls: "evidence", d: "Reads the exact source lines. The raw material of every file:line citation the answer carries." },
   { n: "web_search", c: "var(--text-secondary)", cls: "external", d: "External context only: regulation, business definitions. Never the estate itself." },
-  { n: "propose_change", c: "var(--interactive)", cls: "write", d: "Creates a git version and computes its impact — the single bridge from understanding to changing." },
+  { n: "propose_change", c: "var(--interactive)", cls: "write", d: "Creates a git version and computes its impact: the single bridge from understanding to changing." },
 ];
 
-/** Verbatim from .bob/mcp.json — a config a reader copies has to be the real one. */
+/** Verbatim from .bob/mcp.json - a config a reader copies has to be the real one. */
 const CLONE = `git clone https://github.com/JeanBaptisteDurand/cobol-explorer
 cd cobol-explorer
 make setup`;
 
-/** Verbatim .bob/mcp.json — including `env`. The abridged version published here
+/** Verbatim .bob/mcp.json - including `env`. The abridged version published here
  *  first was not a shorter way of saying the same thing: without PYTHONPATH the
  *  server module is not importable and `python -m mcp_server.server` exits before
  *  it speaks. A snippet a reader pastes has to be the one that works. */
@@ -87,20 +87,20 @@ const MCP_JSON = `{
 const BOB_HAS = [
   "reads, greps, opens, follows a CALL or a COPY on demand",
   "understands COBOL and reasons about what it reads",
-  "orchestrates — it decides when to call a tool",
+  "orchestrates: it decides when to call a tool",
 ];
 
 const MCP_ADDS: ReactNode[] = [
   "the exhaustive transitive closure, pre-computed instead of re-derived token by token on every prompt",
-  "the scheduler chains, which live in no readable file — they come from the scheduler export, joined into the graph",
+  "the scheduler chains, which live in no readable file: they come from the scheduler export, joined into the graph",
   <>the <span className="ce-mono-sm">file:line</span> citation, systematic and deterministic every single time</>,
 ];
 
 const GOVERNANCE = [
-  { tag: "Verified", c: "var(--verified)", t: "Anti-hallucination guardrail", d: "After every answer the server re-verifies each citation against the corpus: does the file exist, is the line in range. An ungrounded answer never passes silently — the panel labels it." },
+  { tag: "Verified", c: "var(--verified)", t: "Anti-hallucination guardrail", d: "After every answer the server re-verifies each citation against the corpus: does the file exist, is the line in range. An ungrounded answer never passes silently: the panel labels it." },
   { tag: "Audited", c: "var(--graph)", t: "Tamper-evident audit log", d: "Every action, and every refusal, is appended to an HMAC-SHA256 chain. Altering one line breaks the chain, and the panel says so." },
   { tag: "Scoped", c: "var(--reason)", t: "Role-based access control", d: "Sign-in issues a signed token carrying your role, so a forged header promotes nobody. Proposing, merging and auditing are three different rights." },
-  { tag: "Measured", c: "var(--danger)", t: "Quality, not assumption", d: "A golden question set scored on entity recall, citation grounding and impact coverage, run in CI — so a quality regression breaks the build rather than reaching a demo." },
+  { tag: "Measured", c: "var(--danger)", t: "Quality, not assumption", d: "A golden question set scored on entity recall, citation grounding and impact coverage, run in CI, so a quality regression breaks the build rather than reaching a demo." },
 ];
 
 const STACK = [
@@ -111,17 +111,17 @@ const STACK = [
 ];
 
 const FIT = [
-  { t: "Plan", d: "Exhaustive impact: “this copybook breaks these 11 programs and these 2 batch chains” — a deterministic traversal, never a plausible sample." },
+  { t: "Plan", d: "Exhaustive impact: “this copybook breaks these 11 programs and these 2 batch chains”: a deterministic traversal, never a plausible sample." },
   { t: "Coordinate", d: "Team versioning on real git branches: the owners actually affected, review, conflict resolution, a merge gate." },
   { t: "Decide", d: "Grounded answers, every fact cited to file:line and re-verified against the source before it reaches the screen." },
-  { t: "Execute", d: "A governed merge — propose, measure, approve, apply — recorded in a hash-chained audit trail." },
+  { t: "Execute", d: "A governed merge (propose, measure, approve, apply) recorded in a hash-chained audit trail." },
 ];
 
 const IDENTITY = [
   { t: "Signed sessions", d: "Sign-in mints an HS256 token carrying the role; PBKDF2 password hashing, 120,000 iterations, salted per account. The demo headers stop being trusted the moment real auth is on." },
-  { t: "Confirmed addresses", d: "Sign-up sends a single-use link over plain SMTP from the estate's own domain — no third-party mail service. Until it is clicked, signing in is refused." },
+  { t: "Confirmed addresses", d: "Sign-up sends a single-use link over plain SMTP from the estate's own domain, no third-party mail service. Until it is clicked, signing in is refused." },
   { t: "Continue with IBM", d: "An OIDC authorization-code flow through IBM Cloud App ID. The token comes back in the URL fragment, so it never reaches a server log, and a federated sign-in gets the least privileged role that is still useful." },
-  { t: "Roles that bite", d: "Seven actions across six roles. An auditor reads and audits; only dev and architect may merge — and the refusal is written to the log like everything else." },
+  { t: "Roles that bite", d: "Seven actions across six roles. An auditor reads and audits; only dev and architect may merge, and the refusal is written to the log like everything else." },
 ];
 
 const BUILT = [
@@ -132,7 +132,7 @@ const BUILT = [
 
 /** The number comes from the section's position, never from a string a writer
  *  types. The previous version took it from the kicker prop and had drifted to
- *  00 01 02 03 04 05 06 10 07 08 09 11 — a reader following the page in order
+ *  00 01 02 03 04 05 06 10 07 08 09 11 - a reader following the page in order
  *  saw a bug before they saw the argument. */
 function Section({ id, title, lead, alt, children }: {
   id: string; title: string; lead?: ReactNode; alt?: boolean; children?: ReactNode;
@@ -142,7 +142,7 @@ function Section({ id, title, lead, alt, children }: {
   return (
     <section id={id} className={`ce-sec ${alt ? "is-alt" : ""}`} data-testid={id}>
       <div className="ce-inner">
-        <span className="ce-kicker">{pad(n)} — {topic}</span>
+        <span className="ce-kicker">{pad(n)} · {topic}</span>
         <h2 className="ce-h2">{title}</h2>
         {lead && <p className="ce-lead">{lead}</p>}
         {children}
@@ -155,7 +155,7 @@ function Figure({ src, alt, caption }: { src: string; alt: string; caption: stri
   return (
     <figure style={{ margin: 0 }}>
       {/* width/height are the capture size: they reserve the space before the
-          image arrives, so lazy loading cannot shift what is below it — which is
+          image arrives, so lazy loading cannot shift what is below it - which is
           what made anchored navigation land in the wrong place. */}
       <div className="ce-shot">
         <img src={src} alt={alt} loading="lazy" decoding="async" width={2880} height={1800} />
@@ -167,8 +167,8 @@ function Figure({ src, alt, caption }: { src: string; alt: string; caption: stri
 
 /** The public front door and /presentation are the same page.
  *
- *  Someone already inside the workshop who wants the argument — to send it to a
- *  colleague, or to remind themselves what the thing claims — should not meet a
+ *  Someone already inside the workshop who wants the argument - to send it to a
+ *  colleague, or to remind themselves what the thing claims - should not meet a
  *  second, drifting copy of it. Only the two calls to action change: a visitor is
  *  asked to sign in, a signed-in reader is offered the way back. */
 export default function Landing({
@@ -186,7 +186,7 @@ export default function Landing({
   return (
     <div className="ce-landing" data-testid={inside ? "presentation" : "landing"}>
       <header className="ce-nav">
-        <a className="ce-mark" href="#top" aria-label="COBOL Explorer — top of page">
+        <a className="ce-mark" href="#top" aria-label="COBOL Explorer, top of page">
           <Logo size={26} title="COBOL Explorer" />
         </a>
         <span className="ce-spacer" />
@@ -203,9 +203,9 @@ export default function Landing({
         )}
       </header>
 
-      {/* HERO — four elements and nothing else. Everything the page has to prove
+      {/* HERO - four elements and nothing else. Everything the page has to prove
           comes after; the fold only has to make the reader want it. Underneath
-          sits the estate at rest, which is the product before the agent runs —
+          sits the estate at rest, which is the product before the agent runs -
           not an illustration, and readable rather than greyed, because during a
           wait a greyed screen reads as a freeze instead of as thinking. */}
       <section className="ce-hero" data-testid="hero-section" id="top">
@@ -289,7 +289,7 @@ export default function Landing({
             <div className="ce-code">
               <span style={{ color: "var(--verified)" }}>+ 05 PREMIUM PIC 9(7)V99.</span><br />
               <span style={{ color: "var(--danger)" }}>− 05 PREMIUM PIC 9(6)V99.</span><br />
-              <span style={{ color: "var(--interactive)" }}>merge gate — touches 11 programs. Confirm?</span>
+              <span style={{ color: "var(--interactive)" }}>merge gate: touches 11 programs. Confirm?</span>
             </div>
           </div>
         </div>
@@ -311,7 +311,7 @@ export default function Landing({
 
       <Section id="cowork-section"
         title="A change is a proposal, not an edit."
-        lead="One person changing a copybook alone is how estates break. The work is split the way a team actually works — someone proposes, someone else reviews, and the system refuses whoever is not entitled — and every branch knows what the rest of the team merged while it was open.">
+        lead="One person changing a copybook alone is how estates break. The work is split the way a team actually works: someone proposes, someone else reviews, the system refuses whoever is not entitled, and every branch knows what the rest of the team merged while it was open.">
         <div className="ce-rows">
           {COWORK.map((c, i) => (
             <div className="ce-row" key={i}>
@@ -330,7 +330,7 @@ export default function Landing({
             <span className="ce-tag">branch state</span>
             <div className="ce-card-t">Every version knows what it is missing</div>
             <p>
-              A branch that has been open while the team merged is behind, and says so —
+              A branch that has been open while the team merged is behind, and says so:
               <span className="ce-mono-sm"> 3 commits behind main</span>. Importing that work is one
               action, and the impact is recomputed against the estate as it is now, not as it was
               when the branch was cut.
@@ -341,7 +341,7 @@ export default function Landing({
             <div className="ce-card-t">Two people on the same lines is a question, not a crash</div>
             <p>
               When both sides touched the same lines the merge stops and asks: keep mine, or take
-              the team's. Whichever you pick, the other file's changes are still imported — and the
+              the team's. Whichever you pick, the other file's changes are still imported, and the
               decision lands in the audit trail like everything else.
             </p>
           </div>
@@ -380,10 +380,10 @@ export default function Landing({
         </div>
         {/* The plate this section waited for: it needs a live model behind it,
             so it could only be captured once `make shots` ran against watsonx.
-            Granite 4.0 h-small, Dallas — the same backend the public demo uses. */}
+            Granite 4.0 h-small, Dallas - the same backend the public demo uses. */}
         <Figure src="/shots/sc-agent.png"
           alt="A grounded answer from the agent: the graph_lookup trace, eleven cited programs with line numbers, and the sources-verified badge"
-          caption="Fig 04 · a real answer on watsonx.ai — the trace, 11 file:line citations, ✓ 11 sources verified" />
+          caption="Fig 04 · a real answer on watsonx.ai: the trace, 11 file:line citations, ✓ 11 sources verified" />
       </Section>
 
       <Section id="rag-section" alt
@@ -399,7 +399,7 @@ export default function Landing({
             </div>
             <p>Deterministic traversal, built by parsing the code. No model in the loop, so the same question always
               returns the same closure. Impact, data lineage, call chains, functional profile. Every edge carries its
-              evidence — the line of the COPY, CALL or EXEC SQL that produced it.</p>
+              evidence: the line of the COPY, CALL or EXEC SQL that produced it.</p>
             <div className="ce-code">
               “which programs break if I change LGPOLICY?”<br />
               <span style={{ color: "var(--text-primary)" }}>→ 11 programs · jobs DAILYPOL·POLRPT</span><br />
@@ -413,11 +413,11 @@ export default function Landing({
               <span className="ce-spacer" />
               <span className="ce-rag-eng">pgvector · HNSW</span>
             </div>
-            <p>IBM Granite embeddings — granite-embedding:278m, 768 dimensions, cosine similarity. Finds things when
+            <p>IBM Granite embeddings · granite-embedding:278m, 768 dimensions, cosine similarity. Finds things when
               you don't know the name: concepts, intent, business language. Wired into the agent, the ⌘P palette and
               the MCP server alike.</p>
             <div className="ce-code">
-              “where is the logging?” — no name known<br />
+              “where is the logging?” · no name known<br />
               <span style={{ color: "var(--text-primary)" }}>→ LGSTSQ 0.64 · LGWEBST5 0.55</span><br />
               <span style={{ color: "var(--text-primary)" }}>→ LGSETUP 0.55</span>
             </div>
@@ -427,7 +427,7 @@ export default function Landing({
 
       <Section id="bob-section"
         title="Bob reads the code. MCP hands it the estate already computed."
-        lead="COBOL Explorer doesn't just use an AI, it extends one. Bob reads and reasons over code very well already, and this does not replace that. It hands Bob a symbol table, a call graph and data lineage computed once, offline — so Bob stops re-deriving everything on every prompt, and gains what lives in no file it could read.">
+        lead="COBOL Explorer doesn't just use an AI, it extends one. Bob reads and reasons over code very well already, and this does not replace that. It hands Bob a symbol table, a call graph and data lineage computed once, offline, so Bob stops re-deriving everything on every prompt, and gains what lives in no file it could read.">
         <div className="ce-grid2">
           <div className="ce-card">
             <div className="ce-card-t" style={{ color: "var(--graph)", marginBottom: 14 }}>What Bob already does, very well</div>
@@ -455,13 +455,13 @@ export default function Landing({
 
         {/* The page claimed three tools were exposed and never said how to reach
             them. It is a stdio server, so it runs beside the estate on your own
-            machine — which is the constraint and also the point. */}
+            machine - which is the constraint and also the point. */}
         <div id="connect-bob" className="ce-setup">
           <div className="ce-setup-head">
             <span className="ce-kicker">Connect your own Bob</span>
             <p className="ce-setup-lead">
               The server speaks MCP over stdio, so it runs on your machine, beside the estate it
-              reads. Nothing about your code leaves it — which is why a bank can run this at all.
+              reads. Nothing about your code leaves it, which is why a bank can run this at all.
               Three commands, and the tools are inside Bob.
             </p>
           </div>
@@ -509,7 +509,7 @@ export default function Landing({
         </div>
         <div className="ce-note">
           <div className="ce-kicker">The LSP analogy</div>
-          <p>An IDE gives developers go-to-definition and find-references through an LSP — not because they cannot
+          <p>An IDE gives developers go-to-definition and find-references through an LSP: not because they cannot
             read, but because re-deriving those links by hand is expensive.{" "}
             <span className="ce-strong">COBOL Explorer plays that role for Bob</span>, cross-language and across the
             whole estate.</p>
@@ -566,14 +566,14 @@ export default function Landing({
           ))}
         </div>
         <p className="ce-fine">
-          Not only for COBOL developers. The people who carry the risk of a change and cannot read the code — risk,
-          compliance, audit — get the same grounded answers in their own language, from the same estate. That is the
+          Not only for COBOL developers. The people who carry the risk of a change and cannot read the code (risk,
+          compliance, audit) get the same grounded answers in their own language, from the same estate. That is the
           part that makes it a system rather than a tool.
         </p>
       </Section>
 
       <Section id="identity-section" alt
-        title="Who is asking, proven — not declared."
+        title="Who is asking, proven, not declared."
         lead="Governance is only worth the identity behind it. Sign-in issues a signed token that carries your role, so a forged header promotes nobody, and every action lands in the audit trail under a name that was verified.">
         <div className="ce-rows">
           {IDENTITY.map((f, i) => (
@@ -587,8 +587,8 @@ export default function Landing({
       </Section>
 
       <Section id="built-section"
-        title="Built with IBM Bob — spec first, not vibes."
-        lead="The loop closes here: Bob helped build the tool that now extends Bob over MCP. The July lab teaches spec-driven development rather than vibe coding — describe the intent, let the agent plan, review the plan, then implement — and reusable skills kept that discipline on every unit of work.">
+        title="Built with IBM Bob: spec first, not vibes."
+        lead="The loop closes here: Bob helped build the tool that now extends Bob over MCP. The July lab teaches spec-driven development rather than vibe coding (describe the intent, let the agent plan, review the plan, then implement), and reusable skills kept that discipline on every unit of work.">
         <div className="ce-grid3 ce-verbs">
           {BUILT.map((f) => (
             <div className="ce-verb" key={f.t}>
@@ -604,13 +604,13 @@ export default function Landing({
       </Section>
 
       <Section id="access-section" alt
-        title="Days of manual hunting, down to 30 seconds — with line-level proof."
+        title="Days of manual hunting, down to 30 seconds, with line-level proof."
         lead="Your role travels inside a signed token: it decides what you may read, propose and merge, and every action is written to the tamper-evident audit trail under your name.">
         <div className="ce-access-actions">
           {inside ? (
             <>
               <button className="ce-btn-pri" onClick={onBack}>Back to the workshop</button>
-              <span className="ce-demo">you are signed in — this page is the argument, not the door</span>
+              <span className="ce-demo">you are signed in: this page is the argument, not the door</span>
             </>
           ) : (
             <>
@@ -627,7 +627,7 @@ export default function Landing({
         <span>Demo estates: GenApp (insurance) · CardDemo (credit cards)</span>
         <span>Apache-2.0</span>
         <span className="ce-spacer" />
-        {/* Provenance belongs at the end, next to the licence — not in the masthead. */}
+        {/* Provenance belongs at the end, next to the licence - not in the masthead. */}
         <span className="ce-foot-badge">IBM AI Builders Challenge · Wildcard</span>
         <span className="ce-foot-url">cobol-explorer.fr</span>
       </footer>

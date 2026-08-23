@@ -3,7 +3,7 @@
 The index (index.json) is built by ``build_index`` using Granite embeddings.
 This JSON+cosine backend is the zero-dependency default (POC / demo). The scale
 path is implemented in ``agent.pgvector_index`` (PostgreSQL + pgvector, HNSW),
-selected with ``COBOL_EXPLORER_VECTOR=pgvector`` — same ``ready()``/``search()`` API.
+selected with ``COBOL_EXPLORER_VECTOR=pgvector`` - same ``ready()``/``search()`` API.
 """
 from __future__ import annotations
 

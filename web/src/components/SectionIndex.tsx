@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 /** The twelve sections, in page order, declared once.
  *
  *  The header index and the page itself both read this array, so a link can no
- *  longer point at a section that does not exist — which is exactly what had
+ *  longer point at a section that does not exist - which is exactly what had
  *  happened: two of the three header links targeted `#bob-section` and
  *  `#governance-section`, and the sections carried a `data-testid` but no `id`.
  *
  *  The number is the position in this array. Never type one by hand.
  *
  *  `topic` is what the section calls itself on the page. `nav` is the short form
- *  the header uses — twelve full topics do not fit a 48px shell, and a number on
+ *  the header uses - twelve full topics do not fit a 48px shell, and a number on
  *  its own is a riddle. */
 export const SECTIONS = [
   { id: "product-section", topic: "The product", nav: "Product" },
@@ -39,7 +39,7 @@ function useActiveSection() {
   useEffect(() => {
     const read = () => {
       // At the very bottom the page cannot scroll further, so the last section
-      // never reaches the threshold — without this the rail stops one short.
+      // never reaches the threshold - without this the rail stops one short.
       const atBottom =
         window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
       if (atBottom) {
@@ -78,8 +78,8 @@ export default function SectionIndex() {
             <a
               href={`#${s.id}`}
               className={i === active ? "is-on" : ""}
-              title={`${pad(i)} — ${s.topic}`}
-              aria-label={`${pad(i)} — ${s.topic}`}
+              title={`${pad(i)} · ${s.topic}`}
+              aria-label={`${pad(i)} · ${s.topic}`}
               aria-current={i === active ? "true" : undefined}
             >
               {s.nav}

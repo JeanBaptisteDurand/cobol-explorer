@@ -1,5 +1,5 @@
 """Git-backed versioning: a change-set is a branch, an edit is a commit, the diff
-is a real git diff — and main stays pristine. Skips if git is unavailable."""
+is a real git diff - and main stays pristine. Skips if git is unavailable."""
 import shutil
 
 import pytest

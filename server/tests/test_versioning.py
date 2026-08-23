@@ -58,7 +58,7 @@ def test_impact_of_a_jcl_edit_names_the_programs_it_runs(tmp_path):
     """Editing a .jcl used to resolve to a phantom ``pgm:`` node and report nothing.
 
     The graph knows the file belongs to a JOB, and a job's blast radius is what its
-    steps execute — so the panel must name programs, not stay silent.
+    steps execute - so the panel must name programs, not stay silent.
     """
     s, gt = _setup(tmp_path)
     jcl = next(

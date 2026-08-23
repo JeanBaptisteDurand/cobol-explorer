@@ -6,7 +6,7 @@ export interface Identity {
 const KEY = "cobol-explorer-identity";
 const TOKEN_KEY = "cobol-explorer-token";
 // Labels map (accent-insensitively) to canonical RBAC roles server-side.
-// English, and the same vocabulary the server returns from /api/auth/config —
+// English, and the same vocabulary the server returns from /api/auth/config -
 // the two lists were drifting, one French and one not.
 export const ROLES = ["Developer", "Architect", "Risk", "Compliance", "Auditor"];
 
@@ -23,7 +23,7 @@ export function saveIdentity(id: Identity) {
   localStorage.setItem(KEY, JSON.stringify(id));
 }
 
-/** The signed bearer token from /api/login — absent in the open demo mode. */
+/** The signed bearer token from /api/login - absent in the open demo mode. */
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -40,7 +40,7 @@ export function clearSession() {
 }
 
 /** A federated sign-in comes back as `/#token=…&name=…&role=…`. The fragment never
- *  reaches a server, so the token is not in any access log — read it once, store it,
+ *  reaches a server, so the token is not in any access log - read it once, store it,
  *  and scrub it from the address bar. */
 export function consumeFragmentSession(): Identity | null {
   if (!window.location.hash.startsWith("#token=")) return null;

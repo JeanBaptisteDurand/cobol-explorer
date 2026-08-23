@@ -1,10 +1,10 @@
-/* COBOL Explorer — design system.
+/* COBOL Explorer - design system.
    IBM Carbon Gray 100 for the grammar, IBM Plex Serif for the display type.
    One interactive blue that is never a data colour, and five semantic colours
    that each assert something. Shared by the public page and the workshop, so
-   retinting here retints both — that is deliberate. */
+   retinting here retints both - that is deliberate. */
 :root {
-  /* surfaces — Carbon Gray 100 */
+  /* surfaces - Carbon Gray 100 */
   --bg:        #161616;
   --layer-01:  #262626;
   --layer-02:  #393939;
@@ -12,18 +12,18 @@
   --border-subtle: #393939;
   --border-strong: #6f6f6f;
 
-  /* text — four steps, never more */
+  /* text - four steps, never more */
   --text-primary:   #f4f4f4;
   --text-secondary: #c6c6c6;
   --text-helper:    #8d8d8d;
   --text-on-color:  #ffffff;
 
-  /* interaction — never a data colour */
+  /* interaction - never a data colour */
   --interactive: #0f62fe;
   --link:        #78a9ff;
   --focus:       #ffffff;
 
-  /* semantic — meaning only, never decoration */
+  /* semantic - meaning only, never decoration */
   --graph:    #33b1ff;  /* deterministic traversal */
   --vector:   #08bdba;  /* semantic search */
   --reason:   #be95ff;  /* the model reasoning */
@@ -35,7 +35,7 @@
   --s: "IBM Plex Sans", system-ui, sans-serif;
   --d: "IBM Plex Serif", Georgia, serif;   /* display type only */
 
-  /* motion — Carbon durations and curves */
+  /* motion - Carbon durations and curves */
   --fast: 110ms;
   --base: 240ms;
   --slow: 400ms;
@@ -65,7 +65,7 @@
 }
 
 /* No height: 100% here. The workshop shell sizes itself with .app { height: 100vh },
-   and the public page is a document that must scroll natively — pinning the body
+   and the public page is a document that must scroll natively - pinning the body
    was what forced the landing to scroll inside a div. */
 html, body, #root { margin: 0; }
 body { color: var(--text-primary); font-family: var(--s); font-size: 13px; background: var(--bg);
@@ -91,7 +91,7 @@ input, textarea { font-family: var(--s); }
 .app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .titlebar { height: 40px; display: flex; align-items: center; gap: 14px; padding: 0 12px;
   background: var(--layer-01); border-bottom: 1px solid var(--border-subtle); flex: none; }
-/* The wordmark is monospace, as the brand sheet draws it — the machine voice is
+/* The wordmark is monospace, as the brand sheet draws it - the machine voice is
    the point, and the mark beside it is the product's own, not a blue square. */
 .brand { display: flex; align-items: center; gap: 9px; }
 .brand .nm { font: 600 13px var(--m); color: var(--text-primary); letter-spacing: -.01em; }
@@ -331,7 +331,7 @@ input, textarea { font-family: var(--s); }
   display: flex; align-items: center; background: var(--layer-01); border: 1px solid var(--border-subtle);
   border-radius: 0; padding: 10px 16px; font: 500 12px var(--s); }
 
-/* "Continue with IBM" — federated sign-in through IBM Cloud App ID */
+/* "Continue with IBM" - federated sign-in through IBM Cloud App ID */
 .ibm-btn { width: 100%; justify-content: center; gap: 9px; padding: 10px !important; border-radius: 0;
   font: 600 12.5px var(--s) !important; color: var(--text-primary) !important; text-decoration: none;
   border-color: var(--layer-03) !important; }
@@ -342,7 +342,7 @@ input, textarea { font-family: var(--s); }
 .auth-or::before, .auth-or::after { content: ""; flex: 1; height: 1px; background: var(--border-subtle); }
 .auth-or span { font: 500 10px var(--m); color: var(--text-helper); text-transform: uppercase; letter-spacing: .1em; }
 
-/* Titlebar text actions — the presentation link and the tour replay. Quiet until
+/* Titlebar text actions - the presentation link and the tour replay. Quiet until
    hovered: they are always available and rarely the thing you came for. */
 .tbtn {
   font: 400 12px var(--s); color: var(--text-secondary); background: transparent;

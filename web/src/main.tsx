@@ -1,4 +1,4 @@
-// Self-hosted IBM Plex — no request leaves the page for a typeface. Sans for the
+// Self-hosted IBM Plex - no request leaves the page for a typeface. Sans for the
 // interface, Mono for anything a machine produced, Serif for the display type: still
 // IBM Plex, so the argument holds, but it breaks the generated-sans look on sight.
 import "@fontsource/ibm-plex-sans/400.css";

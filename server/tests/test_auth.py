@@ -1,6 +1,6 @@
 """Real authentication: signed tokens, password hashing, and the jwt gate.
 
-Covers the three things a demo login must actually guarantee — a forged or expired
+Covers the three things a demo login must actually guarantee - a forged or expired
 token is refused, credentials are checked against a hash and never a plaintext, and
 the role carried by the token (not by a client header) is what RBAC enforces.
 """
@@ -90,7 +90,7 @@ def test_protected_endpoint_needs_a_token(client):
 
 
 def test_identity_headers_cannot_forge_a_role_in_jwt_mode(client):
-    """The demo headers are ignored once a token is required — no self-promotion."""
+    """The demo headers are ignored once a token is required - no self-promotion."""
     r = client.get("/api/graph", headers={"X-Cobol-User": "mallory", "X-Cobol-Role": "dev"})
     assert r.status_code == 401
 
@@ -194,7 +194,7 @@ def test_signup_endpoint_signs_the_new_user_in(client, tmp_path, monkeypatch):
     assert r.status_code == 200
     token = r.json()["token"]
     assert client.get("/api/graph", headers={"Authorization": f"Bearer {token}"}).status_code == 200
-    # 'risk' may propose but never merge — the role travels in the token.
+    # 'risk' may propose but never merge - the role travels in the token.
     assert tokens.read(token)["role"] == "risk"
 
 
@@ -363,7 +363,7 @@ def test_ibm_sign_in_grants_a_least_privileged_role(ibm):
 # --- one-click role switching (demo accounts in the auth config) ---------------
 def test_config_lists_verified_demo_accounts_in_jwt_mode(client):
     """The switcher in the profile dialog is fed by the server, not hardcoded in
-    the UI — and only accounts that REALLY open with the demo password appear."""
+    the UI - and only accounts that REALLY open with the demo password appear."""
     cfg = client.get("/api/auth/config").json()
     got = {d["user"]: d["role"] for d in cfg["demo_accounts"]}
     assert got == {"amine": "dev", "claire": "architect", "sofia": "risk", "marc": "auditor"}

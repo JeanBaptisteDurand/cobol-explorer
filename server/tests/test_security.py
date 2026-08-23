@@ -52,7 +52,7 @@ def test_legit_file_still_works(client):
 
 def test_audit_detects_tampering_and_truncation(tmp_path, monkeypatch):
     """The tamper-evident guarantee: altered line, corrupt line, AND a chopped tail
-    are all detected — and a corrupt line never crashes recent()."""
+    are all detected - and a corrupt line never crashes recent()."""
     from security.audit import AuditLog
     logp = tmp_path / "audit.jsonl"
     monkeypatch.setenv("COBOL_EXPLORER_AUDIT", str(logp))

@@ -2,7 +2,7 @@
 # Serve the workshop on a THROWAWAY copy of the estate, with real authentication.
 #
 # Why a copy: merging a version calls export_main(), which writes the merged result
-# back into the corpus — by design, that is how "apply the change to the patrimony"
+# back into the corpus - by design, that is how "apply the change to the patrimony"
 # works. Run the governance scenario against the repo's own corpora/ and it rewrites
 # your source files. This script gives the scenario its own corpus, versions, account
 # store and audit log, all under a temp directory that is wiped on exit.

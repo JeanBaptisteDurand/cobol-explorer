@@ -7,9 +7,9 @@
 # that are committed to the repository.
 #
 # The only optional piece is the conversational agent, which needs a local
-# Granite through Ollama. Without it the workshop still works completely —
+# Granite through Ollama. Without it the workshop still works completely -
 # browsing, the graph, impact, semantic search, versions, diffs, the merge gate
-# and the audit chain — and the agent answers structural questions from the
+# and the audit chain - and the agent answers structural questions from the
 # graph alone, deterministically, saying so in the answer. We check for Ollama
 # and tell the truth about which of the two you are getting, rather than letting
 # someone discover it from a stack trace.
@@ -35,14 +35,14 @@ for tool in uv pnpm; do
 done
 PORT="${PORT:-8000}"
 if command -v lsof >/dev/null 2>&1 && lsof -ti:"$PORT" >/dev/null 2>&1; then
-  echo "Port $PORT is already in use — either that IS this demo (open http://127.0.0.1:$PORT)," >&2
+  echo "Port $PORT is already in use - either that IS this demo (open http://127.0.0.1:$PORT)," >&2
   echo "or pick another port: PORT=8001 make demo" >&2
   exit 1
 fi
 
 # --- 1. dependencies ---------------------------------------------------------
 if [ ! -x "$PY" ]; then
-  say "No virtualenv yet — running make setup (a few minutes, once)."
+  say "No virtualenv yet - running make setup (a few minutes, once)."
   make setup
 fi
 
@@ -56,11 +56,11 @@ fi
 # graph.json and index.json are committed precisely so this step is normally a
 # no-op: a reviewer should not have to run an ingestion to see the product.
 if [ ! -f graph.json ]; then
-  say "No graph.json — parsing the corpus."
+  say "No graph.json - parsing the corpus."
   make ingest
 fi
 if [ ! -f index.json ]; then
-  say "No index.json — building the semantic index (needs Ollama)."
+  say "No index.json - building the semantic index (needs Ollama)."
   make index
 fi
 
@@ -76,7 +76,7 @@ fi
 
 cat <<BANNER
 
-  COBOL Explorer — local demo
+  COBOL Explorer - local demo
   ---------------------------
   URL          http://127.0.0.1:8000
   Estate       GenApp (insurance) · switch to CardDemo from the title bar
@@ -86,7 +86,7 @@ BANNER
 
 case "$AGENT" in
   granite)
-    echo "  Agent        IBM Granite via Ollama — full conversational answers"
+    echo "  Agent        IBM Granite via Ollama - full conversational answers"
     ;;
   ollama-no-model)
     echo "  Agent        Ollama is up but granite3.3 is missing. For the full agent:"

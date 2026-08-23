@@ -7,7 +7,7 @@ import Help from "./Help";
  *  nobody how to reach them. This is the answer, next to the estate rather than
  *  buried in a README the person using the workshop will never open.
  *
- *  The signatures and the configuration are copied from the source of truth —
+ *  The signatures and the configuration are copied from the source of truth -
  *  server/mcp_server/server.py and .bob/mcp.json. A snippet a reader pastes has
  *  to be the real one, so if either moves, move this.
  */
@@ -16,7 +16,7 @@ const TOOLS = [
   {
     sig: "graph_lookup(op, node)",
     colour: "var(--graph)",
-    d: "Deterministic traversal of the dependency graph. op is one of summary, impact, lineage, callers, callees, neighbors — impact on a copybook returns the programs and batch chains a change would reach, exhaustively.",
+    d: "Deterministic traversal of the dependency graph. op is one of summary, impact, lineage, callers, callees, neighbors. Impact on a copybook returns the programs and batch chains a change would reach, exhaustively.",
   },
   {
     sig: "search_code(query)",
@@ -105,7 +105,7 @@ export default function BobPanel() {
       <div className="bob-sec">
         <div className="klabel">Where it runs</div>
         <p className="bob-p">
-          Over <b>stdio</b>, on your machine, beside the estate it reads — not against this
+          Over <b>stdio</b>, on your machine, beside the estate it reads, not against this
           server. Nothing about your source leaves the box it is already on, which is the
           only reason a bank would let an agent near it.
         </p>
@@ -129,7 +129,7 @@ export default function BobPanel() {
         <div className="klabel">03 · Open the folder in Bob</div>
         <p className="bob-p">
           <code>.bob/mcp.json</code> ships with the repository, so Bob finds the server by
-          itself. Nothing to paste — unless your client keeps its MCP servers elsewhere,
+          itself. Nothing to paste, unless your client keeps its MCP servers elsewhere,
           in which case this is the entry:
         </p>
         <Block text={MCP_JSON} label="config" />

@@ -2,7 +2,7 @@
 
 Bob supports the Model Context Protocol, so these tools plug straight into it:
 a compliance officer or developer can, from inside Bob, ask about impact,
-lineage or the call graph of the ingested COBOL patrimony — grounded on the
+lineage or the call graph of the ingested COBOL patrimony - grounded on the
 same deterministic graph the web console uses.
 
 Run (stdio):  PYTHONPATH=packages/core:ingestion:server .venv/bin/python -m mcp_server.server

@@ -13,7 +13,7 @@ const ROLE_HINT: Record<string, string> = {
 };
 
 /** Sign-in and sign-up share one panel: same fields, same errors, one extra row.
- *  The role is picked here but decided server-side — it comes back inside the
+ *  The role is picked here but decided server-side - it comes back inside the
  *  signed token, so the workshop trusts the token and never this form. */
 export default function Auth({
   mode, roles, emailVerification, ibmSignIn, onMode, onDone, onClose,
@@ -43,7 +43,7 @@ export default function Auth({
     try {
       if (isSignup) {
         const r = await signup(username.trim(), password, display.trim(), role, email.trim());
-        // No token means the address must be confirmed first — say so instead of
+        // No token means the address must be confirmed first - say so instead of
         // pretending the account is live.
         if (r.verification_required || !r.token) { setSentTo(r.email || email.trim()); return; }
         saveSession({ name: r.name!, role: r.role! }, r.token);
@@ -68,7 +68,7 @@ export default function Auth({
         <div className="modal" style={{ width: 420 }} data-testid="auth-sent">
           <div style={{ font: "600 14px var(--s)", color: "var(--text-primary)", marginBottom: 10 }}>Confirm your address</div>
           <p style={{ font: "400 12.5px/1.7 var(--s)", color: "var(--text-secondary)", margin: "0 0 18px" }}>
-            We sent a link to <b style={{ color: "var(--text-primary)" }}>{sentTo}</b>. Click it to activate your account —
+            We sent a link to <b style={{ color: "var(--text-primary)" }}>{sentTo}</b>. Click it to activate your account;
             it is valid for 24 hours. Until then, signing in is refused.
           </p>
           <button className="btn-pri" data-testid="auth-sent-ok" onClick={() => { setSentTo(""); onMode("login"); }}
@@ -111,7 +111,7 @@ export default function Auth({
         )}
 
         <p style={{ font: "400 12px/1.6 var(--s)", color: "var(--text-secondary)", margin: "0 0 16px" }}>
-          Your role travels inside a signed token: it decides what you may read, propose and merge —
+          Your role travels inside a signed token: it decides what you may read, propose and merge,
           and every action is written to the tamper-evident audit trail under your name.
         </p>
 
@@ -173,7 +173,7 @@ export default function Auth({
             <>Already have an account? <u style={{ cursor: "pointer", color: "var(--text-secondary)" }} onClick={() => swap("login")}>Sign in</u></>
           ) : (
             <>Demo accounts: <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>amine</code> ·{" "}
-              <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>marc</code> — password{" "}
+              <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>marc</code> · password{" "}
               <code style={{ font: "11px var(--m)", color: "var(--text-secondary)" }}>demo</code></>
           )}
         </div>

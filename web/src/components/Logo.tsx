@@ -1,13 +1,13 @@
 /** The mark: an aperture. The C opens, and the light gets out.
  *
- *  It is the product's claim in one shape — a closed system that has been opened,
+ *  It is the product's claim in one shape - a closed system that has been opened,
  *  with something legible coming out of it. The C is the estate; the point at the
  *  centre is the entity you asked about; the beam is the answer leaving through
  *  the opening.
  *
  *  Geometry, so it can be rebuilt at any size without redrawing by eye:
  *    · arc of 278°, opening centred on the +x axis, half-gap 41°
- *    · mid-radius 8.4 and stroke 5.2 on a 32 grid — outer radius exactly 11
+ *    · mid-radius 8.4 and stroke 5.2 on a 32 grid - outer radius exactly 11
  *    · the beam's apex is the centre point, its tip reaches just past the outer
  *      radius, half-height 0.42 of that radius
  *    · nothing is rounded: the terminals are butt-cut, like everything else here
@@ -39,7 +39,7 @@ export default function Logo({
   title?: string;
   /** The C. Off-white by default; pass a token to make it follow the theme. */
   ring?: string;
-  /** The point and the beam — they are always the same colour, because they are
+  /** The point and the beam - they are always the same colour, because they are
    *  the same idea: the thing you asked about, and its answer. */
   accent?: string;
 }) {

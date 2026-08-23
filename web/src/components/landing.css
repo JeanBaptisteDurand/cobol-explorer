@@ -1,11 +1,11 @@
-/* COBOL Explorer — public landing page.
+/* COBOL Explorer - public landing page.
    Same tokens as the workshop (styles.css :root), wider rhythm: this is the page a
    juror or a prospect reads before they have an account. Dark only, one accent.
    Radius rule: outer = inner + padding (cards 9px, inner code blocks 7px).
 
    Prefix `ce-` so this file cannot collide with the previous `.lp-*` landing rules
-   still living in styles.css — delete that block (the "Public landing page" section
-   and "landing — deck sections") once this is in. */
+   still living in styles.css - delete that block (the "Public landing page" section
+   and "landing - deck sections") once this is in. */
 
 .ce-landing {
   background: var(--bg);
@@ -62,7 +62,7 @@
 
 /* ---------- section scaffold ----------
    Carbon works full-width on a hairline grid, so there is no centred 1060px
-   column any more — the rule does the separating, and the content breathes to
+   column any more - the rule does the separating, and the content breathes to
    the gutter. Spacing is on Carbon's steps: 8 · 16 · 24 · 32 · 48 · 64. */
 .ce-sec { padding: 64px 0; border-bottom: 1px solid var(--border-subtle); background: var(--bg);
   /* the header is sticky at 48px; without this an anchored section lands under it */
@@ -85,7 +85,7 @@
 }
 
 /* Serif display at both levels: the ratio between them is 1.9x, where it used
-   to be 3.9x — which is why every section below the fold read as a footnote. */
+   to be 3.9x - which is why every section below the fold read as a footnote. */
 .ce-h2 {
   font: 400 clamp(28px, 3vw, 40px)/1.14 var(--d);
   letter-spacing: -.01em;
@@ -470,7 +470,7 @@
 
 
 /* ── Header: a mark, a wordmark, three anchors. The challenge name lives in the
-   footer, where a claim about provenance belongs — not in the masthead. ── */
+   footer, where a claim about provenance belongs - not in the masthead. ── */
 .ce-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .ce-nav-links { display: flex; gap: 22px; margin-right: 20px; }
 .ce-nav-links a {
@@ -491,7 +491,7 @@
    The page was reading as generated: identical bands, identical card grids,
    everything boxed and centred. Award-winning work that ships without WebGL wins
    on typography and structure instead. Three moves, applied here:
-     1. the masthead carries a mark and nothing else — no wordmark, no provenance;
+     1. the masthead carries a mark and nothing else - no wordmark, no provenance;
      2. sections sit on an asymmetric rail, numbered in the margin like an index;
      3. the display type is large enough to be the page's main visual.
    ═════════════════════════════════════════════════════════════════════════ */
@@ -500,7 +500,7 @@
 .ce-mark { display: inline-flex; padding: 2px; border-radius: 0; }
 
 
-/* The rule under the masthead is the page's first hairline — no band, no shadow. */
+/* The rule under the masthead is the page's first hairline - no band, no shadow. */
 .ce-nav { border-bottom: 1px solid var(--border-subtle); background: rgba(25,26,29,.9); }
 
 /* --- display type: the hero is typography, not a layout ------------------ */
@@ -517,7 +517,7 @@
 
 /* --- sections on a rail -------------------------------------------------- */
 .ce-sec { border-bottom: none; }
-/* One hairline between sections, drawn by the section itself — cheaper and calmer
+/* One hairline between sections, drawn by the section itself - cheaper and calmer
    than alternating background bands, which read as a template. */
 .ce-sec + .ce-sec .ce-inner { border-top: 1px solid var(--border-subtle); padding-top: 58px; }
 .ce-sec.is-alt { background: var(--bg); }
@@ -526,7 +526,7 @@
 @media (max-width: 900px) {
   }
 
-/* The headline takes the full measure — display type is the page's main visual and
+/* The headline takes the full measure - display type is the page's main visual and
    must not be squeezed into a column. The evidence sits beside the paragraph below it. */
 .ce-hero h1 { max-width: none; }
 .ce-hero .ce-lead { max-width: 52ch; margin-top: 0; }
@@ -555,7 +555,7 @@
 .ce-video-meta b { font: 600 13px var(--s); color: #edeff3; }
 .ce-video-meta i { font: 400 11px var(--m); font-style: normal; color: var(--text-secondary); }
 
-/* ═══ responsive — declared last so nothing later overrides it ═══════════ */
+/* ═══ responsive - declared last so nothing later overrides it ═══════════ */
 @media (max-width: 1080px) {
   }
 @media (max-width: 720px) {
@@ -567,7 +567,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   THE FOLD — Carbon's grammar, Resend's restraint.
+   THE FOLD - Carbon's grammar, Resend's restraint.
    Four elements: badge, headline, one line, two actions. The estate sits under
    them at rest, and the measured numbers come after the fold rather than
    competing inside it. Everything the page has to prove happens further down.
@@ -599,7 +599,7 @@
 .ce-hero-actions { display: flex; gap: 1px; align-items: stretch; margin: 0; flex-wrap: wrap; }
 
 /* The estate before the agent runs. One SVG with a viewBox, so the band keeps a
-   fixed height and the drawing scales into it rather than clipping — `slice`
+   fixed height and the drawing scales into it rather than clipping - `slice`
    crops the sides on a phone and reveals more of the estate on a wide screen. */
 /* The floor is high enough that a phone still renders the labels at ~9px rather
    than 7px: it shows less of the estate, legibly, instead of all of it as texture. */
@@ -634,7 +634,7 @@
 /* ── Header index: one target per section ────────────────────────────────────
    Twelve links will not fit as words in a 48px shell, so the rail carries the
    numbers and spells out the one you are currently in. Dense, and every section
-   is one click away — which none of them were before. */
+   is one click away - which none of them were before. */
 .ce-index { display: flex; align-items: stretch; margin-left: 24px; min-width: 0; overflow: hidden; }
 .ce-index-rail { display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; }
 .ce-index-rail a {

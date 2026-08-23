@@ -1,10 +1,10 @@
-"""Git-backed change-sets — versioning on real git instead of a hand-rolled store.
+"""Git-backed change-sets - versioning on real git instead of a hand-rolled store.
 
 A change-set is a **git branch** off ``main``; each edit is a **commit**; the diff is
 a real ``git diff``. File content and history live in git; the PR-style metadata
-(title, author, status, comments, impact) stays as JSON — exactly the layer Gitea /
+(title, author, status, comments, impact) stays as JSON - exactly the layer Gitea /
 GitHub add on top of git. Selected with ``COBOL_EXPLORER_VCS=git``; same API as
-``VersionStore`` so the API and UI are unchanged. Single-worker (dev) — production
+``VersionStore`` so the API and UI are unchanged. Single-worker (dev) - production
 would use per-branch worktrees or the Gitea API.
 """
 from __future__ import annotations
@@ -50,8 +50,8 @@ class GitVersionStore(VersionStore):
         if os.path.isdir(os.path.join(self.repo, ".git")):
             return
         os.makedirs(self.repo, exist_ok=True)
-        # seed the repo with the corpus on main (skip nested .git dirs — e.g. the
-        # cloned GenApp repo — which git would otherwise treat as submodules)
+        # seed the repo with the corpus on main (skip nested .git dirs - e.g. the
+        # cloned GenApp repo - which git would otherwise treat as submodules)
         src = os.path.realpath(self.corpus_root)
         for dirpath, dirs, files in os.walk(src):
             dirs[:] = [d for d in dirs if d != ".git"]
@@ -133,7 +133,7 @@ class GitVersionStore(VersionStore):
                 with open(dp, "w") as fh:
                     fh.write(new_content)
                 self._git("add", "--", rel)
-                # Only commit if something actually changed — saving identical content
+                # Only commit if something actually changed - saving identical content
                 # is a legitimate no-op, not a 500 ("nothing to commit" exits non-zero).
                 if self._git("status", "--porcelain").strip():
                     self._git("commit", "-q", "-m", note or f"edit {rel}", "--author", f"{cs.author} <{cs.author}@cobol>")
@@ -141,7 +141,7 @@ class GitVersionStore(VersionStore):
                 self._git("checkout", "-q", "main")
         # The file is part of the version iff it now differs from main. Editing a
         # file back to main's exact content must DROP it from the list (no phantom
-        # entry with an empty diff) — mirror revert_edit's removal. A file absent
+        # entry with an empty diff) - mirror revert_edit's removal. A file absent
         # from main (brand-new in this version) always counts as differing.
         try:
             original = self.read_original(rel)
@@ -192,10 +192,10 @@ class GitVersionStore(VersionStore):
         return {"behind": behind, "ahead": ahead, "up_to_date": behind == 0}
 
     def sync_main(self, cid: str, strategy: str | None = None) -> dict:
-        """Import the team's changes (main) into the personal branch — git merge.
+        """Import the team's changes (main) into the personal branch - git merge.
 
         On conflict (both sides touched the same lines), no silent guess is made:
-        the caller gets the conflicted file list and must choose a ``strategy`` —
+        the caller gets the conflicted file list and must choose a ``strategy`` -
         ``mine`` (keep this version's changes, git -X ours) or ``main`` (take the
         team's version, git -X theirs).
         """
@@ -210,7 +210,7 @@ class GitVersionStore(VersionStore):
                     subprocess.run(["git", "-C", self.repo, "merge", "--abort"], capture_output=True)
                     files = ", ".join(conflicted) or "unknown files"
                     raise MergeConflict(
-                        f"you and the team changed the same lines ({files}) — "
+                        f"you and the team changed the same lines ({files}): "
                         "choose “keep my changes” or “take the main version”",
                         conflicted,
                     )
@@ -219,14 +219,14 @@ class GitVersionStore(VersionStore):
         return self.sync_state(cid)
 
     def merge_to_main(self, cid: str) -> ChangeSet:
-        """Apply the personal branch onto main — ONLY when up to date with main,
+        """Apply the personal branch onto main - ONLY when up to date with main,
         so nobody overwrites teammates' work. The up-to-date check runs INSIDE the
         lock: otherwise two near-simultaneous merges both pass the check before
         either advances main, and the second silently merges a now-stale branch."""
         with self._lock:
             behind = int((self._git("rev-list", "--count", f"{self._branch(cid)}..main").strip() or "0"))
             if behind:
-                raise ValueError(f"this version is {behind} commit(s) behind main — import main first")
+                raise ValueError(f"this version is {behind} commit(s) behind main. Import main first")
             self._git("checkout", "-q", "main")
             r = subprocess.run(["git", "-C", self.repo, "merge", "--no-ff", "--no-edit", self._branch(cid)], capture_output=True, text=True)
             if r.returncode != 0:
@@ -236,7 +236,7 @@ class GitVersionStore(VersionStore):
 
     def export_main(self, dest: str) -> None:
         """Write main's tracked files into ``dest`` (the served corpus), so a merge
-        becomes visible to read-only browsing, /api/source, search and impact —
+        becomes visible to read-only browsing, /api/source, search and impact -
         not just inside the version diff. Overwrites files; never deletes."""
         with self._lock:
             archive = subprocess.run(["git", "-C", self.repo, "archive", "main"], capture_output=True)

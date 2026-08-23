@@ -60,7 +60,7 @@ test("the tour plays on a first visit and opens what it describes", async ({ pag
 
   // Every declared step must play. Two of them were being dropped silently
   // because their target only exists once an entity is selected, and the filter
-  // ran before React had painted — the count is what caught it.
+  // ran before React had painted - the count is what caught it.
   const total = Number((await pop.locator(".driver-popover-progress-text").innerText()).match(/of (\d+)/)?.[1]);
   expect(total).toBe(17);
 
@@ -117,7 +117,7 @@ test("the MCP panel hands over the real configuration, ready to copy", async ({ 
   // Compared against .bob/mcp.json itself, not against a couple of substrings a
   // broken config also contains. The published snippet had silently dropped the
   // `env` block, and without PYTHONPATH `python -m mcp_server.server` exits with
-  // ModuleNotFoundError — so what the panel handed a reader could not start.
+  // ModuleNotFoundError - so what the panel handed a reader could not start.
   const real = JSON.parse(readFileSync(path.resolve(HERE, "../../.bob/mcp.json"), "utf8"));
   expect(JSON.parse(clip)).toEqual(real);
 

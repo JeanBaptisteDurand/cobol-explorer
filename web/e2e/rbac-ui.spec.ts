@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 // A refusal must be shown, never fatal. Reading the audit log is reserved to the
-// compliance and auditor roles, and a federated sign-in lands on `risk` — so this
+// compliance and auditor roles, and a federated sign-in lands on `risk` - so this
 // 403 is a path a real visitor takes, not an edge case.
 //
 // It used to take the whole application down: fetch does not reject on an HTTP
@@ -48,7 +48,7 @@ test("a refusal on another endpoint does not take the app down either", async ({
 });
 
 // An expired token makes every gated call 401 at once. That must end the session
-// cleanly — back to the front door, with a reason — rather than reject into the
+// cleanly - back to the front door, with a reason - rather than reject into the
 // console and leave the workshop sitting on data it can no longer refresh.
 test("an expired token ends the session instead of rejecting in silence", async ({ page }) => {
   const rejections: string[] = [];
@@ -77,9 +77,9 @@ test("an expired token ends the session instead of rejecting in silence", async 
 // ── One-click role switching ─────────────────────────────────────────────────
 // The profile dialog under the badge: with a signed session the role picker is
 // gone (it changed a label, never a right), and switching means a REAL login as
-// a published demo account — new token, server re-arbitrates.
+// a published demo account - new token, server re-arbitrates.
 test("the profile dialog switches role through a real login, not a label", async ({ page }) => {
-  // Init scripts re-run on every navigation — the switch ends in a reload, so
+  // Init scripts re-run on every navigation - the switch ends in a reload, so
   // seeding unconditionally would overwrite the very session the test asserts.
   await page.addInitScript(() => {
     if (!localStorage.getItem("cobol-explorer-token")) {
@@ -105,14 +105,14 @@ test("the profile dialog switches role through a real login, not a label", async
   await expect(page.locator(".ov-stats")).toContainText(/programs/i, { timeout: 30_000 });
   await page.getByTestId("identity").click();
 
-  // No self-served role picker under a signed session — the facts, and accounts.
+  // No self-served role picker under a signed session - the facts, and accounts.
   await expect(page.getByTestId("onb-locked-note")).toBeVisible();
   await expect(page.getByTestId("onb-name")).toHaveCount(0);
 
   await page.getByTestId("onb-switch-auditor").click();
-  // The click fires an async login, THEN a reload — poll the stored session
+  // The click fires an async login, THEN a reload - poll the stored session
   // rather than racing the navigation.
-  // The reload destroys the evaluation context mid-poll — swallow that and retry.
+  // The reload destroys the evaluation context mid-poll - swallow that and retry.
   await expect.poll(async () => {
     try { return await page.evaluate(() => localStorage.getItem("cobol-explorer-token")); }
     catch { return null; }

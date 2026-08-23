@@ -1,4 +1,4 @@
-# IBM Cloud App ID — login widget branding
+# IBM Cloud App ID - login widget branding
 
 What is configured on the tenant behind "Continue with IBM", how it was set, and
 how to change it. Kept because none of it lives in this repository: it is state
@@ -8,9 +8,9 @@ on the App ID instance, and the next person to touch it will otherwise guess.
 
 | Setting | Value |
 |---|---|
-| Header band | `#161616` — the product's Carbon ground |
-| Logo | `docs/appid-login-logo.png` — the aperture mark plus the wordmark, dark on transparent |
-| Tab title | `COBOL Explorer — sign in` |
+| Header band | `#161616` - the product's Carbon ground |
+| Logo | `docs/appid-login-logo.png` - the aperture mark plus the wordmark, dark on transparent |
+| Tab title | `COBOL Explorer - sign in` |
 | Footnote | `Mainframe reasoning workshop · cobol-explorer.fr` (replaces "Powered by App ID") |
 
 The logo is the **light-background** variant: App ID places it on the widget's
@@ -20,7 +20,7 @@ off-white the product uses. The beam keeps the brand amber.
 ## What App ID does not let you change
 
 The **Sign in button stays App ID's blue.** The management API exposes the header
-colour, the logo and the two strings — and nothing else. Matching it to
+colour, the logo and the two strings - and nothing else. Matching it to
 `--interactive` would need a fully self-hosted login page, which is not worth it
 for a federated path that sits beside a working password form.
 
@@ -58,7 +58,7 @@ curl -X PUT -H "Authorization: Bearer $TOK" -H "Content-Type: application/json" 
      -d '{"headerColor":"#161616"}' "$BASE/theme_color"
 
 curl -X PUT -H "Authorization: Bearer $TOK" -H "Content-Type: application/json" \
-     -d '{"tabTitle":"COBOL Explorer — sign in","footnote":"Mainframe reasoning workshop · cobol-explorer.fr"}' \
+     -d '{"tabTitle":"COBOL Explorer - sign in","footnote":"Mainframe reasoning workshop · cobol-explorer.fr"}' \
      "$BASE/theme_text"
 ```
 
@@ -73,7 +73,7 @@ open "$(curl -s -o /dev/null -w '%{redirect_url}' https://cobol-explorer.fr/api/
 
 The lockup is the mark from `web/src/components/Logo.tsx` beside the wordmark in
 IBM Plex Sans 600, rendered at 560×150 on transparency. Rebuild it by rendering
-that SVG with `stroke="#161616"` next to the text and exporting at 2x — or edit
+that SVG with `stroke="#161616"` next to the text and exporting at 2x - or edit
 the PNG directly; nothing reads it but App ID.
 
 ## Console equivalent

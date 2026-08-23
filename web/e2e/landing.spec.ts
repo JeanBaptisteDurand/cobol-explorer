@@ -50,7 +50,7 @@ test("the section numbers run in order with no gap", async ({ page }) => {
 
   // Counted against the declaration rather than a literal: adding a section must
   // not need this file edited, but a section the header knows and the page does
-  // not — or the reverse — has to fail.
+  // not - or the reverse - has to fail.
   expect(parsed.length).toBe(SECTIONS.length);
   expect(parsed).toEqual(parsed.map((_, i) => i));
 

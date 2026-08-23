@@ -5,7 +5,7 @@ These are the *structural* answers a vector search cannot give:
 - ``lineage`` : who reads / writes a dataset
 - ``callers`` / ``callees`` / ``neighbors`` : call graph navigation
 
-All traversals are deterministic — the graph comes from parsing, not an LLM.
+All traversals are deterministic - the graph comes from parsing, not an LLM.
 """
 from __future__ import annotations
 
@@ -84,7 +84,7 @@ def impact(g: nx.MultiDiGraph, node_id: str) -> dict:
     elif prefix == "job":
         # A job is the one case we traverse FORWARD: the JCL is the change, and what
         # it puts at risk is what it runs. Without this branch, editing a .jcl reported
-        # "0 impacted" — a false negative on the very claim the product makes.
+        # "0 impacted" - a false negative on the very claim the product makes.
         programs = set()
         for step in _out_of(g, node_id, EdgeKind.JOB_CONTAINS):
             programs |= set(_out_of(g, step, EdgeKind.STEP_EXECUTES))
@@ -108,7 +108,7 @@ def impact(g: nx.MultiDiGraph, node_id: str) -> dict:
 def summary(g: nx.MultiDiGraph, pgm_id: str) -> dict:
     """Functional profile of a program: what it uses, touches and who drives it.
 
-    Answers "what does program X do?" structurally — copybooks, DB2 tables read/
+    Answers "what does program X do?" structurally - copybooks, DB2 tables read/
     written, VSAM files, CICS screens, sub-programs called, callers and the
     transactions that enter it. The agent pairs this with the source header to
     describe the business function.
@@ -147,7 +147,7 @@ def lineage(g: nx.MultiDiGraph, ds_id: str) -> dict:
 
 
 def orphans(g: nx.MultiDiGraph) -> list[dict]:
-    """Programs we have source for that nothing runs — no CALL, no CICS transaction,
+    """Programs we have source for that nothing runs - no CALL, no CICS transaction,
     no batch STEP points at them. Candidate dead code / lost entry points."""
     out = []
     for n, d in g.nodes(data=True):

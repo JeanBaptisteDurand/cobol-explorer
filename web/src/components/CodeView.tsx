@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 
 const cobolExt = StreamLanguage.define(cobol);
 
-// A transient "flash" highlight on one line, driven by a StateEffect — used when the
+// A transient "flash" highlight on one line, driven by a StateEffect - used when the
 // agent cites file:line and the user clicks the citation.
 const flashLine = StateEffect.define<number | null>();
 const flashField = StateField.define<DecorationSet>({
@@ -42,7 +42,7 @@ export default function CodeView({
   // Flips once the editor exists. The flash effect used to depend on the nonce
   // alone, so when a citation opened a file that was NOT already open, the
   // effect fired while the view was still null, returned early, and never fired
-  // again — the one gesture the product is named for landed on line 1 with no
+  // again - the one gesture the product is named for landed on line 1 with no
   // flash. Re-running on `ready` covers the fresh-tab case.
   const [ready, setReady] = useState(false);
 
