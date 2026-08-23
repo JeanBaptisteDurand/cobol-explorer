@@ -157,7 +157,9 @@ behaves like pull requests.
 - **Propose** submits for review. **Merge** applies onto main - **only if your branch is up to date**,
   otherwise it says to import main first, so you never overwrite a colleague. Merging asks for an
   **impact confirmation** (the merge gate: "this touches N programs").
-- You can only propose or merge **your own** active version, just as you only push your own branch.
+- Anyone with the merge right can review and merge **any** version, their own included: click a
+  colleague's version in the sidebar to enter it, read the diff, then Merge. Proposing first is the
+  polite convention, not a gate: a dev or architect may merge a draft directly.
 - A **merged** version becomes closed and read-only.
 
 **A collaboration demo with two accounts:**
