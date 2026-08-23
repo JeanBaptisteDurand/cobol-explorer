@@ -45,6 +45,39 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 - **Multi-estate** - analyses **two real codebases**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
 - **Stack** - Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 153 backend tests · 50 e2e.
 
+### Selected challenge theme
+
+**Wildcard - *Build Intelligent Systems for the Future of Work*.** COBOL Explorer is a **decision-intelligence platform** and **AI co-worker** for the millions of people who maintain the systems that run critical infrastructure: it uses AI to **reduce repetitive work** (manual impact hunting), **improve decision-making** (exhaustive grounded impact), and **help teams reach outcomes faster** (a governed collaboration workflow) - spanning technical and non-technical roles.
+
+Judged outside the Wildcard, the entry stands on its own merits: as a use of technology - the entire AI layer is IBM (Granite reasoning, Granite embeddings, BeeAI orchestration, watsonx.ai inference in production, and three MCP tools that extend IBM Bob itself) - and as an innovation: a deterministic graph RAG whose every model-written citation is re-verified against the source before a human relies on it.
+
+### How IBM Bob was used
+
+**1. Bob verified the COBOL analysis itself.** The product's core claim is a dependency graph
+extracted from COBOL, JCL and CICS sources, and a wrong graph would make every answer above it
+wrong. Bob reads COBOL natively, so it was used as the independent reviewer of that analysis:
+Bob was asked to trace the same dependencies directly in the raw sources (which programs COPY a
+copybook, which EXEC SQL statements touch a table, which CALL and CICS LINK chains exist) and its
+reading was compared with what the graph claimed. Every disagreement meant a parser bug or a
+missing edge, and each one became a fix and a regression test. The graph a juror queries today is
+the one that passed that review.
+
+**2. Bob wired the parts together.** The system is several moving pieces: the parsers, the typed
+graph, the semantic index, the BeeAI agent and its tools, the FastAPI service, the git-backed
+version store and the React workshop. Bob did the integration work between them: aligning the
+interfaces where components meet, connecting the agent's tools to the graph and the corpus, and
+plugging the frontend panels onto the API routes they consume. The working style follows the July
+lab: state the intent, review Bob's plan, then implement, with test-first discipline throughout.
+
+**3. The loop closes: Bob consumes what Bob helped build.** The same three analysis tools
+(`graph_lookup`, `search_code`, `read_source_lines`) are exposed back to IBM Bob over MCP
+(`.bob/mcp.json`). A developer working inside Bob asks *"what breaks if I change LGPOLICY?"* and
+Bob calls `graph_lookup`, returning the exhaustive, grounded impact that a file-reading agent
+alone cannot guarantee.
+
+**4. IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed; certificate submitted
+with the entry.
+
 ### Try it
 
 **Live: [cobol-explorer.fr](https://cobol-explorer.fr)** - create an account, or sign in with the demo account
@@ -67,32 +100,6 @@ Stated plainly, because a reviewer will find them anyway:
   is real.
 - **Embeddings are Granite through Ollama**, not watsonx - the corpus is not re-embedded when the chat backend
   switches.
-
-### Selected challenge theme
-
-**Wildcard - *Build Intelligent Systems for the Future of Work*.** COBOL Explorer is a **decision-intelligence platform** and **AI co-worker** for the millions of people who maintain the systems that run critical infrastructure: it uses AI to **reduce repetitive work** (manual impact hunting), **improve decision-making** (exhaustive grounded impact), and **help teams reach outcomes faster** (a governed collaboration workflow) - spanning technical and non-technical roles.
-
-Judged outside the Wildcard, the entry stands on its own merits: as a use of technology - the entire AI layer is IBM (Granite reasoning, Granite embeddings, BeeAI orchestration, watsonx.ai inference in production, and three MCP tools that extend IBM Bob itself) - and as an innovation: a deterministic graph RAG whose every model-written citation is re-verified against the source before a human relies on it.
-
-### How IBM Bob was used
-
-- **Bob as a runtime AI co-worker (integrated):** COBOL Explorer exposes its analysis tools to **IBM Bob over MCP**
-  (`.bob/mcp.json`). A developer working inside Bob can ask *"what breaks if I change LGPOLICY?"* and Bob calls
-  `graph_lookup` - returning the exhaustive, grounded impact that a file-reading agent alone cannot guarantee.
-- **Bob as the development environment - spec-driven, with reusable skills.** The project was driven the way the
-  official July lab teaches: *spec-driven development* rather than vibe coding. Each unit of work started as an
-  intent, became a written plan, and only then became code. On top of that, **reusable skills** were layered into
-  Bob so the same discipline applied every time:
-  - a **brainstorming skill** - requirements and design settled *before* any implementation, so the spec is the
-    artefact and the code follows it;
-  - a **test-driven skill** - the failing test first. It is the reason this repository ships **153 backend tests**
-    rather than a happy-path demo;
-  - a **simplify skill** - a cleanup pass re-reading the diff for duplication, dead code and over-engineering.
-    Concrete outcomes: a dead `_copy_evidence` helper removed, an MCP `domain` parameter that Bob could see but that
-    filtered nothing removed from the tool signature, and a hard-coded `.bob/mcp.json` path made portable.
-- **The loop closes:** Bob helped build the tool that now extends Bob. The same three tools
-  (`graph_lookup`, `search_code`, `read_source_lines`) are exposed back to Bob over MCP.
-- **IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed; certificate submitted with the entry.
 
 **Deliverables** - public GitHub repo (this) · demo/presentation video (≤ 3 min) · each member completes an IBM SkillsBuild "IBM Bob" activity.
 
