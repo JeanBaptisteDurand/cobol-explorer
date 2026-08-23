@@ -97,7 +97,10 @@ def gate(request: Request, action: str, target: str = "") -> dict:
     actor = identify(request.headers)
     if (ENFORCE or JWT_MODE) and not rbac.allowed(actor["role"], action):
         AUDIT.record(actor["name"], actor["role"], action, target, result="denied")
-        raise HTTPException(403, f"role '{actor['role']}' is not allowed to '{action}'")
+        # Name the roles that hold the right: a refusal that says only "no" leaves
+        # the reader guessing who to ask — "ask a dev or an architect" is the answer.
+        holders = ", ".join(r for r in rbac.ROLES if r in rbac.POLICY.get(action, set()) and r != "guest")
+        raise HTTPException(403, f"role '{actor['role']}' is not allowed to '{action}' — that right belongs to: {holders}")
     AUDIT.record(actor["name"], actor["role"], action, target)
     return actor
 
@@ -550,13 +553,41 @@ def get_cs(cid: str, request: Request) -> dict:
     return cs_payload(s, cid)
 
 
+def _resolve_rel(path: str) -> str | None:
+    """A corpus-relative path, or the unique file matching a bare basename.
+
+    /api/file has resolved basenames since the beginning; the changeset
+    endpoints did not, so the same "lgacdb01.cbl" that worked on one endpoint
+    was a raw 500 on the other — and an EDIT under a bare name would have
+    created a ghost duplicate at the corpus root instead of touching the real
+    file. The UI always sends full paths; Bob and curl deserve the same
+    forgiveness everywhere.
+    """
+    import glob
+
+    from safe import safe_corpus_path
+
+    corpus = active_cfg()["corpus"]
+    p = safe_corpus_path(corpus, path)
+    if p and os.path.exists(p):
+        return path
+    hits = glob.glob(os.path.join(os.path.realpath(corpus), "**", os.path.basename(path)), recursive=True)
+    if hits:
+        return os.path.relpath(hits[0], os.path.realpath(corpus))
+    return None
+
+
+
 @app.get("/api/changesets/{cid}/file")
 def cs_file(cid: str, path: str, request: Request) -> dict:
     gate(request, "read", target=f"{cid}:{path}")
     s = store()
     if not s.exists(cid):  # else read_effective silently falls back to main's content
         raise HTTPException(404, "changeset not found")
-    return {"path": path, "content": s.read_effective(cid, path)}
+    rel = _resolve_rel(path)
+    if rel is None:
+        raise HTTPException(404, f"no such file in the corpus: {path!r}")
+    return {"path": rel, "content": s.read_effective(cid, rel)}
 
 
 def _safe_rel(path: str) -> None:
@@ -584,7 +615,12 @@ def cs_edit(cid: str, body: EditBody, request: Request) -> dict:
     _safe_rel(body.path)
     s = store()
     _editable(s, cid)
-    s.add_edit(cid, body.path, body.content, body.note)
+    # Resolve before writing: an edit under a bare basename must land on the
+    # real file, never create a root-level ghost twin of it.
+    rel = _resolve_rel(body.path)
+    if rel is None:
+        raise HTTPException(404, f"no such file in the corpus: {body.path!r}")
+    s.add_edit(cid, rel, body.content, body.note)
     s.compute_impact(cid, tools())
     return cs_payload(s, cid)
 
