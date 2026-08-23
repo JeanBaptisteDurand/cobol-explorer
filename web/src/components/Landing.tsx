@@ -378,6 +378,12 @@ export default function Landing({
           <span>observe</span><i>→ ⟳ →</i>
           <span className="is-accent">answer + citations + verify</span>
         </div>
+        {/* The plate this section waited for: it needs a live model behind it,
+            so it could only be captured once `make shots` ran against watsonx.
+            Granite 4.0 h-small, Dallas — the same backend the public demo uses. */}
+        <Figure src="/shots/sc-agent.png"
+          alt="A grounded answer from the agent: the graph_lookup trace, eleven cited programs with line numbers, and the sources-verified badge"
+          caption="Fig 04 · a real answer on watsonx.ai — the trace, 11 file:line citations, ✓ 11 sources verified" />
       </Section>
 
       <Section id="rag-section" alt
@@ -527,7 +533,7 @@ export default function Landing({
         <div style={{ marginTop: 26 }}>
           <Figure src="/shots/sc-audit.png"
             alt="The audit panel: a chained log of actions and refusals, with the chain integrity state"
-            caption="Fig 04 · the audit trail, chain state included" />
+            caption="Fig 05 · the audit trail, chain state included" />
         </div>
       </Section>
 
