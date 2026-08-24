@@ -81,8 +81,8 @@ lab: state the intent, review Bob's plan, then implement, with test-first discip
 Bob calls `graph_lookup`, returning the exhaustive, grounded impact that a file-reading agent
 alone cannot guarantee.
 
-**4. IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed; certificate submitted
-with the entry.
+**4. IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed (3 Aug 2026); the
+certificate is [in this repository](docs/skillsbuild-certificate.pdf) and uploaded with the entry.
 
 **5. Where this goes after the hackathon: the loop inverts.** Today Bob calls COBOL Explorer's
 tools. The natural upgrade is the reverse: COBOL Explorer as the **control plane for a fleet of
