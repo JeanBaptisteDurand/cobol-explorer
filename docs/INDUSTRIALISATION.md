@@ -143,3 +143,7 @@ Gitea mode it simply gains an "open the PR" link.
 3. **Scale** (graph database, pgvector, incremental ingestion).
 4. **Gitea** for change management, bridged to the z/OS SCM.
 5. Everything else is features - and those are already well advanced: field-level impact, dead code, lineage, the live graph.
+6. **Invert the Bob loop**: COBOL Explorer as the control plane for a fleet of Bob agents running
+   routines (nightly impact sweeps after each merge, one agent per proposed change drafting the
+   review, a dead-code hunter opening cleanup versions), each governed exactly like a human:
+   its own branch, the merge gate, the audit chain under its own name.

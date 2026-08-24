@@ -514,6 +514,17 @@ export default function Landing({
             <span className="ce-strong">COBOL Explorer plays that role for Bob</span>, cross-language and across the
             whole estate.</p>
         </div>
+        {/* The pitch past the hackathon: the arrow flips. Not "an AI can call
+            us" but "we dispatch the AIs", under the governance the rest of the
+            page just argued for. */}
+        <div className="ce-note">
+          <div className="ce-kicker">Where this goes next</div>
+          <p>Today Bob calls these tools. The roadmap inverts the loop:{" "}
+            <span className="ce-strong">COBOL Explorer as the control plane for a fleet of Bobs</span> running
+            routines. A nightly impact sweep after every merge, one agent per proposed change drafting the review
+            before a human reads it, a dead-code hunter opening cleanup versions on its own. Each agent works under
+            the exact governance humans do: its own branch, the merge gate, the audit trail under its own name.</p>
+        </div>
       </Section>
 
       <Section id="governance-section" alt

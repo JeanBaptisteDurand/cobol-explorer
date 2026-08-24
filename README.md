@@ -84,6 +84,16 @@ alone cannot guarantee.
 **4. IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed; certificate submitted
 with the entry.
 
+**5. Where this goes after the hackathon: the loop inverts.** Today Bob calls COBOL Explorer's
+tools. The natural upgrade is the reverse: COBOL Explorer as the **control plane for a fleet of
+Bobs**. The estate already knows its own risks (the critical copybooks, the dead code, the
+proposals waiting for review), so it can dispatch agents on routines: a nightly impact sweep after
+every merge, one Bob per proposed change drafting the review before a human reads it, a dead-code
+hunter opening cleanup versions on its own. Each agent works inside the same governance the humans
+use: its own branch, the merge gate, the audit chain under its own name. The platform stops being
+a tool an AI calls and becomes the manager of AI co-workers, which is the Future of Work claim
+taken to its conclusion.
+
 ### Try it
 
 **Live: [cobol-explorer.fr](https://cobol-explorer.fr)** - create an account, or sign in with the demo account
