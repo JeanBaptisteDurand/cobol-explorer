@@ -51,7 +51,13 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 
 Judged outside the Wildcard, the entry stands on its own merits: as a use of technology - the entire AI layer is IBM (Granite reasoning, Granite embeddings, BeeAI orchestration, watsonx.ai inference in production, and three MCP tools that extend IBM Bob itself) - and as an innovation: a deterministic graph RAG whose every model-written citation is re-verified against the source before a human relies on it.
 
+On **feasibility**: this is not a slide deck. It runs today at [cobol-explorer.fr](https://cobol-explorer.fr) on watsonx.ai, installs locally with one command (`make demo`, no key and no Docker), and the path from this proof of concept to an enterprise deployment (industrial parsing, Gitea review, incremental ingestion, sovereign LLM) is written down in [docs/INDUSTRIALISATION.md](docs/INDUSTRIALISATION.md).
+
 ### How IBM Bob was used
+
+IBM Bob was the **primary development tool** for this project, in three distinct roles: reviewer
+of the analysis the product stands on, integrator of its parts, and finally a consumer of the
+result over MCP.
 
 **1. Bob verified the COBOL analysis itself.** The product's core claim is a dependency graph
 extracted from COBOL, JCL and CICS sources, and a wrong graph would make every answer above it

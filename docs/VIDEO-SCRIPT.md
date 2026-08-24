@@ -71,7 +71,8 @@ point at the "chain intact" badge.*
 > "Built on IBM Granite and Granite embeddings, orchestrated with BeeAI, running on watsonx.ai - and the same three
 > tools are exposed back to IBM Bob over MCP, so Bob itself can query the estate.
 >
-> Days of manual impact hunting, down to thirty seconds - with line-level proof.
+> Days of manual impact hunting, down to thirty seconds - with line-level proof. It is live today on
+> watsonx.ai, and one command installs it anywhere.
 >
 > COBOL Explorer. It's live at cobol-explorer.fr."
 
