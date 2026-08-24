@@ -66,16 +66,47 @@ COBOL Explorer · the AI workshop for mainframe estates
 {PUBLIC_URL}
 """
     )
+    # Same design language as the workshop: Carbon dark, the one blue, zero
+    # radius, and the mark served from the site (mail clients strip inline SVG).
     msg.add_alternative(
-        f"""<html><body style="font:400 15px/1.6 -apple-system,Segoe UI,sans-serif;color:#1c1e22">
-  <p>Hi {display},</p>
-  <p>Confirm your e-mail address to activate your COBOL Explorer account:</p>
-  <p><a href="{link}" style="display:inline-block;background:#ffb020;color:#191a1d;font-weight:600;
-     text-decoration:none;padding:11px 20px;border-radius:6px">Confirm my address</a></p>
-  <p style="color:#596069;font-size:13px">The link is valid for 24 hours. If you did not create this
-     account, ignore this message: nothing was activated.</p>
-  <p style="color:#596069;font-size:13px">COBOL Explorer · the AI workshop for mainframe estates<br />
-     <a href="{PUBLIC_URL}" style="color:#b57d18">{PUBLIC_URL}</a></p>
+        f"""<html><body style="margin:0;padding:0;background:#161616">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#161616;padding:36px 16px">
+  <tr><td align="center">
+    <table role="presentation" width="560" cellpadding="0" cellspacing="0"
+           style="max-width:560px;width:100%;background:#262626;border:1px solid #393939">
+      <tr><td style="padding:22px 28px;border-bottom:1px solid #393939">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          <td><img src="{PUBLIC_URL}/logo-email.png" width="34" height="34" alt="COBOL Explorer"
+                   style="display:block;border:0" /></td>
+          <td style="padding-left:12px;font:600 15px 'IBM Plex Sans',Helvetica,Arial,sans-serif;color:#f4f4f4">
+            COBOL&nbsp;Explorer</td>
+        </tr></table>
+      </td></tr>
+      <tr><td style="padding:30px 28px 8px;font:400 15px/1.65 'IBM Plex Sans',Helvetica,Arial,sans-serif;color:#f4f4f4">
+        Hi {display},
+      </td></tr>
+      <tr><td style="padding:6px 28px 22px;font:400 14px/1.65 'IBM Plex Sans',Helvetica,Arial,sans-serif;color:#c6c6c6">
+        Confirm your e-mail address to activate your COBOL Explorer account.
+      </td></tr>
+      <tr><td style="padding:0 28px 26px">
+        <a href="{link}" style="display:inline-block;background:#0f62fe;color:#ffffff;
+           font:600 14px 'IBM Plex Sans',Helvetica,Arial,sans-serif;text-decoration:none;
+           padding:13px 24px">Confirm my address</a>
+      </td></tr>
+      <tr><td style="padding:0 28px 26px;font:400 12px/1.6 'IBM Plex Sans',Helvetica,Arial,sans-serif;color:#8d8d8d">
+        Or paste this link into your browser:<br />
+        <a href="{link}" style="color:#78a9ff;word-break:break-all">{link}</a>
+      </td></tr>
+      <tr><td style="padding:18px 28px;border-top:1px solid #393939;
+                     font:400 12px/1.6 'IBM Plex Sans',Helvetica,Arial,sans-serif;color:#8d8d8d">
+        The link is valid for 24 hours. If you did not create this account, ignore this
+        message: nothing was activated.<br /><br />
+        COBOL Explorer · the AI workshop for mainframe estates<br />
+        <a href="{PUBLIC_URL}" style="color:#78a9ff">{PUBLIC_URL.replace("https://","")}</a>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
 </body></html>""",
         subtype="html",
     )
