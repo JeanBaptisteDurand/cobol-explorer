@@ -80,6 +80,45 @@ def accounts() -> dict[str, dict]:
     return _demo_accounts()
 
 
+# --- Per-account MCP keys ------------------------------------------------------
+# A key lets an MCP client (IBM Bob) call the remote /mcp endpoint AS this
+# account: every tool call is written to the audit chain under the account's
+# name. Only the SHA-256 of the key is stored - the plaintext is shown once at
+# minting and never kept, exactly like a password.
+
+def _hash_key(key: str) -> str:
+    return hashlib.sha256(key.encode()).hexdigest()
+
+
+def mint_mcp_key(username: str, password: str) -> str | None:
+    """A fresh MCP key for this account, or None if the credentials are wrong.
+
+    Minting requires the credentials (not just a session token) because the key
+    is a long-lived credential itself: whoever can mint one must prove they own
+    the account NOW. Re-minting replaces the previous key.
+    """
+    actor = authenticate(username, password)
+    if not actor:
+        return None
+    key = "ce_" + secrets.token_urlsafe(33)
+    allc = accounts()
+    allc[(username or "").strip().lower()]["mcp_key_hash"] = _hash_key(key)
+    _write(allc)
+    return key
+
+
+def actor_for_mcp_key(key: str) -> dict | None:
+    """The {name, role, username} behind a presented key, or None."""
+    if not key or not key.startswith("ce_"):
+        return None
+    h = _hash_key(key)
+    for username, account in accounts().items():
+        if account.get("mcp_key_hash") and hmac.compare_digest(account["mcp_key_hash"], h):
+            return {"name": account.get("display") or username,
+                    "role": rbac.canonical(account.get("role", "")), "username": username}
+    return None
+
+
 class UnverifiedAccount(Exception):
     """Credentials are right, but the address was never confirmed."""
 

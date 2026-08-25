@@ -112,12 +112,26 @@ test("the MCP panel hands over the real configuration, ready to copy", async ({ 
   // And the constraint stated rather than glossed over.
   await expect(panel).toContainText(/stdio/i);
 
+  // The two-minute path: mint a key (mocked here), and the panel injects it
+  // straight into the connector config a reader copies.
+  await page.route("**/api/mcp-key", (r) => r.fulfill({ json: { key: "ce_test_key_123", endpoint: "/mcp" } }));
+  await page.getByTestId("bob-key-user").fill("amine");
+  await page.getByTestId("bob-key-password").fill("demo");
+  await page.getByTestId("bob-key-mint").click();
+  await expect(panel).toContainText("ce_test_key_123");
   await page.getByTestId("bob-copy-config").click();
+  const connector = await page.evaluate(() => navigator.clipboard.readText());
+  expect(JSON.parse(connector).mcpServers["cobol-explorer"].env.COBOL_EXPLORER_MCP_KEY).toBe("ce_test_key_123");
+  // The download really serves the connector file.
+  const dl = await page.request.get("/downloads/cobol-explorer-mcp.py");
+  expect(dl.status()).toBe(200);
+  expect(await dl.text()).toContain("COBOL Explorer MCP connector");
+
+  // The advanced, own-estate config is still the real .bob/mcp.json, byte for
+  // byte - the published snippet once silently dropped the `env` block, and
+  // without PYTHONPATH the local server exits with ModuleNotFoundError.
+  await page.getByTestId("bob-copy-local").click();
   const clip = await page.evaluate(() => navigator.clipboard.readText());
-  // Compared against .bob/mcp.json itself, not against a couple of substrings a
-  // broken config also contains. The published snippet had silently dropped the
-  // `env` block, and without PYTHONPATH `python -m mcp_server.server` exits with
-  // ModuleNotFoundError - so what the panel handed a reader could not start.
   const real = JSON.parse(readFileSync(path.resolve(HERE, "../../.bob/mcp.json"), "utf8"));
   expect(JSON.parse(clip)).toEqual(real);
 

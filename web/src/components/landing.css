@@ -709,3 +709,11 @@
    is ~110 characters and is the one line a reader must get right. */
 .ce-setup-foot .ce-code { width: fit-content; max-width: 100%; }
 @media (max-width: 900px) { .ce-setup-steps { grid-template-columns: 1fr; } }
+
+/* The connector download link: a real button-looking anchor inside step 02. */
+.ce-dl {
+  display: inline-block; margin-top: 8px; padding: 8px 14px;
+  font: 600 12px var(--m); color: var(--text-primary); text-decoration: none;
+  background: var(--layer-02); border: 1px solid var(--border-subtle);
+}
+.ce-dl:hover { border-color: var(--layer-03); }

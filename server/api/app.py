@@ -23,6 +23,7 @@ import json
 import os
 import threading
 import urllib.parse
+from contextlib import asynccontextmanager
 from dataclasses import asdict
 
 from fastapi import FastAPI, HTTPException, Request
@@ -104,7 +105,22 @@ def gate(request: Request, action: str, target: str = "") -> dict:
     AUDIT.record(actor["name"], actor["role"], action, target)
     return actor
 
-app = FastAPI(title="COBOL Explorer")
+from api import mcp_remote  # noqa: E402  (needs the module-level config above)
+
+mcp_remote.configure(lambda: tools(), AUDIT, lambda: JWT_MODE)
+_MCP = mcp_remote.create()  # one transport per app instance - its manager runs once
+
+
+@asynccontextmanager
+async def _lifespan(_app):
+    # The streamable-HTTP MCP transport runs its own task group; a mounted
+    # sub-app's lifespan never fires under FastAPI, so it is driven from here.
+    async with _MCP.mcp.session_manager.run():
+        yield
+
+
+app = FastAPI(title="COBOL Explorer", lifespan=_lifespan)
+app.mount("/mcp", _MCP.asgi)
 # Same-origin app; allow only the local dev/prod origins (not '*'), so a random
 # site cannot drive the API via the browser.
 _ORIGINS = os.environ.get(
@@ -114,6 +130,17 @@ _ORIGINS = os.environ.get(
 app.add_middleware(
     CORSMiddleware, allow_origins=_ORIGINS, allow_methods=["*"], allow_headers=["*"]
 )
+
+
+@app.middleware("http")
+async def _mcp_trailing_slash(request, call_next):
+    """/mcp and /mcp/ are the same endpoint. Starlette's Mount only matches the
+    slashed form, and the bare one fell through to the SPA's static files - a
+    405 that read as "the MCP endpoint is broken" to any client posting to the
+    URL exactly as documented."""
+    if request.scope["path"] == "/mcp":
+        request.scope["path"] = "/mcp/"
+    return await call_next(request)
 
 
 @app.middleware("http")
@@ -241,6 +268,32 @@ def login(body: LoginBody) -> dict:
         raise HTTPException(401, "invalid credentials")
     AUDIT.record(actor["name"], actor["role"], "login")
     return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
+
+
+class McpKeyBody(BaseModel):
+    username: str
+    password: str
+
+
+@app.post("/api/mcp-key")
+def mint_mcp_key(body: McpKeyBody) -> dict:
+    """A fresh per-account MCP key, shown once. Re-minting replaces the old one.
+
+    Requires the credentials rather than a session token: the key is itself a
+    long-lived credential, so minting one must prove account ownership NOW -
+    the same reasoning as a password change form asking the current password.
+    """
+    try:
+        key = users.mint_mcp_key(body.username, body.password)
+    except users.UnverifiedAccount:
+        AUDIT.record(body.username, "guest", "mcp-key", target="unverified", result="denied")
+        raise HTTPException(403, {"code": "unverified", "message": "confirm your e-mail address first: check your inbox"})
+    if not key:
+        AUDIT.record(body.username or "?", "guest", "mcp-key", target="", result="denied")
+        raise HTTPException(401, "invalid credentials")
+    account = users.accounts()[body.username.strip().lower()]
+    AUDIT.record(account.get("display") or body.username, account.get("role", "guest"), "mcp-key", target="minted")
+    return {"key": key, "endpoint": "/mcp"}
 
 
 class SignupBody(BaseModel):

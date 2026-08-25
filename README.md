@@ -9,7 +9,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge - Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-0f62fe)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-153%20backend%20%C2%B7%2050%20e2e-42be65)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-156%20backend%20%C2%B7%2050%20e2e-42be65)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-33b1ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-be95ff)](#72-connect-your-own-ibm-bob-mcp)
 [![license](https://img.shields.io/badge/license-Apache--2.0-8d8d8d)](LICENSE)
@@ -69,7 +69,7 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 - **IBM Bob via MCP** - 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
 - **Governance** - git-backed team versioning, RBAC roles, merge gate, HMAC-chained immutable audit.
 - **Multi-estate** - analyses **two real codebases**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** - Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 153 backend tests · 50 e2e.
+- **Stack** - Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 156 backend tests · 50 e2e.
 
 ### Selected challenge theme
 
@@ -328,9 +328,47 @@ For watsonx, set `WATSONX_API_KEY`, `WATSONX_PROJECT_ID` and
 
 ### 7.2 Connect your own IBM Bob (MCP)
 
-The three analysis tools are exposed over the **Model Context Protocol**, so Bob calls them instead of reading files
-and guessing. The server speaks **MCP over stdio**: it runs on your machine, beside the estate it reads - nothing
-about your source leaves the box it is already on, which is the only reason a bank would let an agent near it.
+The three analysis tools are exposed over the **Model Context Protocol**, so Bob calls them instead
+of reading files and guessing. Two paths, and the short one takes two minutes with nothing to
+install.
+
+#### The two-minute path: the hosted demo estate
+
+1. **Generate your key.** Sign in at [cobol-explorer.fr](https://cobol-explorer.fr) (demo account
+   `amine` / `demo`), open the sidebar's plug icon ("Connect your Bob"), generate your personal
+   key. It is shown once - and every call Bob makes is written to the estate's audit trail under
+   your name. (On the shared demo account, re-minting replaces the previous key; your own account
+   gives you your own.)
+2. **Download the connector:** [`mcp/cobol-explorer-mcp.py`](mcp/cobol-explorer-mcp.py) (also served
+   at [cobol-explorer.fr/downloads/cobol-explorer-mcp.py](https://cobol-explorer.fr/downloads/cobol-explorer-mcp.py)).
+   One file, plain `python3`, standard library only.
+3. **Register it** in your MCP configuration (`.bob/mcp.json` in a workspace, or the global MCP
+   settings):
+
+```json
+{
+  "mcpServers": {
+    "cobol-explorer": {
+      "command": "python3",
+      "args": ["/absolute/path/to/cobol-explorer-mcp.py"],
+      "env": { "COBOL_EXPLORER_MCP_KEY": "ce_..." }
+    }
+  }
+}
+```
+
+   If your client supports remote MCP servers natively, skip the file entirely:
+   `{ "url": "https://cobol-explorer.fr/mcp", "headers": { "Authorization": "Bearer ce_..." } }`.
+
+4. **Ask the first question:** *"what breaks if I change LGPOLICY?"*. Eleven programs and two batch
+   chains means `graph_lookup` answered - and the call already sits in the Audit panel, under your
+   name. A plausible handful means the agent is still reading files.
+
+#### Your own estate, locally
+
+The hosted endpoint serves the public demo estates. To run the same tools against **your own
+COBOL** - which then never leaves your machine, which is the only reason a bank would let an agent
+near it - use the local stdio server the repository ships:
 
 ```bash
 git clone https://github.com/JeanBaptisteDurand/cobol-explorer
@@ -338,36 +376,13 @@ cd cobol-explorer
 make setup
 ```
 
-Point it at your own COBOL by dropping the sources under `corpora/` and running `make ingest`; skip that to try it
-on the two demo estates first. Then open the folder in Bob - **`.bob/mcp.json` ships with the repository**, so Bob
-finds the server on its own. Nothing to paste, unless your client keeps its MCP servers elsewhere, in which case
-this is the entry:
+Then drop your sources under `corpora/` and run `make ingest`: the graph the tools traverse is
+rebuilt from **your** estate. Skip that step to explore the two demo estates first.
+`.bob/mcp.json` ships with the repository, so Bob finds the local server on its own; its entry
+carries an `env` block that is not optional - without `PYTHONPATH` the module is not importable
+and `python -m mcp_server.server` exits before it speaks.
 
-```json
-{
-  "mcpServers": {
-    "cobol-explorer": {
-      "command": "${workspaceFolder}/.venv/bin/python",
-      "args": ["-m", "mcp_server.server"],
-      "cwd": "${workspaceFolder}",
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/packages/core:${workspaceFolder}/ingestion:${workspaceFolder}/server",
-        "COBOL_EXPLORER_GRAPH": "${workspaceFolder}/graph.json",
-        "COBOL_EXPLORER_CORPUS": "${workspaceFolder}/corpora"
-      }
-    }
-  }
-}
-```
-
-The `env` block is not optional: without `PYTHONPATH` the module is not importable and
-`python -m mcp_server.server` exits before it speaks.
-
-**Check it worked.** Ask Bob *"what breaks if I change LGPOLICY?"*. If it answers with eleven programs and two batch
-chains, it called `graph_lookup`. If it answers with a plausible handful, it is still reading files.
-
-The same panel is available inside the workshop, in the left sidebar, so nobody has to find this README to plug Bob
-in.
+**Check it worked** the same way in both paths: the LGPOLICY question, the eleven programs.
 
 ### 7.3 Sign-up and address verification
 
@@ -446,7 +461,7 @@ For real accounts, point `COBOL_EXPLORER_USERS` at a JSON `{user: {display, role
 ## 8. Tests
 
 ```bash
-make test                           # 153 backend tests (parsing, graph, impact, search, versioning, API, MCP, auth, sign-up)
+make test                           # 156 backend tests (parsing, graph, impact, search, versioning, API, MCP, auth, sign-up)
 cd web && pnpm exec playwright test # 50 e2e (landing, sign-up, sign-in, overview, code, impact, cowork, tour, RBAC)
 make serve-sandbox &                # authenticated server on a THROWAWAY COPY of the estate
 make e2e-governance                 # a 3-account / 3-role scenario played in the browser
@@ -466,7 +481,7 @@ server/
   mcp_server/     the MCP server exposing the three tools to IBM Bob
   security/       RBAC, identity, signed tokens, OIDC, users, the audit chain
   versioning/     isolated change-sets, diff, review, merge gate
-  tests/          153 backend tests
+  tests/          156 backend tests
 web/              React + TypeScript frontend (workshop, landing, /presentation)
   e2e/            50 Playwright tests
 versions/         isolated change-sets - the source corpus is never mutated

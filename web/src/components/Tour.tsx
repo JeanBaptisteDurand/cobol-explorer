@@ -124,7 +124,7 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: '[data-testid="bob-panel"]',
     title: "Take these tools into your own editor",
-    text: "The three the agent here runs on (graph_lookup, search_code, read_source_lines) are exposed over MCP, so IBM Bob can call them instead of reading files and guessing. Everything you need is in this panel: it runs over stdio on your own machine, beside your estate, and the configuration is one copy away.",
+    text: "The three the agent here runs on (graph_lookup, search_code, read_source_lines) are exposed over MCP, so IBM Bob can call them instead of reading files and guessing. Two minutes from this panel: generate your personal key, download the one-file connector, paste the config, ask. Every call Bob makes lands in the audit trail under your name.",
     side: "right",
     before: () => h.openSide("bob"),
   },

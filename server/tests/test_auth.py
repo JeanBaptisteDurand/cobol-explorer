@@ -5,6 +5,7 @@ token is refused, credentials are checked against a hash and never a plaintext, 
 the role carried by the token (not by a client header) is what RBAC enforces.
 """
 import importlib
+import json
 import os
 
 import pytest
@@ -69,7 +70,10 @@ def client(tmp_path, monkeypatch):
     import api.app as appmod
 
     importlib.reload(appmod)
-    yield TestClient(appmod.app, raise_server_exceptions=False)
+    # Context-managed so the lifespan runs: the remote MCP transport starts its
+    # task group there, and without it every /mcp call is a 500.
+    with TestClient(appmod.app, raise_server_exceptions=False) as c:
+        yield c
     monkeypatch.delenv("COBOL_EXPLORER_AUTH")
     importlib.reload(appmod)  # leave the module in open mode for the other suites
 
@@ -376,3 +380,63 @@ def test_config_hides_demo_accounts_in_open_mode():
     import api.app as appmod
     cfg = TestClient(appmod.app).get("/api/auth/config").json()
     assert cfg["demo_accounts"] == []
+
+
+# --- per-account MCP keys and the remote /mcp endpoint --------------------------
+def test_mcp_key_minting_requires_real_credentials(client):
+    r = client.post("/api/mcp-key", json={"username": "amine", "password": "wrong"})
+    assert r.status_code == 401
+    r = client.post("/api/mcp-key", json={"username": "amine", "password": users.DEMO_PASSWORD})
+    assert r.status_code == 200
+    key = r.json()["key"]
+    assert key.startswith("ce_") and len(key) > 30
+    # Only the hash is stored - the plaintext appears nowhere in the account store.
+    acct = users.accounts()["amine"]
+    assert acct["mcp_key_hash"] != key and key not in json.dumps(users.accounts())
+    # The key resolves to the account, with its role.
+    actor = users.actor_for_mcp_key(key)
+    assert actor["role"] == "dev" and actor["username"] == "amine"
+    # Re-minting replaces the previous key.
+    key2 = client.post("/api/mcp-key", json={"username": "amine", "password": users.DEMO_PASSWORD}).json()["key"]
+    assert users.actor_for_mcp_key(key) is None and users.actor_for_mcp_key(key2) is not None
+
+
+def test_remote_mcp_requires_a_key_in_jwt_mode(client):
+    r = client.post("/mcp", json={"jsonrpc": "2.0", "id": 1, "method": "tools/list"})
+    assert r.status_code == 401
+    assert "MCP key" in r.json()["error"]
+
+
+def test_remote_mcp_lists_and_calls_tools_with_a_key(client):
+    key = client.post("/api/mcp-key", json={"username": "sofia", "password": users.DEMO_PASSWORD}).json()["key"]
+    h = {"Authorization": f"Bearer {key}", "Accept": "application/json, text/event-stream",
+         "Content-Type": "application/json"}
+
+    def rpc(payload):
+        r = client.post("/mcp", json=payload, headers=h)
+        assert r.status_code == 200, r.text
+        body = r.text
+        if body.startswith("event:") or "\ndata: " in body or body.startswith("data:"):
+            data = [ln[6:] for ln in body.splitlines() if ln.startswith("data: ")][-1]
+            return json.loads(data)
+        return json.loads(body)
+
+    init = rpc({"jsonrpc": "2.0", "id": 1, "method": "initialize",
+                "params": {"protocolVersion": "2025-03-26", "capabilities": {},
+                           "clientInfo": {"name": "t", "version": "1"}}})
+    assert init["result"]["serverInfo"]["name"] == "cobol-explorer"
+
+    tools_ = rpc({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
+    names = {t["name"] for t in tools_["result"]["tools"]}
+    assert names == {"graph_lookup", "read_source_lines", "search_code"}
+
+    call = rpc({"jsonrpc": "2.0", "id": 3, "method": "tools/call",
+                "params": {"name": "graph_lookup", "arguments": {"op": "impact", "node": "LGPOLICY"}}})
+    payload = json.loads(call["result"]["content"][0]["text"])
+    assert len(payload["programs"]) == 11 and len(payload["chains"]) == 2
+
+    # Attribution: the call is in the audit chain under Sofia's name.
+    mtoken = client.post("/api/login", json={"username": "marc", "password": users.DEMO_PASSWORD}).json()["token"]
+    entries = client.get("/api/audit", headers={"Authorization": f"Bearer {mtoken}"}).json()["entries"]
+    mine = [e for e in entries if e["action"] == "mcp:graph_lookup"]
+    assert mine and mine[-1]["actor"] == "Sofia" and mine[-1]["role"] == "risk"

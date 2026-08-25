@@ -19,7 +19,7 @@ const METRICS = [
   // as two numbers to the reader it is written for. 339 + 1157 and 421 + 1294,
   // the two estates added.
   { n: "1,496", l: "entities mapped\n1,715 typed edges" },
-  { n: "203", l: "automated tests\n153 backend · 50 e2e" },
+  { n: "206", l: "automated tests\n156 backend · 50 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
 ];
 
@@ -60,26 +60,13 @@ const TOOLS = [
   { n: "propose_change", c: "var(--interactive)", cls: "write", d: "Creates a git version and computes its impact: the single bridge from understanding to changing." },
 ];
 
-/** Verbatim from .bob/mcp.json - a config a reader copies has to be the real one. */
-const CLONE = `git clone https://github.com/JeanBaptisteDurand/cobol-explorer
-cd cobol-explorer
-make setup`;
-
-/** Verbatim .bob/mcp.json - including `env`. The abridged version published here
- *  first was not a shorter way of saying the same thing: without PYTHONPATH the
- *  server module is not importable and `python -m mcp_server.server` exits before
- *  it speaks. A snippet a reader pastes has to be the one that works. */
-const MCP_JSON = `{
+/** The two-minute path: one downloadable connector file plus a personal key. */
+const CONNECTOR = `{
   "mcpServers": {
     "cobol-explorer": {
-      "command": "\${workspaceFolder}/.venv/bin/python",
-      "args": ["-m", "mcp_server.server"],
-      "cwd": "\${workspaceFolder}",
-      "env": {
-        "PYTHONPATH": "\${workspaceFolder}/packages/core:\${workspaceFolder}/ingestion:\${workspaceFolder}/server",
-        "COBOL_EXPLORER_GRAPH": "\${workspaceFolder}/graph.json",
-        "COBOL_EXPLORER_CORPUS": "\${workspaceFolder}/corpora"
-      }
+      "command": "python3",
+      "args": ["/absolute/path/to/cobol-explorer-mcp.py"],
+      "env": { "COBOL_EXPLORER_MCP_KEY": "ce_...your key..." }
     }
   }
 }`;
@@ -126,7 +113,7 @@ const IDENTITY = [
 
 const BUILT = [
   { t: "Plan before code", d: "A brainstorming skill settles requirements and design before a line is written, so the spec is the artefact and the code follows it." },
-  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 153 backend tests instead of a happy-path demo." },
+  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 156 backend tests instead of a happy-path demo." },
   { t: "Simplify after", d: "A cleanup skill re-reads the diff for duplication and dead code. It removed a dead helper, an MCP parameter that filtered nothing, and a hard-coded path that broke the Bob integration on any other machine." },
 ];
 
@@ -469,31 +456,35 @@ export default function Landing({
             <div>
               <span className="ce-setup-n">01</span>
               <div>
-                <div className="ce-setup-t">Clone it beside your estate</div>
-                <pre className="ce-code">{CLONE}</pre>
+                <div className="ce-setup-t">Generate your key</div>
+                <p>
+                  Sign in (demo: <span className="ce-mono-sm">amine / demo</span>), open the sidebar's
+                  plug icon, generate your personal key. Every call Bob makes is then written to the
+                  audit trail under your name.
+                </p>
               </div>
             </div>
             <div>
               <span className="ce-setup-n">02</span>
               <div>
-                <div className="ce-setup-t">Point it at your COBOL</div>
+                <div className="ce-setup-t">Download the connector</div>
                 <p>
-                  Drop your sources under <span className="ce-mono-sm">corpora/</span> and run{" "}
-                  <span className="ce-mono-sm">make ingest</span>. It parses COBOL, JCL, CICS, DB2 and
-                  the scheduler export into the graph the tools traverse. The two demo estates are
-                  already there if you would rather try it first.
+                  One file, plain <span className="ce-mono-sm">python3</span>, zero dependency:{" "}
+                  <a className="ce-dl" href="/downloads/cobol-explorer-mcp.py" download data-testid="landing-download">
+                    ↓ cobol-explorer-mcp.py
+                  </a>
                 </p>
               </div>
             </div>
             <div>
               <span className="ce-setup-n">03</span>
               <div>
-                <div className="ce-setup-t">Open the folder in Bob</div>
+                <div className="ce-setup-t">Register it, ask the first question</div>
                 <p>
-                  <span className="ce-mono-sm">.bob/mcp.json</span> is already in the repository, so
-                  Bob finds the server on its own. Ask it what breaks if you change a copybook and it
-                  calls <span className="ce-mono-sm">graph_lookup</span> instead of guessing from the
-                  files it happened to open.
+                  Paste the configuration below into your MCP settings, then ask Bob{" "}
+                  <i>“what breaks if I change LGPOLICY?”</i>. Eleven programs and two batch
+                  chains means <span className="ce-mono-sm">graph_lookup</span> answered;
+                  a plausible handful means it is still reading files.
                 </p>
               </div>
             </div>
@@ -503,8 +494,15 @@ export default function Landing({
               it wrapped mid-token. A configuration has to be readable to be
               trusted, and this one is what actually starts the server. */}
           <div className="ce-setup-foot">
-            <div className="ce-setup-t">Only if your client keeps its MCP servers elsewhere</div>
-            <pre className="ce-code">{MCP_JSON}</pre>
+            <div className="ce-setup-t">The configuration, ready to paste</div>
+            <pre className="ce-code">{CONNECTOR}</pre>
+            <p className="ce-fine" style={{ marginTop: 14 }}>
+              These steps query the hosted demo estate. To analyse your own COBOL - which then never
+              leaves your machine - clone the repository and use the local stdio server it ships
+              (<span className="ce-mono-sm">.bob/mcp.json</span>): drop your sources under{" "}
+              <span className="ce-mono-sm">corpora/</span>, run <span className="ce-mono-sm">make ingest</span>,
+              and the graph is rebuilt from your estate.
+            </p>
           </div>
         </div>
         <div className="ce-note">

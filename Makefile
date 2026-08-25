@@ -31,6 +31,7 @@ eval: ## answer-quality regression (golden Q/A, deterministic)
 	$(PP) $(PY) -m agent.eval
 
 web: ## build the frontend
+	cp -f mcp/cobol-explorer-mcp.py web/public/downloads/cobol-explorer-mcp.py
 	cd web && pnpm build
 
 shots: ## re-capture the five product plates the public page carries (needs `make serve`)
