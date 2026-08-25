@@ -225,7 +225,7 @@ export default function ChangesPanel({ version, author, role, onReload, onOpenDi
             ) : (
               <span className="grounded warn">⚠ {sync.behind} commit{sync.behind > 1 ? "s" : ""} behind main</span>
             )}
-            {sync.ahead > 0 && <span style={{ font: "400 10px var(--m)", color: "var(--text-helper)" }}>{sync.ahead} commit{sync.ahead > 1 ? "s" : ""} to propose</span>}
+            {sync.ahead > 0 && <span style={{ font: "400 10px var(--m)", color: "var(--text-helper)" }}>{sync.ahead} commit{sync.ahead > 1 ? "s" : ""} {stage === "proposed" ? "under review" : "to propose"}</span>}
             {/* The pull control is ALWAYS here. It used to render only when
                 behind - but the sync state is computed when the panel loads,
                 so a teammate merging while it was open left a stale
@@ -331,12 +331,26 @@ export default function ChangesPanel({ version, author, role, onReload, onOpenDi
       {merged && (
         <div className="grounded ok" style={{ alignSelf: "flex-start" }}>✓ merged into main · version closed</div>
       )}
-      <div style={{ display: merged ? "none" : "flex", gap: 8 }}>
-        <button className={canMerge && stage !== "proposed" ? "btn" : "btn-pri"} style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8 }}
-          disabled={busy || empty || stage === "proposed"}
-          title={stage === "proposed" ? "Already proposed" : empty ? "Nothing to propose yet" : "Submit for review"}
-          onClick={guidedPropose}>{stage === "proposed" ? "Proposed ✓" : "Propose"}</button>
-        <button className={confirmMerge && !empty ? "btn-pri" : "btn"} style={{ flex: 1, justifyContent: "center", border: confirmMerge && !empty ? "none" : undefined, opacity: behind || empty ? 0.5 : 1 }}
+      {/* The PRIMARY button is the next action, nothing else: for a proposer
+          without the merge right that is Propose; for a reviewer or a
+          self-merging dev it is Merge. A done state ("Proposed ✓") is a quiet
+          chip, never a blue button shouting over the real action. */}
+      <div style={{ display: merged ? "none" : "flex", gap: 8, alignItems: "stretch" }}>
+        {stage === "proposed" ? (
+          <div style={{ flex: 1, display: "flex", gap: 8, alignItems: "center" }}>
+            <span className="grounded ok" data-testid="proposed-chip">✓ proposed</span>
+            <button className="btn" style={{ fontSize: 10.5, padding: "4px 10px" }} disabled={busy}
+              data-testid="withdraw-btn" title="Take the proposal back to draft: nothing is lost, review simply stops"
+              onClick={() => run(csStatus(version.id, "draft"))}>↩ withdraw</button>
+          </div>
+        ) : (
+          <button className={!canMerge && !empty ? "btn-pri" : "btn"} style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8 }}
+            disabled={busy || empty}
+            title={empty ? "Nothing to propose yet" : "Submit for review"}
+            onClick={guidedPropose}>Propose</button>
+        )}
+        <button className={confirmMerge || (canMerge && !behind && !empty) ? "btn-pri" : "btn"}
+          style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8, border: confirmMerge && !empty ? "none" : undefined, opacity: behind || empty ? 0.5 : 1 }}
           data-testid="merge-btn" disabled={busy || behind || empty}
           title={behind ? "Your branch is behind main. Import main first" : empty ? "Nothing to merge: this version has no changed file" : "Apply this version onto main (git merge)"}
           onClick={() => (confirmMerge ? guidedMerge() : setConfirmMerge(true))}>
