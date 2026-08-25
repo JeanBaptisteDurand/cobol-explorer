@@ -155,6 +155,12 @@ export default function BobPanel() {
           href="/downloads/cobol-explorer-mcp.py" download data-testid="bob-download">
           ↓ cobol-explorer-mcp.py
         </a>
+        <p className="bob-p" style={{ color: "var(--text-helper)", marginTop: 8 }}>
+          Nothing to start by hand: Bob launches it through the config below. To verify
+          the connection first, from a terminal:
+        </p>
+        <div className="bob-block"><pre>{`COBOL_EXPLORER_MCP_KEY=${"ce_..."} \\
+python3 cobol-explorer-mcp.py --check`}</pre></div>
       </div>
 
       <div className="bob-sec">

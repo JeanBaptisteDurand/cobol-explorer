@@ -28,6 +28,15 @@ Every call Bob makes lands in the estate's audit trail under your account.
    }
    ```
 
+3bis. **Verify first (optional).** Nothing to start by hand - Bob launches the file itself
+   through the config. To prove key and connection from a terminal before touching Bob:
+
+   ```bash
+   COBOL_EXPLORER_MCP_KEY=ce_... python3 cobol-explorer-mcp.py --check
+   ```
+
+   Expected: the three tools, and `impact of LGPOLICY = 11 programs, 2 batch chains`.
+
 4. **Ask the first question:** *"What breaks if I change LGPOLICY?"*
    If the answer names **11 programs and 2 batch chains**, the tools are live -
    and the call is already in the audit panel, under your name.

@@ -80,6 +80,10 @@ test("activity bar: one button active at a time, never stuck", async ({ page }) 
   await expect(page.getByTestId("bob-panel")).toHaveCount(0);
   await expect(page.locator(".abtn.on")).toHaveCount(1);
   await expect(page.locator('[data-ab="files"]')).toHaveClass(/on/);
+  // The Overview wedge is a door to the same panel, not a navigation away.
+  await page.getByTestId("mcp-connect").click();
+  await expect(page.getByTestId("bob-panel")).toBeVisible();
+  expect(new URL(page.url()).pathname).toBe("/");
 });
 
 test("the branch button opens Changes on the version, not an empty panel", async ({ page }) => {

@@ -116,5 +116,50 @@ def main() -> None:
             reply(id_, error={"code": -32601, "message": f"method not supported by this connector: {method}"})
 
 
+def check() -> int:
+    """`--check`: prove the connection works before touching Bob's config.
+
+    Run it from a terminal:  COBOL_EXPLORER_MCP_KEY=ce_...  python3 cobol-explorer-mcp.py --check
+    """
+    print(f"connector  : this file")
+    print(f"estate     : {URL}")
+    if not KEY:
+        print("key        : MISSING - set COBOL_EXPLORER_MCP_KEY (generate it at")
+        print("             https://cobol-explorer.fr, sidebar, plug icon)")
+        return 1
+    print(f"key        : {KEY[:8]}...")
+    try:
+        tools = remote({"jsonrpc": "2.0", "id": 1, "method": "tools/list"})["result"]["tools"]
+        print(f"tools      : {', '.join(t['name'] for t in tools)}")
+        out = remote({"jsonrpc": "2.0", "id": 2, "method": "tools/call",
+                      "params": {"name": "graph_lookup", "arguments": {"op": "impact", "node": "LGPOLICY"}}})
+        d = json.loads(out["result"]["content"][0]["text"])
+        print(f"first ask  : impact of LGPOLICY = {len(d['programs'])} programs, {len(d['chains'])} batch chains")
+        print("\nAll good. Now register this file in Bob's MCP configuration (see the")
+        print("header of this file, or the 'Connect your Bob' panel on the site) and")
+        print("ask: what breaks if I change LGPOLICY?")
+        return 0
+    except urllib.error.HTTPError as e:
+        if e.code == 401:
+            print("FAILED     : the estate refused the key - generate a fresh one on the site")
+        else:
+            print(f"FAILED     : the estate said HTTP {e.code}")
+        return 1
+    except Exception as e:
+        print(f"FAILED     : could not reach the estate ({e})")
+        return 1
+
+
 if __name__ == "__main__":
+    if "--check" in sys.argv:
+        raise SystemExit(check())
+    if sys.stdin.isatty():
+        # A human double-started it: this program is meant to be LAUNCHED BY BOB
+        # through the MCP config, speaking JSON on stdin. Explain instead of
+        # sitting silent forever.
+        print(__doc__)
+        print("Nothing to start by hand: Bob launches this file itself, through the")
+        print("configuration above. To verify your key and connection first, run:")
+        print("    COBOL_EXPLORER_MCP_KEY=ce_...  python3 cobol-explorer-mcp.py --check")
+        raise SystemExit(0)
     main()

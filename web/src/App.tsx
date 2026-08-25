@@ -612,7 +612,7 @@ export default function App() {
         )}
 
         <div className="tabcontent sb">
-          {t?.type === "overview" && <Overview graph={graph} systemLabel={systems.find((s) => s.id === activeSys)?.label} systemDetail={systems.find((s) => s.id === activeSys)?.detail} onOpenNode={openNode} onAsk={ask} onShowImpact={showImpactFor} />}
+          {t?.type === "overview" && <Overview graph={graph} systemLabel={systems.find((s) => s.id === activeSys)?.label} systemDetail={systems.find((s) => s.id === activeSys)?.detail} onOpenNode={openNode} onAsk={ask} onShowImpact={showImpactFor} onConnectBob={() => setSide("bob")} />}
           {t?.type === "graph" && <GraphView graph={graph} visibleKinds={visibleKinds} onSelect={selectNode} onOpen={openNode} selectedId={selectedId} agentActive={agentActive} litNodes={litNodes} focus={graphFocus} onFocusChange={setGraphFocus} agentPrimaryLabel={agentPrimary?.label} onFocusPrimary={focusPrimary} impactReq={impactReq} />}
           {t?.type === "code" && t.path && (
             <div className="cm-host no-top">

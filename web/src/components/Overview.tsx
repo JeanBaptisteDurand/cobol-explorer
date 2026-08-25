@@ -5,7 +5,7 @@ import type { Graph } from "../types";
 import Help from "./Help";
 import { Icon } from "./Icons";
 
-export default function Overview({ graph, systemLabel, systemDetail, onOpenNode, onAsk, onShowImpact }: { graph: Graph; systemLabel?: string; systemDetail?: string; onOpenNode: (id: string) => void; onAsk: (q: string) => void; onShowImpact: (id: string) => void }) {
+export default function Overview({ graph, systemLabel, systemDetail, onOpenNode, onAsk, onShowImpact, onConnectBob }: { graph: Graph; systemLabel?: string; systemDetail?: string; onOpenNode: (id: string) => void; onAsk: (q: string) => void; onShowImpact: (id: string) => void; onConnectBob?: () => void }) {
   const c = kindCount(graph);
   const fan = copybookFanIn(graph).slice(0, 4);
   const maxFan = fan[0]?.count || 1;
@@ -132,12 +132,15 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
             <b>MCP server</b>, so Bob answers about this estate with the same source-line proof.
           </div>
         </div>
-        {/* Was a decorative badge announcing a capability with no way to reach it. */}
-        <a href="/presentation#connect-bob" data-testid="mcp-connect"
-          title="How to connect your own Bob to this estate over MCP"
-          style={{ font: "600 11px var(--m)", color: "var(--graph)", border: "1px solid var(--graph)", borderRadius: 0, padding: "6px 12px", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 7, textDecoration: "none" }}>
+        {/* Opens the sidebar's Bob panel: the four-step tutorial lives THERE.
+            This used to navigate to /presentation, which for a signed-in user
+            read as being thrown back to the home page - a link that "made no
+            sense" is worse than no link. */}
+        <button data-testid="mcp-connect" onClick={onConnectBob}
+          title="Connect your own Bob to this estate over MCP - the tutorial opens in the sidebar"
+          style={{ font: "600 11px var(--m)", color: "var(--graph)", border: "1px solid var(--graph)", background: "transparent", cursor: "pointer", borderRadius: 0, padding: "6px 12px", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 7 }}>
           <span style={{ width: 7, height: 7, borderRadius: 99, background: "var(--graph)" }} />MCP exposed · connect Bob →
-        </a>
+        </button>
       </div>
 
       <div className="ov-grid">
