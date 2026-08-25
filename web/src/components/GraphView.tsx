@@ -78,6 +78,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
   // Focus mode is controlled by App so the sidebar / inspector can "reveal in graph".
   const setFocus = (v: boolean) => onFocusChange?.(v);
   const [impact, setImpact] = useState<{ set: Set<string>; count: number } | null>(null);
+  const [impactFit, setImpactFit] = useState<{ ids: string[]; nonce: number } | null>(null);
   useEffect(() => setVis(new Set(visibleKinds)), [visibleKinds]);
   useEffect(() => setImpact(null), [selectedId]);
   // External impact request (Overview hero CTA): runs AFTER the selectedId reset above
@@ -96,6 +97,9 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
       (imp.jobs ?? []).forEach((j: string) => ids.add(j));
       (imp.chains ?? []).forEach((c: string) => ids.add(c));
       setImpact({ set: ids, count: (imp.programs ?? []).length });
+      // Re-frame onto the closure: red specks at full-estate zoom prove
+      // nothing - the whole point of the click is to SEE the blast radius.
+      setImpactFit({ ids: [...ids], nonce: Date.now() });
     } catch { /* impact fetch failed - keep the current graph, no crash */ }
   }
 
@@ -176,6 +180,7 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         onNodeClick={(_, n) => onSelect(n.id)} onNodeDoubleClick={(_, n) => onOpen(n.id)} proOptions={{ hideAttribution: true }}
         defaultEdgeOptions={{ type: "default" }}>
         <Fitter dep={fitKey} nodeIds={fitNodeIds} />
+        {impactFit && <Fitter dep={String(impactFit.nonce)} nodeIds={impactFit.ids} />}
         <Background color="#232529" gap={44} />
         <Controls showInteractive={false} />
         <MiniMap pannable zoomable nodeColor={(n: any) => (n.id === selectedId ? SELECTED : kColor(n.data?.kind))} maskColor="rgba(22,22,22,.7)" style={{ background: "var(--layer-01)", border: "1px solid var(--border-subtle)" }} />

@@ -3,6 +3,16 @@ import { domainsTree } from "../model";
 import type { ChangeSet, GNode, Graph } from "../types";
 import { Icon } from "./Icons";
 
+/** "2h ago" - enough to tell a fresh proposal from a stale one. */
+function ago(iso?: string): string {
+  if (!iso) return "";
+  const s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (!isFinite(s) || s < 0) return "";
+  if (s < 3600) return ` · ${Math.max(1, Math.floor(s / 60))}min ago`;
+  if (s < 86400) return ` · ${Math.floor(s / 3600)}h ago`;
+  return ` · ${Math.floor(s / 86400)}d ago`;
+}
+
 const TAG: Record<string, string> = { PGM: "pgm", COPYBOOK: "cpy", CICS_TXN: "cic", CICS_FILE: "vsa", BMS_MAP: "bms", DB2_TABLE: "db2", JOB: "job", DATASET: "ds", PROC: "prc", SCHED_JOB: "sch", STEP: "stp" };
 
 export default function Navigator({
@@ -173,7 +183,7 @@ export default function Navigator({
             </div>
             <span style={{ font: "400 10px var(--s)", color: v.status === "proposed" ? "var(--link)" : "var(--text-helper)", paddingLeft: 18 }}>
               {v.status === "proposed"
-                ? `${v.author.toLowerCase() === (me || "").toLowerCase() ? "you ask" : `${v.author} asks`} for review${v.impact?.programs ? ` · touches ${v.impact.programs.length}` : ""}`
+                ? `${v.author.toLowerCase() === (me || "").toLowerCase() ? "you ask" : `${v.author} asks`} for review${v.impact?.programs ? ` · touches ${v.impact.programs.length}` : ""}${ago(v.created_at)}`
                 : v.status === "merged" ? v.author : `${v.author}${v.impact?.programs ? ` · ${v.impact.programs.length} impacted` : ""}`}
             </span>
           </div>
