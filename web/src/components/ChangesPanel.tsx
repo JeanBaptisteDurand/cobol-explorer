@@ -119,11 +119,21 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
               <span className="grounded warn">⚠ {sync.behind} commit{sync.behind > 1 ? "s" : ""} behind main</span>
             )}
             {sync.ahead > 0 && <span style={{ font: "400 10px var(--m)", color: "var(--text-helper)" }}>{sync.ahead} commit{sync.ahead > 1 ? "s" : ""} to propose</span>}
-            {behind && (
+            {/* The pull control is ALWAYS here. It used to render only when
+                behind - but the sync state is computed when the panel loads,
+                so a teammate merging while it was open left a stale
+                "up to date" that HID the one button a user looks for. */}
+            {behind ? (
               <button className="btn" style={{ fontSize: 10.5, padding: "3px 9px", marginLeft: "auto" }} disabled={busy}
                 data-testid="sync-btn" title="git merge main → your branch: pulls in the work merged by the team"
                 onClick={() => run(csSync(version.id))}>
                 ↓ Import main
+              </button>
+            ) : (
+              <button className="btn" style={{ fontSize: 10.5, padding: "3px 9px", marginLeft: "auto" }} disabled={busy}
+                data-testid="sync-check" title="Re-check against main: did teammates merge since this panel loaded?"
+                onClick={onReload}>
+                ↻ Check main
               </button>
             )}
           </div>
