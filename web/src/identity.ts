@@ -34,6 +34,53 @@ export function saveSession(id: Identity, token: string) {
   saveIdentity(id);
 }
 
+const HOME_KEY = "cobol-explorer-home";
+
+/** Is this signed token still alive? Client-side read of the exp claim only -
+ *  the server re-verifies the signature on every call regardless. */
+function tokenAlive(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    return typeof payload.exp === "number" && payload.exp * 1000 > Date.now() + 30_000;
+  } catch {
+    return false;
+  }
+}
+
+/** Before switching to a demo account, remember the REAL session - once.
+ *  Hopping between demo accounts keeps the original stash, so "back to my
+ *  account" always means the account the tour of roles started from. */
+export function stashHomeSession() {
+  if (localStorage.getItem(HOME_KEY)) return;
+  const token = getToken(); const id = getIdentity();
+  if (token && id) localStorage.setItem(HOME_KEY, JSON.stringify({ token, identity: id }));
+}
+
+/** The stashed real session, if it exists and its token has not expired. */
+export function getHomeSession(): { token: string; identity: Identity } | null {
+  try {
+    const raw = localStorage.getItem(HOME_KEY);
+    if (!raw) return null;
+    const home = JSON.parse(raw);
+    if (!home?.token || !tokenAlive(home.token)) { localStorage.removeItem(HOME_KEY); return null; }
+    return home;
+  } catch {
+    return null;
+  }
+}
+
+export function restoreHomeSession(): Identity | null {
+  const home = getHomeSession();
+  if (!home) return null;
+  saveSession(home.identity, home.token);
+  localStorage.removeItem(HOME_KEY);
+  return home.identity;
+}
+
+export function clearHomeSession() {
+  localStorage.removeItem(HOME_KEY);
+}
+
 export function clearSession() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(KEY);

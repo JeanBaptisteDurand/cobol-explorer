@@ -17,7 +17,7 @@ import Logo from "./components/Logo";
 import Tour, { tourWasSeen } from "./components/Tour";
 import Onboarding from "./components/Onboarding";
 import Overview from "./components/Overview";
-import { clearSession, consumeFragmentSession, getIdentity, getToken, saveSession, type Identity } from "./identity";
+import { clearHomeSession, clearSession, consumeFragmentSession, getHomeSession, getIdentity, getToken, restoreHomeSession, saveSession, stashHomeSession, type Identity } from "./identity";
 import { VISIBLE_DEFAULT } from "./layout";
 import { kindCount, nodeIndex } from "./model";
 import type { ChangeSet, GNode, Graph } from "./types";
@@ -826,16 +826,23 @@ export default function App() {
           locked={authRequired === true && !!token}
           onDone={(id) => { setIdent(id); setShowOnb(false); }}
           onSignOut={() => {
-            clearSession(); setToken(null); setIdent(null); setShowOnb(false);
+            clearSession(); clearHomeSession(); setToken(null); setIdent(null); setShowOnb(false);
             setGraph(null); setVersions([]); setActiveVersionId(null);
           }}
           demoAccounts={demoAccounts}
-          onSwitchAccount={(user) =>
+          onSwitchAccount={(user) => {
+            // Remember the REAL session once, so trying roles is a round trip,
+            // not a one-way door: the dialog then offers "back to my account".
+            stashHomeSession();
             login(user, "demo").then((r) => {
               saveSession({ name: r.name, role: r.role }, r.token);
               window.location.reload();
-            })
-          }
+            });
+          }}
+          homeIdentity={getHomeSession()?.identity ?? null}
+          onReturnHome={() => {
+            if (restoreHomeSession()) window.location.reload();
+          }}
         />
       )}
     </div>

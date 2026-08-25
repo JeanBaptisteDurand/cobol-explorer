@@ -9,7 +9,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge - Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-0f62fe)](https://cobol-explorer.fr)
-[![tests](https://img.shields.io/badge/tests-156%20backend%20%C2%B7%2050%20e2e-42be65)](#8-tests)
+[![tests](https://img.shields.io/badge/tests-158%20backend%20%C2%B7%2050%20e2e-42be65)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-33b1ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-be95ff)](#72-connect-your-own-ibm-bob-mcp)
 [![license](https://img.shields.io/badge/license-Apache--2.0-8d8d8d)](LICENSE)
@@ -69,7 +69,7 @@ Legacy mainframe estates (COBOL / z/OS) still run the world's banks, insurers an
 - **IBM Bob via MCP** - 3 tools (`graph_lookup`, `search_code`, `read_source_lines`) exposed over the Model Context Protocol, so **Bob itself becomes an AI co-worker** that can query the estate.
 - **Governance** - git-backed team versioning, RBAC roles, merge gate, HMAC-chained immutable audit.
 - **Multi-estate** - analyses **two real codebases**: IBM **GenApp** (insurance) and AWS **CardDemo** (credit cards), switchable in one click.
-- **Stack** - Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 156 backend tests · 50 e2e.
+- **Stack** - Python / FastAPI (agent + ingestion) + React / TypeScript (frontend); Granite self-hosted through Ollama, or **Granite on IBM watsonx.ai**. In-process graph and index by default; **Neo4j + pgvector (HNSW)** as the self-hosted scale path (`make serve-scale`). 158 backend tests · 50 e2e.
 
 ### Selected challenge theme
 
@@ -461,7 +461,7 @@ For real accounts, point `COBOL_EXPLORER_USERS` at a JSON `{user: {display, role
 ## 8. Tests
 
 ```bash
-make test                           # 156 backend tests (parsing, graph, impact, search, versioning, API, MCP, auth, sign-up)
+make test                           # 158 backend tests (parsing, graph, impact, search, versioning, API, MCP, auth, sign-up)
 cd web && pnpm exec playwright test # 50 e2e (landing, sign-up, sign-in, overview, code, impact, cowork, tour, RBAC)
 make serve-sandbox &                # authenticated server on a THROWAWAY COPY of the estate
 make e2e-governance                 # a 3-account / 3-role scenario played in the browser
@@ -481,7 +481,7 @@ server/
   mcp_server/     the MCP server exposing the three tools to IBM Bob
   security/       RBAC, identity, signed tokens, OIDC, users, the audit chain
   versioning/     isolated change-sets, diff, review, merge gate
-  tests/          156 backend tests
+  tests/          158 backend tests
 web/              React + TypeScript frontend (workshop, landing, /presentation)
   e2e/            50 Playwright tests
 versions/         isolated change-sets - the source corpus is never mutated

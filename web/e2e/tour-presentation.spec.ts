@@ -112,11 +112,17 @@ test("the MCP panel hands over the real configuration, ready to copy", async ({ 
   // And the constraint stated rather than glossed over.
   await expect(panel).toContainText(/stdio/i);
 
-  // The two-minute path: mint a key (mocked here), and the panel injects it
-  // straight into the connector config a reader copies.
-  await page.route("**/api/mcp-key", (r) => r.fulfill({ json: { key: "ce_test_key_123", endpoint: "/mcp" } }));
-  await page.getByTestId("bob-key-user").fill("amine");
-  await page.getByTestId("bob-key-password").fill("demo");
+  // The two-minute path: one click mints on the session (mocked here), and the
+  // panel injects the key straight into the connector config a reader copies.
+  await page.evaluate(() => {
+    // a decodable never-expiring fake token, so the panel sees a signed session
+    localStorage.setItem("cobol-explorer-token", "x." + btoa(JSON.stringify({ exp: 9999999999 })) + ".y");
+  });
+  await page.reload();
+  await expect(page.locator(".ov-stats")).toContainText(/programs/i, { timeout: 30_000 });
+  await page.locator('[data-ab="plug"]').click();
+  await page.route("**/api/mcp-key", (r) => r.fulfill({ json: { key: "ce_test_key_123", endpoint: "/mcp", account: "JB" } }));
+  await expect(page.getByTestId("bob-key-mint")).toContainText("JB");
   await page.getByTestId("bob-key-mint").click();
   await expect(panel).toContainText("ce_test_key_123");
   await page.getByTestId("bob-copy-config").click();

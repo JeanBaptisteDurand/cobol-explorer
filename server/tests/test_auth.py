@@ -440,3 +440,26 @@ def test_remote_mcp_lists_and_calls_tools_with_a_key(client):
     entries = client.get("/api/audit", headers={"Authorization": f"Bearer {mtoken}"}).json()["entries"]
     mine = [e for e in entries if e["action"] == "mcp:graph_lookup"]
     assert mine and mine[-1]["actor"] == "Sofia" and mine[-1]["role"] == "risk"
+
+
+def test_mcp_key_minted_from_the_session_lands_on_the_account(client):
+    # Sign in as amine, mint with the TOKEN only: the key belongs to amine.
+    t = _token(client, "amine")
+    r = client.post("/api/mcp-key", json={}, headers={"Authorization": f"Bearer {t}"})
+    assert r.status_code == 200 and r.json()["account"] == "Amine"
+    assert users.actor_for_mcp_key(r.json()["key"])["username"] == "amine"
+
+
+def test_mcp_key_for_a_federated_session_is_durable(client):
+    # An IBM sign-in has no local account row: the first mint creates a durable
+    # slot, and the same person re-minting lands on the SAME slot.
+    from security import tokens
+    t = tokens.mint("Jean-Baptiste Durand", "risk")  # no username claim, like oidc.py
+    k1 = client.post("/api/mcp-key", json={}, headers={"Authorization": f"Bearer {t}"}).json()["key"]
+    a1 = users.actor_for_mcp_key(k1)
+    assert a1["username"].startswith("fed:") and a1["role"] == "risk"
+    k2 = client.post("/api/mcp-key", json={}, headers={"Authorization": f"Bearer {t}"}).json()["key"]
+    assert users.actor_for_mcp_key(k1) is None          # replaced, same slot
+    assert users.actor_for_mcp_key(k2)["username"] == a1["username"]
+    # The federated row cannot be used to sign in: it has no password.
+    assert client.post("/api/login", json={"username": a1["username"], "password": ""}).status_code == 401

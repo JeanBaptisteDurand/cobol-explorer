@@ -19,7 +19,7 @@ const METRICS = [
   // as two numbers to the reader it is written for. 339 + 1157 and 421 + 1294,
   // the two estates added.
   { n: "1,496", l: "entities mapped\n1,715 typed edges" },
-  { n: "206", l: "automated tests\n156 backend · 50 e2e" },
+  { n: "208", l: "automated tests\n158 backend · 50 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
 ];
 
@@ -113,7 +113,7 @@ const IDENTITY = [
 
 const BUILT = [
   { t: "Plan before code", d: "A brainstorming skill settles requirements and design before a line is written, so the spec is the artefact and the code follows it." },
-  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 156 backend tests instead of a happy-path demo." },
+  { t: "Test before implementation", d: "A TDD skill writes the failing test first. It is why this repository carries 158 backend tests instead of a happy-path demo." },
   { t: "Simplify after", d: "A cleanup skill re-reads the diff for duplication and dead code. It removed a dead helper, an MCP parameter that filtered nothing, and a hard-coded path that broke the Bob integration on any other machine." },
 ];
 

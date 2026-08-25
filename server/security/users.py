@@ -90,21 +90,47 @@ def _hash_key(key: str) -> str:
     return hashlib.sha256(key.encode()).hexdigest()
 
 
-def mint_mcp_key(username: str, password: str) -> str | None:
-    """A fresh MCP key for this account, or None if the credentials are wrong.
+def _set_key(account_id: str, allc: dict) -> str:
+    key = "ce_" + secrets.token_urlsafe(33)
+    allc[account_id]["mcp_key_hash"] = _hash_key(key)
+    _write(allc)
+    return key
 
-    Minting requires the credentials (not just a session token) because the key
-    is a long-lived credential itself: whoever can mint one must prove they own
-    the account NOW. Re-minting replaces the previous key.
-    """
+
+def mint_mcp_key(username: str, password: str) -> str | None:
+    """A fresh MCP key against explicit credentials, or None if they are wrong."""
     actor = authenticate(username, password)
     if not actor:
         return None
-    key = "ce_" + secrets.token_urlsafe(33)
+    return _set_key((username or "").strip().lower(), accounts())
+
+
+def mint_mcp_key_for_session(claims: dict) -> tuple[str, dict] | None:
+    """A fresh MCP key for the SIGNED SESSION's account: (key, actor) or None.
+
+    The key belongs to the account, not to the session: switch to a demo role
+    afterwards and it neither moves nor dies. Password accounts are found by the
+    token's ``u`` claim; federated sign-ins (IBM OIDC) have no local row, so one
+    is created for them - keyed ``fed:<name>``, no password, unable to sign in
+    by itself - purely to give the key somewhere durable to live, so the SAME
+    federated person gets the SAME key slot on every visit.
+    """
+    if not claims:
+        return None
     allc = accounts()
-    allc[(username or "").strip().lower()]["mcp_key_hash"] = _hash_key(key)
-    _write(allc)
-    return key
+    account_id = (claims.get("u") or "").strip().lower()
+    if not account_id or account_id not in allc:
+        sub = (claims.get("sub") or "").strip()
+        if not sub or sub == "guest":
+            return None
+        account_id = "fed:" + re.sub(r"[^a-z0-9]+", "-", sub.lower()).strip("-")
+        if account_id not in allc:
+            allc[account_id] = {"display": sub, "role": rbac.canonical(claims.get("role", "")),
+                                "federated": True, "verified": True}
+    account = allc[account_id]
+    actor = {"name": account.get("display") or account_id,
+             "role": rbac.canonical(account.get("role", "")), "username": account_id}
+    return _set_key(account_id, allc), actor
 
 
 def actor_for_mcp_key(key: str) -> dict | None:

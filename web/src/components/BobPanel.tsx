@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { mintMcpKey } from "../api";
+import { getHomeSession, getIdentity, getToken } from "../identity";
 import Help from "./Help";
 
 /** Everything needed to point an IBM Bob at this estate, in the sidebar.
@@ -83,16 +84,21 @@ function Block({ text, label }: { text: string; label: string }) {
 }
 
 export default function BobPanel() {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
   const [key, setKey] = useState("");
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // The key belongs to YOUR account. If you are currently wearing a demo role,
+  // the stashed real session mints it - switching roles to watch the audit
+  // panel must never rotate the credential your Bob is configured with.
+  const home = getHomeSession();
+  const owner = home?.identity ?? getIdentity();
+  const signed = !!(home?.token || getToken());
+
   const mint = () => {
     setBusy(true); setErr("");
-    mintMcpKey(user.trim(), password)
-      .then((r) => { setKey(r.key); setPassword(""); })
+    mintMcpKey(home?.token || undefined)
+      .then((r) => setKey(r.key))
       .catch((e: any) => setErr(String(e?.message || "could not mint the key")))
       .finally(() => setBusy(false));
   };
@@ -112,9 +118,9 @@ export default function BobPanel() {
       <div className="bob-sec">
         <div className="klabel">01 · Generate your key</div>
         <p className="bob-p">
-          Personal and shown once: every call Bob makes is written to the audit trail
-          under <b>your</b> name. Minting asks for your credentials because the key is
-          itself a credential (demo account: <code>amine</code> / <code>demo</code>).
+          Personal and bound to <b>your account</b>: every call Bob makes is written to
+          the audit trail under your name, and trying a demo role afterwards neither
+          moves nor replaces it.
         </p>
         {key ? (
           <>
@@ -123,16 +129,19 @@ export default function BobPanel() {
               Copy it now: it is not stored and will not be shown again. Re-minting replaces it.
             </p>
           </>
-        ) : (
+        ) : signed ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 7, marginTop: 8 }}>
-            <input className="inp" placeholder="username" value={user} data-testid="bob-key-user"
-              onChange={(e) => setUser(e.target.value)} />
-            <input className="inp" placeholder="password" type="password" value={password} data-testid="bob-key-password"
-              onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === "Enter" && mint()} />
-            <button className="btn" style={{ justifyContent: "center" }} disabled={busy || !user || !password}
-              data-testid="bob-key-mint" onClick={mint}>Generate my key</button>
+            <button className="btn" style={{ justifyContent: "center" }} disabled={busy}
+              data-testid="bob-key-mint" onClick={mint}>
+              Generate my key · {owner?.name}
+            </button>
             {err && <div style={{ font: "400 11px var(--s)", color: "var(--danger)" }} data-testid="bob-key-error">{err}</div>}
           </div>
+        ) : (
+          <p className="bob-p" style={{ color: "var(--text-helper)" }} data-testid="bob-key-open-note">
+            This local demo runs keyless: skip this step and leave the <code>env</code> block
+            out of the configuration. Keys exist on the signed deployment.
+          </p>
         )}
       </div>
 

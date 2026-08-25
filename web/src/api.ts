@@ -66,9 +66,15 @@ export interface AuthConfig { mode: string; required: boolean; roles: string[]; 
 export const getAuthConfig = (): Promise<AuthConfig> => fetch("/api/auth/config").then(j);
 export const login = (username: string, password: string): Promise<Identity & { token: string }> =>
   post("/api/login", { username, password });
-/** A fresh per-account MCP key, shown once. Requires the credentials: the key is itself a credential. */
-export const mintMcpKey = (username: string, password: string): Promise<{ key: string; endpoint: string }> =>
-  post("/api/mcp-key", { username, password });
+/** A fresh MCP key for the SIGNED SESSION's account, shown once. Pass a token to
+ *  mint for another of your sessions - e.g. your real account while you are
+ *  temporarily wearing a demo role. */
+export const mintMcpKey = (token?: string): Promise<{ key: string; endpoint: string; account: string }> =>
+  fetch("/api/mcp-key", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : authHeaders()) },
+    body: "{}",
+  }).then(j);
 export interface SignupResult extends Partial<Identity> { token?: string; verification_required: boolean; email?: string; }
 export const signup = (username: string, password: string, display: string, role: string, email: string): Promise<SignupResult> =>
   post("/api/signup", { username, password, display, role, email });

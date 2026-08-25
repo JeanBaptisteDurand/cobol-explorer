@@ -84,7 +84,7 @@ test("the profile dialog switches role through a real login, not a label", async
   await page.addInitScript(() => {
     if (!localStorage.getItem("cobol-explorer-token")) {
       localStorage.setItem("cobol-explorer-identity", JSON.stringify({ name: "Jean-Baptiste Durand", role: "risk" }));
-      localStorage.setItem("cobol-explorer-token", "signed.jwt.token");
+      localStorage.setItem("cobol-explorer-token", "x." + btoa(JSON.stringify({ exp: 9999999999 })) + ".y");
     }
     localStorage.setItem("cobol-explorer-tour-seen", "1");
   });
@@ -120,4 +120,15 @@ test("the profile dialog switches role through a real login, not a label", async
   expect(logins).toEqual([{ username: "marc", password: "demo" }]);
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem("cobol-explorer-identity") || "{}"));
   expect(stored).toEqual({ name: "Marc", role: "auditor" });
+
+  // And the road back: the REAL session was stashed before the switch, the
+  // dialog offers it, one click restores it - trying roles is a round trip.
+  await page.getByTestId("identity").click();
+  await expect(page.getByTestId("onb-return-home")).toContainText("Jean-Baptiste Durand");
+  await page.getByTestId("onb-return-home").click();
+  await expect.poll(async () => {
+    try { return (await page.evaluate(() => JSON.parse(localStorage.getItem("cobol-explorer-identity") || "{}"))).name; }
+    catch { return null; }
+  }).toBe("Jean-Baptiste Durand");
+  expect(await page.evaluate(() => localStorage.getItem("cobol-explorer-home"))).toBeNull();
 });

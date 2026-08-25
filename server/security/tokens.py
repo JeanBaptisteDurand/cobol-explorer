@@ -38,10 +38,17 @@ def _sign(signing_input: str) -> str:
     return _b64(hmac.new(_SECRET, signing_input.encode(), hashlib.sha256).digest())
 
 
-def mint(name: str, role: str, ttl: int | None = None) -> str:
-    """Sign a token carrying who the caller is and which RBAC role they hold."""
+def mint(name: str, role: str, ttl: int | None = None, username: str | None = None) -> str:
+    """Sign a token carrying who the caller is and which RBAC role they hold.
+
+    ``username`` is the ACCOUNT id (the users.json key). ``sub`` is a display
+    name and two accounts may share one ("Sofia" twice) - anything that must
+    land on the right account row, like minting an MCP key, needs the claim.
+    Absent for federated sign-ins, which have no local account row."""
     now = int(time.time())
     claims = {"sub": name, "role": role, "iat": now, "exp": now + (ttl if ttl is not None else TTL)}
+    if username:
+        claims["u"] = username
     body = f"{_seg(HEADER)}.{_seg(claims)}"
     return f"{body}.{_sign(body)}"
 

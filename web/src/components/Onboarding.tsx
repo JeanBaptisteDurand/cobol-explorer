@@ -18,7 +18,7 @@ import type { DemoAccount } from "../api";
  *    signing out.
  */
 
-export default function Onboarding({ initial, locked, onDone, onSignOut, demoAccounts = [], onSwitchAccount }: {
+export default function Onboarding({ initial, locked, onDone, onSignOut, demoAccounts = [], onSwitchAccount, homeIdentity, onReturnHome }: {
   initial: Identity | null;
   /** True when a signed session decides the role (jwt/enforce) - the picker would lie. */
   locked?: boolean;
@@ -27,6 +27,9 @@ export default function Onboarding({ initial, locked, onDone, onSignOut, demoAcc
   /** Published demo accounts (password "demo"), verified server-side - one-click role switching. */
   demoAccounts?: DemoAccount[];
   onSwitchAccount?: (user: string) => void;
+  /** The REAL account stashed before a demo-role switch, if any - one click back. */
+  homeIdentity?: Identity | null;
+  onReturnHome?: () => void;
 }) {
   const [name, setName] = useState(initial?.name || "");
   const [role, setRole] = useState(initial?.role || ROLES[1]);
@@ -60,6 +63,12 @@ export default function Onboarding({ initial, locked, onDone, onSignOut, demoAcc
               (an auditor reading the trail, a developer merging), sign out and use an account
               that holds it.
             </p>
+            {homeIdentity && (
+              <button className="btn-pri" style={{ width: "100%", justifyContent: "center", font: "600 12.5px var(--s)", padding: 10, borderRadius: 0, border: "none", marginBottom: 14 }}
+                data-testid="onb-return-home" onClick={onReturnHome}>
+                ← Back to my account · {homeIdentity.name} ({homeIdentity.role})
+              </button>
+            )}
             {demoAccounts.length > 0 && (
               <>
                 <div className="klabel" style={{ marginBottom: 7 }}>Try another role · demo accounts</div>

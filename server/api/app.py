@@ -267,22 +267,32 @@ def login(body: LoginBody) -> dict:
         AUDIT.record(body.username or "?", "guest", "login", target="", result="denied")
         raise HTTPException(401, "invalid credentials")
     AUDIT.record(actor["name"], actor["role"], "login")
-    return {"token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL, **actor}
+    return {"token": tokens.mint(actor["name"], actor["role"], username=body.username.strip().lower()), "expires_in": tokens.TTL, **actor}
 
 
 class McpKeyBody(BaseModel):
-    username: str
-    password: str
+    username: str = ""
+    password: str = ""
 
 
 @app.post("/api/mcp-key")
-def mint_mcp_key(body: McpKeyBody) -> dict:
+def mint_mcp_key(body: McpKeyBody, request: Request) -> dict:
     """A fresh per-account MCP key, shown once. Re-minting replaces the old one.
 
-    Requires the credentials rather than a session token: the key is itself a
-    long-lived credential, so minting one must prove account ownership NOW -
-    the same reasoning as a password change form asking the current password.
+    Two ways in. A SIGNED SESSION mints for its own account in one click - the
+    key follows the account, so switching to a demo role afterwards changes
+    nothing, and a federated (IBM) sign-in gets a durable key slot of its own.
+    Explicit credentials remain for callers without a session (scripts, tests).
     """
+    claims = tokens.read(tokens.bearer(request.headers))
+    if claims and not body.username:
+        minted = users.mint_mcp_key_for_session(claims)
+        if not minted:
+            AUDIT.record(claims.get("sub", "?"), claims.get("role", "guest"), "mcp-key", target="", result="denied")
+            raise HTTPException(401, "this session cannot own a key")
+        key, actor = minted
+        AUDIT.record(actor["name"], actor["role"], "mcp-key", target="minted")
+        return {"key": key, "endpoint": "/mcp", "account": actor["name"]}
     try:
         key = users.mint_mcp_key(body.username, body.password)
     except users.UnverifiedAccount:
@@ -293,7 +303,7 @@ def mint_mcp_key(body: McpKeyBody) -> dict:
         raise HTTPException(401, "invalid credentials")
     account = users.accounts()[body.username.strip().lower()]
     AUDIT.record(account.get("display") or body.username, account.get("role", "guest"), "mcp-key", target="minted")
-    return {"key": key, "endpoint": "/mcp"}
+    return {"key": key, "endpoint": "/mcp", "account": account.get("display") or body.username}
 
 
 class SignupBody(BaseModel):
@@ -326,7 +336,7 @@ def signup(body: SignupBody) -> dict:
     if not needs_email:
         AUDIT.record(actor["name"], actor["role"], "signup")
         return {
-            "token": tokens.mint(actor["name"], actor["role"]), "expires_in": tokens.TTL,
+            "token": tokens.mint(actor["name"], actor["role"], username=body.username.strip().lower()), "expires_in": tokens.TTL,
             "name": actor["name"], "role": actor["role"], "verification_required": False,
         }
 
