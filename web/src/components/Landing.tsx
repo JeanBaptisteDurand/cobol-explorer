@@ -19,7 +19,7 @@ const METRICS = [
   // as two numbers to the reader it is written for. 339 + 1157 and 421 + 1294,
   // the two estates added.
   { n: "1,496", l: "entities mapped\n1,715 typed edges" },
-  { n: "208", l: "automated tests\n158 backend · 50 e2e" },
+  { n: "209", l: "automated tests\n158 backend · 51 e2e" },
   { n: "2", l: "real estates analysed\nIBM GenApp · AWS CardDemo" },
 ];
 

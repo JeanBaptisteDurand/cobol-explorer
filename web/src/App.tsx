@@ -227,7 +227,10 @@ export default function App() {
   // Every change of the active version goes through here so unsaved work is never
   // silently lost - and never saved into the wrong version.
   function switchVersion(id: string | null) {
-    if (id === activeVersionId) return;
+    // Compare against the REF, not the closed-over state: callbacks captured at
+    // mount (the tour's finish hook) otherwise no-op against a stale null and
+    // strand the reader inside somebody's draft, status "Editing".
+    if (id === activeVersionIdRef.current) return;
     if (hasUnsaved() && !window.confirm("Unsaved changes will be lost when switching version. Continue?")) return;
     setSaveErr(null);
     setActiveVersionId(id);
@@ -261,7 +264,14 @@ export default function App() {
   // button never leaves a dead-empty panel on a fast click.
   useEffect(() => {
     if (rightTab === "changes" && !activeVersionId && versions.length) {
-      const v = versions.find((x) => x.status === "draft") || versions[0];
+      // Preference order: MY draft (my work in progress), then a proposal
+      // (reviewing is what the panel is for), then whatever exists. Entering a
+      // stranger's half-finished draft as a side effect was the most
+      // surprising behaviour in the product.
+      const me = (identity?.name || "").toLowerCase();
+      const v = versions.find((x) => x.status === "draft" && x.author.toLowerCase() === me)
+        || versions.find((x) => x.status === "proposed")
+        || versions[0];
       setActiveVersionId(v.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -612,7 +622,7 @@ export default function App() {
         )}
 
         <div className="tabcontent sb">
-          {t?.type === "overview" && <Overview graph={graph} systemLabel={systems.find((s) => s.id === activeSys)?.label} systemDetail={systems.find((s) => s.id === activeSys)?.detail} onOpenNode={openNode} onAsk={ask} onShowImpact={showImpactFor} onConnectBob={() => setSide("bob")} />}
+          {t?.type === "overview" && <Overview graph={graph} systemLabel={systems.find((s) => s.id === activeSys)?.label} systemDetail={systems.find((s) => s.id === activeSys)?.detail} readonly={systems.find((s) => s.id === activeSys)?.readonly} onOpenNode={openNode} onAsk={ask} onShowImpact={showImpactFor} onConnectBob={() => setSide("bob")} />}
           {t?.type === "graph" && <GraphView graph={graph} visibleKinds={visibleKinds} onSelect={selectNode} onOpen={openNode} selectedId={selectedId} agentActive={agentActive} litNodes={litNodes} focus={graphFocus} onFocusChange={setGraphFocus} agentPrimaryLabel={agentPrimary?.label} onFocusPrimary={focusPrimary} impactReq={impactReq} />}
           {t?.type === "code" && t.path && (
             <div className="cm-host no-top">
@@ -764,7 +774,7 @@ export default function App() {
               <Inspector node={node} graph={graph} onOpenNode={openNode} onEdit={editNode} onShowInGraph={showInGraph} activePath={activeTab?.path || null} />
             </div>
             <div data-testid="rp-changes-panel" style={{ display: rightTab === "changes" ? "flex" : "none", flexDirection: "column", flex: 1, minHeight: 0 }}>
-              <ChangesPanel version={activeVersion} author={identity?.name || "you"} onReload={reloadVersions} onOpenDiff={openDiff} onFileReverted={(p) => loadContent(p)} onExit={exitVersion} />
+              <ChangesPanel version={activeVersion} author={identity?.name || "you"} role={identity?.role} onReload={reloadVersions} onOpenDiff={openDiff} onFileReverted={(p) => loadContent(p)} onExit={exitVersion} />
             </div>
             {rightTab === "audit" && (
               <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>

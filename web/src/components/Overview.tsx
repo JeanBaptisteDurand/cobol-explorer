@@ -5,7 +5,7 @@ import type { Graph } from "../types";
 import Help from "./Help";
 import { Icon } from "./Icons";
 
-export default function Overview({ graph, systemLabel, systemDetail, onOpenNode, onAsk, onShowImpact, onConnectBob }: { graph: Graph; systemLabel?: string; systemDetail?: string; onOpenNode: (id: string) => void; onAsk: (q: string) => void; onShowImpact: (id: string) => void; onConnectBob?: () => void }) {
+export default function Overview({ graph, systemLabel, systemDetail, readonly, onOpenNode, onAsk, onShowImpact, onConnectBob }: { graph: Graph; systemLabel?: string; systemDetail?: string; readonly?: boolean; onOpenNode: (id: string) => void; onAsk: (q: string) => void; onShowImpact: (id: string) => void; onConnectBob?: () => void }) {
   const c = kindCount(graph);
   const fan = copybookFanIn(graph).slice(0, 4);
   const maxFan = fan[0]?.count || 1;
@@ -95,7 +95,9 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
               so it needs its own sentence - concatenated it read "…claims,
               policies Read-only by default". */}
           {systemDetail || "Mainframe core"}. Read-only by default: the agent cites the source
-          line. Every change lives in an isolated version, reviewed before it is applied.
+          line.{readonly
+            ? " This estate is analysis-only; versioning lives on the primary estate."
+            : " Every change lives in an isolated version, reviewed before it is applied."}
         </p>
       </div>
 
@@ -159,7 +161,7 @@ export default function Overview({ graph, systemLabel, systemDetail, onOpenNode,
         <div className="card">
           <div className="hd">Batch chains <span className="sub">· scheduler</span><Help text="The scheduler (Control-M, CA-7…) chains nightly batch jobs. A chain = an ordered sequence of jobs; each job runs programs. Changing a copybook can therefore break a whole chain." /></div>
           <div style={{ padding: "5px 0" }}>
-            {chains.length === 0 && <div style={{ padding: "7px 14px", color: "var(--text-helper)", font: "400 11px var(--s)" }}>·</div>}
+            {chains.length === 0 && <div style={{ padding: "7px 14px", color: "var(--text-helper)", font: "400 11px var(--s)" }}>no scheduler export ingested for this estate</div>}
             {chains.map((ch) => (
               <div key={ch.id} className="row" style={{ borderRadius: 0, padding: "8px 14px", gap: 8, font: "500 11.5px var(--m)" }}>
                 <span style={{ color: "var(--interactive)" }}>{ch.label}</span>

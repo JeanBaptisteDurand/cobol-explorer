@@ -101,6 +101,8 @@ export const getCsDiff = (id: string, path: string) =>
   fetch(`/api/changesets/${id}/diff?path=${encodeURIComponent(path)}`, { headers: authHeaders() }).then(j);
 export const csComment = (id: string, author: string, text: string) =>
   post(`/api/changesets/${id}/comment`, { author, text });
+export const getCs = (id: string): Promise<ChangeSet> =>
+  fetch(`/api/changesets/${id}`, { headers: authHeaders() }).then(j);
 export const csStatus = (id: string, status: string) =>
   post(`/api/changesets/${id}/status`, { status });
 export const csSummarize = (id: string): Promise<ChangeSet> => post(`/api/changesets/${id}/summary`, {});

@@ -243,8 +243,8 @@ class GraphTools:
         engine = getattr(idx, "model", "") or "IBM Granite embeddings"
         try:
             if not idx.ready():
-                return {"query": query, "results": [], "note": "index vectoriel absent (lancer: make index)"}
+                return {"query": query, "results": [], "note": "semantic index not built (run: make index)"}
             results = idx.search(query, k=5)
         except Exception as exc:  # DB / embeddings engine down -> degrade, don't crash the agent
-            return {"query": query, "results": [], "note": f"moteur de recherche indisponible ({type(exc).__name__})"}
+            return {"query": query, "results": [], "note": f"semantic search engine unreachable ({type(exc).__name__})"}
         return {"query": query, "results": results, "engine": f"IBM Granite embeddings · {engine}"}

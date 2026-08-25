@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { csComment, csRevert, csStatus, csSummarize, csSync } from "../api";
+import { csComment, csRevert, csStatus, csSummarize, csSync, getCs } from "../api";
 import type { ChangeSet } from "../types";
 import Help from "./Help";
 import { Icon } from "./Icons";
 
 const short = (id: string) => id.split(":")[1] || id;
 
-export default function ChangesPanel({ version, author, onReload, onOpenDiff, onFileReverted, onExit }: {
-  version: ChangeSet | null; author: string; onReload: () => void;
+type StepState = "pending" | "run" | "ok" | "fail";
+interface Step { label: string; state: StepState; note?: string }
+
+export default function ChangesPanel({ version, author, role, onReload, onOpenDiff, onFileReverted, onExit }: {
+  version: ChangeSet | null; author: string; role?: string; onReload: () => void;
   onOpenDiff: (path: string) => void; onFileReverted?: (path: string) => void; onExit?: () => void;
 }) {
   const [comment, setComment] = useState("");
@@ -15,6 +18,8 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
   const [confirmRevert, setConfirmRevert] = useState<string | null>(null);
   const [error, setError] = useState<{ message: string; code?: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  // The visible pipeline: each entry is ONE real server call, shown as it runs.
+  const [steps, setSteps] = useState<Step[] | null>(null);
 
   if (!version)
     return (
@@ -54,6 +59,79 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       "Accepted and applied to main. This version is closed and read-only. Open a new version for the next change.",
   };
 
+  // The role decides which button is THE button. A hint, not enforcement - the
+  // server still arbitrates, and says so when it refuses.
+  const canMerge = /^(dev|arch)/i.test(role || "");
+
+  const mark = (i: number, state: StepState, note?: string) =>
+    setSteps((cur) => cur && cur.map((st, j) => (j === i ? { ...st, state, note } : st)));
+
+  const guardUpToDate = async (i: number): Promise<boolean> => {
+    mark(i, "run");
+    const fresh = await getCs(version.id);
+    if (fresh.status === "merged") { mark(i, "fail", "already merged: this version is closed"); return false; }
+    if (fresh.sync && !fresh.sync.up_to_date) {
+      mark(i, "fail", `main moved: ${fresh.sync.behind} commit(s) ahead of you. Import main first (button above).`);
+      return false;
+    }
+    mark(i, "ok");
+    return true;
+  };
+
+  const guidedPropose = async () => {
+    setBusy(true); setError(null);
+    setSteps([
+      { label: "Checking your branch against main", state: "pending" },
+      { label: "Submitting for review", state: "pending" },
+    ]);
+    try {
+      if (!(await guardUpToDate(0))) return;
+      mark(1, "run");
+      await csStatus(version.id, "proposed");
+      mark(1, "ok", "proposed · a developer or an architect reviews and merges");
+      onReload();
+    } catch (e: any) {
+      mark(1, "fail", String(e?.message || e));
+    } finally { setBusy(false); }
+  };
+
+  const guidedMerge = async () => {
+    setBusy(true); setError(null); setConfirmMerge(false);
+    setSteps([
+      { label: "Checking your branch against main", state: "pending" },
+      { label: "Writing the change record", state: "pending" },
+      { label: "Applying onto main (git merge)", state: "pending" },
+      { label: "Version closed", state: "pending" },
+    ]);
+    try {
+      if (!(await guardUpToDate(0))) return;
+      mark(1, "run");
+      if (version.summary?.text) mark(1, "ok", "already written");
+      else { await csSummarize(version.id); mark(1, "ok"); }
+      mark(2, "run");
+      await csStatus(version.id, "merged");
+      mark(2, "ok");
+      mark(3, "ok", "main now carries this change · the version is read-only");
+      onReload();
+    } catch (e: any) {
+      const running = 2;
+      mark(running, "fail", String(e?.message || e));
+    } finally { setBusy(false); }
+  };
+
+  // What should this person do NOW? One sentence, always true, always visible.
+  const next = merged ? null
+    : steps ? null
+    : empty ? { text: "Nothing changed yet. Open a file and press 'Edit in a version', then save into it." }
+    : behind ? { text: "Main moved since you branched: press '↓ Import main' above, then come back here." }
+    : stage === "proposed"
+      ? (canMerge
+        ? { text: "This proposal awaits a reviewer - and your role can merge: read the diff, then Merge." }
+        : { text: "Proposed. A developer or an architect reviews the diff and merges; you can keep editing meanwhile." })
+      : (canMerge
+        ? { text: "Ready. Propose it for review - or merge it yourself: your role holds the right, the gate will state the impact." }
+        : { text: "Ready. Propose it for review: merging is reserved to developers and architects." });
+
   return (
     <div style={{ padding: 15, display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
       {/* Where this version stands in its life, at a glance. */}
@@ -71,6 +149,35 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
         </div>
         <p style={{ font: "400 11px/1.6 var(--s)", color: "var(--text-secondary)", margin: 0 }}>{GUIDE[stage] ?? ""}</p>
       </div>
+
+      {next && (
+        <div data-testid="next-action" style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "9px 12px",
+          background: "rgba(15, 98, 254, .10)", border: "1px solid rgba(15, 98, 254, .35)" }}>
+          <span style={{ color: "var(--interactive)", font: "600 11px var(--m)", flex: "none" }}>▸ next</span>
+          <span style={{ font: "400 11px/1.55 var(--s)", color: "var(--text-primary)" }}>{next.text}</span>
+        </div>
+      )}
+
+      {steps && (
+        <div className="card" style={{ padding: "11px 13px" }} data-testid="action-steps">
+          {steps.map((st, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "3px 0" }}>
+              <span style={{ flex: "none", width: 14, textAlign: "center", font: "600 11px var(--m)",
+                color: st.state === "ok" ? "var(--verified)" : st.state === "fail" ? "var(--danger)" : st.state === "run" ? "var(--interactive)" : "var(--text-helper)" }}>
+                {st.state === "ok" ? "✓" : st.state === "fail" ? "✕" : st.state === "run" ? "◌" : "·"}
+              </span>
+              <span style={{ font: st.state === "pending" ? "400 11px/1.5 var(--s)" : "500 11px/1.5 var(--s)",
+                color: st.state === "pending" ? "var(--text-helper)" : "var(--text-primary)" }}>
+                {st.label}
+                {st.note && <span style={{ display: "block", font: "400 10px/1.5 var(--s)", color: st.state === "fail" ? "var(--danger)" : "var(--text-helper)" }}>{st.note}</span>}
+              </span>
+            </div>
+          ))}
+          {!busy && (
+            <button className="btn" style={{ fontSize: 9.5, padding: "2px 8px", marginTop: 7 }} onClick={() => setSteps(null)}>dismiss</button>
+          )}
+        </div>
+      )}
       {/* The written record: what this version changes, what it puts at risk, what to
           check. Generated at merge time, and on demand before it - because the diff of
           a merged version against main is empty, and by then it is too late to write. */}
@@ -198,14 +305,14 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
               merges silently either way. */}
           {error.code === "conflict" && (
             <div style={{ display: "flex", gap: 7, marginTop: 9 }}>
-              <button className="btn" style={{ flex: 1, fontSize: 10.5, flexDirection: "column", alignItems: "flex-start", gap: 3, padding: "8px 10px" }}
+              <button className="btn" style={{ flex: 1, fontSize: 10.5, flexDirection: "column", alignItems: "flex-start", gap: 3, padding: "8px 10px", whiteSpace: "normal", minWidth: 0 }}
                 disabled={busy} data-testid="resolve-mine" onClick={() => run(csSync(version.id, "mine"))}>
                 <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>Keep my changes</span>
                 <span style={{ font: "400 9.5px/1.4 var(--s)", color: "var(--text-helper)", textAlign: "left" }}>
                   your lines win on the conflict; everything else from main still comes in
                 </span>
               </button>
-              <button className="btn" style={{ flex: 1, fontSize: 10.5, flexDirection: "column", alignItems: "flex-start", gap: 3, padding: "8px 10px" }}
+              <button className="btn" style={{ flex: 1, fontSize: 10.5, flexDirection: "column", alignItems: "flex-start", gap: 3, padding: "8px 10px", whiteSpace: "normal", minWidth: 0 }}
                 disabled={busy} data-testid="resolve-main" onClick={() => run(csSync(version.id, "main"))}>
                 <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>Take the main version</span>
                 <span style={{ font: "400 9.5px/1.4 var(--s)", color: "var(--text-helper)", textAlign: "left" }}>
@@ -225,12 +332,14 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
         <div className="grounded ok" style={{ alignSelf: "flex-start" }}>✓ merged into main · version closed</div>
       )}
       <div style={{ display: merged ? "none" : "flex", gap: 8 }}>
-        <button className="btn-pri" style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8 }} disabled={busy}
-          onClick={() => run(csStatus(version.id, "proposed"))}>Propose</button>
+        <button className={canMerge && stage !== "proposed" ? "btn" : "btn-pri"} style={{ flex: 1, justifyContent: "center", font: "600 12px var(--s)", padding: 8 }}
+          disabled={busy || empty || stage === "proposed"}
+          title={stage === "proposed" ? "Already proposed" : empty ? "Nothing to propose yet" : "Submit for review"}
+          onClick={guidedPropose}>{stage === "proposed" ? "Proposed ✓" : "Propose"}</button>
         <button className={confirmMerge && !empty ? "btn-pri" : "btn"} style={{ flex: 1, justifyContent: "center", border: confirmMerge && !empty ? "none" : undefined, opacity: behind || empty ? 0.5 : 1 }}
           data-testid="merge-btn" disabled={busy || behind || empty}
           title={behind ? "Your branch is behind main. Import main first" : empty ? "Nothing to merge: this version has no changed file" : "Apply this version onto main (git merge)"}
-          onClick={() => (confirmMerge ? run(csStatus(version.id, "merged"), () => setConfirmMerge(false)) : setConfirmMerge(true))}>
+          onClick={() => (confirmMerge ? guidedMerge() : setConfirmMerge(true))}>
           {behind ? "Merge (import main first)" : empty ? "Nothing to merge" : confirmMerge ? "Confirm merge" : "Merge"}
         </button>
       </div>

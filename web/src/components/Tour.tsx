@@ -55,7 +55,7 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: '[data-testid="impact-hero"]',
     title: "The question everyone actually has",
-    text: "Change this copybook and you must recompile 25 programs. Not a sample, not an estimate: a deterministic traversal of the graph, and one click shows you exactly which ones.",
+    text: "Change the estate's most critical copybook and you must recompile every program that copies it. Not a sample, not an estimate: a deterministic traversal of the graph, and one click shows you exactly which ones.",
     side: "bottom",
     before: h.openOverview,
   },
@@ -111,7 +111,7 @@ const STEPS = (h: TourHooks): Step[] => [
   {
     el: '[data-testid="identity"]',
     title: "Roles: who may do what",
-    text: "Your badge. Six roles, and the server (never the interface) decides what each may do: dev and architect review and MERGE, risk may propose but is refused the merge, auditor and compliance READ THE AUDIT TRAIL, and a guest only reads. On the signed deployment your role travels inside your token, so relabeling yourself changes nothing. Click the badge to switch to a demo account instead: a real login, a new token, every right re-decided. In production there is no switcher; an administrator or the corporate IdP assigns roles.",
+    text: "Your badge. Six roles, and the server (never the interface) decides what each may do: dev and architect review and MERGE, risk may propose but is refused the merge, auditor and compliance READ THE AUDIT TRAIL, and a guest only reads. On the signed deployment (cobol-explorer.fr) your role travels inside a signed token and the badge switches you between demo accounts in one click; on this open demo you simply pick a role at entry. In production, an administrator or the corporate IdP assigns roles.",
     side: "bottom",
   },
   {

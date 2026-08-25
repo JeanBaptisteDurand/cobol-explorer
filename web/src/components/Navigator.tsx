@@ -6,9 +6,9 @@ import { Icon } from "./Icons";
 const TAG: Record<string, string> = { PGM: "pgm", COPYBOOK: "cpy", CICS_TXN: "cic", CICS_FILE: "vsa", BMS_MAP: "bms", DB2_TABLE: "db2", JOB: "job", DATASET: "ds", PROC: "prc", SCHED_JOB: "sch", STEP: "stp" };
 
 export default function Navigator({
-  graph, versions, activeVersion, readonly, onOpenFile, onOpenResource, onOpenVersion, onNewVersion, selectedPath, selectedId,
+  graph, versions, activeVersion, readonly, me, onOpenFile, onOpenResource, onOpenVersion, onNewVersion, selectedPath, selectedId,
 }: {
-  graph: Graph; versions: ChangeSet[]; activeVersion: string | null; readonly?: boolean;
+  graph: Graph; versions: ChangeSet[]; activeVersion: string | null; readonly?: boolean; me?: string;
   onOpenFile: (node: GNode) => void; onOpenResource: (node: GNode) => void;
   onOpenVersion: (cs: ChangeSet) => void; onNewVersion: () => void;
   selectedPath: string | null; selectedId: string | null;
@@ -173,8 +173,8 @@ export default function Navigator({
             </div>
             <span style={{ font: "400 10px var(--s)", color: v.status === "proposed" ? "var(--link)" : "var(--text-helper)", paddingLeft: 18 }}>
               {v.status === "proposed"
-                ? `${v.author} asks for review${v.impact?.programs ? ` · touches ${v.impact.programs.length}` : ""}`
-                : `${v.author}${v.impact?.programs ? ` · ${v.impact.programs.length} impacted` : ""}`}
+                ? `${v.author.toLowerCase() === (me || "").toLowerCase() ? "you ask" : `${v.author} asks`} for review${v.impact?.programs ? ` · touches ${v.impact.programs.length}` : ""}`
+                : v.status === "merged" ? v.author : `${v.author}${v.impact?.programs ? ` · ${v.impact.programs.length} impacted` : ""}`}
             </span>
           </div>
         ))}

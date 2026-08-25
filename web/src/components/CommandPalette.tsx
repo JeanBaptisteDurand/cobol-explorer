@@ -31,6 +31,7 @@ export default function CommandPalette({ graph, onClose, onOpenNode, onCommand }
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(0);
   const [sem, setSem] = useState<SemHit[]>([]);
+  const [semNote, setSemNote] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => inputRef.current?.focus(), []);
 
@@ -39,7 +40,8 @@ export default function CommandPalette({ graph, onClose, onOpenNode, onCommand }
     if (q.trim().length < 3) { setSem([]); return; }
     let alive = true; // ignore a resolved fetch whose query is already stale
     const t = setTimeout(() => {
-      getSearch(q.trim()).then((r) => { if (alive) setSem(r.results || []); }).catch(() => { if (alive) setSem([]); });
+      getSearch(q.trim()).then((r) => { if (alive) { setSem(r.results || []); setSemNote(r.note || ""); } })
+        .catch(() => { if (alive) { setSem([]); setSemNote("semantic search unreachable"); } });
     }, 220);
     return () => { alive = false; clearTimeout(t); };
   }, [q]);
@@ -102,7 +104,13 @@ export default function CommandPalette({ graph, onClose, onOpenNode, onCommand }
               ))}
             </>
           )}
-          {!items.length && sem.length === 0 && <div style={{ padding: 16, color: "var(--text-helper)", font: "400 12px var(--s)" }}>No result.</div>}
+          {/* "No result." when the engine was simply down read as "the estate
+              contains nothing about premiums". The backend says why; show it. */}
+          {!items.length && sem.length === 0 && (
+            <div style={{ padding: 16, color: "var(--text-helper)", font: "400 12px var(--s)" }} data-testid="palette-empty">
+              No exact match.{semNote ? <span style={{ display: "block", marginTop: 4, color: "var(--danger)" }}>Semantic search is off: {semNote}</span> : null}
+            </div>
+          )}
         </div>
       </div>
     </div>

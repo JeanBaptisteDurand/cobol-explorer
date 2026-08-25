@@ -250,6 +250,39 @@ test("the agent answers with a trace @slow", async ({ page }) => {
   await expect(page.getByTestId("trace")).toContainText("graph_lookup", { timeout: 130_000 });
 });
 
+test("merging walks visible steps, each one a real server call", async ({ page }) => {
+  await page.goto("/");
+  await page.locator('[data-ab="branch"]').click();
+  const btn = page.getByTestId("merge-btn");
+  test.skip((await btn.count()) === 0 || !(await btn.isEnabled()), "no mergeable draft in this state");
+
+  // The next-action banner tells a developer they hold the right.
+  await expect(page.getByTestId("next-action")).toContainText(/Propose|merge/i);
+
+  // Mock the three real calls the pipeline makes, so the corpus stays untouched.
+  const vid = await page.getByTestId("sync-state").evaluate(() => {
+    const m = document.querySelector('[data-testid="cs-summary"]')?.closest('[data-testid]');
+    return null; // id read from network instead
+  }).catch(() => null);
+  await page.route("**/api/changesets/*/summary", (r) => r.fulfill({ json: { summary: { text: "record", grounded: true } } }));
+  await page.route(/\/api\/changesets\/[^/]+$/, (r) =>
+    r.request().method() === "GET"
+      ? r.fulfill({ json: { id: "x", status: "draft", edits: [{ path: "p" }], sync: { up_to_date: true, behind: 0, ahead: 1 }, impact: { programs: ["A"], chains: [] }, comments: [] } })
+      : r.continue());
+  await page.route("**/api/changesets/*/status", (r) => r.fulfill({ json: { id: "x", status: "merged", edits: [], comments: [] } }));
+
+  await btn.click();
+  await expect(page.getByTestId("merge-gate")).toBeVisible();
+  await btn.click(); // confirm -> the guided pipeline starts
+  const steps = page.getByTestId("action-steps");
+  await expect(steps).toBeVisible();
+  await expect(steps).toContainText("Checking your branch against main");
+  await expect(steps).toContainText("Applying onto main (git merge)");
+  await expect(steps).toContainText("Version closed");
+  // every step ends green
+  await expect(steps.locator("text=✕")).toHaveCount(0);
+});
+
 test("the version registry is written on demand and readable afterwards", async ({ page }) => {
   await page.goto("/");
   await page.locator('[data-ab="branch"]').click();

@@ -62,7 +62,7 @@ export default function Inspector({ node, graph, onOpenNode, onEdit, onShowInGra
     <div style={{ padding: 15, display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-          <span className="badge b-proposed">{TAG[node.kind] || node.kind}</span>
+          <span className="tag" style={{ color: "var(--interactive)", borderColor: "var(--interactive)" }}>{TAG[node.kind] || node.kind}</span>
         </div>
         <div style={{ font: "600 17px var(--m)", color: "var(--text-primary)", marginTop: 8 }}>{node.label}</div>
       </div>

@@ -186,8 +186,13 @@ export default function GraphView({ graph, visibleKinds, onSelect, onOpen, selec
         <div className="ov-h1" style={{ fontSize: 12.5, marginBottom: 2 }}>Estate graph</div>
         {(agentActive || live) ? (
           <div style={{ margin: "6px 0 11px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, font: "500 11px var(--s)", color: "var(--link)" }}>
-              <span className="spin" />{live ? `Agent path · ${litNodes?.size ?? 0} entities` : "The agent is thinking… (~30 s, on-prem Granite)"}
+            <div style={{ display: "flex", alignItems: "center", gap: 7, font: "500 11px var(--s)", color: agentActive ? "var(--link)" : "var(--verified)" }}>
+              {/* The spinner spins only while the agent RUNS. A finished path is
+                  a result, not an activity - it kept spinning forever before. */}
+              {agentActive ? <span className="spin" /> : <span>✓</span>}
+              {agentActive
+                ? (live ? `Agent path · ${litNodes?.size ?? 0} entities` : "The agent is thinking…")
+                : `Agent path · ${litNodes?.size ?? 0} entities`}
             </div>
             {/* Collapse the whole reasoning trail down to just the asked entity + neighbours. */}
             {live && agentPrimaryLabel && onFocusPrimary && (
