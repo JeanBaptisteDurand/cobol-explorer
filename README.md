@@ -18,6 +18,32 @@
 
 ---
 
+**Contents** ·
+[The submission](#-ai-builders-challenge-with-ibm-bob---submission-wildcard):
+[Problem](#problem-statement) ·
+[Solution](#solution-description) ·
+[AI approach](#ai-approach-and-architecture) ·
+[Challenge theme](#selected-challenge-theme) ·
+[How Bob was used](#how-ibm-bob-was-used) ·
+[Try it](#try-it) ·
+[Limitations](#known-limitations)
+&nbsp;&nbsp;|&nbsp;&nbsp; **The product**:
+[Overview](#overview) ·
+[Two gestures](#1-the-product-in-two-gestures) ·
+[What it maps](#2-what-the-product-maps-the-mainframe-elements) ·
+[Interface](#3-the-surfaces-of-the-interface) ·
+[The agent](#4-the-agent-and-all-its-tools) ·
+[IBM stack](#5-the-ibm-stack) ·
+[Architecture](#6-architecture) ·
+[Getting started](#7-getting-started) ·
+[Connect your Bob](#72-connect-your-own-ibm-bob-mcp) ·
+[Tests](#8-tests) ·
+[Layout](#9-repository-layout) ·
+[Docs](#10-documentation) ·
+[Positioning](#11-positioning)
+
+---
+
 ## 🏆 AI Builders Challenge with IBM Bob - submission (Wildcard)
 
 > An **AI co-worker + decision-intelligence platform** that turns work on legacy mainframe code - today a set of disconnected, expert-dependent tasks - into an **intelligent, governed, outcome-driven system** for a whole team (developers · risk · compliance). Built with IBM Bob - and extending IBM Bob back, over MCP.
