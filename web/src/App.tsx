@@ -694,13 +694,20 @@ export default function App() {
       {/* BODY */}
       <div className="body">
         <div className="activitybar">
-          {/* Editor axis - exactly one is lit (Explorateur = tout sauf le graphe). */}
-          <AB name="files" title="Explorer" on={activeTab?.type !== "graph"} onClick={() => focusTab(OVERVIEW_TAB)} />
-          <AB name="search" title="Search" onClick={() => (document.querySelector('[data-testid="search"]') as HTMLInputElement)?.focus()} />
-          <AB name="graph" title="Estate graph" on={activeTab?.type === "graph"} onClick={() => focusTab(GRAPH_TAB)} />
+          {/* Exactly ONE of files / graph / plug is lit, ever. The Bob panel is
+              a sidebar takeover, so any other button hands the sidebar back to
+              the estate tree - clicking Explorer while the MCP panel was open
+              used to change the centre tab and leave the panel standing, which
+              read as "the button does nothing". */}
+          <AB name="files" title="Explorer" on={side === "explorer" && activeTab?.type !== "graph"}
+            onClick={() => { setSide("explorer"); focusTab(OVERVIEW_TAB); }} />
+          <AB name="search" title="Search" onClick={() => { setSide("explorer"); (document.querySelector('[data-testid="search"]') as HTMLInputElement)?.focus(); }} />
+          <AB name="graph" title="Estate graph" on={side === "explorer" && activeTab?.type === "graph"}
+            onClick={() => { setSide("explorer"); focusTab(GRAPH_TAB); }} />
           {/* Panel jumps - the panel's own tab bar (Agent/Inspecteur/Modifs) shows which is active. */}
-          <AB name="branch" title="Versions / Changes" badge={versions.length || undefined} onClick={openChanges} />
-          <AB name="spark" title="Agent" onClick={() => setRightTab("chat")} />
+          <AB name="branch" title="Versions / Changes" badge={versions.length || undefined}
+            onClick={() => { setSide("explorer"); openChanges(); }} />
+          <AB name="spark" title="Agent" onClick={() => { setSide("explorer"); setRightTab("chat"); }} />
           <AB name="plug" title="Connect your Bob (MCP)" on={side === "bob"}
             onClick={() => setSide((v) => (v === "bob" ? "explorer" : "bob"))} />
           <div style={{ marginTop: "auto", marginBottom: 6 }}>

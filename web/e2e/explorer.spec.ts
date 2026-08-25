@@ -70,6 +70,16 @@ test("activity bar: one button active at a time, never stuck", async ({ page }) 
   await expect(page.locator('[data-ab="graph"]')).toHaveClass(/on/);
   await page.locator('[data-ab="spark"]').click(); // opens the agent; it adds no active state
   await expect(page.locator(".abtn.on")).toHaveCount(1);
+  // The reported case: MCP panel open, then Explorer - the panel must go, and
+  // exactly one button stays lit.
+  await page.locator('[data-ab="plug"]').click();
+  await expect(page.getByTestId("bob-panel")).toBeVisible();
+  await expect(page.locator(".abtn.on")).toHaveCount(1);
+  await expect(page.locator('[data-ab="plug"]')).toHaveClass(/on/);
+  await page.locator('[data-ab="files"]').click();
+  await expect(page.getByTestId("bob-panel")).toHaveCount(0);
+  await expect(page.locator(".abtn.on")).toHaveCount(1);
+  await expect(page.locator('[data-ab="files"]')).toHaveClass(/on/);
 });
 
 test("the branch button opens Changes on the version, not an empty panel", async ({ page }) => {
