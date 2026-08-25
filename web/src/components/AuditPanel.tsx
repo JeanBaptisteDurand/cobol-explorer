@@ -70,7 +70,10 @@ export default function AuditPanel() {
             </span>
             <span style={{ color: "var(--text-primary)", flex: "none", width: 88, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={`${e.actor} · ${e.role}`}>{e.actor}</span>
             <span className="tag" style={{ flex: "none" }}>{e.action}</span>
-            <span style={{ color: "var(--text-secondary)", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={e.target}>{e.target}</span>
+            {/* The target wraps instead of truncating: "impact:..." proves
+                nothing, "impact:copy:LGPOLICY" is the evidence - and this
+                panel exists to be screenshotted into compliance files. */}
+            <span style={{ color: "var(--text-secondary)", flex: 1, minWidth: 0, overflowWrap: "anywhere" }}>{e.target}</span>
             {e.result && e.result !== "granted" && <span style={{ color: "var(--danger)", font: "600 8.5px var(--m)", flex: "none" }}>{e.result}</span>}
           </div>
         ))}
