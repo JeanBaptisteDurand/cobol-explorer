@@ -192,18 +192,25 @@ export default function ChangesPanel({ version, author, onReload, onOpenDiff, on
       {error && (
         <div className="card" style={{ padding: "10px 12px", borderColor: "var(--danger)", font: "400 11px/1.5 var(--s)", color: "var(--danger)" }} data-testid="cs-error">
           {error.message}
-          {/* Conflict resolution: both sides touched the same lines - the user decides. */}
+          {/* Conflict resolution: both sides touched the same lines - the user
+              decides, and each choice explains itself IN the button, because
+              tooltips do not exist on a video frame or a screenshot. Nothing
+              merges silently either way. */}
           {error.code === "conflict" && (
             <div style={{ display: "flex", gap: 7, marginTop: 9 }}>
-              <button className="btn" style={{ flex: 1, fontSize: 10.5, justifyContent: "center" }} disabled={busy} data-testid="resolve-mine"
-                title="Your changes win on the conflicting lines; the rest of main is imported"
-                onClick={() => run(csSync(version.id, "mine"))}>
-                Keep my changes
+              <button className="btn" style={{ flex: 1, fontSize: 10.5, flexDirection: "column", alignItems: "flex-start", gap: 3, padding: "8px 10px" }}
+                disabled={busy} data-testid="resolve-mine" onClick={() => run(csSync(version.id, "mine"))}>
+                <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>Keep my changes</span>
+                <span style={{ font: "400 9.5px/1.4 var(--s)", color: "var(--text-helper)", textAlign: "left" }}>
+                  your lines win on the conflict; everything else from main still comes in
+                </span>
               </button>
-              <button className="btn" style={{ flex: 1, fontSize: 10.5, justifyContent: "center" }} disabled={busy} data-testid="resolve-main"
-                title="The team version (main) wins on the conflicting lines; your other changes are kept"
-                onClick={() => run(csSync(version.id, "main"))}>
-                Take the main version
+              <button className="btn" style={{ flex: 1, fontSize: 10.5, flexDirection: "column", alignItems: "flex-start", gap: 3, padding: "8px 10px" }}
+                disabled={busy} data-testid="resolve-main" onClick={() => run(csSync(version.id, "main"))}>
+                <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>Take the main version</span>
+                <span style={{ font: "400 9.5px/1.4 var(--s)", color: "var(--text-helper)", textAlign: "left" }}>
+                  main wins on the conflict; your changes to other files are kept
+                </span>
               </button>
             </div>
           )}

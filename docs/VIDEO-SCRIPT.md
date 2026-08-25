@@ -1,92 +1,120 @@
-# Video script - 3 minutes, word for word
+# Video script - 3:00, word for word
 
 > Judges' guidance: show, fast - **the problem · who it is for · how the AI works · a running demo · the impact**.
-> Rule for this script: **open on the human stake, not on the word “COBOL”.** Mainframe loses a general audience in
-> 60 seconds; a production incident does not.
->
-> Everything below is recorded against **https://cobol-explorer.fr** (live), signed in as `amine / demo`.
-> Total: **2 min 55 s**. Narration in English.
+> Four mandatory scenes: the graph, a question in COBOL Explorer, IBM Bob over MCP, and the
+> three-role team workflow with a conflict. One take per scene; assemble after.
+
+## Before recording - stage the state (5 minutes)
+
+1. `bash scripts/demo-reset.sh` style clean state, or on the prod demo: make sure the sidebar
+   shows exactly three versions: one MERGED (Lea), one PROPOSED by Sofia ("asks for review"),
+   one DRAFT behind main for the conflict beat (Claire's).
+2. Stage the conflict: create Claire's version FIRST, then merge another version touching the
+   same line, so Claire's "Import main" hits the conflict on camera.
+3. Bob (VS Code) open on the second monitor / other desktop, cobol-explorer MCP server Connected,
+   a fresh task ready.
+4. Sign in as **Amine (dev)**. The role switcher (badge, top right) does the account changes
+   on camera - it is one click and it is a feature.
+5. Browser at 1440px, 125% zoom if the recording is 1080p. English narration. No em dashes in
+   any on-screen text you type.
 
 ---
 
-## 0:00 - 0:22 · The stake (screen: the landing page hero)
+## 0:00 - 0:20 · The problem (voice over a black slide, then the landing hero)
 
-> "Your bank moved money last night. Your insurer paid a claim. The code that did it was written before most of us
-> were born - and it still runs, untouched, because nobody dares.
->
-> Here is what 'nobody dares' actually means. A developer needs to widen one field, in one shared file. They search,
-> they ask around, they find eight programs. There were eleven. The other three fail at 3 a.m., in batch, in
-> production."
+> A developer changes one COBOL copybook. They ask around: which programs does this touch?
+> They find eight. There were eleven. The other three fail at three a.m., in batch, in
+> production. Two hundred billion lines of COBOL still run banks and insurers - and the
+> blast radius of a change is still guesswork.
 
-*Action: scroll the landing slowly, stop on the four proof numbers.*
+*Action: landing page scrolls slowly under the last sentence: "Ask the estate. Get the proof."*
 
-## 0:22 - 0:40 · Who it is for (screen: the workshop, right panel visible)
+## 0:20 - 0:40 · Scene 1 - the graph (the deterministic truth)
 
-> "COBOL Explorer is an AI co-worker for the people who keep those systems alive - and not only the developers.
-> Risk, compliance and audit carry the consequences of a change without being able to read a line of the code.
-> They get the same answers, grounded the same way."
+> This is COBOL Explorer. The whole estate - programs, copybooks, DB2 tables, CICS, the JCL
+> and the scheduler - parsed into one dependency graph. Watch: the impact of one copybook.
 
-*Action: sign in, land on the Overview. Point at the left tree (business domains), then the right tabs
-(Agent · Inspector · Changes · Audit).*
+*Action: workshop, Graph tab. ⌘P → LGPOLICY → Enter. Click "See impact". The 11 nodes light
+up red with the two batch chains. Hold 3 seconds. Click a node's code icon: the COPY line.*
 
-## 0:40 - 1:10 · How the AI works (screen: Overview → Graph)
+> Eleven programs, two batch chains - not an estimate, a traversal. Every edge proven to a
+> source line.
 
-> "The whole estate is parsed first - COBOL, JCL, CICS, DB2, screens, the scheduler - into a dependency graph where
-> every link carries its evidence: the exact line of the COPY, the CALL, the SQL.
->
-> On top of that graph sits an agent built on IBM Granite with the BeeAI framework. It picks its own tools and, before
-> each one, it writes down *why*. Two retrieval paths: the graph, when the answer must be exact and exhaustive; a
-> Granite vector index, when you don't know the name of what you're looking for."
+## 0:40 - 1:05 · Scene 2 - ask in plain language (the agent)
 
-*Action: open the Graph tab, show the layers, hover one edge to reveal the evidence line.*
+*Action: right panel, Agent. Type: "Which programs break if I change copybook LGPOLICY?" Send.
+DO NOT cut the wait - the trace IS the demo: think → graph_lookup → the graph lighting up.*
 
-## 1:10 - 2:00 · The demo that matters (screen: Agent panel, live)
+> An agent on IBM Granite, running on watsonx dot ai. It picks its own tools and says why.
+> The answer cites file and line - and the server re-verifies every citation against the
+> source before you see it. Eleven sources, verified.
 
-> "So let's ask the question that caused the incident."
+*Action: click one citation → the code opens at the exact line, flashed.*
 
-*Action: type - `Which programs break if I change copybook LGPOLICY?` - and let it run. Do not cut the wait.*
+## 1:05 - 1:35 · Scene 3 - IBM Bob, extended over MCP
 
-> "Watch the graph. It greys out, then lights up entity by entity as the agent retrieves - this is the reasoning,
-> made visible.
->
-> Eleven programs. Two batch chains. Every one of them cited to the file and the line. And this badge is the part I
-> care about most: after the answer is written, the server re-reads every citation against the source. Eleven sources
-> verified. A plausible answer that isn't grounded never passes silently."
+*Action: cut to VS Code. One second on Bob Settings → MCP → cobol-explorer · Connected.
+Then the chat: "what breaks if I change LGPOLICY?" → the approval gate shows
+Graph Lookup {"op":"impact","node":"copy:LGPOLICY"} → Approve → the 11-program table.*
 
-*Action: click one citation → the code opens and the line highlights. Point at the ✓ badge.*
+> The same tools are exposed to IBM Bob over MCP. Bob does not guess from open files: it
+> calls the graph, and gets the same eleven programs, with the same line-level proof.
 
-## 2:00 - 2:35 · From answer to governed change (screen: Changes + Audit)
+*Action: flash (2 s) the workshop's Audit panel line: mcp:graph_lookup · impact:copy:LGPOLICY
+under the caller's name.*
 
-> "Understanding is half of it. Changing is the other half - and it is where estates get damaged.
->
-> Every change lives in its own git branch. The impact is recomputed at each edit. Risk can propose; only a developer
-> or an architect can merge, and merging asks for confirmation: *this touches eleven programs*. Every action -
-> including every refusal - is appended to a hash-chained audit log that detects tampering."
+> And every call Bob makes is written to the audit trail, under the person who owns the key.
+> The AI is audited like a colleague.
 
-*Action: show a version with its diff and impact count, click Merge to reveal the gate, then open the Audit tab and
-point at the "chain intact" badge.*
+## 1:35 - 2:40 · Scene 4 - a team of three roles, one governed change
 
-## 2:35 - 2:55 · Close (screen: closing slide)
+*Action: badge → switch to Sofia (risk) - one click, it is a real signed login.*
 
-> "Built on IBM Granite and Granite embeddings, orchestrated with BeeAI, running on watsonx.ai - and the same three
-> tools are exposed back to IBM Bob over MCP, so Bob itself can query the estate.
->
-> Days of manual impact hunting, down to thirty seconds - with line-level proof. It is live today on
-> watsonx.ai, and one command installs it anywhere.
->
-> COBOL Explorer. It's live at cobol-explorer.fr."
+> Sofia works in risk. She opens a version - a real git branch - widens a premium field,
+> saves. The impact recomputes as she types: eleven programs. She proposes.
 
-*Action: end on the closing slide with the URL and the GitHub link readable on screen.*
+*Action: in her draft: edit the value, Cmd+S, Changes panel shows the impact, click Propose.
+Then click Merge: the 403 toast - "that right belongs to: dev, architect". Hold 2 seconds.*
+
+> She cannot merge. Not a grey button - the server refuses, names who can, and writes the
+> refusal to the audit trail.
+
+*Action: badge → back / switch to Amine (dev). The sidebar shows Sofia's version first:
+"Sofia asks for review · touches 11". Open it, glance at the diff, click Merge →
+the gate: "touches 11 programs. Confirm?" → confirm.*
+
+> Amine is a developer. Sofia's proposal is waiting for him, blast radius announced. He
+> reads the diff, and the merge gate makes him say it out loud: eleven programs. Confirmed.
+
+*Action: switch to Claire (architect), open her draft: "2 commits behind main" → Import main
+→ the conflict card: same lines changed - two self-explaining choices → "Keep my changes"
+→ up to date → Merge → confirm.*
+
+> Claire was working in parallel on the same lines. No silent overwrite: the conflict names
+> the file, she decides, and only then may she merge. Plan, coordinate, decide, execute -
+> that is the whole Wildcard theme, running.
+
+*(lower-third during this scene: PLAN · COORDINATE · DECIDE · EXECUTE)*
+
+## 2:40 - 3:00 · Scene 5 - the audit, and the close
+
+*Action: switch to Marc (auditor). Audit panel: the chain - logins, edits, merges, Sofia's
+refusal, and the mcp:graph_lookup calls, "✓ chain verified". Hold 3 seconds.*
+
+> Marc audits. Every action you just watched - human or AI - is in one tamper-evident
+> chain. Days of manual impact hunting, down to thirty seconds, with line-level proof.
+> It is live today on watsonx dot ai, and one command installs it anywhere.
+
+*Action: cut to the landing hero with the URL visible.*
+
+> Bob helped build this tool. Now the tool extends Bob. COBOL Explorer - live at
+> cobol-explorer dot fr.
 
 ---
 
-## Shot checklist before recording
+## Assembly checklist
 
-- [ ] Sign out first - the landing page must be the opening frame.
-- [ ] Pre-warm the agent once (first watsonx call is slower than the rest).
-- [ ] Zoom the browser to ~110 % so `file:line` citations are legible on a phone.
-- [ ] Hide bookmarks, notifications, and any other tab.
-- [ ] Record at 1920×1080; keep the cursor slow - jurors follow the pointer.
-- [ ] Do **not** speed up the agent's answer. The honest latency is part of the credibility.
-- [ ] Upload public (YouTube unlisted is fine), then test the link in a private window, logged out.
-- [ ] Put the link at the very top of the README.
+- [ ] ≤ 3:00 total; scene 4 is the longest (65 s) - trim narration, never the gate shot
+- [ ] The numbers said out loud match the screen: eleven programs, two chains, everywhere
+- [ ] English UI throughout; no personal key visible in any frame (careful in VS Code)
+- [ ] Upload unlisted (YouTube) · test the link in a private window · put it at the top of the README

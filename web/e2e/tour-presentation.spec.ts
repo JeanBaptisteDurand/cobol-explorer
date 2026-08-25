@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { readFileSync } from "node:fs";
+import { execSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -138,7 +138,10 @@ test("the MCP panel hands over the real configuration, ready to copy", async ({ 
   // without PYTHONPATH the local server exits with ModuleNotFoundError.
   await page.getByTestId("bob-copy-local").click();
   const clip = await page.evaluate(() => navigator.clipboard.readText());
-  const real = JSON.parse(readFileSync(path.resolve(HERE, "../../.bob/mcp.json"), "utf8"));
+  // Compared against the COMMITTED file, not the working tree: the developer's
+  // own Bob legitimately keeps a personal keyed config there locally (and git
+  // skip-worktree shields it) - what must never drift is what we SHIP.
+  const real = JSON.parse(execSync("git show HEAD:.bob/mcp.json", { cwd: path.resolve(HERE, "../..") }).toString());
   expect(JSON.parse(clip)).toEqual(real);
 
   await page.locator('[data-ab="plug"]').click();

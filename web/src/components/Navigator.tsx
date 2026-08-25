@@ -154,15 +154,27 @@ export default function Navigator({
           {readonly ? "read-only system · versioning on the main system" : "isolated changes, reviewed before merge"}
         </div>
         {versions.length === 0 && !readonly && <div style={{ padding: "4px 8px", font: "400 11px var(--s)", color: "var(--text-helper)" }}>No version.</div>}
-        {versions.map((v) => (
-          <div key={v.id} className={`row ${activeVersion === v.id ? "sel" : ""}`} style={{ alignItems: "flex-start", flexDirection: "column", gap: 3, padding: "6px 8px" }} onClick={() => onOpenVersion(v)} data-testid="version-row">
+        {[...versions].sort((a, b) => {
+          // What needs the team's attention floats up: proposed, then drafts,
+          // then the merged history.
+          const rank = (x: typeof a) => (x.status === "proposed" ? 0 : x.status === "draft" ? 1 : 2);
+          return rank(a) - rank(b);
+        }).map((v) => (
+          <div key={v.id} className={`row ${activeVersion === v.id ? "sel" : ""}`}
+            style={{ alignItems: "flex-start", flexDirection: "column", gap: 3, padding: "6px 8px",
+              /* A proposed version is a request addressed to the team - it gets
+                 the accent edge a draft or a closed version does not. */
+              borderLeft: v.status === "proposed" ? "2px solid var(--interactive)" : "2px solid transparent" }}
+            onClick={() => onOpenVersion(v)} data-testid="version-row">
             <div style={{ display: "flex", alignItems: "center", gap: 6, width: "100%" }}>
               <Icon name="branch" size={12} color="var(--interactive)" />
               <span style={{ font: "500 11.5px var(--m)", color: "var(--text-primary)" }}>{v.title}</span>
               <span className={`badge b-${v.status}`} style={{ marginLeft: "auto" }}>{v.status}</span>
             </div>
-            <span style={{ font: "400 10px var(--s)", color: "var(--text-helper)", paddingLeft: 18 }}>
-              {v.author}{v.impact?.programs ? ` · ${v.impact.programs.length} impacted` : ""}
+            <span style={{ font: "400 10px var(--s)", color: v.status === "proposed" ? "var(--link)" : "var(--text-helper)", paddingLeft: 18 }}>
+              {v.status === "proposed"
+                ? `${v.author} asks for review${v.impact?.programs ? ` · touches ${v.impact.programs.length}` : ""}`
+                : `${v.author}${v.impact?.programs ? ` · ${v.impact.programs.length} impacted` : ""}`}
             </span>
           </div>
         ))}

@@ -705,7 +705,9 @@ export default function App() {
           <AB name="graph" title="Estate graph" on={side === "explorer" && activeTab?.type === "graph"}
             onClick={() => { setSide("explorer"); focusTab(GRAPH_TAB); }} />
           {/* Panel jumps - the panel's own tab bar (Agent/Inspecteur/Modifs) shows which is active. */}
-          <AB name="branch" title="Versions / Changes" badge={versions.length || undefined}
+          <AB name="branch"
+            title={versions.some((v) => v.status === "proposed") ? "Versions / Changes - proposals awaiting review" : "Versions / Changes"}
+            badge={versions.filter((v) => v.status === "proposed").length || undefined}
             onClick={() => { setSide("explorer"); openChanges(); }} />
           <AB name="spark" title="Agent" onClick={() => { setSide("explorer"); setRightTab("chat"); }} />
           <AB name="plug" title="Connect your Bob (MCP)" on={side === "bob"}
