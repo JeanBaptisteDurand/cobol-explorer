@@ -107,6 +107,14 @@ lab: state the intent, review Bob's plan, then implement, with test-first discip
 Bob calls `graph_lookup`, returning the exhaustive, grounded impact that a file-reading agent
 alone cannot guarantee.
 
+**The evidence, on screen** ([bob-evidence/](bob-evidence/) holds the full set):
+
+| Bob invokes the tool, human approves | The exhaustive, line-proven answer |
+|---|---|
+| ![Bob calling graph_lookup through the MCP approval gate](bob-evidence/02-bob-calls-graph-lookup.png) | ![Bob's answer: the 11 programs with their COPY lines](bob-evidence/03-bob-answer-11-programs.png) |
+
+![The same calls in the estate's audit trail, under the key owner's name - including a rejected bad-key connect](bob-evidence/04-audit-attribution.png)
+
 **4. IBM SkillsBuild:** *"Troubleshoot Your Code Using IBM Bob"* completed (3 Aug 2026); the
 certificate is [in this repository](docs/skillsbuild-certificate.pdf) and uploaded with the entry.
 
