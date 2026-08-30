@@ -516,7 +516,6 @@ docs/             design, coverage, industrialisation, demo guide
 | [docs/MAINFRAME-COVERAGE.md](docs/MAINFRAME-COVERAGE.md) | What is mapped versus IMS/MQ/PL-I/Assembler/RACF, and the roadmap |
 | [docs/INDUSTRIALISATION.md](docs/INDUSTRIALISATION.md) | What moving from demo to production would take |
 | [docs/GUIDE_DEMO.md](docs/GUIDE_DEMO.md) | How to run the demo |
-| [docs/VIDEO-SCRIPT.md](docs/VIDEO-SCRIPT.md) | The script for the submission video |
 | [docs/IBM-APPID-BRANDING.md](docs/IBM-APPID-BRANDING.md) | Branding the IBM Cloud App ID sign-in widget |
 
 ## 11. Positioning
