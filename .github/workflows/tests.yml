@@ -1,0 +1,25 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned dependencies
+        run: pip install -r requirements.lock
+      - name: Git identity for the versioning store
+        run: |
+          git config --global user.name "ci"
+          git config --global user.email "ci@localhost"
+      - name: Backend test suite
+        run: pytest server/tests -q
+        env:
+          PYTHONPATH: packages/core:ingestion:server
