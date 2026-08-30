@@ -9,6 +9,7 @@
 **IBM AI Builders Challenge with IBM Bob** · **Wildcard Challenge - Build Intelligent Systems for the Future of Work**
 
 [![live](https://img.shields.io/badge/live-cobol--explorer.fr-0f62fe)](https://cobol-explorer.fr)
+[![demo video](https://img.shields.io/badge/demo%20video-3%20minutes-fa4d56)](https://youtu.be/oYf4kgc3fRo)
 [![tests](https://img.shields.io/badge/tests-158%20backend%20%C2%B7%2051%20e2e-42be65)](#8-tests)
 [![IBM Granite](https://img.shields.io/badge/IBM-Granite%20%C2%B7%20watsonx.ai-33b1ff)](https://www.ibm.com/granite)
 [![MCP](https://img.shields.io/badge/MCP-3%20tools%20for%20IBM%20Bob-be95ff)](#72-connect-your-own-ibm-bob-mcp)
