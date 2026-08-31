@@ -281,7 +281,7 @@ directly from **IBM Bob**.
 | **Identity** | **IBM Cloud App ID** (OIDC) | "Sign in with IBM" - see [§7.4](#74-sign-in-with-ibm-oidc--ibm-cloud-app-id) |
 | **Dev assistant** | **IBM Bob** | (1) the build co-pilot; (2) an **MCP client** of our tools |
 
-**Tool protocol**: **MCP** - an *open* standard (Anthropic), **adopted by IBM Bob**. Our tools are exposed over MCP
+**Tool protocol**: **MCP** - an *open*, vendor-neutral standard, **adopted by IBM Bob**. Our tools are exposed over MCP
 and consumable by any MCP client.
 
 **Neutral (no relevant IBM equivalent)**: in-house targeted extraction (COBOL/JCL/CICS parsing), cobol-rekt

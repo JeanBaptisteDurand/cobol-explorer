@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
   <!-- The aperture: the C opens and the light gets out. Same geometry as
-       src/components/Logo.tsx — arc of 278° with a 41° half-gap, mid-radius 8.4,
+       src/components/Logo.tsx - arc of 278° with a 41° half-gap, mid-radius 8.4,
        stroke 5.2, and a beam whose apex is the centre point. Kept in step by
        hand; if one moves, move the other. -->
   <rect width="32" height="32" fill="#161616"/>
